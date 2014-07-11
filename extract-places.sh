@@ -40,22 +40,22 @@ extract_data() {
 
     ${OSMOSIS}/bin/osmosis \
 	--read-pbf file=${FILE} \
-	--tag-filter accept-nodes place=${tag} \
+	--tag-filter accept-nodes religion=${type} \
 	--tag-filter reject-ways \
 	--tag-filter reject-relations \
-	--write-xml ${HOME}/tmp/${country}-${county}-places-${type}.osm \
-	> ${HOME}/tmp/${country}-${county}-places-${type}.stdout.txt \
-	2> ${HOME}/tmp/${country}-${county}-places-${type}.stderr.txt
+	--write-xml ${HOME}/tmp/${country}-${county}-religion-${type}.osm \
+	> ${HOME}/tmp/${country}-${county}-religion-${type}.stdout.txt \
+	2> ${HOME}/tmp/${country}-${county}-religion-${type}.stderr.txt
 
     mkdir -p ${STORAGE}/${country}-${county}/${MONTH}/${DAY}
 
     cp -f \
-	${HOME}/tmp/${country}-${county}-places-${type}.osm \
-	${STORAGE}/${country}-${county}/${MONTH}/${DAY}/${country}-${county}-places-${type}.osm
+	${HOME}/tmp/${country}-${county}-religion-${type}.osm \
+	${STORAGE}/${country}-${county}/${MONTH}/${DAY}/${country}-${county}-religion-${type}.osm
 
     cp -f \
-	${HOME}/tmp/${country}-${county}-places-${type}.osm \
-	${WEBDATA}/${country}-${county}-places-${type}.osm
+	${HOME}/tmp/${country}-${county}-religion-${type}.osm \
+	${WEBDATA}/${country}-${county}-religion-${type}.osm
 }
 
 
@@ -75,7 +75,7 @@ do
     MONTH=$(date +%Y%m --reference ${FILE})
     DAY=$(date +%Y%m%d --reference ${FILE})
 
-    extract_data ${county} foobar
+    extract_data ${county} muslim
 
     # extract_data ${county} all
     # extract_data ${county} city
