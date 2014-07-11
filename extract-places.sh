@@ -75,6 +75,8 @@ do
     MONTH=$(date +%Y%m --reference ${FILE})
     DAY=$(date +%Y%m%d --reference ${FILE})
 
+    extract_data ${county} foobar
+
     # extract_data ${county} all
     # extract_data ${county} city
     # extract_data ${county} town
@@ -82,7 +84,6 @@ do
     # extract_data ${county} village
     # extract_data ${county} hamlet
 
-    mkdir -p ${STORAGE}/${country}-${county}
     find ${STORAGE}/${country}-${county} -type f -a -mtime +14 | xargs --no-run-if-empty rm {} \;
     # find ${STORAGE}/${country}-${county} -type d -a -empty | xargs --no-run-if-empty rmdir {} \;
 done
