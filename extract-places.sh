@@ -4,8 +4,31 @@ OSMOSIS=${HOME}/osmosis-0.43.1
 STORAGE=${HOME}/Dropbox/osmdata
 WEBDATA=/home/tomcat/osm-mosques/data
 
+COUNTIES=
+COUNTIES="${COUNTIES} baden-wuerttemberg"
+COUNTIES="${COUNTIES} bayern"
+COUNTIES="${COUNTIES} berlin"
+COUNTIES="${COUNTIES} brandenburg"
+COUNTIES="${COUNTIES} bremen"
+COUNTIES="${COUNTIES} hamburg"
+COUNTIES="${COUNTIES} hessen"
+COUNTIES="${COUNTIES} mecklenburg-vorpommern"
+COUNTIES="${COUNTIES} niedersachsen"
+COUNTIES="${COUNTIES} nordrhein-westfalen"
+COUNTIES="${COUNTIES} rheinland-pfalz"
+COUNTIES="${COUNTIES} saarland"
+COUNTIES="${COUNTIES} sachsen"
+COUNTIES="${COUNTIES} sachsen-anhalt"
+COUNTIES="${COUNTIES} schleswig-holstein"
+COUNTIES="${COUNTIES} thueringen"
+
+COUNTRY=germany
+
 extract_data() {
-    country=$1
+
+    country=${COUNTRY}
+
+    county=$1
     type=$2
 
     if [ ${type} == "all" ]
@@ -20,52 +43,58 @@ extract_data() {
 	--tag-filter accept-nodes place=${tag} \
 	--tag-filter reject-ways \
 	--tag-filter reject-relations \
-	--write-xml ${HOME}/tmp/${country}-places-${type}.osm \
-	> ${HOME}/tmp/${country}-places-${type}.stdout.txt \
-	2> ${HOME}/tmp/${country}-places-${type}.stderr.txt
+	--write-xml ${HOME}/tmp/${country}-${county}-places-${type}.osm \
+	> ${HOME}/tmp/${country}-${county}-places-${type}.stdout.txt \
+	2> ${HOME}/tmp/${country}-${county}-places-${type}.stderr.txt
 
-    mkdir -p ${STORAGE}/${country}/${MONTH}/${DAY}
-
-    cp -f \
-	${HOME}/tmp/${country}-places-${type}.osm \
-	${STORAGE}/${country}/${MONTH}/${DAY}/${country}-places-${type}.osm
+    mkdir -p ${STORAGE}/${country}-${county}/${MONTH}/${DAY}
 
     cp -f \
-	${HOME}/tmp/${country}-places-${type}.osm \
-	${WEBDATA}/${country}-places-${type}.osm
+	${HOME}/tmp/${country}-${county}-places-${type}.osm \
+	${STORAGE}/${country}-${county}/${MONTH}/${DAY}/${country}-${county}-places-${type}.osm
+
+    cp -f \
+	${HOME}/tmp/${country}-${county}-places-${type}.osm \
+	${WEBDATA}/${country}-${county}-places-${type}.osm
 }
 
 
-for country in turkey cyprus
+country=${COUNTRY}
+for county in ${COUNTIES}
 do
     :
     mkdir -p ${HOME}/tmp
     cd ${HOME}/tmp
 
-    FILE=${HOME}/tmp/${country}-latest.osm.pbf
+    FILE=${HOME}/tmp/${country}-${county}-latest.osm.pbf
 
     rm -f ${FILE}
-    # wget http://download.geofabrik.de/osm/europe/${country}.osm.pbf
-    wget -q http://download.geofabrik.de/europe/${country}-latest.osm.pbf -O ${FILE}
+    # wget http://download.geofabrik.de/osm/europe/${country}-${county}.osm.pbf
+    wget -q http://download.geofabrik.de/europe/${country}/${county}-latest.osm.pbf -O ${FILE}
 
     MONTH=$(date +%Y%m --reference ${FILE})
     DAY=$(date +%Y%m%d --reference ${FILE})
 
-    extract_data ${country} all
-    extract_data ${country} city
-    extract_data ${country} town
-    extract_data ${country} suburb
-    extract_data ${country} village
-    extract_data ${country} hamlet
+    # extract_data ${county} all
+    # extract_data ${county} city
+    # extract_data ${county} town
+    # extract_data ${county} suburb
+    # extract_data ${county} village
+    # extract_data ${county} hamlet
 
-    find ${STORAGE}/${country} -type f -a -mtime +14 | xargs --no-run-if-empty rm {} \;
-    # find ${STORAGE}/${country} -type d -a -empty | xargs --no-run-if-empty rmdir {} \;
+    mkdir -p ${STORAGE}/${country}-${county}
+    find ${STORAGE}/${country}-${county} -type f -a -mtime +14 | xargs --no-run-if-empty rm {} \;
+    # find ${STORAGE}/${country}-${county} -type d -a -empty | xargs --no-run-if-empty rmdir {} \;
 done
 
 # TODO grep in property file to obtain username / password for webapp
-country=turkey
-curl \
-    http://localhost:8888/osm-mosques-rest/osm/import \
-    -o ${STORAGE}/${country}/${MONTH}/${DAY}/curl.data.txt \
-    > ${STORAGE}/${country}/${MONTH}/${DAY}/curl.out \
-    2> ${STORAGE}/${country}/${MONTH}/${DAY}/curl.err \
+country=${COUNTRY}
+for county in ${COUNTIES}
+do
+    :
+    # curl \
+    # http://localhost:8888/osm-mosques-rest/osm/import \
+    # -o ${STORAGE}/${country}-${county}/${MONTH}/${DAY}/curl.data.txt \
+    # > ${STORAGE}/${country}-${county}/${MONTH}/${DAY}/curl.out \
+    # 2> ${STORAGE}/${country}-${county}/${MONTH}/${DAY}/curl.err
+done
