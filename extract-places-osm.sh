@@ -47,11 +47,11 @@ extract_data() {
 	> ${HOME}/tmp/${country}-${county}-religion-${type}.stdout.txt \
 	2> ${HOME}/tmp/${country}-${county}-religion-${type}.stderr.txt
 
-    mkdir -p ${STORAGE}/${country}-${county}/${MONTH}/${DAY}
+    mkdir -p ${STORAGE}/${country}/${county}/${MONTH}/${DAY}
 
     cp -f \
 	${HOME}/tmp/${country}-${county}-religion-${type}.osm \
-	${STORAGE}/${country}-${county}/${MONTH}/${DAY}/${country}-${county}-religion-${type}.osm
+	${STORAGE}/${country}/${county}/${MONTH}/${DAY}/${country}-${county}-religion-${type}.osm
 
     cp -f \
 	${HOME}/tmp/${country}-${county}-religion-${type}.osm \
@@ -84,7 +84,7 @@ do
     # extract_data ${county} village
     # extract_data ${county} hamlet
 
-    find ${STORAGE}/${country}-${county} -type f -a -mtime +14 | xargs --no-run-if-empty rm {} \;
+    find ${STORAGE}/${country}/${county} -type f -a -mtime +14 | xargs --no-run-if-empty rm {} \;
     # find ${STORAGE}/${country}-${county} -type d -a -empty | xargs --no-run-if-empty rmdir {} \;
 done
 
