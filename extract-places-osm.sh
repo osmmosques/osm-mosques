@@ -5,31 +5,16 @@ STORAGE=${HOME}/Dropbox/osmdata
 WEBDATA=/home/tomcat/osm-mosques/data
 
 COUNTIES=
-COUNTIES="${COUNTIES} baden-wuerttemberg"
-COUNTIES="${COUNTIES} bayern"
-COUNTIES="${COUNTIES} berlin"
-COUNTIES="${COUNTIES} brandenburg"
-COUNTIES="${COUNTIES} bremen"
-COUNTIES="${COUNTIES} hamburg"
-COUNTIES="${COUNTIES} hessen"
-COUNTIES="${COUNTIES} mecklenburg-vorpommern"
-COUNTIES="${COUNTIES} niedersachsen"
-COUNTIES="${COUNTIES} nordrhein-westfalen"
-COUNTIES="${COUNTIES} rheinland-pfalz"
-COUNTIES="${COUNTIES} saarland"
-COUNTIES="${COUNTIES} sachsen"
-COUNTIES="${COUNTIES} sachsen-anhalt"
-COUNTIES="${COUNTIES} schleswig-holstein"
-COUNTIES="${COUNTIES} thueringen"
 
-COUNTRY=germany
+COUNTRIES=
+COUNTRIES="${COUNTRIES} germany"
+COUNTRIES="${COUNTRIES} turkey"
 
 extract_data() {
 
-    country=${COUNTRY}
-
-    county=$1
-    type=$2
+    country=$1
+    county=$2
+    type=$3
 
     if [ ${type} == "all" ]
     then
@@ -59,38 +44,65 @@ extract_data() {
 }
 
 
-country=${COUNTRY}
-for county in ${COUNTIES}
+for country in ${COUNTRIES}
 do
-    :
-    mkdir -p ${HOME}/tmp
-    cd ${HOME}/tmp
 
-    FILE=${HOME}/tmp/${country}-${county}-latest.osm.pbf
+    COUNTIES=
 
-    rm -f ${FILE}
-    # wget http://download.geofabrik.de/osm/europe/${country}-${county}.osm.pbf
-    wget -q http://download.geofabrik.de/europe/${country}/${county}-latest.osm.pbf -O ${FILE}
+    if [ "germany" == "${country}" ]
+    then
+	COUNTIES="${COUNTIES} baden-wuerttemberg"
+	COUNTIES="${COUNTIES} bayern"
+	COUNTIES="${COUNTIES} berlin"
+	COUNTIES="${COUNTIES} brandenburg"
+	COUNTIES="${COUNTIES} bremen"
+	COUNTIES="${COUNTIES} hamburg"
+	COUNTIES="${COUNTIES} hessen"
+	COUNTIES="${COUNTIES} mecklenburg-vorpommern"
+	COUNTIES="${COUNTIES} niedersachsen"
+	COUNTIES="${COUNTIES} nordrhein-westfalen"
+	COUNTIES="${COUNTIES} rheinland-pfalz"
+	COUNTIES="${COUNTIES} saarland"
+	COUNTIES="${COUNTIES} sachsen"
+	COUNTIES="${COUNTIES} sachsen-anhalt"
+	COUNTIES="${COUNTIES} schleswig-holstein"
+	COUNTIES="${COUNTIES} thueringen"
+    else
+	COUNTIES="${COUNTIES} all"
+    fi
 
-    MONTH=$(date +%Y%m --reference ${FILE})
-    DAY=$(date +%Y%m%d --reference ${FILE})
+    for county in ${COUNTIES}
+    do
+	:
+	mkdir -p ${HOME}/tmp
+	cd ${HOME}/tmp
 
-    extract_data ${county} muslim
+	FILE=${HOME}/tmp/${country}-${county}-latest.osm.pbf
 
-    # extract_data ${county} all
-    # extract_data ${county} city
-    # extract_data ${county} town
-    # extract_data ${county} suburb
-    # extract_data ${county} village
-    # extract_data ${county} hamlet
+	rm -f ${FILE}
 
-    find ${STORAGE}/${country} -type f -a -mtime +14 | xargs --no-run-if-empty rm {} \;
-    # find ${STORAGE}/${country}-${county} -type d -a -empty | xargs --no-run-if-empty rmdir {} \;
+	if [ "germany" == "${country}" ]
+	then
+	    :
+	    wget -q http://download.geofabrik.de/europe/${country}/${county}-latest.osm.pbf -O ${FILE}
+	else
+	    :
+	    # wget -q http://download.geofabrik.de/europe/${country}-latest.osm.pbf -O ${FILE}
+	    cp ${HOME}/tmp/${country}-latest.osm.pbf ${HOME}/tmp/${country}-${county}-latest.osm.pbf
+	fi
+
+	MONTH=$(date +%Y%m --reference ${FILE})
+	DAY=$(date +%Y%m%d --reference ${FILE})
+
+	extract_data ${country} ${county} muslim
+
+	find ${STORAGE}/${country} -type f -a -mtime +14 | xargs --no-run-if-empty rm {} \;
+        # find ${STORAGE}/${country}-${county} -type d -a -empty | xargs --no-run-if-empty rmdir {} \;
+    done
 done
 
 # TODO grep in property file to obtain username / password for webapp
-country=${COUNTRY}
-for county in ${COUNTIES}
+for country in ${COUNTRIES}
 do
     :
     # curl \
