@@ -84,7 +84,8 @@ do
 	if [ "germany" == "${country}" ]
 	then
 	    :
-	    wget -q http://download.geofabrik.de/europe/${country}/${county}-latest.osm.pbf -O ${FILE}
+	    wget -q http://download.geofabrik.de/europe/${country}/${county}-latest.osm.pbf -O ${FILE} \
+		> ${FILE}.out 2> ${FILE}.err
 	else
 	    :
 	    # wget -q http://download.geofabrik.de/europe/${country}-latest.osm.pbf -O ${FILE}
