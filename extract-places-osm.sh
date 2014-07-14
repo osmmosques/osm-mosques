@@ -88,7 +88,6 @@ do
 		> ${FILE}.out 2> ${FILE}.err
 	else
 	    :
-	    # wget -q http://download.geofabrik.de/europe/${country}-latest.osm.pbf -O ${FILE}
 	    cp ${HOME}/tmp/${country}-latest.osm.pbf ${HOME}/tmp/${country}-${county}-latest.osm.pbf
 	fi
 
@@ -97,8 +96,8 @@ do
 
 	extract_data ${country} ${county} muslim
 
-	find ${STORAGE}/${country} -type f -a -mtime +14 | xargs --no-run-if-empty rm {} \;
-        # find ${STORAGE}/${country}-${county} -type d -a -empty | xargs --no-run-if-empty rmdir {} \;
+	find ${STORAGE}/${country} -type f -a -mtime +14 | xargs --no-run-if-empty rm
+        find ${STORAGE}/${country}-${county} -type d -a -empty | xargs --no-run-if-empty rmdir
     done
 done
 
