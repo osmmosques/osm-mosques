@@ -2,6 +2,7 @@
 
 OSMOSIS=${HOME}/osmosis-0.43.1
 STORAGE=${HOME}/Dropbox/osmdata
+TMPDIR=${HOME}/tmp/osm-place-connectivity
 WEBDATA=/home/tomcat/osm-mosques/data
 
 COUNTIES=
@@ -28,18 +29,18 @@ extract_data() {
 	--tag-filter accept-nodes religion=${type} \
 	--tag-filter reject-ways \
 	--tag-filter reject-relations \
-	--write-xml ${HOME}/tmp/${country}-${county}-religion-${type}.osm \
-	> ${HOME}/tmp/${country}-${county}-religion-${type}.stdout.txt \
-	2> ${HOME}/tmp/${country}-${county}-religion-${type}.stderr.txt
+	--write-xml ${TMPDIR}/${country}-${county}-religion-${type}.osm \
+	> ${TMPDIR}/${country}-${county}-religion-${type}.stdout.txt \
+	2> ${TMPDIR}/${country}-${county}-religion-${type}.stderr.txt
 
     mkdir -p ${STORAGE}/${country}/${MONTH}/${DAY}
 
     cp -f \
-	${HOME}/tmp/${country}-${county}-religion-${type}.osm \
+	${TMPDIR}/${country}-${county}-religion-${type}.osm \
 	${STORAGE}/${country}/${MONTH}/${DAY}/${country}-${county}-religion-${type}.osm
 
     cp -f \
-	${HOME}/tmp/${country}-${county}-religion-${type}.osm \
+	${TMPDIR}/${country}-${county}-religion-${type}.osm \
 	${WEBDATA}/${country}-${county}-religion-${type}.osm
 }
 
@@ -74,10 +75,10 @@ do
     for county in ${COUNTIES}
     do
 	:
-	mkdir -p ${HOME}/tmp
-	cd ${HOME}/tmp
+	mkdir -p ${TMPDIR}
+	cd ${TMPDIR}
 
-	FILE=${HOME}/tmp/${country}-${county}-latest.osm.pbf
+	FILE=${TMPDIR}/${country}-${county}-latest.osm.pbf
 
 	rm -f ${FILE}
 
@@ -88,7 +89,7 @@ do
 		> ${FILE}.out 2> ${FILE}.err
 	else
 	    :
-	    cp ${HOME}/tmp/${country}-latest.osm.pbf ${HOME}/tmp/${country}-${county}-latest.osm.pbf
+	    cp ${TMPDIR}/../osm-place-connectivity/${country}-latest.osm.pbf ${TMPDIR}/${country}-${county}-latest.osm.pbf
 	fi
 
 	MONTH=$(date +%Y%m --reference ${FILE})
