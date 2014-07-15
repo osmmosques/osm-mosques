@@ -2,7 +2,7 @@
 
 OSMOSIS=${HOME}/osmosis-0.43.1
 STORAGE=${HOME}/Dropbox/osmdata
-TMPDIR=${HOME}/tmp/osm-place-connectivity
+TMPDIR=${HOME}/tmp/osm-place-mosques
 WEBDATA=/home/tomcat/osm-mosques/data
 
 COUNTIES=
