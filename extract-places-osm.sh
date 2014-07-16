@@ -89,7 +89,7 @@ do
 		> ${FILE}.out 2> ${FILE}.err
 	else
 	    :
-	    cp ${TMPDIR}/../osm-place-connectivity/${country}-latest.osm.pbf ${TMPDIR}/${country}-${county}-latest.osm.pbf
+	    cp --preserve=all ${TMPDIR}/../osm-place-connectivity/${country}-latest.osm.pbf ${TMPDIR}/${country}-${county}-latest.osm.pbf
 	fi
 
 	MONTH=$(date +%Y%m --reference ${FILE})
