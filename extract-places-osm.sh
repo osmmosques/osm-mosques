@@ -95,7 +95,13 @@ do
 	MONTH=$(date +%Y%m --reference ${FILE})
 	DAY=$(date +%Y%m%d --reference ${FILE})
 
-	extract_data ${country} ${county} muslim
+	if [ -a ${FILE} ] 
+	then
+	    if [ -s ${FILE} ]
+	    then
+		extract_data ${country} ${county} muslim
+	    fi
+	fi
 
 	find ${STORAGE}/${country} -type f -a -mtime +14 | xargs --no-run-if-empty rm
 	find ${STORAGE}/${country} -type d -a -empty | xargs --no-run-if-empty rmdir
