@@ -13,6 +13,7 @@
     <description></description>
 
     <modules>
+        <module>webapp-rest</module>
     </modules>
 
     <properties>
@@ -54,6 +55,9 @@
 
         <h2-database.version>1.4.180</h2-database.version>
         <mysqldb.version>5.1.31</mysqldb.version>
+
+        <!-- Our own libraries -->
+        <osm-tools.version>0.0.1-SNAPSHOT</osm-tools.version>
 
         <!-- Testing -->
         <junit.version>4.11</junit.version>
@@ -114,6 +118,18 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- Our own libraries -->
+            <dependency>
+                <groupId>com.gurkensalat.osm</groupId>
+                <artifactId>osm-parser</artifactId>
+                <version>${osm-tools.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.gurkensalat.osm</groupId>
+                <artifactId>osm-persistence</artifactId>
+                <version>${osm-tools.version}</version>
+            </dependency>
 
             <!-- DI, ORM -->
             <dependency>
