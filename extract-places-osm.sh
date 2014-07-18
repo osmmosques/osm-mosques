@@ -10,6 +10,7 @@ COUNTIES=
 COUNTRIES=
 COUNTRIES="${COUNTRIES} germany"
 COUNTRIES="${COUNTRIES} turkey"
+COUNTRIES="${COUNTRIES} cyprus"
 
 extract_data() {
 
