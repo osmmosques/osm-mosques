@@ -13,6 +13,7 @@
     <description></description>
 
     <modules>
+        <module>ditib-parser</module>
         <module>webapp-rest</module>
     </modules>
 
