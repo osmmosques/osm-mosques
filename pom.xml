@@ -29,6 +29,7 @@
         <maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
         <maven-site-plugin.version>3.3</maven-site-plugin.version>
         <maven-project-info-reports-plugin.version>2.7</maven-project-info-reports-plugin.version>
+        <maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
         <versions-maven-plugin.version>2.1</versions-maven-plugin.version>
         <github-site-maven-plugin.version>0.9</github-site-maven-plugin.version>
         <doxia-module-markdown.version>1.6</doxia-module-markdown.version>
@@ -407,6 +408,12 @@
                     <version>${github-site-maven-plugin.version}</version>
                 </plugin>
 
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-report-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                </plugin>
+
                 <!-- Testing -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -492,6 +499,12 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
                 <version>${versions-maven-plugin.version}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
             </plugin>
         </plugins>
     </reporting>
