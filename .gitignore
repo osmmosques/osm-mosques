@@ -29,6 +29,7 @@ target
 */env.CATALINA_HOME_IS_UNDEFINED*
 
 # Data stored
-data/*.xapi
+data/*.html
 data/*.osm
 data/*.osm.pbf
+data/*.xapi
