@@ -44,6 +44,7 @@
         <spring-boot.version>1.1.4.RELEASE</spring-boot.version>
 
         <commons-lang.version>3.3.2</commons-lang.version>
+        <commons-collections.version>4.0</commons-collections.version>
         <joda-time.version>2.3</joda-time.version>
 
         <jsoup.version>1.7.3</jsoup.version>
@@ -298,6 +299,12 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons-collections.version}</version>
             </dependency>
 
             <!-- Testing -->
