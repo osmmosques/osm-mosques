@@ -22,6 +22,16 @@
 
         <!-- Internal parsers -->
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ditib-parser</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ditib-persistence</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.gurkensalat.osm</groupId>
             <artifactId>osm-parser</artifactId>
         </dependency>

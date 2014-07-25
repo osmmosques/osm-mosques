@@ -130,6 +130,18 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>ditib-parser</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>ditib-persistence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- Our own libraries -->
             <dependency>
                 <groupId>com.gurkensalat.osm</groupId>
