@@ -14,6 +14,7 @@
 
     <modules>
         <module>ditib-parser</module>
+        <module>ditib-persistence</module>
         <module>webapp-rest</module>
     </modules>
 
