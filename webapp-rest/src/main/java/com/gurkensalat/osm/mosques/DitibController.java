@@ -1,0 +1,89 @@
+package com.gurkensalat.osm.mosques;
+
+import com.gurkensalat.osm.entity.DitibParsedPlace;
+import com.gurkensalat.osm.repository.DitibParserRepository;
+import org.apache.commons.lang3.CharEncoding;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.List;
+
+@RestController
+@EnableAutoConfiguration
+public class DitibController
+{
+    private final static Logger LOGGER = LoggerFactory.getLogger(DitibController.class);
+
+    private final static String REQUEST_ROOT = "/ditib";
+
+    private final static String REQUEST_IMPORT = REQUEST_ROOT + "/import";
+
+    @Autowired
+    private DitibParserRepository ditibParserRepository;
+
+    // @Autowired
+    // private DitibPlaceRepository ditibPlaceRepository;
+
+    @Value("${ditib.data.location}")
+    private String dataLocation;
+
+    @RequestMapping(value = REQUEST_ROOT, produces = "application/hal+json")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> allMethods()
+    {
+        return new ResponseEntity<String>("{ '_links': {} }", null, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = REQUEST_IMPORT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> importData()
+    {
+        return importData(null);
+    }
+
+    @RequestMapping(value = REQUEST_IMPORT + "/{path}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> importData(@PathVariable("path") String path)
+    {
+        LOGGER.info("About to import OSM data from {} / {}", dataLocation, path);
+
+        File dataDirectory = new File(dataLocation);
+        if (path != null)
+        {
+            try
+            {
+                path = URLDecoder.decode(path, CharEncoding.UTF_8);
+            }
+            catch (UnsupportedEncodingException e)
+            {
+                LOGGER.error("While decoding optional path", e);
+            }
+
+            dataDirectory = new File(dataDirectory, path);
+        }
+
+        // TODO sanitize data directory first...
+        File dataFile = new File(dataDirectory, "ditib-germany-page-1.html");
+
+        LOGGER.info("DITIB Parser Repository was: {}", ditibParserRepository);
+
+        List<DitibParsedPlace> parsedPlaces = ditibParserRepository.parse(dataFile);
+
+        // LOGGER.info("DITIB Place Repository was: {}", ditibPlaceRepository);
+
+        return new ResponseEntity<String>("Done Massa", null, HttpStatus.OK);
+    }
+}
