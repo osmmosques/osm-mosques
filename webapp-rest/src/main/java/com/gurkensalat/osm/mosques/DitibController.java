@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -72,16 +73,19 @@ public class DitibController
                 LOGGER.error("While decoding optional path", e);
             }
 
+            // TODO sanitize data directory first...
             dataDirectory = new File(dataDirectory, path);
         }
 
-        // TODO sanitize data directory first...
-        File dataFile = new File(dataDirectory, "ditib-germany-page-1.html");
-
         LOGGER.info("DITIB Parser Repository was: {}", ditibParserRepository);
 
-        List<DitibParsedPlace> parsedPlaces = ditibParserRepository.parse(dataFile);
+        List<DitibParsedPlace> parsedPlaces = new ArrayList<DitibParsedPlace>();
 
+        for (int i = 1; i < 9; i++)
+        {
+            File dataFile = new File(dataDirectory, "ditib-germany-page-" + i + ".html");
+            parsedPlaces.addAll(ditibParserRepository.parse(dataFile));
+        }
         // LOGGER.info("DITIB Place Repository was: {}", ditibPlaceRepository);
 
         return new ResponseEntity<String>("Done Massa", null, HttpStatus.OK);
