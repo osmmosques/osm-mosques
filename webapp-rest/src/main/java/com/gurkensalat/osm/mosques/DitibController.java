@@ -92,6 +92,9 @@ public class DitibController
 
         LOGGER.info("DITIB Place Repository is: {}", ditibPlaceRepository);
 
+        // Empty the storage first
+        ditibPlaceRepository.deleteAll();
+
         int parsedPlaceNumber = 10000;
         for (DitibParsedPlace parsedPlace : parsedPlaces)
         {
