@@ -92,11 +92,15 @@ public class DitibController
 
         LOGGER.info("DITIB Place Repository is: {}", ditibPlaceRepository);
 
+        int parsedPlaceNumber = 10000;
         for (DitibParsedPlace parsedPlace : parsedPlaces)
         {
-            String key = parsedPlace.getDitibCode() + " / " + parsedPlace.getName();
+            parsedPlaceNumber++;
+            String key = "D-" + Integer.toString(parsedPlaceNumber).substring(1);
 
             DitibPlace tempPlace = new DitibPlace(key);
+            tempPlace.setDitibCode(parsedPlace.getDitibCode());
+            tempPlace.setName(parsedPlace.getName());
             // tempPlace.setName(key);
             // tempPlace.setName();
 
