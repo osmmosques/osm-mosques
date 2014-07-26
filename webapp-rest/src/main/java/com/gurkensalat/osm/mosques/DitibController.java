@@ -1,7 +1,10 @@
 package com.gurkensalat.osm.mosques;
 
 import com.gurkensalat.osm.entity.DitibParsedPlace;
+import com.gurkensalat.osm.entity.DitibPlace;
+import com.gurkensalat.osm.entity.Place;
 import com.gurkensalat.osm.repository.DitibParserRepository;
+import com.gurkensalat.osm.repository.DitibPlaceRepository;
 import org.apache.commons.lang3.CharEncoding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,8 +38,8 @@ public class DitibController
     @Autowired
     private DitibParserRepository ditibParserRepository;
 
-    // @Autowired
-    // private DitibPlaceRepository ditibPlaceRepository;
+    @Autowired
+    private DitibPlaceRepository ditibPlaceRepository;
 
     @Value("${ditib.data.location}")
     private String dataLocation;
@@ -77,7 +80,7 @@ public class DitibController
             dataDirectory = new File(dataDirectory, path);
         }
 
-        LOGGER.info("DITIB Parser Repository was: {}", ditibParserRepository);
+        LOGGER.info("DITIB Parser Repository is: {}", ditibParserRepository);
 
         List<DitibParsedPlace> parsedPlaces = new ArrayList<DitibParsedPlace>();
 
@@ -86,7 +89,46 @@ public class DitibController
             File dataFile = new File(dataDirectory, "ditib-germany-page-" + i + ".html");
             parsedPlaces.addAll(ditibParserRepository.parse(dataFile));
         }
-        // LOGGER.info("DITIB Place Repository was: {}", ditibPlaceRepository);
+
+        LOGGER.info("DITIB Place Repository is: {}", ditibPlaceRepository);
+
+        for (DitibParsedPlace parsedPlace : parsedPlaces)
+        {
+            String key = parsedPlace.getDitibCode() + " / " + parsedPlace.getName();
+
+            DitibPlace tempPlace = new DitibPlace(key);
+            // tempPlace.setName();
+
+            // Now, insert-or-update the place
+            try
+            {
+                DitibPlace place = null;
+                List<Place> places = null; // ditibPlaceRepository.findByNameAndType(tempPlace.getName(), tempPlace.getType());
+                if ((places == null) || (places.size() == 0))
+                {
+                    // Place could not be found, insert it...
+                    place = ditibPlaceRepository.save(tempPlace);
+                }
+                else
+                {
+                    // take the one from the database and update it
+                    // place = places.get(0);
+                    // place = ditibPlaceRepository.findOne(place.getId());
+                    // place.setLat(tempPlace.getLat());
+                    // place.setLon(tempPlace.getLon());
+                    // place.setType(tempPlace.getType());
+                    // place = ditibPlaceRepository.save(place);
+                }
+
+                LOGGER.info("Saved Place {}", place);
+            }
+            catch (Exception e)
+            {
+                LOGGER.info("While persisting place", e);
+                LOGGER.info("Place:");
+                LOGGER.info("    name: '{}'", tempPlace.getName());
+            }
+        }
 
         return new ResponseEntity<String>("Done Massa", null, HttpStatus.OK);
     }
