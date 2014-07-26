@@ -97,6 +97,7 @@ public class DitibController
             String key = parsedPlace.getDitibCode() + " / " + parsedPlace.getName();
 
             DitibPlace tempPlace = new DitibPlace(key);
+            // tempPlace.setName(key);
             // tempPlace.setName();
 
             // Now, insert-or-update the place
