@@ -89,10 +89,6 @@ public class DitibController
             String dataFileName = "ditib-germany-page-" + i + ".html";
             File dataFile = new File(dataDirectory, dataFileName);
 
-            File splitDirectory = new File(dataDirectory, "ditib-germany-split-" + i);
-            splitDirectory.mkdirs();
-            ditibParserRepository.prettify(splitDirectory, dataFile);
-
             parsedPlaces.addAll(ditibParserRepository.parse(dataFile));
         }
 
@@ -107,11 +103,9 @@ public class DitibController
             parsedPlaceNumber++;
             String key = "D-" + Integer.toString(parsedPlaceNumber).substring(1);
 
+            // TODO create a key class, base it off the PLZ - DitibKey.valueOf(String)
+
             DitibPlace tempPlace = new DitibPlace(key);
-            tempPlace.setDitibCode(parsedPlace.getDitibCode());
-            tempPlace.setName(parsedPlace.getName());
-            // tempPlace.setName(key);
-            // tempPlace.setName();
 
             // Now, insert-or-update the place
             try
@@ -128,11 +122,16 @@ public class DitibController
                     // take the one from the database and update it
                     // place = places.get(0);
                     // place = ditibPlaceRepository.findOne(place.getId());
-                    // place.setLat(tempPlace.getLat());
-                    // place.setLon(tempPlace.getLon());
-                    // place.setType(tempPlace.getType());
-                    // place = ditibPlaceRepository.save(place);
                 }
+
+                place.setName(parsedPlace.getName());
+                place.setPostcode(parsedPlace.getPostcode());
+                place.setCity(parsedPlace.getCity());
+                place.setDitibCode(parsedPlace.getDitibCode());
+                place.setPhone(parsedPlace.getPhone());
+                place.setFax(parsedPlace.getFax());
+
+                place = ditibPlaceRepository.save(place);
 
                 LOGGER.info("Saved Place {}", place);
             }
