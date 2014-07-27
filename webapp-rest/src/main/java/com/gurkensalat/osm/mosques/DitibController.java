@@ -130,6 +130,8 @@ public class DitibController
                 place.setName(parsedPlace.getName());
                 place.setPostcode(parsedPlace.getPostcode());
                 place.setCity(parsedPlace.getCity());
+                place.setStreet(parsedPlace.getStreet());
+                place.setStreetNumber(parsedPlace.getStreetNumber());
                 place.setDitibCode(parsedPlace.getDitibCode());
                 place.setPhone(parsedPlace.getPhone());
                 place.setFax(parsedPlace.getFax());
