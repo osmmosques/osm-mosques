@@ -86,7 +86,13 @@ public class DitibController
 
         for (int i = 1; i < 9; i++)
         {
-            File dataFile = new File(dataDirectory, "ditib-germany-page-" + i + ".html");
+            String dataFileName = "ditib-germany-page-" + i + ".html";
+            File dataFile = new File(dataDirectory, dataFileName);
+
+            File splitDirectory = new File(dataDirectory, "ditib-germany-split-" + i);
+            splitDirectory.mkdirs();
+            ditibParserRepository.prettify(splitDirectory, dataFile);
+
             parsedPlaces.addAll(ditibParserRepository.parse(dataFile));
         }
 
