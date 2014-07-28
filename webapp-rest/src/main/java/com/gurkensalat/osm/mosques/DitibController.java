@@ -136,6 +136,15 @@ public class DitibController
                 place.setPhone(parsedPlace.getPhone());
                 place.setFax(parsedPlace.getFax());
 
+                // Some Faxes have a comment after them
+                if (place.getFax().indexOf(" ") > -1)
+                {
+                    LOGGER.info("Fax with comment, cutting down.");
+                    LOGGER.info("    was: '{}'", place.getFax());
+                    place.setFax(place.getFax().substring(0, place.getFax().indexOf(" ")));
+                    LOGGER.info("    shortened: '{}'", place.getFax());
+                }
+
                 place = ditibPlaceRepository.save(place);
 
                 LOGGER.debug("Saved Place {}", place);
