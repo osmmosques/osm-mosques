@@ -138,13 +138,12 @@ public class DitibController
 
                 place = ditibPlaceRepository.save(place);
 
-                LOGGER.info("Saved Place {}", place);
+                LOGGER.debug("Saved Place {}", place);
             }
             catch (Exception e)
             {
-                LOGGER.info("While persisting place", e);
-                LOGGER.info("Place:");
-                LOGGER.info("    name: '{}'", tempPlace.getName());
+                LOGGER.error("While persisting place", e);
+                LOGGER.info("Place: {}", tempPlace);
             }
         }
 
