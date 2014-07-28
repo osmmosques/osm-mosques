@@ -47,7 +47,7 @@
         <commons-collections.version>4.0</commons-collections.version>
         <commons-io.version>2.4</commons-io.version>
         <commons-lang.version>3.3.2</commons-lang.version>
-        <joda-time.version>2.3</joda-time.version>
+        <joda-time.version>2.4</joda-time.version>
 
         <jsoup.version>1.7.3</jsoup.version>
 
