@@ -1,6 +1,7 @@
 package com.gurkensalat.osm.mosques;
 
 import com.gurkensalat.osm.entity.DitibParsedPlace;
+import com.gurkensalat.osm.entity.DitibParsedPlaceKey;
 import com.gurkensalat.osm.entity.DitibPlace;
 import com.gurkensalat.osm.entity.Place;
 import com.gurkensalat.osm.repository.DitibParserRepository;
@@ -105,9 +106,8 @@ public class DitibController
         for (DitibParsedPlace parsedPlace : parsedPlaces)
         {
             parsedPlaceNumber++;
-            String key = "D-" + Integer.toString(parsedPlaceNumber).substring(1);
+            String key = (new DitibParsedPlaceKey(parsedPlace)).getKey();
 
-            // TODO create a key class, base it off the PLZ - DitibKey.valueOf(String)
             DitibPlace tempPlace = new DitibPlace(key);
 
             // Now, insert-or-update the place
