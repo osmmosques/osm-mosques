@@ -35,6 +35,10 @@
         </dependency>
 
         <!-- Internal parsers -->
+        <dependency>
+            <groupId>com.gurkensalat.osm</groupId>
+            <artifactId>osm-parser</artifactId>
+        </dependency>
 
         <!-- DI, ORM -->
         <dependency>

@@ -32,8 +32,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.gurkensalat.osm</groupId>
-            <artifactId>osm-parser</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>osm-mosque-parser</artifactId>
         </dependency>
 
         <dependency>
