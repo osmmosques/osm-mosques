@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version="0.6" generator="Osmosis 0.43.1">
+  <bounds minlon="25.60710" minlat="35.71700" maxlon="44.91345" maxlat="42.39700" origin="0.43.1"/>
+  <node id="2701544281" version="2" timestamp="2014-03-16T13:37:59Z" uid="1963569" user="den21" changeset="21136072" lat="40.9797118" lon="29.0472686">
+    <tag k="addr:city" v="Istanbul"/>
+    <tag k="amenity" v="place_of_worship"/>
+    <tag k="religion" v="muslim"/>
+  </node>
+</osm>
