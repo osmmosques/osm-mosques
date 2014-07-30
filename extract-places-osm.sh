@@ -110,7 +110,7 @@ do
 done
 
 # TODO grep in property file to obtain username / password for webapp
-for country in ${COUNTRIES}
+for country in germany # ${COUNTRIES}
 do
     :
     curl \
@@ -119,3 +119,12 @@ do
 	> ${STORAGE}/${country}/${MONTH}/${DAY}/curl-osm-mosques-import.out \
 	2> ${STORAGE}/${country}/${MONTH}/${DAY}/curl-osm-mosques-import.err
 done
+
+db=osm_mosques
+
+mysqldump -uroot -p$(cat ${HOME}/.my.pass) --skip-extended-insert ${db} \
+    > ${STORAGE}/${country}/${MONTH}/${DAY}/${db}-dump.sql
+
+mysql -uroot -p$(cat ${HOME}/.my.pass) ${db} \
+    -e "select name, id, lat, lon from places order by name limit 9999;" \
+    > ${STORAGE}/${country}/${MONTH}/${DAY}/${db}-osm_places.sql
