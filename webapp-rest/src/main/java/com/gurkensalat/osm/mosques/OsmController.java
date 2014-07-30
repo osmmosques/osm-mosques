@@ -121,7 +121,7 @@ public class OsmController
 
             for (OsmNode node : root.getNodes())
             {
-                LOGGER.info("Read node: {}, {}, {}", node, node.getLat(), node.getLon());
+                LOGGER.debug("Read node: {}, {}, {}", node, node.getLat(), node.getLon());
 
                 // re-create a place from OSM data
                 Place tempPlace = new Place(null, PlaceType.OSM_PLACE_OF_WORSHIP);
@@ -168,6 +168,7 @@ public class OsmController
                 {
                     LOGGER.error("While persisting place", e);
                     LOGGER.info("Place: {}", tempPlace);
+                    LOGGER.info("OSM node: {}", node);
                 }
             }
         }
