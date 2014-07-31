@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version="0.6" generator="Osmosis 0.43.1">
+  <bounds minlon="8.97465" minlat="47.22839" maxlon="14.09027" maxlat="50.56779" origin="0.43.1"/>
+  <node id="904317998" version="4" timestamp="2013-10-29T10:51:32Z" uid="323389" user="Michael_H" changeset="18599100" lat="48.1364" lon="11.3872928">
+    <tag k="addr:city" v="Germering"/>
+    <tag k="addr:housenumber" v="13a"/>
+    <tag k="addr:postcode" v="82110"/>
+    <tag k="addr:street" v="Münchener Straße"/>
+    <tag k="alt_name" v="Türkisch Islamische Gemeinde Germering"/>
+    <tag k="alt_name:de" v="Türkisch Islamische Gemeinde Germering"/>
+    <tag k="alt_name:tr" v="Türk Islam Kültür Cemiyeti"/>
+    <tag k="amenity" v="place_of_worship"/>
+    <tag k="name" v="Germering Camii"/>
+    <tag k="name:de" v="Moschee Germering"/>
+    <tag k="name:tr" v="Germering Camii"/>
+    <tag k="religion" v="muslim"/>
+    <tag k="wheelchair" v="yes"/>
+  </node>
+</osm>

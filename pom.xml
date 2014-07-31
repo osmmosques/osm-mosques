@@ -16,6 +16,7 @@
         <module>ditib-parser</module>
         <module>ditib-persistence</module>
         <module>osm-mosque-parser</module>
+        <module>osm-mosque-persistence</module>
         <module>webapp-rest</module>
     </modules>
 
@@ -147,6 +148,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>osm-mosque-parser</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>osm-mosque-persistence</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

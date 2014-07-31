@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version="0.6" generator="Osmosis 0.43.1">
+  <bounds minlon="25.60710" minlat="35.71700" maxlon="44.91345" maxlat="42.39700" origin="0.43.1"/>
+  <node id="2261194421" version="2" timestamp="2013-04-28T22:32:22Z" uid="1399083" user="Erdem Köse" changeset="15902114" lat="41.0680543" lon="28.9996416">
+    <tag k="alt_name" v="Konyalı Hacı Tevfik Ağazade Camii"/>
+    <tag k="amenity" v="place_of_worship"/>
+    <tag k="name" v="Konyalı Camii"/>
+    <tag k="religion" v="muslim"/>
+  </node>
+</osm>
