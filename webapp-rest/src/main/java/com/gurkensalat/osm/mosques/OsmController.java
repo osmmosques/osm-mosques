@@ -1,5 +1,6 @@
 package com.gurkensalat.osm.mosques;
 
+import com.gurkensalat.osm.entity.Address;
 import com.gurkensalat.osm.entity.OsmNode;
 import com.gurkensalat.osm.entity.OsmRoot;
 import com.gurkensalat.osm.entity.OsmTag;
@@ -26,6 +27,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @RestController
 @EnableAutoConfiguration
@@ -110,10 +113,10 @@ public class OsmController
 
         LOGGER.info("Data Directory is {}", dataDirectory.getAbsolutePath());
 
-        for (String county : germanCounties)
+        for (String state : germanCounties)
         {
             // TODO sanitize data directory first...
-            File dataFile = new File(dataDirectory, "germany-" + county + "-religion-muslim" + ".osm");
+            File dataFile = new File(dataDirectory, "germany-" + state + "-religion-muslim" + ".osm");
 
             OsmRoot root = osmRepository.parse(dataFile);
 
@@ -127,17 +130,47 @@ public class OsmController
                 Place tempPlace = new Place(null, PlaceType.OSM_PLACE_OF_WORSHIP);
                 tempPlace.setLat(node.getLat());
                 tempPlace.setLon(node.getLon());
+                tempPlace.setAddress(new Address());
 
                 for (OsmTag tag : node.getTags())
                 {
                     String key = tag.getKey().toLowerCase();
                     String val = tag.getValue();
-                    LOGGER.info("    '{}' -> '{}'", key, val);
 
                     if ("name".equals(key))
                     {
                         tempPlace.setName(val);
                     }
+                    else if ("addr:street".equals(key))
+                    {
+                        tempPlace.getAddress().setStreet(val);
+                    }
+                    else if ("addr:housenumber".equals(key))
+                    {
+                        tempPlace.getAddress().setHousenumber(val);
+                    }
+                    else if ("addr:postcode".equals(key))
+                    {
+                        tempPlace.getAddress().setPostcode(val);
+                    }
+                    else if ("addr:city".equals(key))
+                    {
+                        tempPlace.getAddress().setCity(val);
+                    }
+                    else
+                    {
+                        LOGGER.debug("    '{}' -> '{}'", key, val);
+                    }
+                }
+
+                if (isEmpty(tempPlace.getAddress().getState()))
+                {
+                    tempPlace.getAddress().setState(state);
+                }
+
+                if (isEmpty(tempPlace.getAddress().getCountry()))
+                {
+                    tempPlace.getAddress().setCountry("germany");
                 }
 
                 // Now, insert-or-update the place
@@ -160,6 +193,7 @@ public class OsmController
                     place.setLat(tempPlace.getLat());
                     place.setLon(tempPlace.getLon());
                     place.setType(tempPlace.getType());
+                    place.setAddress(tempPlace.getAddress());
                     place = placeRepository.save(place);
 
                     LOGGER.info("Saved Place {}", place);
