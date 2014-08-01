@@ -1,5 +1,6 @@
 package com.gurkensalat.osm.mosques;
 
+import com.gurkensalat.osm.entity.Address;
 import com.gurkensalat.osm.entity.DitibParsedPlace;
 import com.gurkensalat.osm.entity.DitibParsedPlaceKey;
 import com.gurkensalat.osm.entity.DitibPlace;
@@ -127,25 +128,25 @@ public class DitibController
                     // place = ditibPlaceRepository.findOne(place.getId());
                 }
 
-                place.setName(parsedPlace.getName());
-                place.setPostcode(parsedPlace.getPostcode());
-                place.setCity(parsedPlace.getCity());
-                place.setStreet(parsedPlace.getStreet());
-                place.setStreetNumber(parsedPlace.getStreetNumber());
                 place.setDitibCode(parsedPlace.getDitibCode());
+
+                place.setName(parsedPlace.getName());
+
+                place.setAddress(new Address());
+                place.getAddress().setPostcode(parsedPlace.getPostcode());
+                place.getAddress().setCity(parsedPlace.getCity());
+                place.getAddress().setStreet(parsedPlace.getStreet());
+                place.getAddress().setHousenumber(parsedPlace.getStreetNumber());
+
                 place.setPhone(parsedPlace.getPhone());
                 place.setFax(parsedPlace.getFax());
 
                 // Some Faxes have a comment after them
-                if (place.getPhone().indexOf(" ") > -1)
-                {
-                    LOGGER.info("Phone with comment: {}", place.getPhone());
-                }
-
-                if (place.getFax().indexOf(" ") > -1)
-                {
-                    LOGGER.info("Fax with comment: {}", place.getFax());
-                }
+                // TODO: False positive, need better check...
+                // if (place.getPhone().indexOf(" ") > -1)
+                // {
+                // LOGGER.info("Phone with comment: {}", place.getPhone());
+                // }
 
                 place = ditibPlaceRepository.save(place);
 
