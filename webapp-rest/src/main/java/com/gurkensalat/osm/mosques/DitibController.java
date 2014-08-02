@@ -8,6 +8,7 @@ import com.gurkensalat.osm.entity.Place;
 import com.gurkensalat.osm.repository.DitibParserRepository;
 import com.gurkensalat.osm.repository.DitibPlaceRepository;
 import org.apache.commons.lang3.CharEncoding;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,7 +137,9 @@ public class DitibController
                 place.getAddress().setPostcode(parsedPlace.getPostcode());
                 place.getAddress().setCity(parsedPlace.getCity());
                 place.getAddress().setStreet(parsedPlace.getStreet());
-                place.getAddress().setHousenumber(parsedPlace.getStreetNumber());
+
+                // Limit house number, we don't want all extensions like 'In Keller'
+                place.getAddress().setHousenumber(StringUtils.substring(parsedPlace.getStreetNumber(), 0, 19));
 
                 place.setPhone(parsedPlace.getPhone());
                 place.setFax(parsedPlace.getFax());
