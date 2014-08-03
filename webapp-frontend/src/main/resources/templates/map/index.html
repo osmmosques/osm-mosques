@@ -36,6 +36,17 @@
                 attribution: '&copy; ' + mapLink + ' Contributors',
                 maxZoom: 18,
             }).addTo(map);
+
+    var marker = L.marker([48.1364, 11.3872928],
+            {draggable: true,        // Make the icon draggable
+                title: 'Hover Text', // Add a title
+                opacity: 0.5}        // Adjust the opacity
+    )
+            .addTo(map)
+            .bindPopup("<b>Germering Camii</b><br/>Türkisch Islamische Gemeinde Germering")
+            .openPopup();
+
+
 </script>
 </body>
 </html>
