@@ -54,6 +54,9 @@
 
         <jsoup.version>1.7.3</jsoup.version>
 
+        <!-- Javascript libraries for frontend -->
+        <leaflet.version>0.7.3</leaflet.version>
+
         <slf4j.version>1.7.7</slf4j.version>
         <logback.version>1.1.2</logback.version>
 
@@ -242,6 +245,13 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-rest</artifactId>
                 <version>${spring-boot.version}</version>
+            </dependency>
+
+            <!-- Javascript libraries for frontend -->
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>leaflet</artifactId>
+                <version>${leaflet.version}</version>
             </dependency>
 
             <!-- Logging -->
