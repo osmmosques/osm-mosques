@@ -3,10 +3,7 @@
 <head>
     <title>Full Screen Leaflet Map</title>
     <meta charset="utf-8"/>
-    <link
-            rel="stylesheet"
-            href="webjars/leaflet/0.7.3//leaflet.css"
-            />
+    <link rel="stylesheet" href="webjars/leaflet/0.7.3/leaflet.css"/>
     <style>
         body {
             padding: 0;
@@ -22,30 +19,51 @@
 <body>
 <div id="map"></div>
 
-<script
-        src="webjars/leaflet/0.7.3/leaflet.js">
-</script>
+<script src="webjars/leaflet/0.7.3/leaflet.js"/>
 
 <!-- Germering is at lat="48.1364" lon="11.3872928" -->
 <script>
-    var map = L.map('map').setView([48.1364, 11.3872928], 14);
-    mapLink =
-            '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-    L.tileLayer(
-            'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; ' + mapLink + ' Contributors',
-                maxZoom: 18,
-            }).addTo(map);
 
-    var marker = L.marker([48.1364, 11.3872928],
-            {draggable: true,        // Make the icon draggable
-                title: 'Hover Text', // Add a title
-                opacity: 0.5}        // Adjust the opacity
-    )
-            .addTo(map)
-            .bindPopup("<b>Germering Camii</b><br/>Türkisch Islamische Gemeinde Germering")
-            .openPopup();
+    var keepTheReformatterHappy = "foobar";
 
+    <!-- Markers from here on -->
+    var places = new L.LayerGroup();
+
+    L.marker([48.1364, 11.3872928]).bindPopup('<b>Germering Camii</b><br/>Türkisch Islamische Gemeinde Germering').addTo(places);
+
+    var overlays =
+    {
+        "Prayer Places": places
+    };
+
+    <!-- Map providers -->
+    var osmLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+    var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    var osmAttrib = '&copy; ' + osmLink + ' Contributors';
+    var osmMap = L.tileLayer(osmUrl, {attribution: osmAttrib});
+
+    var thunLink = '<a href="http://thunderforest.com/">Thunderforest</a>';
+    var thunUrl = 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png';
+    var thunAttrib = '&copy; ' + osmLink + ' Contributors &and;' + thunLink;
+    var thunMap = L.tileLayer(thunUrl, {attribution: thunAttrib});
+
+    mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+
+    <!-- Now the map itself -->
+    var map = L.map('map', {
+        center: [48.1364, 11.3872928],
+        zoom: 14,
+        layers: [osmMap, places]
+    });
+
+    var baseLayers =
+    {
+        "OSM Mapnik": osmMap,
+        "Landscape": thunMap
+    };
+
+    <!-- Now add the layer switcher to the map -->
+    L.control.layers(baseLayers, overlays).addTo(map);
 
 </script>
 </body>
