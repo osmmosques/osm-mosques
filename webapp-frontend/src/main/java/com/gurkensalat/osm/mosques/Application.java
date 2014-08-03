@@ -41,4 +41,10 @@ public class Application
     {
         return "index";
     }
+
+    @RequestMapping("/map")
+    String map()
+    {
+        return "map/index";
+    }
 }
