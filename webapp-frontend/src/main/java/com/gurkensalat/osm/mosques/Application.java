@@ -1,5 +1,6 @@
 package com.gurkensalat.osm.mosques;
 
+import com.gurkensalat.osm.entity.DitibPlace;
 import com.gurkensalat.osm.entity.EntityComponentScanMarker;
 import com.gurkensalat.osm.repository.RepositoryComponentScanMarker;
 import org.springframework.boot.SpringApplication;
@@ -13,7 +14,9 @@ import org.springframework.context.annotation.PropertySources;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Configuration
 @PropertySources({
@@ -40,11 +43,5 @@ public class Application
     String index()
     {
         return "index";
-    }
-
-    @RequestMapping("/map")
-    String map()
-    {
-        return "map/index";
     }
 }
