@@ -9,7 +9,25 @@
 <body>
 <h1>List of OSM places</h1>
 
-<table border="1">
+<script src="../webjars/jquery/2.1.1/jquery.js"/>
+<script src="../webjars/tablesorter/2.15.5/js/jquery.tablesorter.js"/>
+
+<script id="js">
+    $(function () {
+
+        // initial sort set using sortList option
+        $(".osm-list").tablesorter({
+            theme: 'blue',
+            // sort on the first column and second column in ascending order
+            sortList: [
+                [0, 0],
+                [1, 0]
+            ]
+        });
+    });
+</script>
+
+<table class="osm-list" border="1">
     <tr>
         <th>NAME</th>
         <th>CITY</th>

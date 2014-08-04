@@ -55,6 +55,8 @@
         <jsoup.version>1.7.3</jsoup.version>
 
         <!-- Javascript libraries for frontend -->
+        <tablesorter.version>2.15.5</tablesorter.version>
+        <jquery.version>2.1.1</jquery.version>
         <leaflet.version>0.7.3</leaflet.version>
 
         <slf4j.version>1.7.7</slf4j.version>
@@ -248,6 +250,18 @@
             </dependency>
 
             <!-- Javascript libraries for frontend -->
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>tablesorter</artifactId>
+                <version>${tablesorter.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>jquery</artifactId>
+                <version>${jquery.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.webjars</groupId>
                 <artifactId>leaflet</artifactId>
