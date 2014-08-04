@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>List of DITIB places</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<h1>List of DITIB places</h1>
+
+<table border="1">
+    <tr>
+        <th>NAME</th>
+        <th>CITY</th>
+        <th>STREET</th>
+        <th>NUMBER</th>
+    </tr>
+    <tr th:each="place : ${places}">
+        <td th:text="${place.name}"></td>
+        <td th:text="${place.address.city}"></td>
+        <td th:text="${place.address.street}"></td>
+        <td th:text="${place.address.housenumber}"></td>
+    </tr>
+</table>
+
+</body>
+</html>
