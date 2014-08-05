@@ -5,42 +5,45 @@
 <head>
     <title>List of DITIB places</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link href="../webjars/tablesorter/2.15.5/css/theme.dropbox.css" rel="stylesheet"/>
+
+    <script src="../webjars/jquery/2.1.1/jquery.js"/>
+    <script src="../webjars/tablesorter/2.15.5/js/jquery.tablesorter.js"/>
 </head>
-<body>
+<body bgcolor="#fff">
 <h1>List of DITIB places</h1>
 
-<script src="../webjars/jquery/2.1.1/jquery.js"/>
-<script src="../webjars/tablesorter/2.15.5/js/jquery.tablesorter.js"/>
-
-<script id="js">
-    $(function () {
-
-        // initial sort set using sortList option
-        $(".ditib-list").tablesorter({
-            theme: 'blue',
-            // sort on the first column and second column in ascending order
-            sortList: [
-                [0, 0],
-                [1, 0]
-            ]
-        });
-    });
-</script>
-
-<table class="ditib-list" border="1">
+<table id="ditib-list" class="tablesorter" data-sortlist="[[0,0],[1,0]]">
+    <thead>
     <tr>
         <th>NAME</th>
         <th>CITY</th>
         <th>STREET</th>
         <th>NUMBER</th>
     </tr>
+    </thead>
+    <tbody>
     <tr th:each="place : ${places}">
         <td th:text="${place.name}"></td>
         <td th:text="${place.address.city}"></td>
         <td th:text="${place.address.street}"></td>
         <td th:text="${place.address.housenumber}"></td>
     </tr>
+    </tbody>
 </table>
+
+<script id="js">
+    $(function () {
+        $.extend($.tablesorter.defaults, {
+            theme: 'dropbox',
+            widthFixed: true
+        });
+        $(".compatibility").tablesorter();
+        $("#ditib-list").tablesorter({widgets: ['zebra']});
+        $("table.options, table.api").tablesorter({widgets: ['stickyHeaders']});
+    });
+</script>
 
 </body>
 </html>
