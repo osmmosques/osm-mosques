@@ -14,9 +14,12 @@
 <body bgcolor="#fff">
 <h1>List of DITIB places</h1>
 
-<table id="ditib-list" class="tablesorter" data-sortlist="[[0,0],[1,0]]">
+<table id="ditib-list" class="tablesorter" data-sortlist="[[3,0],[4,0]]">
     <thead>
     <tr>
+        <th>LAT</th>
+        <th>LON</th>
+        <th>KEY</th>
         <th>NAME</th>
         <th>CITY</th>
         <th>STREET</th>
@@ -25,6 +28,9 @@
     </thead>
     <tbody>
     <tr th:each="place : ${places}">
+        <td th:text="${place.lat}"></td>
+        <td th:text="${place.lon}"></td>
+        <td th:text="${place.key}"></td>
         <td th:text="${place.name}"></td>
         <td th:text="${place.address.city}"></td>
         <td th:text="${place.address.street}"></td>
