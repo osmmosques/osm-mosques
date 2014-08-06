@@ -58,6 +58,7 @@
         <tablesorter.version>2.15.5</tablesorter.version>
         <jquery.version>2.1.1</jquery.version>
         <leaflet.version>0.7.3</leaflet.version>
+        <leaflet-plugins.version>1.1.2-SNAPSHOT</leaflet-plugins.version>
 
         <slf4j.version>1.7.7</slf4j.version>
         <logback.version>1.1.2</logback.version>
@@ -266,6 +267,12 @@
                 <groupId>org.webjars</groupId>
                 <artifactId>leaflet</artifactId>
                 <version>${leaflet.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>leaflet-plugins</artifactId>
+                <version>${leaflet-plugins.version}</version>
             </dependency>
 
             <!-- Logging -->
