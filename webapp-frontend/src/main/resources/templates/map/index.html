@@ -20,6 +20,7 @@
 <div id="map"></div>
 
 <script src="webjars/leaflet/0.7.3/leaflet.js"/>
+<script src="webjars/leaflet-plugins/1.1.2/layer/Icon.Canvas.js"/>
 
 <!-- Germering is at lat="48.1364" lon="11.3872928" -->
 <script>
@@ -64,6 +65,28 @@
 
     <!-- Now add the layer switcher to the map -->
     L.control.layers(baseLayers, overlays).addTo(map);
+
+    <!-- Leaflet Plugins demo -->
+    var circle = new L.Icon.Canvas({iconSize: new L.Point(30, 30)});
+    circle.draw = function(ctx, w, h) {
+        ctx.translate(w/2, h/2);
+
+        ctx.beginPath();
+        ctx.fillStyle = "#F00";
+        ctx.arc(0, 0, w/2-1, 0, Math.PI*2, true);
+        ctx.fill();
+
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#FFF';
+        ctx.moveTo(-w/5, -h/5);
+        ctx.lineTo(w/5, h/5);
+        ctx.moveTo(-w/5, h/5);
+        ctx.lineTo(w/5, -h/5);
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+    map.addLayer(new L.Marker(map.getCenter(), {icon: circle, draggable: true, opacity: 0.7}));
 
 </script>
 </body>
