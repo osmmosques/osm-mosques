@@ -22,10 +22,16 @@
         </encoder>
     </appender>
 
+    <logger name="org.apache.commons.beanutils" level="info" />
+    <logger name="org.apache.commons.digester3" level="info" />
+    <logger name="org.hibernate" level="info"/>
     <logger name="org.springframework" level="info"/>
     <logger name="org.springframework.aop.interceptor" level="trace"/>
 
-    <root level="info">
+    <logger name="com.gurkensalat.osm.repository.DitibParserRepositoryImpl" level="info" />
+    <logger name="com.gurkensalat.osm.repository.OsmRepositoryImpl" level="info" />
+
+    <root level="debug">
         <appender-ref ref="file"/>
     </root>
 
