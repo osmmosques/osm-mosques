@@ -2,6 +2,7 @@ package com.gurkensalat.osm.mosques;
 
 import com.gurkensalat.osm.entity.EntityComponentScanMarker;
 import com.gurkensalat.osm.repository.RepositoryComponentScanMarker;
+import com.tandogan.geostuff.opencagedata.GeocodeRepositoryComponentScanMarker;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.orm.jpa.EntityScan;
@@ -16,12 +17,19 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguratio
 @Configuration
 @PropertySources({
         @PropertySource("classpath:application-default.properties"),
-        @PropertySource(value = "file:/etc/webapps/osm-mosques/application-optional-override.properties", ignoreResourceNotFound = true)
+        @PropertySource(value = "file:/etc/webapps/osm-mosques/application-optional-override.properties", ignoreResourceNotFound = true),
+        @PropertySource("classpath:/opencagedata-default.properties"),
+        @PropertySource(value = "file:${HOME}/.config/opencagedata", ignoreResourceNotFound = true)
 })
 @EnableJpaRepositories(basePackageClasses = {RepositoryComponentScanMarker.class})
 @EntityScan(basePackageClasses = {EntityComponentScanMarker.class})
 @Import(RepositoryRestMvcConfiguration.class)
-@ComponentScan(basePackageClasses = {EntityComponentScanMarker.class, RepositoryComponentScanMarker.class, ApplicationComponentScanMarker.class})
+@ComponentScan(basePackageClasses = {
+        EntityComponentScanMarker.class,
+        RepositoryComponentScanMarker.class,
+        GeocodeRepositoryComponentScanMarker.class,
+        ApplicationComponentScanMarker.class
+})
 @EnableAutoConfiguration
 public class Application
 {
