@@ -4,7 +4,6 @@ import com.gurkensalat.osm.entity.Address;
 import com.gurkensalat.osm.entity.DitibParsedPlace;
 import com.gurkensalat.osm.entity.DitibParsedPlaceKey;
 import com.gurkensalat.osm.entity.DitibPlace;
-import com.gurkensalat.osm.entity.Place;
 import com.gurkensalat.osm.repository.DitibParserRepository;
 import com.gurkensalat.osm.repository.DitibPlaceRepository;
 import com.tandogan.geostuff.opencagedata.GeocodeRepository;
@@ -111,7 +110,8 @@ public class DitibController
         LOGGER.info("DITIB Place Repository is: {}", ditibPlaceRepository);
 
         // Empty the storage first
-        ditibPlaceRepository.deleteAll();
+        // ditibPlaceRepository.deleteAll();
+        // TODO actually invalidate, by setting the attribute via updateAll()
 
         int parsedPlaceNumber = 10000;
         for (DitibParsedPlace parsedPlace : parsedPlaces)
@@ -125,7 +125,7 @@ public class DitibController
             try
             {
                 DitibPlace place = null;
-                List<Place> places = null; // ditibPlaceRepository.findByNameAndType(tempPlace.getName(), tempPlace.getType());
+                List<DitibPlace> places = ditibPlaceRepository.findByKey(key);
                 if ((places == null) || (places.size() == 0))
                 {
                     // Place could not be found, insert it...
@@ -134,8 +134,10 @@ public class DitibController
                 else
                 {
                     // take the one from the database and update it
-                    // place = places.get(0);
-                    // place = ditibPlaceRepository.findOne(place.getId());
+                    place = places.get(0);
+                    LOGGER.debug("Found pre-existing entity {} / {}", place.getId(), place.getVersion());
+                    place = ditibPlaceRepository.findOne(place.getId());
+                    LOGGER.debug("  reloaded: {} / {}", place.getId(), place.getVersion());
                 }
 
                 place.setDitibCode(parsedPlace.getDitibCode());
@@ -152,13 +154,6 @@ public class DitibController
 
                 place.setPhone(parsedPlace.getPhone());
                 place.setFax(parsedPlace.getFax());
-
-                // Some Faxes have a comment after them
-                // TODO: False positive, need better check...
-                // if (place.getPhone().indexOf(" ") > -1)
-                // {
-                // LOGGER.info("Phone with comment: {}", place.getPhone());
-                // }
 
                 place = ditibPlaceRepository.save(place);
 
@@ -184,7 +179,7 @@ public class DitibController
         LOGGER.info("    {}", ((GeocodeRepositoryImpl) geocodeRepository).getUrlBase());
         LOGGER.info("    {}", ((GeocodeRepositoryImpl) geocodeRepository).getApiKey());
 
-        ((GeocodeRepositoryImpl)geocodeRepository).setTemplate(restTemplate);
+        ((GeocodeRepositoryImpl) geocodeRepository).setTemplate(restTemplate);
 
         GeocodeResponse response = geocodeRepository.query("germering");
 
