@@ -109,7 +109,8 @@ public class OsmController
         LOGGER.debug("Place Repository is: {}", placeRepository);
 
         // Empty the storage first
-        placeRepository.deleteAll();
+        // placeRepository.deleteAll();
+        // TODO actually invalidate, by setting the attribute via updateAll()
 
         LOGGER.info("Data Directory is {}", dataDirectory.getAbsolutePath());
 
@@ -163,6 +164,8 @@ public class OsmController
                     }
                 }
 
+                String key = Long.toString(node.getId());
+
                 if (isEmpty(tempPlace.getAddress().getState()))
                 {
                     tempPlace.getAddress().setState(state);
@@ -177,7 +180,7 @@ public class OsmController
                 try
                 {
                     Place place;
-                    List<Place> places = placeRepository.findByNameAndType(tempPlace.getName(), tempPlace.getType());
+                    List<Place> places = placeRepository.findByKey(key);
                     if ((places == null) || (places.size() == 0))
                     {
                         // Place could not be found, insert it...
@@ -187,9 +190,12 @@ public class OsmController
                     {
                         // take the one from the database and update it
                         place = places.get(0);
+                        LOGGER.debug("Found pre-existing entity {} / {}", place.getId(), place.getVersion());
                         place = placeRepository.findOne(place.getId());
+                        LOGGER.debug("  reloaded: {} / {}", place.getId(), place.getVersion());
                     }
 
+                    place.setKey(key);
                     place.setLat(tempPlace.getLat());
                     place.setLon(tempPlace.getLon());
                     place.setType(tempPlace.getType());
