@@ -78,6 +78,7 @@
 
         <!-- Our own libraries -->
         <osm-tools.version>0.0.1-SNAPSHOT</osm-tools.version>
+        <geocoder-version>0.1.0-SNAPSHOT</geocoder-version>
 
         <!-- Testing -->
         <junit.version>4.11</junit.version>
@@ -175,6 +176,12 @@
                 <groupId>com.gurkensalat.osm</groupId>
                 <artifactId>osm-persistence</artifactId>
                 <version>${osm-tools.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.tandogan.osm</groupId>
+                <artifactId>opencagedata-geocoder-library</artifactId>
+                <version>${geocoder-version}</version>
             </dependency>
 
             <!-- DI, ORM -->
