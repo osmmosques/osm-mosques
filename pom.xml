@@ -50,6 +50,9 @@
         <commons-collections.version>4.0</commons-collections.version>
         <commons-io.version>2.4</commons-io.version>
         <commons-lang.version>3.3.2</commons-lang.version>
+
+        <jackson.version>2.4.0</jackson.version>
+
         <joda-time.version>2.4</joda-time.version>
 
         <jsoup.version>1.7.3</jsoup.version>
@@ -255,6 +258,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-rest</artifactId>
                 <version>${spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
 
             <!-- Javascript libraries for frontend -->
