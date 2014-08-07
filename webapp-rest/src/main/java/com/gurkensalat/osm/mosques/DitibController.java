@@ -7,6 +7,9 @@ import com.gurkensalat.osm.entity.DitibPlace;
 import com.gurkensalat.osm.entity.Place;
 import com.gurkensalat.osm.repository.DitibParserRepository;
 import com.gurkensalat.osm.repository.DitibPlaceRepository;
+import com.tandogan.geostuff.opencagedata.GeocodeRepository;
+import com.tandogan.geostuff.opencagedata.GeocodeRepositoryImpl;
+import com.tandogan.geostuff.opencagedata.entity.GeocodeResponse;
 import org.apache.commons.lang3.CharEncoding;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -36,7 +40,12 @@ public class DitibController
 
     private final static String REQUEST_ROOT = "/ditib";
 
+    private final static String REQUEST_GEOCODE_FIRST = REQUEST_ROOT + "/geocode_first";
+
     private final static String REQUEST_IMPORT = REQUEST_ROOT + "/import";
+
+    @Autowired
+    private GeocodeRepository geocodeRepository;
 
     @Autowired
     private DitibParserRepository ditibParserRepository;
@@ -161,6 +170,25 @@ public class DitibController
                 LOGGER.info("Place: {}", tempPlace);
             }
         }
+
+        return new ResponseEntity<String>("Done Massa", null, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = REQUEST_GEOCODE_FIRST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> geocodeFirst()
+    {
+        RestTemplate restTemplate = new RestTemplate();
+
+        LOGGER.info("Using geocoder library {}", geocodeRepository);
+        LOGGER.info("    {}", ((GeocodeRepositoryImpl) geocodeRepository).getUrlBase());
+        LOGGER.info("    {}", ((GeocodeRepositoryImpl) geocodeRepository).getApiKey());
+
+        ((GeocodeRepositoryImpl)geocodeRepository).setTemplate(restTemplate);
+
+        GeocodeResponse response = geocodeRepository.query("germering");
+
+        LOGGER.info("Response is: {}", response);
 
         return new ResponseEntity<String>("Done Massa", null, HttpStatus.OK);
     }
