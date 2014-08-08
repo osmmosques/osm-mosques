@@ -171,7 +171,7 @@ public class DitibController
 
     @RequestMapping(value = REQUEST_GEOCODE_FIRST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> geocodeFirst()
+    public ResponseEntity<GeocodeResponse> geocodeFirst()
     {
         RestTemplate restTemplate = new RestTemplate();
 
@@ -181,10 +181,41 @@ public class DitibController
 
         ((GeocodeRepositoryImpl) geocodeRepository).setTemplate(restTemplate);
 
-        GeocodeResponse response = geocodeRepository.query("germering");
+        GeocodeResponse response = null;
+        DitibPlace place = findPlaceToEncode();
+        if (place != null)
+        {
+            String query = "";
+            query = query + (place.getAddress().getStreet() == null ? "" : place.getAddress().getStreet());
+            query = query + (place.getAddress().getHousenumber() == null ? "" : place.getAddress().getHousenumber());
+            query = query + (place.getAddress().getPostcode() == null ? "" : place.getAddress().getPostcode());
+            query = query + (place.getAddress().getCity() == null ? "" : place.getAddress().getCity());
+
+            LOGGER.info("Query string is: '{}'", query);
+
+            response = geocodeRepository.query(query);
+        }
 
         LOGGER.info("Response is: {}", response);
 
-        return new ResponseEntity<String>("Done Massa", null, HttpStatus.OK);
+        return new ResponseEntity<GeocodeResponse>(response, null, HttpStatus.OK);
+    }
+
+    private DitibPlace findPlaceToEncode()
+    {
+        DitibPlace result = null;
+
+        // TODO create repository method
+        Iterable<DitibPlace> places = ditibPlaceRepository.findAll();
+        for (DitibPlace place : places)
+        {
+            if (place.getLat() == 0 && place.getLon() == 0)
+            {
+                result = place;
+                break;
+            }
+        }
+
+        return result;
     }
 }
