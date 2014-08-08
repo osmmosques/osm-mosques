@@ -187,8 +187,11 @@ public class DitibController
         {
             String query = "";
             query = query + (place.getAddress().getStreet() == null ? "" : place.getAddress().getStreet());
+            query = query + " ";
             query = query + (place.getAddress().getHousenumber() == null ? "" : place.getAddress().getHousenumber());
+            query = query + " ";
             query = query + (place.getAddress().getPostcode() == null ? "" : place.getAddress().getPostcode());
+            query = query + " ";
             query = query + (place.getAddress().getCity() == null ? "" : place.getAddress().getCity());
 
             LOGGER.info("Query string is: '{}'", query);
