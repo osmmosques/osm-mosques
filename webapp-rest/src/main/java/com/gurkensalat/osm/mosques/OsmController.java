@@ -2,12 +2,12 @@ package com.gurkensalat.osm.mosques;
 
 import com.gurkensalat.osm.entity.Address;
 import com.gurkensalat.osm.entity.OsmNode;
+import com.gurkensalat.osm.entity.OsmPlace;
 import com.gurkensalat.osm.entity.OsmRoot;
 import com.gurkensalat.osm.entity.OsmTag;
-import com.gurkensalat.osm.entity.Place;
 import com.gurkensalat.osm.entity.PlaceType;
+import com.gurkensalat.osm.repository.OsmPlaceRepository;
 import com.gurkensalat.osm.repository.OsmRepository;
-import com.gurkensalat.osm.repository.PlaceRepository;
 import org.apache.commons.lang3.CharEncoding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +64,7 @@ public class OsmController
     private OsmRepository osmRepository;
 
     @Autowired
-    private PlaceRepository placeRepository;
+    private OsmPlaceRepository osmPlaceRepository;
 
     @Value("${osm.data.location}")
     private String dataLocation;
@@ -106,10 +106,10 @@ public class OsmController
 
         LOGGER.info("OSM Repository is: {}", osmRepository);
 
-        LOGGER.debug("Place Repository is: {}", placeRepository);
+        LOGGER.debug("Place Repository is: {}", osmPlaceRepository);
 
         // Empty the storage first
-        // placeRepository.deleteAll();
+        // osmPlaceRepository.deleteAll();
         // TODO actually invalidate, by setting the attribute via updateAll()
 
         LOGGER.info("Data Directory is {}", dataDirectory.getAbsolutePath());
@@ -128,7 +128,7 @@ public class OsmController
                 LOGGER.debug("Read node: {}, {}, {}", node, node.getLat(), node.getLon());
 
                 // re-create a place from OSM data
-                Place tempPlace = new Place(null, PlaceType.OSM_PLACE_OF_WORSHIP);
+                OsmPlace tempPlace = new OsmPlace(null, PlaceType.OSM_PLACE_OF_WORSHIP);
                 tempPlace.setLat(node.getLat());
                 tempPlace.setLon(node.getLon());
                 tempPlace.setAddress(new Address());
@@ -179,19 +179,19 @@ public class OsmController
                 // Now, insert-or-update the place
                 try
                 {
-                    Place place;
-                    List<Place> places = placeRepository.findByKey(key);
+                    OsmPlace place;
+                    List<OsmPlace> places = osmPlaceRepository.findByKey(key);
                     if ((places == null) || (places.size() == 0))
                     {
                         // Place could not be found, insert it...
-                        place = placeRepository.save(tempPlace);
+                        place = osmPlaceRepository.save(tempPlace);
                     }
                     else
                     {
                         // take the one from the database and update it
                         place = places.get(0);
                         LOGGER.debug("Found pre-existing entity {} / {}", place.getId(), place.getVersion());
-                        place = placeRepository.findOne(place.getId());
+                        place = osmPlaceRepository.findOne(place.getId());
                         LOGGER.debug("  reloaded: {} / {}", place.getId(), place.getVersion());
                     }
 
@@ -200,7 +200,7 @@ public class OsmController
                     place.setLon(tempPlace.getLon());
                     place.setType(tempPlace.getType());
                     place.setAddress(tempPlace.getAddress());
-                    place = placeRepository.save(place);
+                    place = osmPlaceRepository.save(place);
 
                     LOGGER.info("Saved Place {}", place);
                 }
