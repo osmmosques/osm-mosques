@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="CGImap 0.3.3 (5355 thorn-02.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+ <node id="904317998" visible="true" version="4" changeset="18599100" timestamp="2013-10-29T10:51:32Z" user="Michael_H" uid="323389" lat="48.1364000" lon="11.3872928">
+  <tag k="addr:city" v="Germering"/>
+  <tag k="addr:housenumber" v="13a"/>
+  <tag k="addr:postcode" v="82110"/>
+  <tag k="addr:street" v="Münchener Straße"/>
+  <tag k="alt_name" v="Türkisch Islamische Gemeinde Germering"/>
+  <tag k="alt_name:de" v="Türkisch Islamische Gemeinde Germering"/>
+  <tag k="alt_name:tr" v="Türk Islam Kültür Cemiyeti"/>
+  <tag k="amenity" v="place_of_worship"/>
+  <tag k="name" v="Germering Camii"/>
+  <tag k="name:de" v="Moschee Germering"/>
+  <tag k="name:tr" v="Germering Camii"/>
+  <tag k="religion" v="muslim"/>
+  <tag k="wheelchair" v="yes"/>
+ </node>
+</osm>
