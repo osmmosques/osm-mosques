@@ -181,7 +181,7 @@ public class DitibController
 
     @RequestMapping(value = REQUEST_GEOCODE_FIRST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<GeocodeResponse> geocodeFirst()
+    public ResponseEntity<DitibPlace> geocodeFirst()
     {
         RestTemplate restTemplate = new RestTemplate();
 
@@ -222,7 +222,7 @@ public class DitibController
                 if (bestResult != null)
                 {
                     place.setLat(bestResult.getGeometry().getLatitude());
-                    place.setLat(bestResult.getGeometry().getLongitude());
+                    place.setLon(bestResult.getGeometry().getLongitude());
 
                     place = ditibPlaceRepository.save(place);
                     serializeToJSON(workDir, when + "-place-after.json", place);
@@ -230,9 +230,7 @@ public class DitibController
             }
         }
 
-        LOGGER.info("Response is: {}", response);
-
-        return new ResponseEntity<GeocodeResponse>(response, null, HttpStatus.OK);
+        return new ResponseEntity<DitibPlace>(place, null, HttpStatus.OK);
     }
 
     private OpencageResult getBestGeocodingResult(GeocodeResponse response)
@@ -254,6 +252,13 @@ public class DitibController
                 }
             }
         }
+
+        // Cornercase to avaoid
+        if (bestResult.getConfidence() == 0)
+        {
+            bestResult = null;
+        }
+
         return bestResult;
     }
 
