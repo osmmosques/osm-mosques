@@ -1,5 +1,7 @@
 package com.gurkensalat.osm.mosques;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.gurkensalat.osm.entity.Address;
 import com.gurkensalat.osm.entity.DitibParsedPlace;
 import com.gurkensalat.osm.entity.DitibParsedPlaceKey;
@@ -12,6 +14,8 @@ import com.tandogan.geostuff.opencagedata.entity.GeocodeResponse;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.CharEncoding;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +31,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.apache.commons.io.IOUtils.closeQuietly;
 
 @RestController
 @EnableAutoConfiguration
@@ -198,11 +206,38 @@ public class DitibController
             LOGGER.info("Query string is: '{}'", query);
 
             response = geocodeRepository.query(query);
+
+            File workDir = new File(dataLocation, place.getKey());
+            workDir.mkdirs();
+
+            String when = DateTimeFormat.forPattern("YYYY-mm-dd-HH-MM-SS").print(DateTime.now());
+
+            serializeToJSON(workDir, when + "-response.json", response);
+            serializeToJSON(workDir, when + "-place-before.json", place);
         }
 
         LOGGER.info("Response is: {}", response);
 
         return new ResponseEntity<GeocodeResponse>(response, null, HttpStatus.OK);
+    }
+
+    private void serializeToJSON(File workDir, String fileName, Object data)
+    {
+        try
+        {
+            ObjectMapper mapper = new ObjectMapper();
+
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+            String json = mapper.writeValueAsString(data);
+            FileOutputStream fos = new FileOutputStream(new File(workDir, fileName));
+            fos.write(json.getBytes());
+            closeQuietly(fos);
+        }
+        catch (IOException ioe)
+        {
+            LOGGER.error("While serializing response", ioe);
+        }
     }
 
     private DitibPlace findPlaceToEncode()
