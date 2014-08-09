@@ -9,6 +9,7 @@ import com.gurkensalat.osm.repository.DitibPlaceRepository;
 import com.tandogan.geostuff.opencagedata.GeocodeRepository;
 import com.tandogan.geostuff.opencagedata.GeocodeRepositoryImpl;
 import com.tandogan.geostuff.opencagedata.entity.GeocodeResponse;
+import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.CharEncoding;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -208,15 +209,12 @@ public class DitibController
     {
         DitibPlace result = null;
 
-        // TODO create repository method
-        Iterable<DitibPlace> places = ditibPlaceRepository.findAll();
-        for (DitibPlace place : places)
+        List<DitibPlace> places = ditibPlaceRepository.findByBbox(-1, -1, 1, 1);
+        places = ListUtils.emptyIfNull(places);
+
+        if (!(places.isEmpty()))
         {
-            if (place.getLat() == 0 && place.getLon() == 0)
-            {
-                result = place;
-                break;
-            }
+            result = places.get(0);
         }
 
         return result;
