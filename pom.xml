@@ -17,6 +17,7 @@
         <module>ditib-persistence</module>
         <module>osm-mosque-parser</module>
         <module>osm-mosque-persistence</module>
+        <module>combined-persistence</module>
         <module>webapp-rest</module>
         <module>webapp-frontend</module>
     </modules>
