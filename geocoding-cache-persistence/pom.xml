@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>encoded-persistence</artifactId>
+    <artifactId>geocoding-cache-persistence</artifactId>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
