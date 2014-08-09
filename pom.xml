@@ -75,7 +75,7 @@
 
         <scannotation.version>1.0.2</scannotation.version>
 
-        <h2-database.version>1.4.180</h2-database.version>
+        <h2-database.version>1.4.181</h2-database.version>
         <mysqldb.version>5.1.31</mysqldb.version>
         <postgresql.version>9.3-1102-jdbc4</postgresql.version>
 
