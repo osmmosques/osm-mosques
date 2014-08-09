@@ -11,6 +11,7 @@ import com.gurkensalat.osm.repository.DitibPlaceRepository;
 import com.tandogan.geostuff.opencagedata.GeocodeRepository;
 import com.tandogan.geostuff.opencagedata.GeocodeRepositoryImpl;
 import com.tandogan.geostuff.opencagedata.entity.GeocodeResponse;
+import com.tandogan.geostuff.opencagedata.entity.OpencageResult;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.CharEncoding;
 import org.apache.commons.lang3.StringUtils;
@@ -214,11 +215,46 @@ public class DitibController
 
             serializeToJSON(workDir, when + "-response.json", response);
             serializeToJSON(workDir, when + "-place-before.json", place);
+
+            if (HttpStatus.OK.toString().equals(response.getStatus().getCode()))
+            {
+                OpencageResult bestResult = getBestGeocodingResult(response);
+                if (bestResult != null)
+                {
+                    place.setLat(bestResult.getGeometry().getLatitude());
+                    place.setLat(bestResult.getGeometry().getLongitude());
+
+                    place = ditibPlaceRepository.save(place);
+                    serializeToJSON(workDir, when + "-place-after.json", place);
+                }
+            }
         }
 
         LOGGER.info("Response is: {}", response);
 
         return new ResponseEntity<GeocodeResponse>(response, null, HttpStatus.OK);
+    }
+
+    private OpencageResult getBestGeocodingResult(GeocodeResponse response)
+    {
+        OpencageResult bestResult = null;
+        for (OpencageResult result : response.getResults())
+        {
+            if (result.getGeometry() != null)
+            {
+
+                if (bestResult == null)
+                {
+                    bestResult = result;
+                }
+
+                if (bestResult.getConfidence() < result.getConfidence())
+                {
+                    bestResult = result;
+                }
+            }
+        }
+        return bestResult;
     }
 
     private void serializeToJSON(File workDir, String fileName, Object data)
