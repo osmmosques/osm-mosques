@@ -4,6 +4,8 @@
     <title>Full Screen Leaflet Map</title>
     <meta charset="utf-8"/>
     <link rel="stylesheet" href="webjars/leaflet/0.7.3/leaflet.css"/>
+    <link rel="stylesheet" href="webjars/leaflet-markercluster/0.4.0/MarkerCluster.css"/>
+    <link rel="stylesheet" href="webjars/leaflet-markercluster/0.4.0/MarkerCluster.Default.css"/>
     <style>
         body {
             padding: 0;
@@ -21,16 +23,25 @@
 
 <script src="webjars/leaflet/0.7.3/leaflet.js"/>
 <script src="webjars/leaflet-plugins/1.1.2/layer/Icon.Canvas.js"/>
+<script src="webjars/leaflet-markercluster/0.4.0/leaflet.markercluster.js"/>
 
 <!-- Germering is at lat="48.1364" lon="11.3872928" -->
-<script>
-
+<script th:utext="${placemarkers_as_js}"/>
+<script th:inline="javascript">
+    /*<![CDATA[*/
     var keepTheReformatterHappy = "foobar";
 
     <!-- Markers from here on -->
-    var places = new L.LayerGroup();
 
-    L.marker([48.1364, 11.3872928]).bindPopup('<b>Germering Camii</b><br/>Türkisch Islamische Gemeinde Germering').addTo(places);
+    var places = L.markerClusterGroup({ chunkedLoading: true });
+
+    for (var i = 0; i < addressPoints.length; i++) {
+        var a = addressPoints[i];
+        var title = a[2];
+        var marker = L.marker(L.latLng(a[0], a[1]), { title: title });
+        marker.bindPopup(title);
+        places.addLayer(marker);
+    }
 
     var overlays =
     {
@@ -63,32 +74,33 @@
         "Landscape": thunMap
     };
 
+    map.addLayer(places);
+
     <!-- Now add the layer switcher to the map -->
     L.control.layers(baseLayers, overlays).addTo(map);
 
     <!-- Leaflet Plugins demo -->
     var circle = new L.Icon.Canvas({iconSize: new L.Point(30, 30)});
-    circle.draw = function(ctx, w, h) {
-        ctx.translate(w/2, h/2);
+    circle.draw = function (ctx, w, h) {
+        ctx.translate(w / 2, h / 2);
 
         ctx.beginPath();
         ctx.fillStyle = "#F00";
-        ctx.arc(0, 0, w/2-1, 0, Math.PI*2, true);
+        ctx.arc(0, 0, w / 2 - 1, 0, Math.PI * 2, true);
         ctx.fill();
 
         ctx.lineWidth = 2;
         ctx.strokeStyle = '#FFF';
-        ctx.moveTo(-w/5, -h/5);
-        ctx.lineTo(w/5, h/5);
-        ctx.moveTo(-w/5, h/5);
-        ctx.lineTo(w/5, -h/5);
+        ctx.moveTo(-w / 5, -h / 5);
+        ctx.lineTo(w / 5, h / 5);
+        ctx.moveTo(-w / 5, h / 5);
+        ctx.lineTo(w / 5, -h / 5);
         ctx.stroke();
         ctx.closePath();
     }
 
     map.addLayer(new L.Marker(map.getCenter(), {icon: circle, draggable: true, opacity: 0.7}));
-
+    /*]]>*/
 </script>
-<script th:utext="${placemarkers_as_js}"/>
 </body>
 </html>

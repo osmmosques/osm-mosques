@@ -33,16 +33,25 @@ public class MapController
 
         Iterable<DitibPlace> places = ditibPlaceRepository.findAll();
         model.addAttribute("places", places);
-        ExtendedMessageFormat mf = new ExtendedMessageFormat("L.marker([{0}, {1}]).bindPopup({2}).addTo(places);", Locale.ENGLISH);
+
+        ExtendedMessageFormat mf = new ExtendedMessageFormat("[{0}, {1}, \"{2}\"]", Locale.ENGLISH);
+
+        result.append("var addressPoints = [");
+        result.append("\n");
 
         for (DitibPlace place : places)
         {
-            String popupHtml = "'<b>" + place.getName() + "<br/>" + place.getAddress().getCity() + "</b>'";
+            // String popupHtml = "'<b>" + place.getName() + "<br/>" + place.getAddress().getCity() + "</b>'";
+            String popupHtml = place.getAddress().getCity() + " / " + place.getName();
 
             StringBuffer currentLine = new StringBuffer();
             result.append(mf.format(new Object[]{place.getLat(), place.getLon(), popupHtml}));
-            result.append("\n");
+            result.append(",\n");
         }
+
+        result.append(mf.format(new Object[]{48.1364, 11.3872928, "Germering / OSM"}));
+        result.append("\n");
+        result.append("]\n");
 
         model.addAttribute("placemarkers_as_js", result.toString());
         return "map/index";
