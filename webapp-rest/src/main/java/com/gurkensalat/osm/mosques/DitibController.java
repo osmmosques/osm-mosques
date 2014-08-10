@@ -49,7 +49,9 @@ public class DitibController
 
     private final static String REQUEST_ROOT = "/ditib";
 
-    private final static String REQUEST_GEOCODE_FIRST = REQUEST_ROOT + "/geocode_first";
+    private final static String REQUEST_GEOCODE = REQUEST_ROOT + "/geocode";
+
+    private final static String REQUEST_GEOCODE_BY_CODE = REQUEST_ROOT + "/geocode/{code}";
 
     private final static String REQUEST_IMPORT = REQUEST_ROOT + "/import";
 
@@ -179,9 +181,16 @@ public class DitibController
         return new ResponseEntity<String>("Done Massa", null, HttpStatus.OK);
     }
 
-    @RequestMapping(value = REQUEST_GEOCODE_FIRST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = REQUEST_GEOCODE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<DitibPlace> geocodeFirst()
+    public ResponseEntity<DitibPlace> geocode()
+    {
+        return geocode("first");
+    }
+
+    @RequestMapping(value = REQUEST_GEOCODE_BY_CODE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<DitibPlace> geocode(@PathVariable String code)
     {
         RestTemplate restTemplate = new RestTemplate();
 
@@ -192,7 +201,7 @@ public class DitibController
         ((GeocodeRepositoryImpl) geocodeRepository).setTemplate(restTemplate);
 
         GeocodeResponse response = null;
-        DitibPlace place = findPlaceToEncode();
+        DitibPlace place = findPlaceToEncode(code);
         if (place != null)
         {
             String query = "";
@@ -281,18 +290,26 @@ public class DitibController
         }
     }
 
-    private DitibPlace findPlaceToEncode()
+    private DitibPlace findPlaceToEncode(String code)
     {
         DitibPlace result = null;
 
-        List<DitibPlace> places = ditibPlaceRepository.findByBbox(-1, -1, 1, 1);
+        List<DitibPlace> places;
+        if ("first".equalsIgnoreCase(code))
+        {
+            places = ditibPlaceRepository.findByBbox(-1, -1, 1, 1);
+        }
+        else
+        {
+            places = ditibPlaceRepository.findByKey(code);
+        }
+
         places = ListUtils.emptyIfNull(places);
 
         if (!(places.isEmpty()))
         {
             result = places.get(0);
         }
-
         return result;
     }
 }
