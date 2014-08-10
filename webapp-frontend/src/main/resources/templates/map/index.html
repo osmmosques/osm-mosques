@@ -33,19 +33,30 @@
 
     <!-- Markers from here on -->
 
-    var places = L.markerClusterGroup({ chunkedLoading: true });
+    var ditibPlaces = L.markerClusterGroup({ chunkedLoading: true });
 
-    for (var i = 0; i < addressPoints.length; i++) {
-        var a = addressPoints[i];
+    var osmPlaces = L.markerClusterGroup({ chunkedLoading: true });
+
+    for (var i = 0; i < ditibAddressPoints.length; i++) {
+        var a = ditibAddressPoints[i];
         var title = a[2];
         var marker = L.marker(L.latLng(a[0], a[1]), { title: title });
         marker.bindPopup(title);
-        places.addLayer(marker);
+        ditibPlaces.addLayer(marker);
+    }
+
+    for (var i = 0; i < osmAddressPoints.length; i++) {
+        var a = osmAddressPoints[i];
+        var title = a[2];
+        var marker = L.marker(L.latLng(a[0], a[1]), { title: title });
+        marker.bindPopup(title);
+        osmPlaces.addLayer(marker);
     }
 
     var overlays =
     {
-        "Prayer Places": places
+        "OSM Places": osmPlaces,
+        "DITIB Places": ditibPlaces
     };
 
     <!-- Map providers -->
@@ -65,7 +76,7 @@
     var map = L.map('map', {
         center: [48.12955, 11.34873],
         zoom: 11,
-        layers: [osmMap, places]
+        layers: [osmMap, osmPlaces, ditibPlaces]
     });
 
     var baseLayers =
@@ -74,7 +85,8 @@
         "Landscape": thunMap
     };
 
-    map.addLayer(places);
+    map.addLayer(osmPlaces);
+    map.addLayer(ditibPlaces);
 
     <!-- Now add the layer switcher to the map -->
     L.control.layers(baseLayers, overlays).addTo(map);

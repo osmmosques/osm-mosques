@@ -37,7 +37,7 @@ public class MapController
 
         ExtendedMessageFormat mf = new ExtendedMessageFormat("[{0}, {1}, \"{2}\"]", Locale.ENGLISH);
 
-        result.append("var addressPoints = [");
+        result.append("var ditibAddressPoints = [");
         result.append("\n");
 
         for (DitibPlace place : ditibPlaceRepository.findAll())
@@ -46,6 +46,12 @@ public class MapController
             result.append(mf.format(new Object[]{place.getLat(), place.getLon(), popupHtml}));
             result.append(",\n");
         }
+
+        result.append("\n");
+        result.append("]\n");
+
+        result.append("var osmAddressPoints = [");
+        result.append("\n");
 
         for (OsmPlace place : osmPlaceRepository.findAll())
         {
