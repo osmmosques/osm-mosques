@@ -103,6 +103,11 @@
             <artifactId>osm-persistence</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.gurkensalat.osm.verification</groupId>
+            <artifactId>ditib-persistence</artifactId>
+        </dependency>
+
         <!-- DI, ORM -->
         <dependency>
             <groupId>org.springframework</groupId>
