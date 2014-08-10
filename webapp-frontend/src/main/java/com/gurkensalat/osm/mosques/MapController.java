@@ -54,7 +54,6 @@ public class MapController
             result.append(",\n");
         }
 
-        result.append(mf.format(new Object[]{48.1364, 11.3872928, "Germering / OSM"}));
         result.append("\n");
         result.append("]\n");
 
