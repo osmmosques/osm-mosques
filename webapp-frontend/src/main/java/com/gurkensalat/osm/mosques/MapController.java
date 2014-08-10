@@ -1,7 +1,9 @@
 package com.gurkensalat.osm.mosques;
 
 import com.gurkensalat.osm.entity.DitibPlace;
+import com.gurkensalat.osm.entity.OsmPlace;
 import com.gurkensalat.osm.repository.DitibPlaceRepository;
+import com.gurkensalat.osm.repository.OsmPlaceRepository;
 import org.apache.commons.lang3.text.ExtendedMessageFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +26,8 @@ public class MapController
     @Autowired
     private DitibPlaceRepository ditibPlaceRepository;
 
+    @Autowired
+    private OsmPlaceRepository osmPlaceRepository;
 
     @RequestMapping("/map")
     String map(Model model)
@@ -31,20 +35,21 @@ public class MapController
         StringBuffer result = new StringBuffer();
         result.append("\n");
 
-        Iterable<DitibPlace> places = ditibPlaceRepository.findAll();
-        model.addAttribute("places", places);
-
         ExtendedMessageFormat mf = new ExtendedMessageFormat("[{0}, {1}, \"{2}\"]", Locale.ENGLISH);
 
         result.append("var addressPoints = [");
         result.append("\n");
 
-        for (DitibPlace place : places)
+        for (DitibPlace place : ditibPlaceRepository.findAll())
         {
-            // String popupHtml = "'<b>" + place.getName() + "<br/>" + place.getAddress().getCity() + "</b>'";
             String popupHtml = place.getAddress().getCity() + " / " + place.getName();
+            result.append(mf.format(new Object[]{place.getLat(), place.getLon(), popupHtml}));
+            result.append(",\n");
+        }
 
-            StringBuffer currentLine = new StringBuffer();
+        for (OsmPlace place : osmPlaceRepository.findAll())
+        {
+            String popupHtml = "OSM / " + place.getAddress().getCity() + " / " + place.getName();
             result.append(mf.format(new Object[]{place.getLat(), place.getLon(), popupHtml}));
             result.append(",\n");
         }
