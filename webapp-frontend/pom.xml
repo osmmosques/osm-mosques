@@ -76,6 +76,11 @@
 
         <dependency>
             <groupId>org.webjars</groupId>
+            <artifactId>leaflet-markercluster</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
             <artifactId>leaflet-plugins</artifactId>
         </dependency>
 
