@@ -43,7 +43,8 @@ public class MapController
         for (DitibPlace place : ditibPlaceRepository.findAll())
         {
             String popupHtml = place.getAddress().getCity() + " / " + place.getName();
-            result.append(mf.format(new Object[]{place.getLat(), place.getLon(), popupHtml}));
+            result.append("[" + place.getLat() + ", " + place.getLon() + ", \"" + popupHtml + "\"]");
+            // result.append(mf.format(new Object[]{place.getLat(), place.getLon(), popupHtml}));
             result.append(",\n");
         }
 
@@ -56,8 +57,16 @@ public class MapController
         for (OsmPlace place : osmPlaceRepository.findAll())
         {
             String popupHtml = "OSM / " + place.getAddress().getCity() + " / " + place.getName();
-            result.append(mf.format(new Object[]{place.getLat(), place.getLon(), popupHtml}));
+            result.append("[" + place.getLat() + ", " + place.getLon() + ", \"" + popupHtml + "\"]");
+            // [48.136, 11.387, "OSM / Germering / Germering Camii"],
+            // result.append(mf.format(new Object[]{place.getLat(), place.getLon(), popupHtml}));
             result.append(",\n");
+
+            if ("82110".equals(place.getAddress().getPostcode()))
+            {
+                String foo = mf.format(new Object[]{place.getLat(), place.getLon(), popupHtml});
+                int breakpoint = 42;
+            }
         }
 
         result.append("\n");
