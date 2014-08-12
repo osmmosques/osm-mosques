@@ -2,6 +2,7 @@ package com.gurkensalat.osm.mosques;
 
 import com.gurkensalat.osm.entity.EntityComponentScanMarker;
 import com.gurkensalat.osm.repository.RepositoryComponentScanMarker;
+import org.apache.commons.lang3.CharEncoding;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.orm.jpa.EntityScan;
@@ -65,6 +66,7 @@ public class Application extends WebMvcConfigurerAdapter
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("i18n/messages");
         messageSource.setFallbackToSystemLocale(false);
+        messageSource.setDefaultEncoding(CharEncoding.UTF_8);
         return messageSource;
     }
 
