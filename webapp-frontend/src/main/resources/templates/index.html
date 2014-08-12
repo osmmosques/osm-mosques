@@ -11,9 +11,9 @@
 
 <ul>
     <li th:text="#{main.this-page}">This page here..</li>
-    <li><a th:href="@{/osm/list}">List of OSM</a> muslim prayer sites</li>
-    <li><a th:href="@{/ditib/list}">List of DITIB</a> muslim prayer sites</li>
-    <li>Leaflet-based <a th:href="@{/map}">map</a></li>
+    <li><a th:href="@{/osm/list}" th:text="#{main.osm-list-name}">List of OSM muslim prayer sites</a></li>
+    <li><a th:href="@{/ditib/list}" th:text="#{main.ditib-list-name}">List of DITIB muslim prayer sites</a></li>
+    <li><a th:href="@{/map}" th:text="#{main.leaflet-based-map}">Leaflet-based map</a></li>
 </ul>
 
 </body>
