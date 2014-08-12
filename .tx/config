@@ -3,7 +3,7 @@ host = https://www.transifex.com
 minimum_perc = 80
 
 [osm-mosques.webapp-frontend-messages]
-file_filter = webapp-frontend/src/main/resources/i18n/messages.<lang>.properties
+file_filter = webapp-frontend/src/main/resources/i18n/messages_<lang>.properties
 source_file = webapp-frontend/src/main/resources/i18n/messages.properties
 source_lang = en
 type = PROPERTIES
