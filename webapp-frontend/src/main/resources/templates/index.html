@@ -3,14 +3,14 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="#{main.title}">Main title</title>
+    <title th:text="#{titleprefix} + ': ' + #{main.title}">OSM Mosques: Main Page</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body bgcolor="#fff">
-<h1 th:text="#{main.title}">Main title</h1>
+<h1 th:text="#{titleprefix} + ': ' + #{main.title}">OSM Mosques: Main Page</h1>
 
 <ul>
-    <li>This page here..</li>
+    <li th:text="#{main.this-page}">This page here..</li>
     <li><a href="osm/list">List of OSM</a> muslim prayer sites</li>
     <li><a href="ditib/list">List of DITIB</a> muslim prayer sites</li>
     <li>Leaflet-based <a href="map">map</a></li>
