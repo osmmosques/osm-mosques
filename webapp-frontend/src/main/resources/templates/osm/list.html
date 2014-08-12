@@ -3,7 +3,7 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="#{list.osm.title}">List of OSM places</title>
+    <title th:text="#{titleprefix}+ ': ' + #{list.osm.title}">List of OSM places</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <link href="../webjars/tablesorter/2.15.5/css/theme.dropbox.css" rel="stylesheet"/>
@@ -12,7 +12,7 @@
     <script src="../webjars/tablesorter/2.15.5/js/jquery.tablesorter.js"/>
 </head>
 <body bgcolor="#fff">
-<h1 th:text="#{list.osm.title}">List of OSM places</h1>
+<h1 th:text="#{titleprefix}+ ': ' + #{list.osm.title}">OSM Mosques: List of OSM places</h1>
 
 <table id="osm-list" class="tablesorter" data-sortlist="[[3,0],[4,0]]">
     <thead>
