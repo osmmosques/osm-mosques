@@ -3,7 +3,7 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>List of OSM places</title>
+    <title th:text="#{list.osm.title}">List of OSM places</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <link href="../webjars/tablesorter/2.15.5/css/theme.dropbox.css" rel="stylesheet"/>
@@ -12,18 +12,18 @@
     <script src="../webjars/tablesorter/2.15.5/js/jquery.tablesorter.js"/>
 </head>
 <body bgcolor="#fff">
-<h1>List of OSM places</h1>
+<h1 th:text="#{list.osm.title}">List of OSM places</h1>
 
 <table id="osm-list" class="tablesorter" data-sortlist="[[3,0],[4,0]]">
     <thead>
     <tr>
-        <th>LAT</th>
-        <th>LON</th>
-        <th>KEY</th>
-        <th>NAME</th>
-        <th>CITY</th>
-        <th>STREET</th>
-        <th>NUMBER</th>
+        <th th:text="#{list.lat}">LAT</th>
+        <th th:text="#{list.lon}">LON</th>
+        <th th:text="#{list.key}">KEY</th>
+        <th th:text="#{list.name}">NAME</th>
+        <th th:text="#{list.city}">CITY</th>
+        <th th:text="#{list.street}">STREET</th>
+        <th th:text="#{list.housenumber}">NUMBER</th>
     </tr>
     </thead>
     <tbody>
