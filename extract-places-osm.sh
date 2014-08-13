@@ -114,7 +114,7 @@ for country in germany # ${COUNTRIES}
 do
     :
     curl \
-	http://localhost:8888/osm-mosques-rest/osm/import \
+	http://localhost:8888/osm-mosques/rest/osm/import \
 	-o ${STORAGE}/${country}/${MONTH}/${DAY}/curl-osm-mosques-import.data.txt \
 	> ${STORAGE}/${country}/${MONTH}/${DAY}/curl-osm-mosques-import.out \
 	2> ${STORAGE}/${country}/${MONTH}/${DAY}/curl-osm-mosques-import.err
