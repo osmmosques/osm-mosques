@@ -20,7 +20,7 @@
         <module>osm-mosque-persistence</module>
         <module>combined-persistence</module>
         <module>webapp-rest</module>
-        <module>webapp-frontend</module>
+        <module>webapp</module>
     </modules>
 
     <properties>
