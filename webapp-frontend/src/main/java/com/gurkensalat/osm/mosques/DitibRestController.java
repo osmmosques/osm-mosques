@@ -43,11 +43,11 @@ import static org.apache.commons.io.IOUtils.closeQuietly;
 
 @RestController
 @EnableAutoConfiguration
-public class DitibController
+public class DitibRestController
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger(DitibController.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(DitibRestController.class);
 
-    private final static String REQUEST_ROOT = "/ditib";
+    private final static String REQUEST_ROOT = "/rest/ditib";
 
     private final static String REQUEST_GEOCODE = REQUEST_ROOT + "/geocode";
 

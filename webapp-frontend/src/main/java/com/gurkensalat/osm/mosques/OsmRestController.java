@@ -32,11 +32,11 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @RestController
 @EnableAutoConfiguration
-public class OsmController
+public class OsmRestController
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger(OsmController.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(OsmRestController.class);
 
-    private final static String REQUEST_ROOT = "/osm";
+    private final static String REQUEST_ROOT = "/rest/osm";
 
     private final static String REQUEST_IMPORT = REQUEST_ROOT + "/import";
 
