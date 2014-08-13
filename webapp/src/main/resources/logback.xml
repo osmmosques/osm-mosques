@@ -14,7 +14,7 @@
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <fileNamePattern>${log.dir}/osm-mosques-frontend-${HOSTNAME}-%d{yyyyMMdd}.log</fileNamePattern>
+            <fileNamePattern>${log.dir}/osm-mosques-${HOSTNAME}-%d{yyyyMMdd}.log</fileNamePattern>
         </rollingPolicy>
         <prudent>true</prudent>
         <encoder>

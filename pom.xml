@@ -19,7 +19,6 @@
         <module>osm-mosque-parser</module>
         <module>osm-mosque-persistence</module>
         <module>combined-persistence</module>
-        <module>webapp-rest</module>
         <module>webapp</module>
     </modules>
 
