@@ -33,6 +33,7 @@
 <script src="webjars/leaflet/0.7.3/leaflet.js"/>
 <script src="webjars/leaflet-plugins/1.1.2/layer/Icon.Canvas.js"/>
 <script src="webjars/leaflet-markercluster/0.4.0/leaflet.markercluster.js"/>
+<script th:src="@{/webjars/leaflet-makimarkers/1.0.1/Leaflet.MakiMarkers.js}" src="webjars/leaflet-makimarkers/1.0.1/Leaflet.MakiMarkers.js"/>
 
 <script th:src="@{/js/osm-mosques.js}" src="../../static/js/osm-mosques.js"/>
 
@@ -43,6 +44,17 @@
     var keepTheReformatterHappy = "foobar";
 
     <!-- Markers from here on -->
+    var ditibMosqueIcon = L.MakiMarkers.icon({
+        icon: "religious-muslim",
+        color: "#00cc33",
+        size: "m"
+    });
+
+    var osmMosqueIcon = L.MakiMarkers.icon({
+        icon: "religious-muslim",
+        color: "#6699ff",
+        size: "m"
+    });
 
     var ditibPlaces = L.markerClusterGroup({ chunkedLoading: true });
 
@@ -51,7 +63,7 @@
     for (var i = 0; i < ditibAddressPoints.length; i++) {
         var a = ditibAddressPoints[i];
         var title = a[2];
-        var marker = L.marker(L.latLng(a[0], a[1]), { title: title });
+        var marker = L.marker(L.latLng(a[0], a[1]), { title: title, icon: ditibMosqueIcon });
         marker.bindPopup(title);
         ditibPlaces.addLayer(marker);
     }
@@ -59,7 +71,7 @@
     for (var i = 0; i < osmAddressPoints.length; i++) {
         var a = osmAddressPoints[i];
         var title = a[2];
-        var marker = L.marker(L.latLng(a[0], a[1]), { title: title });
+        var marker = L.marker(L.latLng(a[0], a[1]), { title: title, icon: osmMosqueIcon });
         marker.bindPopup(title);
         osmPlaces.addLayer(marker);
     }
