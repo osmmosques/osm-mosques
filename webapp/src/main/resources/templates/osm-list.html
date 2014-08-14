@@ -8,10 +8,10 @@
 
     <link th:href="@{/css/osm-mosques.css}" href="../../static/css/osm-mosques.css" rel="stylesheet"/>
 
-    <link href="../webjars/tablesorter/2.15.5/css/theme.dropbox.css" rel="stylesheet"/>
+    <link th:href="@{/webjars/tablesorter/2.15.5/css/theme.dropbox.css}" href="../webjars/tablesorter/2.15.5/css/theme.dropbox.css" rel="stylesheet"/>
 
-    <script src="../webjars/jquery/2.1.1/jquery.js"/>
-    <script src="../webjars/tablesorter/2.15.5/js/jquery.tablesorter.js"/>
+    <script th:src="@{/webjars/jquery/2.1.1/jquery.js}" src="../webjars/jquery/2.1.1/jquery.js"/>
+    <script th:src="@{/webjars/tablesorter/2.15.5/js/jquery.tablesorter.js}" src="../webjars/tablesorter/2.15.5/js/jquery.tablesorter.js"/>
 </head>
 <body>
 <h1 th:text="#{titleprefix}+ ': ' + #{list.osm.title}">OSM Mosques: List of OSM places</h1>

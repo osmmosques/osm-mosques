@@ -8,9 +8,9 @@
 
     <link th:href="@{/css/osm-mosques.css}" href="../../static/css/osm-mosques.css" rel="stylesheet"/>
 
-    <link rel="stylesheet" href="webjars/leaflet/0.7.3/leaflet.css"/>
-    <link rel="stylesheet" href="webjars/leaflet-markercluster/0.4.0/MarkerCluster.css"/>
-    <link rel="stylesheet" href="webjars/leaflet-markercluster/0.4.0/MarkerCluster.Default.css"/>
+    <link th:href="@{/webjars/leaflet/0.7.3/leaflet.css}" href="webjars/leaflet/0.7.3/leaflet.css" rel="stylesheet"/>
+    <link th:href="@{/webjars/leaflet-markercluster/0.4.0/MarkerCluster.css}" href="webjars/leaflet-markercluster/0.4.0/MarkerCluster.css" rel="stylesheet"/>
+    <link th:href="@{/webjars/leaflet-markercluster/0.4.0/MarkerCluster.Default.css}" href="webjars/leaflet-markercluster/0.4.0/MarkerCluster.Default.css" rel="stylesheet"/>
 </head>
 <body>
 
@@ -30,9 +30,9 @@
 </div>
 
 
-<script src="webjars/leaflet/0.7.3/leaflet.js"/>
-<script src="webjars/leaflet-plugins/1.1.2/layer/Icon.Canvas.js"/>
-<script src="webjars/leaflet-markercluster/0.4.0/leaflet.markercluster.js"/>
+<script th:src="@{/webjars/leaflet/0.7.3/leaflet.js}" src="webjars/leaflet/0.7.3/leaflet.js"/>
+<script th:src="@{/webjars/leaflet-plugins/1.1.2/layer/Icon.Canvas.js}" src="webjars/leaflet-plugins/1.1.2/layer/Icon.Canvas.js"/>
+<script th:src="@{/webjars/leaflet-markercluster/0.4.0/leaflet.markercluster.js}" src="webjars/leaflet-markercluster/0.4.0/leaflet.markercluster.js"/>
 <script th:src="@{/webjars/leaflet-makimarkers/1.0.1/Leaflet.MakiMarkers.js}" src="webjars/leaflet-makimarkers/1.0.1/Leaflet.MakiMarkers.js"/>
 
 <script th:src="@{/js/osm-mosques.js}" src="../../static/js/osm-mosques.js"/>
