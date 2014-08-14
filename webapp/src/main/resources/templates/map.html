@@ -31,7 +31,13 @@
 
 
 <script th:src="@{/webjars/leaflet/0.7.3/leaflet.js}" src="webjars/leaflet/0.7.3/leaflet.js"/>
+
 <script th:src="@{/webjars/leaflet-plugins/1.1.2/layer/Icon.Canvas.js}" src="webjars/leaflet-plugins/1.1.2/layer/Icon.Canvas.js"/>
+
+<script th:src="@{/webjars/leaflet-plugins/1.1.2/control/Permalink.js}" src="webjars/leaflet-plugins/1.1.2/layer/control/Permalink.js"/>
+<script th:src="@{/webjars/leaflet-plugins/1.1.2/control/Permalink.Marker.js}" src="webjars/leaflet-plugins/1.1.2/layer/control/Permalink.Marker.js"/>
+<script th:src="@{/webjars/leaflet-plugins/1.1.2/control/Permalink.Layer.js}" src="webjars/leaflet-plugins/1.1.2/layer/control/Permalink.Layer.js"/>
+
 <script th:src="@{/webjars/leaflet-markercluster/0.4.0/leaflet.markercluster.js}" src="webjars/leaflet-markercluster/0.4.0/leaflet.markercluster.js"/>
 <script th:src="@{/webjars/leaflet-makimarkers/1.0.1/Leaflet.MakiMarkers.js}" src="webjars/leaflet-makimarkers/1.0.1/Leaflet.MakiMarkers.js"/>
 
@@ -112,7 +118,10 @@
     map.addLayer(ditibPlaces);
 
     <!-- Now add the layer switcher to the map -->
-    L.control.layers(baseLayers, overlays).addTo(map);
+
+    var layers = new L.Control.Layers(baseLayers, overlays);
+    map.addControl(layers);
+    map.addControl(new L.Control.Permalink({text: 'Permalink', layers: layers}));
 
     <!-- Leaflet Plugins demo -->
     var circle = new L.Icon.Canvas({iconSize: new L.Point(30, 30)});
