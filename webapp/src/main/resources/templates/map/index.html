@@ -19,6 +19,8 @@
 <script src="webjars/leaflet-plugins/1.1.2/layer/Icon.Canvas.js"/>
 <script src="webjars/leaflet-markercluster/0.4.0/leaflet.markercluster.js"/>
 
+<script th:src="@{/js/osm-mosques.js}" src="../../static/js/osm-mosques.js"/>
+
 <!-- Germering is at lat="48.1364" lon="11.3872928" -->
 <script th:utext="${placemarkers_as_js}"/>
 <script th:inline="javascript">
