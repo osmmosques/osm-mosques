@@ -22,6 +22,7 @@
         <th th:text="#{list.lat}">LAT</th>
         <th th:text="#{list.lon}">LON</th>
         <th th:text="#{list.key}">KEY</th>
+        <th th:text="#{list.link-to-map}">MAP</th>
         <th th:text="#{list.name}">NAME</th>
         <th th:text="#{list.city}">CITY</th>
         <th th:text="#{list.street}">STREET</th>
@@ -33,6 +34,7 @@
         <td th:text="${place.lat}"></td>
         <td th:text="${place.lon}"></td>
         <td><a target="_blank" th:text="${place.key}" th:href="@{/rest/ditib/geocode/} + ${place.key}"></a></td>
+        <td><a target="map" th:text="#{list.link-to-map}" th:href="@{/map} + '#zoom=17&amp;lat=' + ${place.lat} + '&amp;lon=' + ${place.lon}"></a></td>
         <td th:text="${place.name}"></td>
         <td th:text="${place.address.city}"></td>
         <td th:text="${place.address.street}"></td>
