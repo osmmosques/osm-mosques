@@ -73,6 +73,6 @@ public class MapController
         result.append("]\n");
 
         model.addAttribute("placemarkers_as_js", result.toString());
-        return "map/index";
+        return "map-index";
     }
 }

@@ -32,6 +32,6 @@ public class DitibController
         Iterable<DitibPlace> places = ditibPlaceRepository.findAll();
         model.addAttribute("places", places);
 
-        return "ditib/list";
+        return "ditib-list";
     }
 }

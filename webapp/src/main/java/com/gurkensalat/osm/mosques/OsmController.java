@@ -32,6 +32,6 @@ public class OsmController
         Iterable<OsmPlace> places = osmPlaceRepository.findAll();
         model.addAttribute("places", places);
 
-        return "osm/list";
+        return "osm-list";
     }
 }
