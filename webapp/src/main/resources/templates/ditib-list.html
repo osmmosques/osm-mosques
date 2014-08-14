@@ -33,7 +33,7 @@
     <tr th:each="place : ${places}">
         <td th:text="${place.lat}"></td>
         <td th:text="${place.lon}"></td>
-        <td><a target="_blank" th:text="${place.key}" th:href="@{/rest/ditib/geocode/} + ${place.key}"></a></td>
+        <td><a target="geocode" th:text="#{list.geocode} + ' ' + ${place.key}" th:href="@{/rest/ditib/geocode/} + ${place.key}"></a></td>
         <td><a target="map" th:text="#{list.link-to-map}" th:href="@{/map} + '#zoom=17&amp;lat=' + ${place.lat} + '&amp;lon=' + ${place.lon}"></a></td>
         <td th:text="${place.name}"></td>
         <td th:text="${place.address.city}"></td>
