@@ -15,6 +15,19 @@ html, body, #map {
     display: none;
 }
 
-#footer {
+.footer {
+    overflow: hidden; /*make sure the wrapper has no dimension*/
+    /* background: yellow; */
+    margin-top: 10px;
+    text-align: center;
+}
 
+.footer-legal-copyright, .footer-legal-license, .footer-contact {
+    display: inline-block;
+    float: left;
+    width: auto;
+    height: auto;
+    /* background: blue; */
+    margin-left: 5px;
+    margin-right: 5px;
 }
