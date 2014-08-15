@@ -66,6 +66,8 @@
         <leaflet-markercluster.version>0.4.0</leaflet-markercluster.version>
         <leaflet-plugins.version>1.1.2</leaflet-plugins.version>
 
+        <thymeleaf-extras.version>1.0</thymeleaf-extras.version>
+
         <slf4j.version>1.7.7</slf4j.version>
         <logback.version>1.1.2</logback.version>
 
@@ -267,6 +269,12 @@
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
                 <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.connect-group</groupId>
+                <artifactId>thymeleaf-extras</artifactId>
+                <version>${thymeleaf-extras.version}</version>
             </dependency>
 
             <!-- Javascript libraries for frontend -->

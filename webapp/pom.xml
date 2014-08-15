@@ -88,6 +88,11 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.connect-group</groupId>
+            <artifactId>thymeleaf-extras</artifactId>
+        </dependency>
+
         <!-- Javascript libraries for frontend -->
         <dependency>
             <groupId>org.webjars</groupId>
