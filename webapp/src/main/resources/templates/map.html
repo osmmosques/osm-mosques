@@ -46,8 +46,8 @@
 
 <script th:src="@{/js/osm-mosques.js}" src="../../static/js/osm-mosques.js"/>
 
-<!-- Germering is at lat="48.1364" lon="11.3872928" -->
-<script th:utext="${placemarkers_as_js}"/>
+<script th:src="@{/rest/map/placemarkers/ditib/as-javascript.js}" src="../../resources/static/js/placemarkers-example-ditib.js"/>
+<script th:src="@{/rest/map/placemarkers/osm/as-javascript.js}" src="../../resources/static/js/placemarkers-example-osm.js"/>
 <script th:inline="javascript">
     /*<![CDATA[*/
     var keepTheReformatterHappy = "foobar";
