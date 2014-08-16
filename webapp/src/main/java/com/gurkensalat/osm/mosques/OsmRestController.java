@@ -3,7 +3,6 @@ package com.gurkensalat.osm.mosques;
 import com.gurkensalat.osm.entity.OsmNode;
 import com.gurkensalat.osm.entity.OsmPlace;
 import com.gurkensalat.osm.entity.OsmRoot;
-import com.gurkensalat.osm.entity.OsmTag;
 import com.gurkensalat.osm.entity.PlaceType;
 import com.gurkensalat.osm.repository.OsmPlaceRepository;
 import com.gurkensalat.osm.repository.OsmRepository;
@@ -128,6 +127,7 @@ public class OsmRestController
 
                 // re-create a place from OSM data
                 OsmPlace tempPlace = new OsmPlace(node);
+                tempPlace.setKey(Long.toString(node.getId()));
                 tempPlace.setType(PlaceType.OSM_PLACE_OF_WORSHIP);
 
                 String key = Long.toString(node.getId());
@@ -161,11 +161,7 @@ public class OsmRestController
                         LOGGER.debug("  reloaded: {} / {}", place.getId(), place.getVersion());
                     }
 
-                    place.setKey(key);
-                    place.setLat(tempPlace.getLat());
-                    place.setLon(tempPlace.getLon());
-                    place.setType(tempPlace.getType());
-                    place.setAddress(tempPlace.getAddress());
+                    tempPlace.copyTo(place);
                     place = osmPlaceRepository.save(place);
 
                     LOGGER.info("Saved Place {}", place);
