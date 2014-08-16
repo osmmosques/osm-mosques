@@ -1,6 +1,5 @@
 package com.gurkensalat.osm.mosques;
 
-import com.gurkensalat.osm.entity.Address;
 import com.gurkensalat.osm.entity.OsmNode;
 import com.gurkensalat.osm.entity.OsmPlace;
 import com.gurkensalat.osm.entity.OsmRoot;
@@ -128,41 +127,8 @@ public class OsmRestController
                 LOGGER.debug("Read node: {}, {}, {}", node, node.getLat(), node.getLon());
 
                 // re-create a place from OSM data
-                OsmPlace tempPlace = new OsmPlace(null, PlaceType.OSM_PLACE_OF_WORSHIP);
-                tempPlace.setLat(node.getLat());
-                tempPlace.setLon(node.getLon());
-                tempPlace.setAddress(new Address());
-
-                for (OsmTag tag : node.getTags())
-                {
-                    String key = tag.getKey().toLowerCase();
-                    String val = tag.getValue();
-
-                    if ("name".equals(key))
-                    {
-                        tempPlace.setName(val);
-                    }
-                    else if ("addr:street".equals(key))
-                    {
-                        tempPlace.getAddress().setStreet(val);
-                    }
-                    else if ("addr:housenumber".equals(key))
-                    {
-                        tempPlace.getAddress().setHousenumber(val);
-                    }
-                    else if ("addr:postcode".equals(key))
-                    {
-                        tempPlace.getAddress().setPostcode(val);
-                    }
-                    else if ("addr:city".equals(key))
-                    {
-                        tempPlace.getAddress().setCity(val);
-                    }
-                    else
-                    {
-                        LOGGER.debug("    '{}' -> '{}'", key, val);
-                    }
-                }
+                OsmPlace tempPlace = new OsmPlace(node);
+                tempPlace.setType(PlaceType.OSM_PLACE_OF_WORSHIP);
 
                 String key = Long.toString(node.getId());
 
