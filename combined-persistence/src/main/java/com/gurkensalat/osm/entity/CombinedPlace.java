@@ -7,13 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "DITIB_PLACES")
+@Table(name = "COMBINED_PLACES")
 public class CombinedPlace extends AbstractPersistable<Long>
 {
     @Column(name = "VERSION")
     private Integer version;
 
-    @Column(name = "score")
+    @Column(name = "SCORE")
     private double score;
 
     @Column(name = "osm_id", length = 80)
