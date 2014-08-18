@@ -3,6 +3,7 @@ package com.gurkensalat.osm.mosques;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.gurkensalat.osm.entity.Address;
+import com.gurkensalat.osm.entity.Contact;
 import com.gurkensalat.osm.entity.DitibParsedPlace;
 import com.gurkensalat.osm.entity.DitibParsedPlaceKey;
 import com.gurkensalat.osm.entity.DitibPlace;
@@ -164,8 +165,9 @@ public class DitibRestController
                 // Limit house number, we don't want all extensions like 'In Keller'
                 place.getAddress().setHousenumber(StringUtils.substring(parsedPlace.getStreetNumber(), 0, 19));
 
-                place.setPhone(parsedPlace.getPhone());
-                place.setFax(parsedPlace.getFax());
+                place.setContact(new Contact());
+                place.getContact().setPhone(parsedPlace.getPhone());
+                place.getContact().setFax(parsedPlace.getFax());
 
                 place = ditibPlaceRepository.save(place);
 
