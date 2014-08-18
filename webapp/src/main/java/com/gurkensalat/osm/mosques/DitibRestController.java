@@ -134,6 +134,8 @@ public class DitibRestController
 
             DitibPlace tempPlace = new DitibPlace(key);
 
+            tempPlace.getContact().setWebsite(StringUtils.substring(tempPlace.getContact().getWebsite(), 0, 79));
+
             // Now, insert-or-update the place
             try
             {
@@ -168,6 +170,7 @@ public class DitibRestController
                 place.setContact(new Contact());
                 place.getContact().setPhone(parsedPlace.getPhone());
                 place.getContact().setFax(parsedPlace.getFax());
+                place.getContact().setWebsite(StringUtils.substring(parsedPlace.getUrl(), 0, 79));
 
                 place = ditibPlaceRepository.save(place);
 

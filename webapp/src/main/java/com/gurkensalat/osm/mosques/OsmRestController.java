@@ -7,6 +7,7 @@ import com.gurkensalat.osm.entity.PlaceType;
 import com.gurkensalat.osm.repository.OsmPlaceRepository;
 import com.gurkensalat.osm.repository.OsmRepository;
 import org.apache.commons.lang3.CharEncoding;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,6 +143,8 @@ public class OsmRestController
                     tempPlace.getAddress().setCountry("germany");
                 }
 
+                tempPlace.getContact().setWebsite(StringUtils.substring(tempPlace.getContact().getWebsite(), 0, 79));
+
                 // Now, insert-or-update the place
                 try
                 {
@@ -162,6 +165,7 @@ public class OsmRestController
                     }
 
                     tempPlace.copyTo(place);
+
                     place = osmPlaceRepository.save(place);
 
                     LOGGER.info("Saved Place {}", place);
