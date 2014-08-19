@@ -9,9 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 @RestController
@@ -28,6 +33,8 @@ public class MapRestController
 
     private static final String MEDIATYPE_JAVASCRIPT = "application/javascript";
 
+    private static final String APPLICATION_JSON_UTF8 = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8";
+
     @Autowired
     private DitibPlaceRepository ditibPlaceRepository;
 
@@ -35,7 +42,7 @@ public class MapRestController
     private OsmPlaceRepository osmPlaceRepository;
 
     @RequestMapping(value = REQUEST_DITIB_MAPDATA + "/as-javascript", produces = MEDIATYPE_JAVASCRIPT)
-    String ditibMapdataAsJavascript()
+    public String ditibMapdataAsJavascript()
     {
         StringBuffer result = new StringBuffer();
         result.append("\n");
@@ -56,9 +63,24 @@ public class MapRestController
         return result.toString();
     }
 
+    @RequestMapping(value = REQUEST_DITIB_MAPDATA + "/as-json", produces = APPLICATION_JSON_UTF8)
+    ResponseEntity<List<MapDataEntry>> ditibMapdataAsJSON()
+    {
+        List<MapDataEntry> result = new ArrayList<MapDataEntry>();
+
+        for (DitibPlace place : ditibPlaceRepository.findAll())
+        {
+            MapDataEntry entry = new MapDataEntry(place);
+            entry.setName(place.getAddress().getCity() + " / " + place.getName());
+
+            result.add(entry);
+        }
+
+        return new ResponseEntity<List<MapDataEntry>>(result, null, HttpStatus.OK);
+    }
 
     @RequestMapping(value = REQUEST_OSM_MAPDATA + "/as-javascript", produces = MEDIATYPE_JAVASCRIPT)
-    String osmMapdataAsJavascript()
+    public String osmMapdataAsJavascript()
     {
         StringBuffer result = new StringBuffer();
         result.append("\n");
@@ -87,5 +109,21 @@ public class MapRestController
         result.append("]\n");
 
         return result.toString();
+    }
+
+    @RequestMapping(value = REQUEST_OSM_MAPDATA + "/as-json", produces = APPLICATION_JSON_UTF8)
+    ResponseEntity<List<MapDataEntry>> osmMapdataAsJSON()
+    {
+        List<MapDataEntry> result = new ArrayList<MapDataEntry>();
+
+        for (OsmPlace place : osmPlaceRepository.findAll())
+        {
+            MapDataEntry entry = new MapDataEntry(place);
+            entry.setName("OSM / " + place.getAddress().getCity() + " / " + place.getName());
+
+            result.add(entry);
+        }
+
+        return new ResponseEntity<List<MapDataEntry>>(result, null, HttpStatus.OK);
     }
 }
