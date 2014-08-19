@@ -15,7 +15,7 @@
 <body>
 
 
-<div id="header" class="header">
+<div id="header" class="header" style="display: none">
     <div id="header-left">top left</div>
     <div id="header-center">top center</div>
     <div id="header-right">top right</div>
@@ -23,12 +23,10 @@
 
 <div id="map"></div>
 
-<div class="footer" style="display: none;">
-    <div class="footer-legal-copyright" th:utext="#{footer.legal.copyright}">Copyright mumbo-jumbo</div>
-    |
-    <div class="footer-legal-license" th:utext="#{footer.legal.license}">Someone owns all</div>
-    |
-    <div class="footer-contact" th:utext="#{footer.contact}">Contact me</div>
+<div class="footer">
+    <div class="footer-content footer-legal-copyright" th:utext="#{footer.legal.copyright}">Copyright mumbo-jumbo</div>
+    <div class="footer-content footer-legal-license" th:utext="#{footer.legal.license}">Someone owns all</div>
+    <div class="footer-content footer-contact" th:utext="#{footer.contact}">Contact me</div>
 </div>
 
 <script th:src="@{/webjars/leaflet/0.7.3/leaflet.js}" src="webjars/leaflet/0.7.3/leaflet.js"/>
