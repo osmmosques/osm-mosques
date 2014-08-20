@@ -237,6 +237,7 @@ public class DitibRestController
                 {
                     place.setLat(bestResult.getGeometry().getLatitude());
                     place.setLon(bestResult.getGeometry().getLongitude());
+                    place.setGeocoded(true);
 
                     place = ditibPlaceRepository.save(place);
                     serializeToJSON(workDir, when + "-place-after.json", place);
