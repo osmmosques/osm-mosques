@@ -173,6 +173,12 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>osm-mosque-qa-persistence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- Our own libraries -->
             <dependency>
                 <groupId>com.gurkensalat.osm</groupId>
