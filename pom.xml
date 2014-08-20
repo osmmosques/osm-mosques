@@ -18,7 +18,7 @@
         <module>geocoding-cache-persistence</module>
         <module>osm-mosque-parser</module>
         <module>osm-mosque-persistence</module>
-        <module>combined-persistence</module>
+        <module>osm-mosque-qa-persistence</module>
         <module>webapp</module>
     </modules>
 

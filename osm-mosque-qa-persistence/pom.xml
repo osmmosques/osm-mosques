@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>combined-persistence</artifactId>
+    <artifactId>osm-mosque-qa-persistence</artifactId>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
