@@ -1,12 +1,12 @@
 package com.gurkensalat.osm.repository;
 
-import com.gurkensalat.osm.entity.CombinedPlace;
 import com.gurkensalat.osm.entity.DitibPlace;
 import com.gurkensalat.osm.entity.OsmPlace;
+import com.gurkensalat.osm.entity.QaData;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CombinedScoreCalculatorImpl implements CombinedScoreCalculator
+public class QaScoreCalculatorImpl implements QaScoreCalculator
 {
     @Override
     public void calculateAllScores()
@@ -27,13 +27,13 @@ public class CombinedScoreCalculatorImpl implements CombinedScoreCalculator
     }
 
     @Override
-    public void calculateDitibScore(CombinedPlace place, DitibPlace ditibPlace)
+    public void calculateDitibScore(QaData qaData, DitibPlace ditibPlace)
     {
 
     }
 
     @Override
-    public void calculateOSMScore(CombinedPlace place, OsmPlace osmPlace)
+    public void calculateOSMScore(QaData qaData, OsmPlace osmPlace)
     {
 
     }

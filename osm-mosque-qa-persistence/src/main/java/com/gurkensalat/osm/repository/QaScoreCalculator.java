@@ -1,10 +1,10 @@
 package com.gurkensalat.osm.repository;
 
-import com.gurkensalat.osm.entity.CombinedPlace;
+import com.gurkensalat.osm.entity.QaData;
 import com.gurkensalat.osm.entity.DitibPlace;
 import com.gurkensalat.osm.entity.OsmPlace;
 
-public interface CombinedScoreCalculator
+public interface QaScoreCalculator
 {
     void calculateAllScores();
 
@@ -12,7 +12,7 @@ public interface CombinedScoreCalculator
 
     void calculateAllOSMScores();
 
-    void calculateDitibScore(CombinedPlace place, DitibPlace ditibPlace);
+    void calculateDitibScore(QaData place, DitibPlace ditibPlace);
 
-    void calculateOSMScore(CombinedPlace place, OsmPlace osmPlace);
+    void calculateOSMScore(QaData place, OsmPlace osmPlace);
 }

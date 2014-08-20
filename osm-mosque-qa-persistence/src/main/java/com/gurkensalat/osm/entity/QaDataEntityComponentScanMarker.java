@@ -1,8 +1,8 @@
-package com.gurkensalat.osm.repository;
+package com.gurkensalat.osm.entity;
 
 /**
  * Empty marker interface to make this package visible to EnableJpaRepositories.
  */
-public interface RepositoryComponentScanMarker
+public interface QaDataEntityComponentScanMarker
 {
 }

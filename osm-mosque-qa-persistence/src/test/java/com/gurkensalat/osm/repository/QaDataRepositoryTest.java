@@ -1,8 +1,7 @@
 package com.gurkensalat.osm.repository;
 
 import com.gurkensalat.osm.SimpleConfiguration;
-import com.gurkensalat.osm.entity.CombinedPlace;
-import com.gurkensalat.osm.entity.DitibPlace;
+import com.gurkensalat.osm.entity.QaData;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,12 +19,10 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 @ContextConfiguration(classes = SimpleConfiguration.class)
-public class CombinedPlaceRepositoryTest
+public class QaDataRepositoryTest
 {
     @Autowired
-    CombinedPlaceRepository combinedPlaceRepository;
-
-    private DitibPlace place;
+    QaDataRepository qaDataRepository;
 
     @Before
     public void setUp()
@@ -36,13 +33,13 @@ public class CombinedPlaceRepositoryTest
     @Test
     public void savePlace()
     {
-        CombinedPlace place = new CombinedPlace();
+        QaData place = new QaData();
 
         assertTrue(place.isNew());
 
-        CombinedPlace savedPlace = combinedPlaceRepository.save(place);
-        assertNotNull(savedPlace);
+        QaData qaData = qaDataRepository.save(place);
+        assertNotNull(qaData);
         assertFalse(place.isNew());
-        assertEquals(savedPlace.getId(), new Long(1));
+        assertEquals(qaData.getId(), new Long(1));
     }
 }
