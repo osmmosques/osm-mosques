@@ -1,6 +1,11 @@
 package com.gurkensalat.osm.mosques;
 
+import com.gurkensalat.osm.entity.DitibPlace;
+import com.gurkensalat.osm.entity.LinkedPlace;
+import com.gurkensalat.osm.entity.OsmPlace;
+import com.gurkensalat.osm.repository.DitibPlaceRepository;
 import com.gurkensalat.osm.repository.LinkedPlaceRepository;
+import com.gurkensalat.osm.repository.OsmPlaceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,27 +29,93 @@ public class QaDataRestHandler
 
     private final static String REQUEST_CALCULATE_DITIB_SCORE = REQUEST_ROOT + "/calculate/ditib/{ditibCode}";
 
-    // void calculateAllScores();
-
-    // void calculateAllDitibScores();
-
-    // void calculateAllOSMScores();
-
-    // void calculateDitibScore(QaData place, DitibPlace ditibPlace);
-
-    // void calculateOSMScore(QaData place, OsmPlace osmPlace);
+    private final static String REQUEST_CALCULATE_OSM_SCORE = REQUEST_ROOT + "/calculate/osm/{osmId}";
 
     @Autowired
     private LinkedPlaceRepository linkedPlaceRepository;
 
+    @Autowired
+    private DitibPlaceRepository ditibPlaceRepository;
+
+    @Autowired
+    private OsmPlaceRepository osmPlaceRepository;
+
     @RequestMapping(value = REQUEST_CALCULATE_DITIB_SCORE, produces = APPLICATION_JSON_UTF8)
     ResponseEntity<String> calculateDitibScore(@PathVariable("ditibCode") String ditibCode)
     {
-        LOGGER.info("Have to calculate {}", ditibCode);
+        String result = "";
+        if ("all".equals(ditibCode))
+        {
+            Iterable<DitibPlace> places = ditibPlaceRepository.findAll();
+            for (DitibPlace place : places)
+            {
+                calculateDitibScore(place.getKey());
+            }
+        }
+        else
+        {
+            LinkedPlace place = findByDitibCode(ditibCode);
 
-        String result = "Done, Massa";
+            place.setScore(42);
+
+            place = linkedPlaceRepository.save(place);
+
+            result = place.toString();
+        }
 
         return new ResponseEntity<String>(result, null, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = REQUEST_CALCULATE_OSM_SCORE, produces = APPLICATION_JSON_UTF8)
+    ResponseEntity<String> calculateOsmScore(@PathVariable("osmId") String osmId)
+    {
+        String result = "";
+        if ("all".equals(osmId))
+        {
+            Iterable<OsmPlace> places = osmPlaceRepository.findAll();
+            for (OsmPlace place : places)
+            {
+                calculateOsmScore(place.getKey());
+            }
+        }
+        else
+        {
+            LinkedPlace place = findByOsmId(osmId);
+
+            place.setScore(42);
+
+            place = linkedPlaceRepository.save(place);
+
+            result = place.toString();
+        }
+
+        return new ResponseEntity<String>(result, null, HttpStatus.OK);
+    }
+
+    private LinkedPlace findByDitibCode(String ditibCode)
+    {
+        LinkedPlace place = linkedPlaceRepository.findByDitibCode(ditibCode);
+        if (place == null)
+        {
+            place = new LinkedPlace();
+            place.setDitibCode(ditibCode);
+            place = linkedPlaceRepository.save(place);
+        }
+
+        return place;
+    }
+
+    private LinkedPlace findByOsmId(String osmId)
+    {
+        LinkedPlace place = linkedPlaceRepository.findByOsmId(osmId);
+        if (place == null)
+        {
+            place = new LinkedPlace();
+            place.setOsmId(osmId);
+            place = linkedPlaceRepository.save(place);
+        }
+
+        return place;
     }
 
 }

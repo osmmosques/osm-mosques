@@ -21,8 +21,8 @@ public class LinkedPlace extends AbstractPersistable<Long>
 
     private transient OsmPlace osmPlace;
 
-    @Column(name = "ditib_key", length = 80)
-    private String ditibKey;
+    @Column(name = "D_CODE", length = 80)
+    private String ditibCode;
 
     private transient DitibPlace ditibPlace;
 
@@ -69,14 +69,14 @@ public class LinkedPlace extends AbstractPersistable<Long>
         this.osmPlace = osmPlace;
     }
 
-    public String getDitibKey()
+    public String getDitibCode()
     {
-        return ditibKey;
+        return ditibCode;
     }
 
-    public void setDitibKey(String ditibKey)
+    public void setDitibCode(String ditibCode)
     {
-        this.ditibKey = ditibKey;
+        this.ditibCode = ditibCode;
     }
 
     public DitibPlace getDitibPlace()

@@ -10,5 +10,5 @@ public interface LinkedPlaceRepository extends PagingAndSortingRepository<Linked
 {
     LinkedPlace findByOsmId(@Param("osm_id") String osmId);
 
-    LinkedPlace findByDitibKey(@Param("ditib_key") String ditibKey);
+    LinkedPlace findByDitibCode(@Param("D_CODE") String ditibCode);
 }
