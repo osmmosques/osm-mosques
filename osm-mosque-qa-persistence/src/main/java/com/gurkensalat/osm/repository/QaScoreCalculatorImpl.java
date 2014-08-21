@@ -1,8 +1,8 @@
 package com.gurkensalat.osm.repository;
 
 import com.gurkensalat.osm.entity.DitibPlace;
+import com.gurkensalat.osm.entity.LinkedPlace;
 import com.gurkensalat.osm.entity.OsmPlace;
-import com.gurkensalat.osm.entity.QaData;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -27,13 +27,13 @@ public class QaScoreCalculatorImpl implements QaScoreCalculator
     }
 
     @Override
-    public void calculateDitibScore(QaData qaData, DitibPlace ditibPlace)
+    public void calculateDitibScore(LinkedPlace qaData, DitibPlace ditibPlace)
     {
 
     }
 
     @Override
-    public void calculateOSMScore(QaData qaData, OsmPlace osmPlace)
+    public void calculateOSMScore(LinkedPlace qaData, OsmPlace osmPlace)
     {
 
     }

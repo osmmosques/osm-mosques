@@ -1,6 +1,6 @@
 package com.gurkensalat.osm.mosques;
 
-import com.gurkensalat.osm.repository.QaDataRepository;
+import com.gurkensalat.osm.repository.LinkedPlaceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class QaDataRestHandler
     // void calculateOSMScore(QaData place, OsmPlace osmPlace);
 
     @Autowired
-    private QaDataRepository qaDataRepository;
+    private LinkedPlaceRepository linkedPlaceRepository;
 
     @RequestMapping(value = REQUEST_CALCULATE_DITIB_SCORE, produces = APPLICATION_JSON_UTF8)
     ResponseEntity<String> calculateDitibScore(@PathVariable("ditibCode") String ditibCode)

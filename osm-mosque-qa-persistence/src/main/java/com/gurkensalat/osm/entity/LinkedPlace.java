@@ -7,8 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "COMBINED_PLACES")
-public class QaData extends AbstractPersistable<Long>
+@Table(name = "LINKED_PLACES")
+public class LinkedPlace extends AbstractPersistable<Long>
 {
     @Column(name = "VERSION")
     private Integer version;

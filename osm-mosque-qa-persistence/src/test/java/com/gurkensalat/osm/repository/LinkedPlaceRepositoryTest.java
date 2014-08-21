@@ -1,7 +1,7 @@
 package com.gurkensalat.osm.repository;
 
 import com.gurkensalat.osm.SimpleConfiguration;
-import com.gurkensalat.osm.entity.QaData;
+import com.gurkensalat.osm.entity.LinkedPlace;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,10 +19,10 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 @ContextConfiguration(classes = SimpleConfiguration.class)
-public class QaDataRepositoryTest
+public class LinkedPlaceRepositoryTest
 {
     @Autowired
-    QaDataRepository qaDataRepository;
+    LinkedPlaceRepository linkedPlaceRepository;
 
     @Before
     public void setUp()
@@ -33,11 +33,11 @@ public class QaDataRepositoryTest
     @Test
     public void savePlace()
     {
-        QaData place = new QaData();
+        LinkedPlace place = new LinkedPlace();
 
         assertTrue(place.isNew());
 
-        QaData qaData = qaDataRepository.save(place);
+        LinkedPlace qaData = linkedPlaceRepository.save(place);
         assertNotNull(qaData);
         assertFalse(place.isNew());
         assertEquals(qaData.getId(), new Long(1));
