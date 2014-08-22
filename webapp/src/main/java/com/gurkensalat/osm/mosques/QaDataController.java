@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -39,6 +40,21 @@ public class QaDataController
     @Autowired
     private OsmPlaceRepository osmPlaceRepository;
 
+    @RequestMapping(value = REQUEST_ROOT + "/details/{id}", method = RequestMethod.GET)
+    public String linkedPlaceDetails(Model model, @PathVariable("id") String id)
+    {
+        LOGGER.info("osmPlaceRepository is {}", linkedPlaceRepository);
+
+        LinkedPlace linkedPlace = linkedPlaceRepository.findOne(Long.parseLong(id));
+        if (linkedPlace != null)
+        {
+            linkedPlace = sanitize(linkedPlace);
+            model.addAttribute("place", linkedPlace);
+        }
+
+        return "qadata-details";
+    }
+
     @RequestMapping(value = REQUEST_ROOT + "/list", method = RequestMethod.GET)
     public String linkedPlaceList(Model model)
     {
@@ -48,46 +64,57 @@ public class QaDataController
 
         for (LinkedPlace linkedPlace : places)
         {
-            {
-                DitibPlace place = new DitibPlace("");
+            sanitize(linkedPlace);
 
-                String key = linkedPlace.getDitibCode();
-                if (isNotEmpty(key))
-                {
-                    List<DitibPlace> ditibPlaces = emptyIfNull(ditibPlaceRepository.findByKey(key));
-                    if (ditibPlaces.size() > 0)
-                    {
-                        place = ditibPlaces.get(0);
-                        linkedPlace.setLat(place.getLat());
-                        linkedPlace.setLon(place.getLon());
-                    }
-                }
+            linkedPlace.setDitibPlace(sanitize("D", linkedPlace.getDitibPlace()));
+            linkedPlace.setOsmPlace(sanitize("O", linkedPlace.getOsmPlace()));
 
-                linkedPlace.setDitibPlace(sanitize("D", place));
-            }
-
-            {
-                OsmPlace place = new OsmPlace("", PlaceType.OSM_CITY);
-
-                String key = linkedPlace.getOsmId();
-                if (isNotEmpty(key))
-                {
-                    List<OsmPlace> osmPlaces = emptyIfNull(osmPlaceRepository.findByKey(key));
-                    if (osmPlaces.size() > 0)
-                    {
-                        place = osmPlaces.get(0);
-                        linkedPlace.setLat(place.getLat());
-                        linkedPlace.setLon(place.getLon());
-                    }
-                }
-
-                linkedPlace.setOsmPlace(sanitize("O", place));
-            }
         }
 
         model.addAttribute("places", places);
 
         return "qadata-list";
+    }
+
+    private LinkedPlace sanitize(LinkedPlace linkedPlace)
+    {
+        {
+            DitibPlace place = new DitibPlace("");
+
+            String key = linkedPlace.getDitibCode();
+            if (isNotEmpty(key))
+            {
+                List<DitibPlace> ditibPlaces = emptyIfNull(ditibPlaceRepository.findByKey(key));
+                if (ditibPlaces.size() > 0)
+                {
+                    place = ditibPlaces.get(0);
+                    linkedPlace.setLat(place.getLat());
+                    linkedPlace.setLon(place.getLon());
+                }
+            }
+
+            linkedPlace.setDitibPlace(sanitize("", place));
+        }
+
+        {
+            OsmPlace place = new OsmPlace("", PlaceType.OSM_CITY);
+
+            String key = linkedPlace.getOsmId();
+            if (isNotEmpty(key))
+            {
+                List<OsmPlace> osmPlaces = emptyIfNull(osmPlaceRepository.findByKey(key));
+                if (osmPlaces.size() > 0)
+                {
+                    place = osmPlaces.get(0);
+                    linkedPlace.setLat(place.getLat());
+                    linkedPlace.setLon(place.getLon());
+                }
+            }
+
+            linkedPlace.setOsmPlace(sanitize("", place));
+        }
+
+        return linkedPlace;
     }
 
     private DitibPlace sanitize(String prefix, DitibPlace place)
