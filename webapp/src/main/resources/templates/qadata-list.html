@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{titleprefix}+ ': ' + #{list.qadata.title}">OSM Mosques: List of DITIB places to be QA'ed</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link th:href="@{/css/osm-mosques.css}" href="../../static/css/osm-mosques.css" rel="stylesheet"/>
+
+    <link th:href="@{/webjars/tablesorter/2.15.5/css/theme.dropbox.css}" href="../webjars/tablesorter/2.15.5/css/theme.dropbox.css" rel="stylesheet"/>
+
+    <script th:src="@{/webjars/jquery/2.1.1/jquery.js}" src="../webjars/jquery/2.1.1/jquery.js"/>
+    <script th:src="@{/webjars/tablesorter/2.15.5/js/jquery.tablesorter.js}" src="../webjars/tablesorter/2.15.5/js/jquery.tablesorter.js"/>
+</head>
+<body>
+<h1 th:text="#{titleprefix}+ ': ' + #{list.qadata.title}">OSM Mosques: List of DITIB places to be QA'ed</h1>
+
+<table id="ditib-list" class="tablesorter" data-sortlist="[[2,0],[3,0]]">
+    <thead>
+    <tr>
+        <th th:text="#{list.lat}">LAT</th>
+        <th th:text="#{list.lon}">LON</th>
+        <th th:text="#{list.score}">SCORE</th>
+        <th th:text="#{list.key}">KEY</th>
+        <th th:text="#{list.link-to-map}">MAP</th>
+        <th th:text="#{list.link-to-details}">DET</th>
+        <th th:text="#{list.name}">NAME</th>
+        <th th:text="#{list.city}">CITY</th>
+        <th th:text="#{list.street}">STREET</th>
+        <th th:text="#{list.housenumber}">NUMBER</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="place : ${places}" style="vertical-align: top;">
+        <td th:text="${place.lat}"></td>
+        <td th:text="${place.lon}"></td>
+        <td th:text="${place.score}"></td>
+        <td><div th:text="${place.ditibPlace.key}">ditib-key</div><br/><div th:text="${place.osmPlace.key}">osm-key</div></td>
+        <td><a target="map" th:text="#{list.link-to-map}" th:href="@{/map} + '#zoom=17&amp;lat=' + ${place.lat} + '&amp;lon=' + ${place.lon}"></a></td>
+        <td>DET</td>
+        <td><div th:text="${place.ditibPlace.name}">ditib-name</div><br/><div th:text="${place.osmPlace.name}">osm-name</div></td>
+        <td><div th:text="${place.ditibPlace.address.city}">ditib-city</div><br/><div th:text="${place.osmPlace.address.city}">osm-city</div></td>
+        <td><div th:text="${place.ditibPlace.address.street}">ditib-street</div><br/><div th:text="${place.osmPlace.address.street}">osm-street</div></td>
+        <td><div th:text="${place.ditibPlace.address.housenumber}">ditib-housenumber</div><br/><div th:text="${place.osmPlace.address.housenumber}">osm-housenumber</div></td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    <div class="footer-content footer-legal-copyright" th:utext="#{footer.legal.copyright}">Copyright mumbo-jumbo</div>
+    <div class="footer-content footer-legal-license" th:utext="#{footer.legal.license}">Someone owns all</div>
+    <div class="footer-content footer-contact" th:utext="#{footer.contact}">Contact me</div>
+</div>
+
+<script th:src="@{/js/osm-mosques.js}" src="../../static/js/osm-mosques.js"/>
+
+<script id="js">
+    $(function () {
+        $.extend($.tablesorter.defaults, {
+            theme: 'dropbox',
+            widthFixed: true
+        });
+        $(".compatibility").tablesorter();
+        $("#ditib-list").tablesorter({widgets: ['zebra']});
+        $("table.options, table.api").tablesorter({widgets: ['stickyHeaders']});
+    });
+</script>
+
+</body>
+</html>

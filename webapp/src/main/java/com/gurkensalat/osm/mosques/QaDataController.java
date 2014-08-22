@@ -20,6 +20,7 @@ import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 
 @Controller
 @EnableAutoConfiguration
@@ -47,44 +48,69 @@ public class QaDataController
 
         for (LinkedPlace linkedPlace : places)
         {
-            String key = linkedPlace.getDitibCode();
-            if (isNotEmpty(key))
             {
-                List<DitibPlace> ditibPlaces = emptyIfNull(ditibPlaceRepository.findByKey(key));
-                DitibPlace place;
-                if (ditibPlaces.size() > 0)
+                DitibPlace place = new DitibPlace("");
+
+                String key = linkedPlace.getDitibCode();
+                if (isNotEmpty(key))
                 {
-                    place = ditibPlaces.get(0);
-                }
-                else
-                {
-                    place = new DitibPlace(key);
+                    List<DitibPlace> ditibPlaces = emptyIfNull(ditibPlaceRepository.findByKey(key));
+                    if (ditibPlaces.size() > 0)
+                    {
+                        place = ditibPlaces.get(0);
+                        linkedPlace.setLat(place.getLat());
+                        linkedPlace.setLon(place.getLon());
+                    }
                 }
 
-                linkedPlace.setDitibPlace(place);
+                linkedPlace.setDitibPlace(sanitize("D", place));
             }
 
-
-            key = linkedPlace.getOsmId();
-            if (isNotEmpty(key))
             {
-                List<OsmPlace> osmPlaces = emptyIfNull(osmPlaceRepository.findByKey(key));
-                OsmPlace place;
-                if (osmPlaces.size() > 0)
+                OsmPlace place = new OsmPlace("", PlaceType.OSM_CITY);
+
+                String key = linkedPlace.getOsmId();
+                if (isNotEmpty(key))
                 {
-                    place = osmPlaces.get(0);
-                }
-                else
-                {
-                    place = new OsmPlace("no-name", PlaceType.OSM_CITY);
+                    List<OsmPlace> osmPlaces = emptyIfNull(osmPlaceRepository.findByKey(key));
+                    if (osmPlaces.size() > 0)
+                    {
+                        place = osmPlaces.get(0);
+                        linkedPlace.setLat(place.getLat());
+                        linkedPlace.setLon(place.getLon());
+                    }
                 }
 
-                linkedPlace.setOsmPlace(place);
+                linkedPlace.setOsmPlace(sanitize("O", place));
             }
         }
 
         model.addAttribute("places", places);
 
-        return "linked-place-list";
+        return "qadata-list";
+    }
+
+    private DitibPlace sanitize(String prefix, DitibPlace place)
+    {
+        place.setName(prefix + ": " + trimToEmpty(place.getName()));
+        place.setKey(prefix + ": " + trimToEmpty(place.getKey()));
+
+        place.getAddress().setCity(prefix + ": " + trimToEmpty(place.getAddress().getCity()));
+        place.getAddress().setStreet(prefix + ": " + trimToEmpty(place.getAddress().getStreet()));
+        place.getAddress().setHousenumber(prefix + ": " + trimToEmpty(place.getAddress().getHousenumber()));
+
+        return place;
+    }
+
+    private OsmPlace sanitize(String prefix, OsmPlace place)
+    {
+        place.setName(prefix + ": " + trimToEmpty(place.getName()));
+        place.setKey(prefix + ": " + trimToEmpty(place.getKey()));
+
+        place.getAddress().setCity(prefix + ": " + trimToEmpty(place.getAddress().getCity()));
+        place.getAddress().setStreet(prefix + ": " + trimToEmpty(place.getAddress().getStreet()));
+        place.getAddress().setHousenumber(prefix + ": " + trimToEmpty(place.getAddress().getHousenumber()));
+
+        return place;
     }
 }
