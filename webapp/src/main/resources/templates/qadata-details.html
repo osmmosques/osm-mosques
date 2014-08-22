@@ -83,6 +83,12 @@
     </tbody>
 </table>
 
+<p/>
+
+<div th:if="${josmURL}" id="edit-in-josm">
+    <a target="josm" th:href="${josmURL}" th:text="#{edit.in-josm}">Edit in JOSM</a>
+</div>
+
 <div class="footer">
     <div class="footer-content footer-legal-copyright" th:utext="#{footer.legal.copyright}">Copyright mumbo-jumbo</div>
     <div class="footer-content footer-legal-license" th:utext="#{footer.legal.license}">Someone owns all</div>
