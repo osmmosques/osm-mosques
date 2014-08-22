@@ -4,20 +4,26 @@
 
 function attemptGeocode(ditibKey)
 {
+    var gcUrlBase = "../rest/ditib/geocode/";
+    var mapUrlBase = "../map/";
+
     // http://localhost:8888/rest/ditib/geocode/84030-20-5
-    var gcUrl = "../rest/ditib/geocode/" + ditibKey;
+    var gcUrl = gcUrlBase + ditibKey;
     console.log(gcUrl);
     $.getJSON(gcUrl, function (data)
     {
         console.log(data);
         if (data["geocoded"] == true)
         {
-            alert("YAY!");
+            var lat = data["lat"];
+            var lon = data["lon"];
+            var jumpUrl = mapUrlBase + "#zoom=17&amp;lat=" + lat + "&amp;lon=" + lon;
+
+            window.location.href = jumpUrl;
         }
         else
         {
-            alert("booooooh");
+            alert("Failed to geocode place");
         }
-        // JSON.stringify(data)
     });
 }
