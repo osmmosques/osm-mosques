@@ -38,7 +38,7 @@
             <div th:if="${place.geocoded}">
                 <a target="map" th:text="#{list.link-to-map}" th:href="@{/map} + '#zoom=17&amp;lat=' + ${place.lat} + '&amp;lon=' + ${place.lon}"></a>
             </div>
-            <div th:unless="${place.geocoded}" th:text="${list.not-geocoded}" />
+            <div th:unless="${place.geocoded}" th:text="#{list.not-geocoded}" />
         </td>
         <td th:text="${place.name}"></td>
         <td th:text="${place.address.city}"></td>
