@@ -16,6 +16,10 @@ public class LinkedPlace extends AbstractPersistable<Long>
     @Column(name = "SCORE")
     private double score;
 
+    private transient double lat;
+
+    private transient double lon;
+
     @Column(name = "osm_id", length = 80)
     private String osmId;
 
@@ -47,6 +51,26 @@ public class LinkedPlace extends AbstractPersistable<Long>
     public void setScore(double score)
     {
         this.score = score;
+    }
+
+    public double getLat()
+    {
+        return lat;
+    }
+
+    public void setLat(double lat)
+    {
+        this.lat = lat;
+    }
+
+    public double getLon()
+    {
+        return lon;
+    }
+
+    public void setLon(double lon)
+    {
+        this.lon = lon;
     }
 
     public String getOsmId()
