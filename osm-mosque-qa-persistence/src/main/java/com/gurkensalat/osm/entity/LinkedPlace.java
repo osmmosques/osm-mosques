@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "LINKED_PLACES")
+@Table(name = "QA_PLACES")
 public class LinkedPlace extends AbstractPersistable<Long>
 {
     @Column(name = "VERSION")
