@@ -114,10 +114,13 @@ public class QaDataRestHandler
         Iterable<LinkedPlace> places = linkedPlaceRepository.findAllByDitibCode(ditibCode);
         if (places != null)
         {
-            place = places.iterator().next();
+            if (places.iterator().hasNext())
+            {
+                place = places.iterator().next();
+            }
         }
 
-        if (places == null)
+        if (place == null)
         {
             place = new LinkedPlace();
             place.setDitibCode(ditibCode);
@@ -134,10 +137,13 @@ public class QaDataRestHandler
         Iterable<LinkedPlace> places = linkedPlaceRepository.findAllByOsmId(osmId);
         if (places != null)
         {
-            place = places.iterator().next();
+            if (places.iterator().hasNext())
+            {
+                place = places.iterator().next();
+            }
         }
 
-        if (places == null)
+        if (place == null)
         {
             place = new LinkedPlace();
             place.setOsmId(osmId);
