@@ -20,6 +20,11 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>com.gurkensalat.osm</groupId>
+            <artifactId>osm-utils</artifactId>
+        </dependency>
+
         <!-- Internal parsers -->
         <dependency>
             <groupId>${project.groupId}</groupId>

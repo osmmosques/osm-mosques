@@ -193,6 +193,12 @@
             </dependency>
 
             <dependency>
+                <groupId>com.gurkensalat.osm</groupId>
+                <artifactId>osm-utils</artifactId>
+                <version>${osm-tools.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.tandogan.osm</groupId>
                 <artifactId>opencagedata-geocoder-library</artifactId>
                 <version>${geocoder-version}</version>
