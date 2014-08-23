@@ -225,7 +225,7 @@ public class DitibRestController
             File workDir = new File(dataLocation, place.getKey());
             workDir.mkdirs();
 
-            String when = DateTimeFormat.forPattern("YYYY-mm-dd-HH-MM-SS").print(DateTime.now());
+            String when = DateTimeFormat.forPattern("YYYY-MM-dd-HH-mm-SS").print(DateTime.now());
 
             serializeToJSON(workDir, when + "-response.json", response);
             serializeToJSON(workDir, when + "-place-before.json", place);
