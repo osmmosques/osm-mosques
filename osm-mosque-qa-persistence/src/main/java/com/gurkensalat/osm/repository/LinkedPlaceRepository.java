@@ -8,7 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource(collectionResourceRel = "linkedPlace", path = "linkedPlace")
 public interface LinkedPlaceRepository extends PagingAndSortingRepository<LinkedPlace, Long>
 {
-    LinkedPlace findByOsmId(@Param("osm_id") String osmId);
+    LinkedPlace findByOsmId(@Param("OSM_ID") String osmId);
 
-    LinkedPlace findByDitibCode(@Param("D_CODE") String ditibCode);
+    LinkedPlace findByDitibCode(@Param("DITIB_CODE") String ditibCode);
 }
