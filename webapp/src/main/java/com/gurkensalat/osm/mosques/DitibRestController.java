@@ -255,7 +255,6 @@ public class DitibRestController
         {
             if (result.getGeometry() != null)
             {
-
                 if (bestResult == null)
                 {
                     bestResult = result;
@@ -268,10 +267,31 @@ public class DitibRestController
             }
         }
 
-        // Cornercase to avaoid
+        // Cornercase to avoid
         if (bestResult.getConfidence() == 0)
         {
-            bestResult = null;
+            return null;
+        }
+
+        // Clamp down to area of Germany
+        if (bestResult.getGeometry().getLatitude() < 46)
+        {
+            return null;
+        }
+
+        if (bestResult.getGeometry().getLatitude() > 56)
+        {
+            return null;
+        }
+
+        if (bestResult.getGeometry().getLongitude() < 5)
+        {
+            return null;
+        }
+
+        if (bestResult.getGeometry().getLongitude() > 17)
+        {
+            return null;
         }
 
         return bestResult;
