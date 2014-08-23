@@ -67,6 +67,12 @@ public class QaDataController
                 josmURL = josmURL + "&select=node" + linkedPlace.getOsmId();
 
                 model.addAttribute("josmURL", josmURL);
+
+                // OSM
+                // http://www.openstreetmap.org/node/494163800
+                String osmDetailsURL = "http://www.openstreetmap.org/node/" + linkedPlace.getOsmId();
+
+                model.addAttribute("osmDetailsURL", osmDetailsURL);
             }
 
             // Id

@@ -86,7 +86,13 @@
 <p/>
 
 <div th:if="${josmURL}" id="edit-in-josm">
-    <a target="josm" th:href="${josmURL}" th:text="#{edit.in-josm}">Edit in JOSM</a>
+    <a target="josm" th:href="${josmURL}" th:text="#{qadata.edit.in-josm}">Edit in JOSM</a>
+</div>
+
+<p/>
+
+<div th:if="${osmDetailsURL}" id="view-on-osm">
+    <a target="osm" th:href="${osmDetailsURL}" th:text="#{qadata.view.on-osm}">View details on OSM</a>
 </div>
 
 <div class="footer">
