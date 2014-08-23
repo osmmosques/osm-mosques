@@ -13,9 +13,6 @@ public class LinkedPlace extends AbstractPersistable<Long>
     @Column(name = "VERSION")
     private Integer version;
 
-    @Column(name = "SCORE")
-    private double score;
-
     private transient double lat;
 
     private transient double lon;
@@ -33,6 +30,12 @@ public class LinkedPlace extends AbstractPersistable<Long>
     @Column(name = "cagedata_key", length = 80)
     private String geocodedPlaceKey;
 
+    @Column(name = "SCORE")
+    private double score;
+
+    @Column(name = "BD_GEOCODED")
+    private int badnessIsGeocoded;
+
     public Integer getVersion()
     {
         return version;
@@ -41,16 +44,6 @@ public class LinkedPlace extends AbstractPersistable<Long>
     public void setVersion(Integer version)
     {
         this.version = version;
-    }
-
-    public double getScore()
-    {
-        return score;
-    }
-
-    public void setScore(double score)
-    {
-        this.score = score;
     }
 
     public double getLat()
@@ -121,5 +114,25 @@ public class LinkedPlace extends AbstractPersistable<Long>
     public void setGeocodedPlaceKey(String geocodedPlaceKey)
     {
         this.geocodedPlaceKey = geocodedPlaceKey;
+    }
+
+    public double getScore()
+    {
+        return score;
+    }
+
+    public void setScore(double score)
+    {
+        this.score = score;
+    }
+
+    public int getBadnessIsGeocoded()
+    {
+        return badnessIsGeocoded;
+    }
+
+    public void setBadnessIsGeocoded(int badnessIsGeocoded)
+    {
+        this.badnessIsGeocoded = badnessIsGeocoded;
     }
 }
