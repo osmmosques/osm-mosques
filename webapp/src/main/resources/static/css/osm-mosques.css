@@ -29,6 +29,7 @@ body {
 
 .footer {
     /* background: yellow; */
+    display: none;
     overflow: hidden; /*make sure the wrapper has no dimension*/
     width: 100%;
     margin-top: 10px;
