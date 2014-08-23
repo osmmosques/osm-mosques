@@ -82,13 +82,15 @@ public class QaDataRestHandler
                     place.setLat(ditibPlace.getLat());
                     place.setLon(ditibPlace.getLon());
                     place.setDitibPlace(ditibPlace);
+                    place = linkedPlaceRepository.save(place);
                 }
 
                 OsmPlace osmPlace = findClosestByBBOX(place, DELTA_LAT_LON_10KM, DELTA_LAT_LON_10KM);
                 if (osmPlace != null)
                 {
-                    place.setOsmId(Long.toString(osmPlace.getId()));
+                    place.setOsmId(osmPlace.getKey());
                     place.setOsmPlace(osmPlace);
+                    place = linkedPlaceRepository.save(place);
                 }
 
                 qaScoreCalculator.calculateDitibScore(place);
@@ -167,11 +169,6 @@ public class QaDataRestHandler
                 place.getDitibCode(),
                 place.getLat(),
                 place.getLon());
-
-        if (place.getLon() != 0)
-        {
-            int bp = 42;
-        }
 
         List<OsmPlace> osmPlaces = osmPlaceRepository.findByBbox(
                 place.getLon() - deltaLon, place.getLat() - deltaLat,
