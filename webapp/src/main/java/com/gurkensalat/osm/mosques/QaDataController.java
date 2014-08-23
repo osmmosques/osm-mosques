@@ -7,6 +7,7 @@ import com.gurkensalat.osm.entity.PlaceType;
 import com.gurkensalat.osm.repository.DitibPlaceRepository;
 import com.gurkensalat.osm.repository.LinkedPlaceRepository;
 import com.gurkensalat.osm.repository.OsmPlaceRepository;
+import com.gurkensalat.osm.utils.DistanceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
+import static com.gurkensalat.osm.utils.DistanceConstants.DELTA_LAT_LON_100_M;
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.trimToEmpty;
@@ -30,8 +32,6 @@ public class QaDataController
     private final static Logger LOGGER = LoggerFactory.getLogger(QaDataController.class);
 
     private final static String REQUEST_ROOT = "/qadata";
-
-    private static final double DELTA_LAT_LON_100M = 0.001;
 
     @Autowired
     private LinkedPlaceRepository linkedPlaceRepository;
@@ -54,13 +54,12 @@ public class QaDataController
             model.addAttribute("place", linkedPlace);
 
             OsmPlace place = linkedPlace.getOsmPlace();
-            double deltaLonLat = DELTA_LAT_LON_100M;
 
             String josmURL = "http://localhost:8111/load_and_zoom";
-            josmURL = josmURL + "?left=" + (place.getLon() - deltaLonLat);
-            josmURL = josmURL + "&right=" + (place.getLon() + deltaLonLat);
-            josmURL = josmURL + "&top=" + (place.getLat() + deltaLonLat);
-            josmURL = josmURL + "&bottom=" + (place.getLat() - deltaLonLat);
+            josmURL = josmURL + "?left=" + (place.getLon() - DELTA_LAT_LON_100_M);
+            josmURL = josmURL + "&right=" + (place.getLon() + DELTA_LAT_LON_100_M);
+            josmURL = josmURL + "&top=" + (place.getLat() + DELTA_LAT_LON_100_M);
+            josmURL = josmURL + "&bottom=" + (place.getLat() - DELTA_LAT_LON_100_M);
 
             if (isNotEmpty(linkedPlace.getOsmId()))
             {

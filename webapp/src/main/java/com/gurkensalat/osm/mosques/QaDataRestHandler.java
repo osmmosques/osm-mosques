@@ -7,6 +7,7 @@ import com.gurkensalat.osm.repository.DitibPlaceRepository;
 import com.gurkensalat.osm.repository.LinkedPlaceRepository;
 import com.gurkensalat.osm.repository.OsmPlaceRepository;
 import com.gurkensalat.osm.repository.QaScoreCalculator;
+import com.gurkensalat.osm.utils.DistanceConstants;
 import com.gurkensalat.osm.utils.GreatCircle;
 import org.apache.commons.collections4.ListUtils;
 import org.slf4j.Logger;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.gurkensalat.osm.utils.DistanceConstants.*;
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @RestController
@@ -38,8 +40,6 @@ public class QaDataRestHandler
     private final static String REQUEST_CALCULATE_DITIB_SCORE = REQUEST_ROOT + "/calculate/ditib/{ditibCode}";
 
     private final static String REQUEST_CALCULATE_OSM_SCORE = REQUEST_ROOT + "/calculate/osm/{osmId}";
-
-    private static final double DELTA_LAT_LON_10KM = 0.1;
 
     @Autowired
     private LinkedPlaceRepository linkedPlaceRepository;
@@ -85,7 +85,7 @@ public class QaDataRestHandler
                     place = linkedPlaceRepository.save(place);
                 }
 
-                OsmPlace osmPlace = findClosestByBBOX(place, DELTA_LAT_LON_10KM, DELTA_LAT_LON_10KM);
+                OsmPlace osmPlace = findClosestByBBOX(place, DELTA_LAT_LON_10_KM, DELTA_LAT_LON_10_KM);
                 if (osmPlace != null)
                 {
                     place.setOsmId(osmPlace.getKey());
