@@ -20,7 +20,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.List;
+
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @RestController
 @EnableAutoConfiguration
@@ -64,19 +67,35 @@ public class QaDataRestHandler
         }
         else
         {
-            LinkedPlace place = findByDitibCode(ditibCode);
-
-            OsmPlace osmPlace = findClosestByBBOX(place, DELTA_LAT_LON_10KM, DELTA_LAT_LON_10KM);
-            if (osmPlace != null)
+            DitibPlace ditibPlace = null;
+            List<DitibPlace> ditibPlaces = emptyIfNull(ditibPlaceRepository.findByKey(ditibCode));
+            if (ditibPlaces.size() > 0)
             {
-                place.setOsmId(Long.toString(osmPlace.getId()));
-                place.setOsmPlace(osmPlace);
+                ditibPlace = ditibPlaces.get(0);
             }
 
-            qaScoreCalculator.calculateDitibScore(place);
-            place = linkedPlaceRepository.save(place);
+            Iterable<LinkedPlace> places = findByDitibCode(ditibCode);
+            for (LinkedPlace place : places)
+            {
+                if (ditibPlace != null)
+                {
+                    place.setLat(ditibPlace.getLat());
+                    place.setLon(ditibPlace.getLon());
+                    place.setDitibPlace(ditibPlace);
+                }
 
-            result = place.toString();
+                OsmPlace osmPlace = findClosestByBBOX(place, DELTA_LAT_LON_10KM, DELTA_LAT_LON_10KM);
+                if (osmPlace != null)
+                {
+                    place.setOsmId(Long.toString(osmPlace.getId()));
+                    place.setOsmPlace(osmPlace);
+                }
+
+                qaScoreCalculator.calculateDitibScore(place);
+                place = linkedPlaceRepository.save(place);
+
+                result = place.toString();
+            }
         }
 
         return new ResponseEntity<String>(result, null, HttpStatus.OK);
@@ -96,66 +115,63 @@ public class QaDataRestHandler
         }
         else
         {
-            LinkedPlace place = findByOsmId(osmId);
+            Iterable<LinkedPlace> places = findByOsmId(osmId);
+            for (LinkedPlace place : places)
+            {
+                qaScoreCalculator.calculateOSMScore(place);
+                place = linkedPlaceRepository.save(place);
 
-            qaScoreCalculator.calculateOSMScore(place);
-            place = linkedPlaceRepository.save(place);
-
-            result = place.toString();
+                result = place.toString();
+            }
         }
-
         return new ResponseEntity<String>(result, null, HttpStatus.OK);
     }
 
-    private LinkedPlace findByDitibCode(String ditibCode)
+    private Iterable<LinkedPlace> findByDitibCode(String ditibCode)
     {
-        LinkedPlace place = null;
-
         Iterable<LinkedPlace> places = linkedPlaceRepository.findAllByDitibCode(ditibCode);
-        if (places != null)
+        if (places == null || (!(places.iterator().hasNext())))
         {
-            if (places.iterator().hasNext())
-            {
-                place = places.iterator().next();
-            }
-        }
-
-        if (place == null)
-        {
-            place = new LinkedPlace();
+            LinkedPlace place = new LinkedPlace();
             place.setDitibCode(ditibCode);
             place = linkedPlaceRepository.save(place);
+
+            places = Arrays.asList(place);
         }
 
-        return place;
+        return places;
     }
 
-    private LinkedPlace findByOsmId(String osmId)
+    private Iterable<LinkedPlace> findByOsmId(String osmId)
     {
-        LinkedPlace place = null;
-
         Iterable<LinkedPlace> places = linkedPlaceRepository.findAllByOsmId(osmId);
-        if (places != null)
+        if (places == null || (!(places.iterator().hasNext())))
         {
-            if (places.iterator().hasNext())
-            {
-                place = places.iterator().next();
-            }
-        }
-
-        if (place == null)
-        {
-            place = new LinkedPlace();
+            LinkedPlace place = new LinkedPlace();
             place.setOsmId(osmId);
             place = linkedPlaceRepository.save(place);
+
+            places = Arrays.asList(place);
         }
 
-        return place;
+        return places;
     }
 
     private OsmPlace findClosestByBBOX(LinkedPlace place, double deltaLat, double deltaLon)
     {
         OsmPlace result = null;
+
+        LOGGER.info("  Calculating distance for {} / {} / {} / {} / {}",
+                place.getId(),
+                place.getOsmId(),
+                place.getDitibCode(),
+                place.getLat(),
+                place.getLon());
+
+        if (place.getLon() != 0)
+        {
+            int bp = 42;
+        }
 
         List<OsmPlace> osmPlaces = osmPlaceRepository.findByBbox(
                 place.getLon() - deltaLon, place.getLat() - deltaLat,
@@ -166,8 +182,9 @@ public class QaDataRestHandler
         double distance = 1000000000;
         for (OsmPlace osmPlace : osmPlaces)
         {
-            LOGGER.info("  Calculating distance for {}", osmPlace);
+            LOGGER.info("    calculating {}", osmPlace);
             double newDistance = GreatCircle.distanceInKm(place.getLat(), place.getLon(), osmPlace.getLat(), osmPlace.getLon());
+            LOGGER.info("      distance is {}", distance);
 
             if (newDistance < distance)
             {
