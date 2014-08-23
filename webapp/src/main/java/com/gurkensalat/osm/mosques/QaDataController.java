@@ -31,7 +31,7 @@ public class QaDataController
 
     private final static String REQUEST_ROOT = "/qadata";
 
-    private static final double DELTA_LAT_LON_1000M = 0.001;
+    private static final double DELTA_LAT_LON_100M = 0.001;
 
     @Autowired
     private LinkedPlaceRepository linkedPlaceRepository;
@@ -54,7 +54,7 @@ public class QaDataController
             model.addAttribute("place", linkedPlace);
 
             OsmPlace place = linkedPlace.getOsmPlace();
-            double deltaLonLat = DELTA_LAT_LON_1000M;
+            double deltaLonLat = DELTA_LAT_LON_100M;
 
             String josmURL = "http://localhost:8111/load_and_zoom";
             josmURL = josmURL + "?left=" + (place.getLon() - deltaLonLat);
