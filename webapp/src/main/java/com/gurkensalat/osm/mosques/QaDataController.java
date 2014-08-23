@@ -51,22 +51,21 @@ public class QaDataController
             linkedPlace = sanitize(linkedPlace);
             model.addAttribute("place", linkedPlace);
 
+            OsmPlace place = linkedPlace.getOsmPlace();
+            double deltaLonLat = 0.01;
+
+            String josmURL = "http://localhost:8111/load_and_zoom";
+            josmURL = josmURL + "?left=" + (place.getLon() - deltaLonLat);
+            josmURL = josmURL + "&right=" + (place.getLon() + deltaLonLat);
+            josmURL = josmURL + "&top=" + (place.getLat() + deltaLonLat);
+            josmURL = josmURL + "&bottom=" + (place.getLat() - deltaLonLat);
+
             if (isNotEmpty(linkedPlace.getOsmId()))
             {
                 // JOSM
                 // http://localhost:8111/load_and_zoom?left=11.376857411825487&right=11.397907388173993&top=48.14261795621305&bottom=48.12967262780189&select=node494163800
 
-                OsmPlace place = linkedPlace.getOsmPlace();
-                double deltaLonLat = 0.01;
-
-                String josmURL = "http://localhost:8111/load_and_zoom";
-                josmURL = josmURL + "?left=" + (place.getLon() - deltaLonLat);
-                josmURL = josmURL + "&right=" + (place.getLon() + deltaLonLat);
-                josmURL = josmURL + "&top=" + (place.getLat() + deltaLonLat);
-                josmURL = josmURL + "&bottom=" + (place.getLat() - deltaLonLat);
                 josmURL = josmURL + "&select=node" + linkedPlace.getOsmId();
-
-                model.addAttribute("josmURL", josmURL);
 
                 // OSM
                 // http://www.openstreetmap.org/node/494163800
@@ -74,6 +73,8 @@ public class QaDataController
 
                 model.addAttribute("osmDetailsURL", osmDetailsURL);
             }
+
+            model.addAttribute("josmURL", josmURL);
 
             // Id
             // http://www.openstreetmap.org/edit?editor=id&node=494163800
