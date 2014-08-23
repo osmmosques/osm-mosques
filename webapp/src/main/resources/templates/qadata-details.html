@@ -16,86 +16,108 @@
 <body>
 <h1 th:text="#{titleprefix}+ ': ' + #{qadata.title}">OSM Mosques: Details of DITIB place to be QA'ed</h1>
 
-<table id="qadata-details" class="tablesorter" data-sortlist="[[0,0],[1,0]]">
+
+<table>
+    <tr>
+        <td>
+            <div th:if="${josmURL}" id="edit-in-josm">
+                <a target="josm" th:href="${josmURL}" th:text="#{qadata.edit.in-josm}">Edit in JOSM</a>
+            </div>
+        </td>
+
+        <td>
+            <div th:if="${osmDetailsURL}" id="view-on-osm">
+                <a target="osm" th:href="${osmDetailsURL}" th:text="#{qadata.view.on-osm}">View details on OSM</a>
+            </div>
+        </td>
+
+        <td>
+            <div>
+                <a target="map" th:text="#{list.link-to-map}" th:href="@{/map} + '#zoom=17&amp;lat=' + ${place.lat} + '&amp;lon=' + ${place.lon}">OSM Map</a>
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+
+
+<table id="qadata-details" class="tablesorter">
     <thead>
     <tr>
+        <th>SOURCE</th>
         <th>KEY</th>
         <th>VAL</th>
     </tr>
     </thead>
     <tbody>
-        <tr style="vertical-align: top;">
+        <tr>
+            <td>-</td>
             <td th:text="#{list.lat}">Lat</td>
             <td th:text="${place.lat}"></td>
         </tr>
         <tr>
-            <td th:text="#{list.lat}">Lon</td>
+            <td>-</td>
+            <td th:text="#{list.lon}">Lon</td>
             <td th:text="${place.lon}"></td>
         </tr>
         <tr>
+            <td>-</td>
             <td th:text="#{list.score}">Score</td>
             <td th:text="${place.score}"></td>
         </tr>
         <tr>
-            <td th:text="'DITIB - ' + #{list.key}">Key - DITIB</td>
+            <td th:text="#{qadata.source.ditib}">DITIB</td>
+            <td th:text="#{list.key}">Key</td>
             <td th:text="${place.ditibPlace.key}"></td>
         </tr>
         <tr>
-            <td th:text="'OSM - ' + #{list.key}">Key - OSM</td>
+            <td th:text="#{qadata.source.osm}">OSM</td>
+            <td th:text="#{list.key}">Key</td>
             <td th:text="${place.osmPlace.key}"></td>
         </tr>
         <tr>
-            <td th:text="'DITIB - ' + #{list.name}">Name - DITIB</td>
+            <td th:text="#{qadata.source.ditib}">DITIB</td>
+            <td th:text="#{list.name}">Name</td>
             <td th:text="${place.ditibPlace.name}"></td>
         </tr>
         <tr>
-            <td th:text="'OSM - ' + #{list.name}">Name - OSM</td>
+            <td th:text="#{qadata.source.osm}">OSM</td>
+            <td th:text="#{list.name}">Name</td>
             <td th:text="${place.osmPlace.name}"></td>
         </tr>
         <tr>
-            <td th:text="'DITIB - ' + #{list.city}">City - DITIB</td>
+            <td th:text="#{qadata.source.ditib}">DITIB</td>
+            <td th:text="#{list.city}">City</td>
             <td th:text="${place.ditibPlace.address.city}"></td>
         </tr>
         <tr>
-            <td th:text="'OSM - ' + #{list.city}">City - OSM</td>
+            <td th:text="#{qadata.source.osm}">OSM</td>
+            <td th:text="#{list.city}">City</td>
             <td th:text="${place.osmPlace.address.city}"></td>
         </tr>
         <tr>
-            <td th:text="'DITIB - ' + #{list.street}">Street - DITIB</td>
+            <td th:text="#{qadata.source.ditib}">DITIB</td>
+            <td th:text="#{list.street}">Street</td>
             <td th:text="${place.ditibPlace.address.street}"></td>
         </tr>
         <tr>
-            <td th:text="'OSM - ' + #{list.street}">Street - OSM</td>
+            <td th:text="#{qadata.source.osm}">OSM</td>
+            <td th:text="#{list.street}">Street</td>
             <td th:text="${place.osmPlace.address.street}"></td>
         </tr>
         <tr>
-            <td th:text="'DITIB - ' + #{list.housenumber}">Housenumber - DITIB</td>
+            <td th:text="#{qadata.source.ditib}">DITIB</td>
+            <td th:text="#{list.housenumber}">Housenumber</td>
             <td th:text="${place.ditibPlace.address.housenumber}"></td>
         </tr>
         <tr>
-            <td th:text="'OSM - ' + #{list.housenumber}">Housenumber - OSM</td>
+            <td th:text="#{qadata.source.osm}">OSM</td>
+            <td th:text="#{list.housenumber}">Housenumber</td>
             <td th:text="${place.osmPlace.address.housenumber}"></td>
         </tr>
     </tbody>
 </table>
-
-<p/>
-
-<div th:if="${josmURL}" id="edit-in-josm">
-    <a target="josm" th:href="${josmURL}" th:text="#{qadata.edit.in-josm}">Edit in JOSM</a>
-</div>
-
-<p/>
-
-<div th:if="${osmDetailsURL}" id="view-on-osm">
-    <a target="osm" th:href="${osmDetailsURL}" th:text="#{qadata.view.on-osm}">View details on OSM</a>
-</div>
-
-<p/>
-
-<div>
-    <a target="map" th:text="#{list.link-to-map}" th:href="@{/map} + '#zoom=17&amp;lat=' + ${place.lat} + '&amp;lon=' + ${place.lon}">OSM Map</a>
-</div>
 
 <div class="footer">
     <div class="footer-content footer-legal-copyright" th:utext="#{footer.legal.copyright}">Copyright mumbo-jumbo</div>
@@ -112,7 +134,7 @@
             widthFixed: true
         });
         $(".compatibility").tablesorter();
-        $("#ditib-list").tablesorter({widgets: ['zebra']});
+        $("#qadata-details").tablesorter({widgets: ['zebra']});
         $("table.options, table.api").tablesorter({widgets: ['stickyHeaders']});
     });
 </script>

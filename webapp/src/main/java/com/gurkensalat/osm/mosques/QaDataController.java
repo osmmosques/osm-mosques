@@ -149,24 +149,46 @@ public class QaDataController
 
     private DitibPlace sanitize(String prefix, DitibPlace place)
     {
-        place.setName(prefix + ": " + trimToEmpty(place.getName()));
-        place.setKey(prefix + ": " + trimToEmpty(place.getKey()));
+        place.setName(trimToEmpty(place.getName()));
+        place.setKey(trimToEmpty(place.getKey()));
 
-        place.getAddress().setCity(prefix + ": " + trimToEmpty(place.getAddress().getCity()));
-        place.getAddress().setStreet(prefix + ": " + trimToEmpty(place.getAddress().getStreet()));
-        place.getAddress().setHousenumber(prefix + ": " + trimToEmpty(place.getAddress().getHousenumber()));
+        place.getAddress().setCity(trimToEmpty(place.getAddress().getCity()));
+        place.getAddress().setStreet(trimToEmpty(place.getAddress().getStreet()));
+        place.getAddress().setHousenumber(trimToEmpty(place.getAddress().getHousenumber()));
+
+        if (isNotEmpty(prefix))
+        {
+            place.setName(prefix + ": " + place.getName());
+            place.setName(prefix + ": " + place.getName());
+            place.setKey(prefix + ": " + place.getKey());
+
+            place.getAddress().setCity(prefix + ": " + place.getAddress().getCity());
+            place.getAddress().setStreet(prefix + ": " + place.getAddress().getStreet());
+            place.getAddress().setHousenumber(prefix + ": " + place.getAddress().getHousenumber());
+        }
 
         return place;
     }
 
     private OsmPlace sanitize(String prefix, OsmPlace place)
     {
-        place.setName(prefix + ": " + trimToEmpty(place.getName()));
-        place.setKey(prefix + ": " + trimToEmpty(place.getKey()));
+        place.setName(trimToEmpty(place.getName()));
+        place.setKey(trimToEmpty(place.getKey()));
 
-        place.getAddress().setCity(prefix + ": " + trimToEmpty(place.getAddress().getCity()));
-        place.getAddress().setStreet(prefix + ": " + trimToEmpty(place.getAddress().getStreet()));
-        place.getAddress().setHousenumber(prefix + ": " + trimToEmpty(place.getAddress().getHousenumber()));
+        place.getAddress().setCity(trimToEmpty(place.getAddress().getCity()));
+        place.getAddress().setStreet(trimToEmpty(place.getAddress().getStreet()));
+        place.getAddress().setHousenumber(trimToEmpty(place.getAddress().getHousenumber()));
+
+        if (isNotEmpty(prefix))
+        {
+            place.setName(prefix + ": " + place.getName());
+            place.setName(prefix + ": " + place.getName());
+            place.setKey(prefix + ": " + place.getKey());
+
+            place.getAddress().setCity(prefix + ": " + place.getAddress().getCity());
+            place.getAddress().setStreet(prefix + ": " + place.getAddress().getStreet());
+            place.getAddress().setHousenumber(prefix + ": " + place.getAddress().getHousenumber());
+        }
 
         return place;
     }
