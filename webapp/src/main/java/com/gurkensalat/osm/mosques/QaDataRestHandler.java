@@ -6,6 +6,7 @@ import com.gurkensalat.osm.entity.OsmPlace;
 import com.gurkensalat.osm.repository.DitibPlaceRepository;
 import com.gurkensalat.osm.repository.LinkedPlaceRepository;
 import com.gurkensalat.osm.repository.OsmPlaceRepository;
+import com.gurkensalat.osm.repository.QaScoreCalculator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,9 @@ public class QaDataRestHandler
     @Autowired
     private OsmPlaceRepository osmPlaceRepository;
 
+    @Autowired
+    private QaScoreCalculator qaScoreCalculator;
+
     @RequestMapping(value = REQUEST_CALCULATE_DITIB_SCORE, produces = APPLICATION_JSON_UTF8)
     ResponseEntity<String> calculateDitibScore(@PathVariable("ditibCode") String ditibCode)
     {
@@ -56,8 +60,7 @@ public class QaDataRestHandler
         {
             LinkedPlace place = findByDitibCode(ditibCode);
 
-            place.setScore(42);
-
+            qaScoreCalculator.calculateDitibScore(place);
             place = linkedPlaceRepository.save(place);
 
             result = place.toString();
@@ -82,8 +85,7 @@ public class QaDataRestHandler
         {
             LinkedPlace place = findByOsmId(osmId);
 
-            place.setScore(42);
-
+            qaScoreCalculator.calculateOSMScore(place);
             place = linkedPlaceRepository.save(place);
 
             result = place.toString();

@@ -12,7 +12,7 @@ public interface QaScoreCalculator
 
     void calculateAllOSMScores();
 
-    void calculateDitibScore(LinkedPlace place, DitibPlace ditibPlace);
+    void calculateDitibScore(LinkedPlace place);
 
-    void calculateOSMScore(LinkedPlace place, OsmPlace osmPlace);
+    void calculateOSMScore(LinkedPlace place);
 }
