@@ -17,17 +17,17 @@ public class LinkedPlace extends AbstractPersistable<Long>
 
     private transient double lon;
 
-    @Column(name = "osm_id", length = 80)
+    @Column(name = "OSM_ID", length = 20)
     private String osmId;
 
     private transient OsmPlace osmPlace;
 
-    @Column(name = "D_CODE", length = 80)
+    @Column(name = "DITIB_CODE", length = 20)
     private String ditibCode;
 
     private transient DitibPlace ditibPlace;
 
-    @Column(name = "cagedata_key", length = 80)
+    @Column(name = "CAGEDATA_KEY", length = 20)
     private String geocodedPlaceKey;
 
     @Column(name = "SCORE")
