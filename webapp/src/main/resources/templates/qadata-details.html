@@ -26,6 +26,12 @@
         </td>
 
         <td>
+            <div th:if="${osmNodeId}" id="reload-from-osm">
+                <a target="reload-from-osm" th:href="@{/rest/osm/fetch/} + ${osmNodeId}" th:text="#{qadata.reload.from-osm}">Reload from OSM</a>
+            </div>
+        </td>
+
+        <td>
             <div th:if="${osmDetailsURL}" id="view-on-osm">
                 <a target="osm" th:href="${osmDetailsURL}" th:text="#{qadata.view.on-osm}">View details on OSM</a>
             </div>

@@ -63,6 +63,8 @@ public class QaDataController
 
             if (isNotEmpty(linkedPlace.getOsmId()))
             {
+                model.addAttribute("osmNodeId", linkedPlace.getOsmId());
+
                 // JOSM
                 // http://localhost:8111/load_and_zoom?left=11.376857411825487&right=11.397907388173993&top=48.14261795621305&bottom=48.12967262780189&select=node494163800
 
