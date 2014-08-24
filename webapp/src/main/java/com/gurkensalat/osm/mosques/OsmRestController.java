@@ -146,7 +146,7 @@ public class OsmRestController
 
                 if (isEmpty(tempPlace.getAddress().getCountry()))
                 {
-                    tempPlace.getAddress().setCountry("germany");
+                    tempPlace.getAddress().setCountry("DE");
                 }
 
                 tempPlace.getContact().setWebsite(StringUtils.substring(tempPlace.getContact().getWebsite(), 0, 79));
