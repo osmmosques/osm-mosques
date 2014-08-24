@@ -132,12 +132,12 @@ public class OsmRestController
             {
                 LOGGER.debug("Read node: {}, {}, {}", node, node.getLat(), node.getLon());
 
+                String key = Long.toString(node.getId());
+
                 // re-create a place from OSM data
                 OsmPlace tempPlace = new OsmPlace(node);
-                tempPlace.setKey(Long.toString(node.getId()));
+                tempPlace.setKey(key);
                 tempPlace.setType(PlaceType.OSM_PLACE_OF_WORSHIP);
-
-                String key = Long.toString(node.getId());
 
                 if (isEmpty(tempPlace.getAddress().getState()))
                 {
@@ -151,58 +151,62 @@ public class OsmRestController
 
                 tempPlace.getContact().setWebsite(StringUtils.substring(tempPlace.getContact().getWebsite(), 0, 79));
 
-                // Now, insert-or-update the place
-                try
-                {
-                    OsmPlace place;
-                    List<OsmPlace> places = osmPlaceRepository.findByKey(key);
-                    if ((places == null) || (places.size() == 0))
-                    {
-                        // Place could not be found, insert it...
-                        place = osmPlaceRepository.save(tempPlace);
-                    }
-                    else
-                    {
-                        // take the one from the database and update it
-                        place = places.get(0);
-                        LOGGER.debug("Found pre-existing entity {} / {}", place.getId(), place.getVersion());
-                        place = osmPlaceRepository.findOne(place.getId());
-                        LOGGER.debug("  reloaded: {} / {}", place.getId(), place.getVersion());
-                    }
-
-                    tempPlace.copyTo(place);
-
-                    place = osmPlaceRepository.save(place);
-
-                    // Now, save the tags
-                    // TODO allow for Strings as node ids too
-                    osmTagRepository.deleteByParentTableAndParentId("OSM_PLACES", node.getId());
-                    for (OsmNodeTag tag: node.getTags())
-                    {
-                        // TODO allow for creation of lists of OsmTag entities from OsmNode objects
-                        // TODO allow for creation of OsmTag entities from OsmNodeTag objects
-                        OsmTag osmTag = new OsmTag();
-                        osmTag.setParentTable("OSM_PLACES");
-                        osmTag.setParentId(node.getId());
-                        osmTag.setKey(tag.getKey());
-                        osmTag.setValue(tag.getValue());
-                        osmTag.setValid(true);
-
-                        osmTag = osmTagRepository.save(osmTag);
-                        LOGGER.info("  saved tag {}", osmTag);
-                    }
-
-                    LOGGER.info("Saved Place {}", place);
-                }
-                catch (Exception e)
-                {
-                    LOGGER.error("While persisting place", e);
-                    LOGGER.info("Place: {}", tempPlace);
-                    LOGGER.info("OSM node: {}", node);
-                }
+                persistOsmNode(key, node, tempPlace);
             }
         }
 
         return new ResponseEntity<String>("Done Massa", null, HttpStatus.OK);
+    }
+
+    private void persistOsmNode(String key, OsmNode node, OsmPlace tempPlace)
+    {
+        try
+        {
+            OsmPlace place;
+            List<OsmPlace> places = osmPlaceRepository.findByKey(key);
+            if ((places == null) || (places.size() == 0))
+            {
+                // Place could not be found, insert it...
+                place = osmPlaceRepository.save(tempPlace);
+            }
+            else
+            {
+                // take the one from the database and update it
+                place = places.get(0);
+                LOGGER.debug("Found pre-existing entity {} / {}", place.getId(), place.getVersion());
+                place = osmPlaceRepository.findOne(place.getId());
+                LOGGER.debug("  reloaded: {} / {}", place.getId(), place.getVersion());
+            }
+
+            tempPlace.copyTo(place);
+
+            place = osmPlaceRepository.save(place);
+
+            // Now, save the tags
+            // TODO allow for Strings as node ids too
+            osmTagRepository.deleteByParentTableAndParentId("OSM_PLACES", node.getId());
+            for (OsmNodeTag tag: node.getTags())
+            {
+                // TODO allow for creation of lists of OsmTag entities from OsmNode objects
+                // TODO allow for creation of OsmTag entities from OsmNodeTag objects
+                OsmTag osmTag = new OsmTag();
+                osmTag.setParentTable("OSM_PLACES");
+                osmTag.setParentId(node.getId());
+                osmTag.setKey(tag.getKey());
+                osmTag.setValue(tag.getValue());
+                osmTag.setValid(true);
+
+                osmTag = osmTagRepository.save(osmTag);
+                LOGGER.info("  saved tag {}", osmTag);
+            }
+
+            LOGGER.info("Saved Place {}", place);
+        }
+        catch (Exception e)
+        {
+            LOGGER.error("While persisting place", e);
+            LOGGER.info("Place: {}", tempPlace);
+            LOGGER.info("OSM node: {}", node);
+        }
     }
 }
