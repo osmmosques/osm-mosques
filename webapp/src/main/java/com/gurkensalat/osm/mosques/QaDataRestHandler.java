@@ -7,7 +7,6 @@ import com.gurkensalat.osm.repository.DitibPlaceRepository;
 import com.gurkensalat.osm.repository.LinkedPlaceRepository;
 import com.gurkensalat.osm.repository.OsmPlaceRepository;
 import com.gurkensalat.osm.repository.QaScoreCalculator;
-import com.gurkensalat.osm.utils.DistanceConstants;
 import com.gurkensalat.osm.utils.GreatCircle;
 import org.apache.commons.collections4.ListUtils;
 import org.slf4j.Logger;
@@ -24,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.gurkensalat.osm.utils.DistanceConstants.*;
+import static com.gurkensalat.osm.utils.DistanceConstants.DELTA_LAT_LON_10_KM;
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @RestController
@@ -36,6 +35,8 @@ public class QaDataRestHandler
     private static final String APPLICATION_JSON_UTF8 = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8";
 
     private final static String REQUEST_ROOT = "/rest/qadata";
+
+    private final static String REQUEST_CALCULATE_ALL_SCORES = REQUEST_ROOT + "/calculate/all";
 
     private final static String REQUEST_CALCULATE_DITIB_SCORE = REQUEST_ROOT + "/calculate/ditib/{ditibCode}";
 
@@ -52,6 +53,21 @@ public class QaDataRestHandler
 
     @Autowired
     private QaScoreCalculator qaScoreCalculator;
+
+
+    @RequestMapping(value = REQUEST_CALCULATE_ALL_SCORES, produces = APPLICATION_JSON_UTF8)
+    ResponseEntity<String> calculateAllScores()
+    {
+        String result = "";
+        linkedPlaceRepository.invalidateAll();
+
+        calculateDitibScore("all");
+        calculateOsmScore("all");
+
+        linkedPlaceRepository.deleteAllInvalid();
+
+        return new ResponseEntity<String>(result, null, HttpStatus.OK);
+    }
 
     @RequestMapping(value = REQUEST_CALCULATE_DITIB_SCORE, produces = APPLICATION_JSON_UTF8)
     ResponseEntity<String> calculateDitibScore(@PathVariable("ditibCode") String ditibCode)
@@ -94,6 +110,7 @@ public class QaDataRestHandler
                 }
 
                 qaScoreCalculator.calculateDitibScore(place);
+                place.setValid(true);
                 place = linkedPlaceRepository.save(place);
 
                 result = place.toString();
@@ -121,6 +138,7 @@ public class QaDataRestHandler
             for (LinkedPlace place : places)
             {
                 qaScoreCalculator.calculateOSMScore(place);
+                place.setValid(true);
                 place = linkedPlaceRepository.save(place);
 
                 result = place.toString();
