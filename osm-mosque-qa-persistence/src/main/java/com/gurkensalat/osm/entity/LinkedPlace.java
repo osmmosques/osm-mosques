@@ -13,6 +13,9 @@ public class LinkedPlace extends AbstractPersistable<Long>
     @Column(name = "VERSION")
     private Integer version;
 
+    @Column(name = "VALID")
+    private boolean valid;
+
     private transient double lat;
 
     private transient double lon;
@@ -44,6 +47,16 @@ public class LinkedPlace extends AbstractPersistable<Long>
     public void setVersion(Integer version)
     {
         this.version = version;
+    }
+
+    public boolean isValid()
+    {
+        return valid;
+    }
+
+    public void setValid(boolean valid)
+    {
+        this.valid = valid;
     }
 
     public double getLat()
