@@ -42,6 +42,8 @@ public class OsmRestController
 
     private final static String REQUEST_IMPORT = REQUEST_ROOT + "/import";
 
+    private final static String REQUEST_FETCH_FROM_SERVER = REQUEST_ROOT + "/fetch";
+
     private final static List<String> germanCounties =
             Arrays.asList(
                     "baden-wuerttemberg",
@@ -153,6 +155,41 @@ public class OsmRestController
 
                 persistOsmNode(key, node, tempPlace);
             }
+        }
+
+        return new ResponseEntity<String>("Done Massa", null, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = REQUEST_FETCH_FROM_SERVER + "/{osmId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> fetchFromServer(@PathVariable("osmId") String osmId)
+    {
+        LOGGER.info("About to reload OSM data with ID", osmId);
+
+        long id = Long.parseLong(osmId);
+
+        OsmRoot root = osmRepository.loadFromServer(id);
+
+        for (OsmNode node : root.getNodes())
+        {
+            LOGGER.debug("Read node: {}, {}, {}", node, node.getLat(), node.getLon());
+
+            String key = Long.toString(node.getId());
+
+            // re-create a place from OSM data
+            OsmPlace tempPlace = new OsmPlace(node);
+            tempPlace.setKey(key);
+            tempPlace.setType(PlaceType.OSM_PLACE_OF_WORSHIP);
+
+            if (isEmpty(tempPlace.getAddress().getCountry()))
+            {
+                tempPlace.getAddress().setCountry("DE");
+            }
+
+            tempPlace.getContact().setWebsite(StringUtils.substring(tempPlace.getContact().getWebsite(), 0, 79));
+
+            persistOsmNode(key, node, tempPlace);
         }
 
         return new ResponseEntity<String>("Done Massa", null, HttpStatus.OK);
