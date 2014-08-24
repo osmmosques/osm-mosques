@@ -132,28 +132,7 @@ public class OsmRestController
 
             for (OsmNode node : root.getNodes())
             {
-                LOGGER.debug("Read node: {}, {}, {}", node, node.getLat(), node.getLon());
-
-                String key = Long.toString(node.getId());
-
-                // re-create a place from OSM data
-                OsmPlace tempPlace = new OsmPlace(node);
-                tempPlace.setKey(key);
-                tempPlace.setType(PlaceType.OSM_PLACE_OF_WORSHIP);
-
-                if (isEmpty(tempPlace.getAddress().getState()))
-                {
-                    tempPlace.getAddress().setState(state);
-                }
-
-                if (isEmpty(tempPlace.getAddress().getCountry()))
-                {
-                    tempPlace.getAddress().setCountry("DE");
-                }
-
-                tempPlace.getContact().setWebsite(StringUtils.substring(tempPlace.getContact().getWebsite(), 0, 79));
-
-                persistOsmNode(key, node, tempPlace);
+                persistOsmNode(node, state);
             }
         }
 
@@ -173,30 +152,40 @@ public class OsmRestController
 
         for (OsmNode node : root.getNodes())
         {
-            LOGGER.debug("Read node: {}, {}, {}", node, node.getLat(), node.getLon());
-
-            String key = Long.toString(node.getId());
-
-            // re-create a place from OSM data
-            OsmPlace tempPlace = new OsmPlace(node);
-            tempPlace.setKey(key);
-            tempPlace.setType(PlaceType.OSM_PLACE_OF_WORSHIP);
-
-            if (isEmpty(tempPlace.getAddress().getCountry()))
-            {
-                tempPlace.getAddress().setCountry("DE");
-            }
-
-            tempPlace.getContact().setWebsite(StringUtils.substring(tempPlace.getContact().getWebsite(), 0, 79));
-
-            persistOsmNode(key, node, tempPlace);
+            persistOsmNode(node);
         }
 
         return new ResponseEntity<String>("Done Massa", null, HttpStatus.OK);
     }
 
-    private void persistOsmNode(String key, OsmNode node, OsmPlace tempPlace)
+    private void persistOsmNode(OsmNode node)
     {
+        persistOsmNode(node, null);
+    }
+
+    private void persistOsmNode(OsmNode node, String state)
+    {
+        LOGGER.debug("Read node: {}, {}, {}", node, node.getLat(), node.getLon());
+
+        String key = Long.toString(node.getId());
+
+        // re-create a place from OSM data
+        OsmPlace tempPlace = new OsmPlace(node);
+        tempPlace.setKey(key);
+        tempPlace.setType(PlaceType.OSM_PLACE_OF_WORSHIP);
+
+        if (isEmpty(tempPlace.getAddress().getState()))
+        {
+            tempPlace.getAddress().setState(state);
+        }
+
+        if (isEmpty(tempPlace.getAddress().getCountry()))
+        {
+            tempPlace.getAddress().setCountry("DE");
+        }
+
+        tempPlace.getContact().setWebsite(StringUtils.substring(tempPlace.getContact().getWebsite(), 0, 79));
+
         try
         {
             OsmPlace place;
@@ -219,10 +208,12 @@ public class OsmRestController
 
             place = osmPlaceRepository.save(place);
 
+            LOGGER.debug("Saved Place {}", place);
+
             // Now, save the tags
             // TODO allow for Strings as node ids too
             osmTagRepository.deleteByParentTableAndParentId("OSM_PLACES", node.getId());
-            for (OsmNodeTag tag: node.getTags())
+            for (OsmNodeTag tag : node.getTags())
             {
                 // TODO allow for creation of lists of OsmTag entities from OsmNode objects
                 // TODO allow for creation of OsmTag entities from OsmNodeTag objects
@@ -234,10 +225,8 @@ public class OsmRestController
                 osmTag.setValid(true);
 
                 osmTag = osmTagRepository.save(osmTag);
-                LOGGER.info("  saved tag {}", osmTag);
+                LOGGER.debug("  saved tag {}", osmTag);
             }
-
-            LOGGER.info("Saved Place {}", place);
         }
         catch (Exception e)
         {
