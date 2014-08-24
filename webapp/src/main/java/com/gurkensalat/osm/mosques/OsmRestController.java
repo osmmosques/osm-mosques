@@ -1,11 +1,14 @@
 package com.gurkensalat.osm.mosques;
 
 import com.gurkensalat.osm.entity.OsmNode;
+import com.gurkensalat.osm.entity.OsmNodeTag;
 import com.gurkensalat.osm.entity.OsmPlace;
 import com.gurkensalat.osm.entity.OsmRoot;
+import com.gurkensalat.osm.entity.OsmTag;
 import com.gurkensalat.osm.entity.PlaceType;
 import com.gurkensalat.osm.repository.OsmPlaceRepository;
 import com.gurkensalat.osm.repository.OsmRepository;
+import com.gurkensalat.osm.repository.OsmTagRepository;
 import org.apache.commons.lang3.CharEncoding;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -64,6 +67,9 @@ public class OsmRestController
 
     @Autowired
     private OsmPlaceRepository osmPlaceRepository;
+
+    @Autowired
+    private OsmTagRepository osmTagRepository;
 
     @Value("${osm.data.location}")
     private String dataLocation;
@@ -167,6 +173,24 @@ public class OsmRestController
                     tempPlace.copyTo(place);
 
                     place = osmPlaceRepository.save(place);
+
+                    // Now, save the tags
+                    // TODO allow for Strings as node ids too
+                    osmTagRepository.deleteByParentTableAndParentId("OSM_PLACES", node.getId());
+                    for (OsmNodeTag tag: node.getTags())
+                    {
+                        // TODO allow for creation of lists of OsmTag entities from OsmNode objects
+                        // TODO allow for creation of OsmTag entities from OsmNodeTag objects
+                        OsmTag osmTag = new OsmTag();
+                        osmTag.setParentTable("OSM_PLACES");
+                        osmTag.setParentId(node.getId());
+                        osmTag.setKey(tag.getKey());
+                        osmTag.setValue(tag.getValue());
+                        osmTag.setValid(true);
+
+                        osmTag = osmTagRepository.save(osmTag);
+                        LOGGER.info("  saved tag {}", osmTag);
+                    }
 
                     LOGGER.info("Saved Place {}", place);
                 }
