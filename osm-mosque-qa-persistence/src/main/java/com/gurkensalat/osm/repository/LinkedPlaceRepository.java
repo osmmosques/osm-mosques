@@ -18,11 +18,11 @@ public interface LinkedPlaceRepository extends PagingAndSortingRepository<Linked
 
     @Modifying
     @Transactional
-    @Query("update LinkedPlace set valid = 'f'")
+    @Query("update LinkedPlace set valid = false")
     void invalidateAll();
 
     @Modifying
     @Transactional
-    @Query("delete from LinkedPlace where valid = 'f'")
+    @Query("delete from LinkedPlace where valid = false")
     void deleteAllInvalid();
 }
