@@ -134,6 +134,6 @@ mysql -uroot -p$(cat ${HOME}/.my.pass) ${db} \
     > ${DB_DIR}/${db}-osm_places.sql
 
 mysql -uroot -p$(cat ${HOME}/.my.pass) ${db} \
-    -e "select * from osm_tags order by p_table, p_id, d_key;" \
+    -e "select p_table, p_id, d_key, d_val, id, version from osm_tags order by p_table, p_id, d_key;" \
     > ${DB_DIR}/${db}-osm_tags.sql
     
