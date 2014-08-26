@@ -76,6 +76,8 @@
         <commons-dbcp.version>1.4</commons-dbcp.version>
         <javassist.version>3.18.2-GA</javassist.version>
 
+        <flyway.version>3.0</flyway.version>
+
         <jadira-usertype.version>3.2.0.GA</jadira-usertype.version>
 
         <scannotation.version>1.0.2</scannotation.version>
@@ -381,6 +383,12 @@
                 <groupId>commons-dbcp</groupId>
                 <artifactId>commons-dbcp</artifactId>
                 <version>${commons-dbcp.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-core</artifactId>
+                <version>${flyway.version}</version>
             </dependency>
 
             <dependency>
