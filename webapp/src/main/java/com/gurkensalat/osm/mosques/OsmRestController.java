@@ -278,6 +278,14 @@ public class OsmRestController
                 osmTag.setValue(tag.getValue());
                 osmTag.setValid(true);
 
+                if (osmTag.getValue().length() > 79)
+                {
+                    LOGGER.error("Cutting down overly long tag value");
+                    LOGGER.info("    tag was: {} / '{}'", osmTag.getValue().length(), osmTag.getValue());
+                    osmTag.setValue(StringUtils.substring(osmTag.getValue(), 0, 79));
+                    LOGGER.info("    saving: '{}'", osmTag.getValue().length(), osmTag.getValue());
+                }
+
                 osmTag = osmTagRepository.save(osmTag);
                 LOGGER.debug("  saved tag {}", osmTag);
             }
