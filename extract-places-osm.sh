@@ -1,8 +1,7 @@
 #! /bin/sh
 
-OSMOSIS=${HOME}/osmosis-0.43.1
 STORAGE=${HOME}/Dropbox/osmdata
-TMPDIR=${HOME}/tmp/osm-place-mosques
+TMPDIR=${HOME}/tmp/osm-mosques
 WEBDATA=/home/tomcat/osm-mosques/data
 
 COUNTIES=
@@ -25,26 +24,35 @@ extract_data() {
 	tag=${type}
     fi
 
-    ${OSMOSIS}/bin/osmosis \
-	--read-pbf file=${FILE} \
-	--tag-filter accept-nodes religion=${type} \
-	--tag-filter reject-ways \
-	--tag-filter reject-relations \
-	--write-xml ${TMPDIR}/${country}-${county}-religion-${type}.osm \
-	> ${TMPDIR}/${country}-${county}-religion-${type}.stdout.txt \
-	2> ${TMPDIR}/${country}-${county}-religion-${type}.stderr.txt
+    EXTRACT=${TMPDIR}/${country}-${county}-religion-${type}.osm
+
+    ~/bin/osmconvert ${WORLD_FILE} -B=${POLY_FILE} > ${EXTRACT}
 
     mkdir -p ${STORAGE}/${country}/${MONTH}/${DAY}
 
     cp -f \
-	${TMPDIR}/${country}-${county}-religion-${type}.osm \
-	${STORAGE}/${country}/${MONTH}/${DAY}/${country}-${county}-religion-${type}.osm
+ 	${EXTRACT} \
+ 	${STORAGE}/${country}/${MONTH}/${DAY}/${country}-${county}-religion-${type}.osm
 
     cp -f \
-	${TMPDIR}/${country}-${county}-religion-${type}.osm \
-	${WEBDATA}/${country}-${county}-religion-${type}.osm
+ 	${EXTRACT} \
+ 	${WEBDATA}/${country}-${county}-religion-${type}.osm
 }
 
+
+mkdir -p ${TMPDIR}
+cd ${TMPDIR}
+WORLD_FILE=${TMPDIR}/world-religion-muslim.osm
+
+# wget "http://www.overpass-api.de/api/xapi?node[religion=muslim]" -O ${WORLD_FILE} \
+#     > ${WORLD_FILE}.out 2> ${WORLD_FILE}.err
+
+MONTH=$(date +%Y%m --reference ${WORLD_FILE})
+DAY=$(date +%Y%m%d --reference ${WORLD_FILE})
+
+mkdir -p ${STORAGE}/world/${MONTH}/${DAY}
+
+cp ${WORLD_FILE} ${STORAGE}/world/${MONTH}/${DAY}
 
 for country in ${COUNTRIES}
 do
@@ -79,34 +87,38 @@ do
 	mkdir -p ${TMPDIR}
 	cd ${TMPDIR}
 
-	FILE=${TMPDIR}/${country}-${county}-latest.osm.pbf
 
-	rm -f ${FILE}
-
-	if [ "germany" == "${country}" ]
+	if [ "${county}" == "all" ]
 	then
-	    :
-	    wget http://download.geofabrik.de/europe/${country}/${county}-latest.osm.pbf -O ${FILE} \
-		> ${FILE}.out 2> ${FILE}.err
+	    POLY_URL=http://download.geofabrik.de/europe/${country}.poly
+	    POLY_FILE=${TMPDIR}/${country}.poly
 	else
-	    :
-	    cp --preserve=all ${TMPDIR}/../osm-place-connectivity/${country}-latest.osm.pbf ${TMPDIR}/${country}-${county}-latest.osm.pbf
+	    POLY_URL=http://download.geofabrik.de/europe/${country}/${county}.poly
+	    POLY_FILE=${TMPDIR}/${country}-${county}.poly
 	fi
 
-	MONTH=$(date +%Y%m --reference ${FILE})
-	DAY=$(date +%Y%m%d --reference ${FILE})
+	wget "${POLY_URL}" -O ${POLY_FILE} \
+	    > ${POLY_FILE}.out 2> ${POLY_FILE}.err
 
-	if [ -a ${FILE} ] 
+	MONTH=$(date +%Y%m --reference ${POLY_FILE})
+	DAY=$(date +%Y%m%d --reference ${POLY_FILE})
+
+	mkdir -p ${STORAGE}/${country}/${MONTH}/${DAY}
+
+	cp ${POLY_FILE} ${STORAGE}/${country}/${MONTH}/${DAY}
+
+	if [ -a ${WORLD_FILE} ] 
 	then
-	    if [ -s ${FILE} ]
+	    if [ -s ${WORLD_FILE} ]
 	    then
+		:
 		extract_data ${country} ${county} muslim
 	    fi
 	fi
-
-	find ${STORAGE}/${country} -type f -a -mtime +14 | xargs --no-run-if-empty rm
-	find ${STORAGE}/${country} -type d -a -empty | xargs --no-run-if-empty rmdir
     done
+
+    find ${STORAGE}/${country} -type f -a -mtime +14 | xargs --no-run-if-empty rm
+    find ${STORAGE}/${country} -type d -a -empty | xargs --no-run-if-empty rmdir
 done
 
 # TODO grep in property file to obtain username / password for webapp
