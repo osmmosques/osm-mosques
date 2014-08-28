@@ -9,6 +9,7 @@ COUNTIES=
 COUNTRIES=
 COUNTRIES="${COUNTRIES} germany"
 COUNTRIES="${COUNTRIES} turkey"
+COUNTRIES="${COUNTRIES} netherlands"
 COUNTRIES="${COUNTRIES} cyprus"
 
 extract_data() {
@@ -44,8 +45,8 @@ mkdir -p ${TMPDIR}
 cd ${TMPDIR}
 WORLD_FILE=${TMPDIR}/world-religion-muslim.osm
 
-# wget "http://www.overpass-api.de/api/xapi?node[religion=muslim]" -O ${WORLD_FILE} \
-#     > ${WORLD_FILE}.out 2> ${WORLD_FILE}.err
+wget "http://www.overpass-api.de/api/xapi?node[religion=muslim]" -O ${WORLD_FILE} \
+    > ${WORLD_FILE}.out 2> ${WORLD_FILE}.err
 
 MONTH=$(date +%Y%m --reference ${WORLD_FILE})
 DAY=$(date +%Y%m%d --reference ${WORLD_FILE})
