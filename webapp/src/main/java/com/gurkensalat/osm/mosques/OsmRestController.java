@@ -44,6 +44,13 @@ public class OsmRestController
 
     private final static String REQUEST_FETCH_FROM_SERVER = REQUEST_ROOT + "/fetch";
 
+    private final static List<String> countries =
+            Arrays.asList(
+                    // "turkey",
+                    // "cyprus",
+                    "netherlands"
+            );
+
     private final static List<String> germanCounties =
             Arrays.asList(
                     "baden-wuerttemberg",
@@ -123,7 +130,6 @@ public class OsmRestController
 
         for (String state : germanCounties)
         {
-            // TODO sanitize data directory first...
             File dataFile = new File(dataDirectory, "germany-" + state + "-religion-muslim" + ".osm");
 
             OsmRoot root = osmRepository.parse(dataFile);
@@ -132,9 +138,25 @@ public class OsmRestController
 
             for (OsmNode node : root.getNodes())
             {
-                persistOsmNode(node, state);
+                persistOsmNode(node, "germany", state);
             }
         }
+
+        for (String country : countries)
+        {
+            File dataFile = new File(dataDirectory, country + "-all-religion-muslim" + ".osm");
+
+            OsmRoot root = osmRepository.parse(dataFile);
+
+            LOGGER.info("Read {} nodes from {}", root.getNodes().size(), dataFile.getName());
+
+            for (OsmNode node : root.getNodes())
+            {
+                persistOsmNode(node, country, "");
+            }
+
+        }
+
 
         return new ResponseEntity<String>("Done Massa", null, HttpStatus.OK);
     }
@@ -160,10 +182,10 @@ public class OsmRestController
 
     private void persistOsmNode(OsmNode node)
     {
-        persistOsmNode(node, null);
+        persistOsmNode(node, null, null);
     }
 
-    private void persistOsmNode(OsmNode node, String state)
+    private void persistOsmNode(OsmNode node, String state, String county)
     {
         LOGGER.debug("Read node: {}, {}, {}", node, node.getLat(), node.getLon());
 
@@ -181,7 +203,22 @@ public class OsmRestController
 
         if (isEmpty(tempPlace.getAddress().getCountry()))
         {
-            tempPlace.getAddress().setCountry("DE");
+            if ("turkey".equals(state))
+            {
+                tempPlace.getAddress().setCountry("TR");
+            }
+            else if ("cyprus".equals(state))
+            {
+                tempPlace.getAddress().setCountry("CY");
+            }
+            else if ("netherlands".equals("state"))
+            {
+                tempPlace.getAddress().setCountry("NL");
+            }
+            else if ("germany".equals("state"))
+            {
+                tempPlace.getAddress().setCountry("DE");
+            }
         }
 
         tempPlace.getContact().setWebsite(StringUtils.substring(tempPlace.getContact().getWebsite(), 0, 79));
