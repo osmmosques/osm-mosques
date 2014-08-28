@@ -246,7 +246,24 @@ public class OsmRestController
             place = osmPlaceRepository.save(place);
 
             LOGGER.debug("Saved Place {}", place);
+            persistTags(node);
 
+
+        }
+        catch (Exception e)
+        {
+            LOGGER.error("While persisting place", e);
+            LOGGER.info("Place: {}", tempPlace);
+            LOGGER.info("OSM node: {}", node);
+        }
+    }
+
+    private void persistTags(OsmNode node)
+    {
+        OsmTag osmTag = null;
+
+        try
+        {
             // Now, save the tags
             // TODO allow for Strings as node ids too
             osmTagRepository.deleteByParentTableAndParentId("OSM_PLACES", node.getId());
@@ -254,7 +271,7 @@ public class OsmRestController
             {
                 // TODO allow for creation of lists of OsmTag entities from OsmNode objects
                 // TODO allow for creation of OsmTag entities from OsmNodeTag objects
-                OsmTag osmTag = new OsmTag();
+                osmTag = new OsmTag();
                 osmTag.setParentTable("OSM_PLACES");
                 osmTag.setParentId(node.getId());
                 osmTag.setKey(tag.getKey());
@@ -268,8 +285,8 @@ public class OsmRestController
         catch (Exception e)
         {
             LOGGER.error("While persisting place", e);
-            LOGGER.info("Place: {}", tempPlace);
             LOGGER.info("OSM node: {}", node);
+            LOGGER.info("     tag: {}", osmTag);
         }
     }
 }
