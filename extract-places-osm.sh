@@ -7,6 +7,7 @@ WEBDATA=/home/tomcat/osm-mosques/data
 COUNTIES=
 
 COUNTRIES=
+COUNTRIES="${COUNTRIES} austria"
 COUNTRIES="${COUNTRIES} germany"
 COUNTRIES="${COUNTRIES} turkey"
 COUNTRIES="${COUNTRIES} netherlands"
