@@ -110,10 +110,10 @@ public class DitibRestController
 
         for (int i = 1; i < 9; i++)
         {
-            String dataFileName = "ditib-germany-page-" + i + ".html";
+            String dataFileName = "germany-ditib-page-" + i + ".html";
             File dataFile = new File(dataDirectory, dataFileName);
 
-            File splitDirectory = new File(dataDirectory, "ditib-germany-split-" + i);
+            File splitDirectory = new File(dataDirectory, "germany-ditib-split-" + i);
             splitDirectory.mkdirs();
             ditibParserRepository.prettify(splitDirectory, dataFile);
 
