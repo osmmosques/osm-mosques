@@ -94,6 +94,16 @@
         </tr>
         <tr>
             <td th:text="#{qadata.source.ditib}">DITIB</td>
+            <td th:text="#{list.city}">Country</td>
+            <td th:text="${place.ditibPlace.address.country}"></td>
+        </tr>
+        <tr>
+            <td th:text="#{qadata.source.osm}">OSM</td>
+            <td th:text="#{list.country}">Country</td>
+            <td th:text="${place.osmPlace.address.country}"></td>
+        </tr>
+        <tr>
+            <td th:text="#{qadata.source.ditib}">DITIB</td>
             <td th:text="#{list.city}">City</td>
             <td th:text="${place.ditibPlace.address.city}"></td>
         </tr>

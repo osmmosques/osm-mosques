@@ -24,6 +24,7 @@
         <th th:text="#{list.key}">KEY</th>
         <th th:text="#{list.link-to-map}">MAP</th>
         <th th:text="#{list.name}">NAME</th>
+        <th th:text="#{list.country}">COUNTRY</th>
         <th th:text="#{list.city}">CITY</th>
         <th th:text="#{list.street}">STREET</th>
         <th th:text="#{list.housenumber}">NUMBER</th>
@@ -41,6 +42,7 @@
             <div th:unless="${place.geocoded}" th:text="#{list.not-geocoded}" />
         </td>
         <td th:text="${place.name}"></td>
+        <td th:text="${place.address.country}"></td>
         <td th:text="${place.address.city}"></td>
         <td th:text="${place.address.street}"></td>
         <td th:text="${place.address.housenumber}"></td>

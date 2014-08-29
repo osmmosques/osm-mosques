@@ -24,6 +24,7 @@
         <th th:text="#{list.key}">KEY</th>
         <th th:text="#{list.link-to-map}">MAP</th>
         <th th:text="#{list.name}">NAME</th>
+        <th th:text="#{list.country}">COUNTRY</th>
         <th th:text="#{list.city}">CITY</th>
         <th th:text="#{list.street}">STREET</th>
         <th th:text="#{list.housenumber}">NUMBER</th>
@@ -36,6 +37,7 @@
         <td></td>
         <td><a target="map" th:text="#{list.link-to-map}" th:href="@{/map} + '#zoom=17&amp;lat=' + ${place.lat} + '&amp;lon=' + ${place.lon}"></a></td>
         <td th:text="${place.name}"></td>
+        <td th:text="${place.address.country}"></td>
         <td th:text="${place.address.city}"></td>
         <td th:text="${place.address.street}"></td>
         <td th:text="${place.address.housenumber}"></td>

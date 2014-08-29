@@ -26,6 +26,7 @@
         <th th:text="#{list.link-to-map}">MAP</th>
         <th th:text="#{list.link-to-details}">DET</th>
         <th th:text="#{list.name}">NAME</th>
+        <th th:text="#{list.country}">COUNTRY</th>
         <th th:text="#{list.city}">CITY</th>
         <th th:text="#{list.street}">STREET</th>
         <th th:text="#{list.housenumber}">NUMBER</th>
@@ -40,6 +41,7 @@
         <td><a target="map" th:text="#{list.link-to-map}" th:href="@{/map} + '#zoom=17&amp;lat=' + ${place.lat} + '&amp;lon=' + ${place.lon}"></a></td>
         <td><a target="qa-details" th:href="@{/qadata/details/} + ${place.id}" th:text="#{list.link-to-details}">Details</a></td>
         <td><div th:text="${place.ditibPlace.name}">ditib-name</div><br/><div th:text="${place.osmPlace.name}">osm-name</div></td>
+        <td><div th:text="${place.ditibPlace.address.country}">ditib-city</div><br/><div th:text="${place.osmPlace.address.country}">osm-country</div></td>
         <td><div th:text="${place.ditibPlace.address.city}">ditib-city</div><br/><div th:text="${place.osmPlace.address.city}">osm-city</div></td>
         <td><div th:text="${place.ditibPlace.address.street}">ditib-street</div><br/><div th:text="${place.osmPlace.address.street}">osm-street</div></td>
         <td><div th:text="${place.ditibPlace.address.housenumber}">ditib-housenumber</div><br/><div th:text="${place.osmPlace.address.housenumber}">osm-housenumber</div></td>
