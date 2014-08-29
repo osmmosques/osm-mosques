@@ -32,7 +32,7 @@
     <logger name="com.gurkensalat.osm.repository.OsmRepositoryImpl" level="info"/>
 
     <root level="debug">
-        <appender-ref ref="console"/>
+        <!-- <appender-ref ref="console"/> -->
         <appender-ref ref="file"/>
     </root>
 
