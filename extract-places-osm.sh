@@ -8,10 +8,11 @@ COUNTIES=
 
 COUNTRIES=
 COUNTRIES="${COUNTRIES} austria"
-COUNTRIES="${COUNTRIES} germany"
-COUNTRIES="${COUNTRIES} turkey"
-COUNTRIES="${COUNTRIES} netherlands"
 COUNTRIES="${COUNTRIES} cyprus"
+COUNTRIES="${COUNTRIES} germany"
+COUNTRIES="${COUNTRIES} netherlands"
+COUNTRIES="${COUNTRIES} switzerland"
+COUNTRIES="${COUNTRIES} turkey"
 
 extract_data() {
 
