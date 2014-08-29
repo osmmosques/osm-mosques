@@ -160,6 +160,7 @@ public class DitibRestController
                 place.setName(parsedPlace.getName());
 
                 place.setAddress(new Address());
+                place.getAddress().setCountry("DE");
                 place.getAddress().setPostcode(parsedPlace.getPostcode());
                 place.getAddress().setCity(parsedPlace.getCity());
                 place.getAddress().setStreet(parsedPlace.getStreet());
