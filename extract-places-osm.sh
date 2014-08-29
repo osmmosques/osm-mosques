@@ -145,7 +145,7 @@ mysqldump -uroot -p$(cat ${HOME}/.my.pass) --skip-extended-insert ${db} \
     > ${DB_DIR}/${db}-dump.sql
 
 mysql -uroot -p$(cat ${HOME}/.my.pass) ${db} \
-    -e "select d_key, lat, lon, name, id, addr_city, addr_street, addr_housenumber from osm_places order by name limit 9999;" \
+    -e "select d_key, lat, lon, name, id, addr_country, addr_city, addr_street, addr_housenumber from osm_places order by name limit 9999;" \
     > ${DB_DIR}/${db}-osm_places.sql
 
 mysql -uroot -p$(cat ${HOME}/.my.pass) ${db} \
