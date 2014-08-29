@@ -120,8 +120,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.gurkensalat.org.webjars</groupId>
-            <artifactId>leaflet-makimarkers</artifactId>
+            <groupId>org.webjars</groupId>
+            <artifactId>Leaflet.MakiMarkers</artifactId>
         </dependency>
 
         <dependency>
