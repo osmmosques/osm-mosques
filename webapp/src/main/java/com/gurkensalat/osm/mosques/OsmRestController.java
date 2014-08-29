@@ -46,9 +46,11 @@ public class OsmRestController
 
     private final static List<String> countries =
             Arrays.asList(
+                    "austria",
                     // "turkey",
-                    // "cyprus",
-                    "netherlands"
+                    "cyprus",
+                    "netherlands",
+                    "switzerland"
             );
 
     private final static List<String> germanCounties =
@@ -185,7 +187,7 @@ public class OsmRestController
         persistOsmNode(node, null, null);
     }
 
-    private void persistOsmNode(OsmNode node, String state, String county)
+    private void persistOsmNode(OsmNode node, String country, String state)
     {
         LOGGER.debug("Read node: {}, {}, {}", node, node.getLat(), node.getLon());
 
@@ -203,19 +205,27 @@ public class OsmRestController
 
         if (isEmpty(tempPlace.getAddress().getCountry()))
         {
-            if ("turkey".equals(state))
+            if ("turkey".equals(country))
             {
                 tempPlace.getAddress().setCountry("TR");
             }
-            else if ("cyprus".equals(state))
+            else if ("cyprus".equals(country))
             {
                 tempPlace.getAddress().setCountry("CY");
             }
-            else if ("netherlands".equals("state"))
+            else if ("austria".equals(country))
+            {
+                tempPlace.getAddress().setCountry("AT");
+            }
+            else if ("switzerland".equals(country))
+            {
+                tempPlace.getAddress().setCountry("CH");
+            }
+            else if ("netherlands".equals(country))
             {
                 tempPlace.getAddress().setCountry("NL");
             }
-            else if ("germany".equals("state"))
+            else if ("germany".equals(country))
             {
                 tempPlace.getAddress().setCountry("DE");
             }
