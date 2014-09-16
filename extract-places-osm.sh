@@ -43,11 +43,16 @@ extract_data() {
 }
 
 
+HERE=${PWD}/$(dirname $0)
+
 mkdir -p ${TMPDIR}
 cd ${TMPDIR}
-WORLD_FILE=${TMPDIR}/world-religion-muslim.osm
 
-wget "http://www.overpass-api.de/api/xapi?node[religion=muslim]" -O ${WORLD_FILE} \
+WORLD_FILE=${TMPDIR}/world-religion-muslim-node.osm
+
+time wget "http://www.overpass-api.de/api/interpreter" \
+    --post-file=${HERE}/data/query-node-religion-muslim.xml \
+    -O ${WORLD_FILE} \
     > ${WORLD_FILE}.out 2> ${WORLD_FILE}.err
 
 MONTH=$(date +%Y%m --reference ${WORLD_FILE})
