@@ -48,19 +48,25 @@ HERE=${PWD}/$(dirname $0)
 mkdir -p ${TMPDIR}
 cd ${TMPDIR}
 
+for type in node way relation
+do
+    WORLD_FILE=${TMPDIR}/world-religion-muslim-${type}.osm
+
+    time wget "http://www.overpass-api.de/api/interpreter" \
+	--post-file=${HERE}/data/query-${type}-religion-muslim.xml \
+	-O ${WORLD_FILE} \
+	> ${WORLD_FILE}.out 2> ${WORLD_FILE}.err
+
+    MONTH=$(date +%Y%m --reference ${WORLD_FILE})
+    DAY=$(date +%Y%m%d --reference ${WORLD_FILE})
+
+    mkdir -p ${STORAGE}/world/${MONTH}/${DAY}
+
+    cp ${WORLD_FILE} ${STORAGE}/world/${MONTH}/${DAY}
+done
+
 WORLD_FILE=${TMPDIR}/world-religion-muslim-node.osm
 
-time wget "http://www.overpass-api.de/api/interpreter" \
-    --post-file=${HERE}/data/query-node-religion-muslim.xml \
-    -O ${WORLD_FILE} \
-    > ${WORLD_FILE}.out 2> ${WORLD_FILE}.err
-
-MONTH=$(date +%Y%m --reference ${WORLD_FILE})
-DAY=$(date +%Y%m%d --reference ${WORLD_FILE})
-
-mkdir -p ${STORAGE}/world/${MONTH}/${DAY}
-
-cp ${WORLD_FILE} ${STORAGE}/world/${MONTH}/${DAY}
 
 for country in ${COUNTRIES}
 do
