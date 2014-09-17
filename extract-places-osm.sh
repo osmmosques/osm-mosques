@@ -52,7 +52,7 @@ for type in node way relation
 do
     WORLD_FILE=${TMPDIR}/world-religion-muslim-${type}.osm
 
-    time wget "http://www.overpass-api.de/api/interpreter" \
+    wget "http://www.overpass-api.de/api/interpreter" \
 	--post-file=${HERE}/data/query-${type}-religion-muslim.xml \
 	-O ${WORLD_FILE} \
 	> ${WORLD_FILE}.out 2> ${WORLD_FILE}.err
