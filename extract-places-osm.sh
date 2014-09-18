@@ -43,7 +43,8 @@ extract_data() {
 }
 
 
-HERE=${PWD}/$(dirname $0)
+# HERE=${PWD}/$(dirname $0)
+HERE=$(dirname $0)
 
 mkdir -p ${TMPDIR}
 cd ${TMPDIR}
