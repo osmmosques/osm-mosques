@@ -140,6 +140,7 @@ done
 for country in germany # ${COUNTRIES}
 do
     :
+    mkdir -p ${STORAGE}/${country}/${MONTH}/${DAY}
     curl \
 	http://localhost:8888/osm-mosques/rest/osm/import \
 	-o ${STORAGE}/${country}/${MONTH}/${DAY}/curl-osm-mosques-import.data.txt \
