@@ -84,7 +84,6 @@
 
         <h2-database.version>1.4.181</h2-database.version>
         <mysqldb.version>5.1.32</mysqldb.version>
-        <postgresql.version>9.3-1102-jdbc4</postgresql.version>
 
         <!-- Our own libraries -->
         <osm-tools.version>0.0.1-SNAPSHOT</osm-tools.version>
@@ -419,12 +418,6 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysqldb.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.postgresql</groupId>
-                <artifactId>postgresql</artifactId>
-                <version>${postgresql.version}</version>
             </dependency>
 
             <dependency>
