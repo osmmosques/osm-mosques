@@ -44,7 +44,7 @@
 
         <!-- Sundry library versions -->
         <spring.version>4.1.4.RELEASE</spring.version>
-        <spring-data.version>1.7.0.RELEASE</spring-data.version>
+        <spring-data.version>1.7.2.RELEASE</spring-data.version>
         <spring-data-rest.version>2.2.0.RELEASE</spring-data-rest.version>
         <spring-boot.version>1.2.1.RELEASE</spring-boot.version>
 
