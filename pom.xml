@@ -52,7 +52,7 @@
         <commons-io.version>2.4</commons-io.version>
         <commons-lang.version>3.3.2</commons-lang.version>
 
-        <jackson.version>2.4.2</jackson.version>
+        <jackson.version>2.5.1</jackson.version>
 
         <joda-time.version>2.4</joda-time.version>
 
