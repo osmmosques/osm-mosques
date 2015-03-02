@@ -26,6 +26,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <maven-prerequisite.version>3.2.0</maven-prerequisite.version>
+
         <!-- Maven plugin versions -->
         <plugin.gmaven-plugin.version>1.5</plugin.gmaven-plugin.version>
         <maven-clean-plugin.version>2.5</maven-clean-plugin.version>
@@ -98,6 +100,10 @@
         <spring-boot.start.class>none</spring-boot.start.class>
 
     </properties>
+
+    <prerequisites>
+        <maven>${maven-prerequisite.version}</maven>
+    </prerequisites>
 
     <!-- variables in scm urls make gh-pages site uploads fail -->
     <scm>
