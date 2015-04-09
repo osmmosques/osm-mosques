@@ -1,12 +1,10 @@
 osm-mosques
 ===========
-
 A Web application to display maps of muslim prayer sites
 
 Status
 ======
-* [![Dependency Status](https://www.versioneye.com/user/projects/53aae466d043f92bf900007f/badge.png)](https://www.versioneye.com/user/projects/53aae466d043f92bf900007f)
-* TODO: Wrong VersionEye project...
+[![Dependency Status](https://www.versioneye.com/user/projects/53de9ae116279fb98c000007/badge.svg?style=flat)](https://www.versioneye.com/user/projects/53de9ae116279fb98c000007)
 
 
 Maven site(s)
