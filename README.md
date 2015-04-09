@@ -12,4 +12,3 @@ Status
 Maven site(s)
 =============
 * [SNAPSHOT](http://hakan42.github.io/osm-mosques/site/0.0.1-SNAPSHOT/)
-
