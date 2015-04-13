@@ -19,10 +19,33 @@
     </properties>
 
     <dependencies>
+        <!-- Our own libraries -->
+        <dependency>
+            <groupId>com.gurkensalat.osm</groupId>
+            <artifactId>osm-parser</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.gurkensalat.osm</groupId>
+            <artifactId>osm-persistence</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.gurkensalat.osm</groupId>
+            <artifactId>osm-utils</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <!-- Database connectors -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
