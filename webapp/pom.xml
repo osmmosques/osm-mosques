@@ -40,6 +40,11 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+        </dependency>
+
         <!-- Database connectors -->
         <dependency>
             <groupId>mysql</groupId>
