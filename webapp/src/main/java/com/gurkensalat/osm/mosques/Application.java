@@ -23,12 +23,20 @@ package com.gurkensalat.osm.mosques;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @EnableAutoConfiguration
+@PropertySources({
+        @PropertySource("classpath:application-default.properties"),
+        @PropertySource(value = "file:/etc/webapps/osm-mosques/application-optional-override.properties", ignoreResourceNotFound = true),
+        // @PropertySource("classpath:/opencagedata-default.properties"),
+        @PropertySource(value = "file:${HOME}/.config/opencagedata", ignoreResourceNotFound = true)
+})
 public class Application
 {
     public static void main(String[] args)
