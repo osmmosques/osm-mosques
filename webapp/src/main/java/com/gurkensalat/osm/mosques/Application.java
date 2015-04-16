@@ -43,6 +43,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
         @PropertySource(value = "file:${HOME}/.config/opencagedata", ignoreResourceNotFound = true)
 })
 @ComponentScan(basePackageClasses = {
+        ApplicationComponentScanMarker.class,
         EntityComponentScanMarker.class,
         RepositoryComponentScanMarker.class
 })
