@@ -64,9 +64,8 @@ public class Application
     }
 
     @RequestMapping("/")
-    @ResponseBody
-    String home()
+    String index()
     {
-        return "Hello World!";
+        return "index";
     }
 }
