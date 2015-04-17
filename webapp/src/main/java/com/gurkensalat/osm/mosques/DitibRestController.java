@@ -56,7 +56,8 @@ public class DitibRestController
 
     private final static String REQUEST_IMPORT = REQUEST_ROOT + "/import";
 
-    @Autowired
+    // FIXME re-enable geocodeRepository...
+    // @Autowired
     private GeocodeRepository geocodeRepository;
 
     @Autowired
@@ -86,7 +87,7 @@ public class DitibRestController
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> importData(@PathVariable("path") String path)
     {
-        LOGGER.info("About to import OSM data from {} / {}", dataLocation, path);
+        LOGGER.info("About to import DITIB data from {} / {}", dataLocation, path);
 
         File dataDirectory = new File(dataLocation);
         if (path != null)

@@ -36,6 +36,22 @@
         </dependency>
 
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ditib-parser</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ditib-persistence</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.tandogan.osm</groupId>
+            <artifactId>opencagedata-geocoder-library</artifactId>
+        </dependency>
+
+        <!-- Spring goes here -->
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
