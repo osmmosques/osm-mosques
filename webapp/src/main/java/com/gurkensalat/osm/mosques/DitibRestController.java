@@ -56,8 +56,7 @@ public class DitibRestController
 
     private final static String REQUEST_IMPORT = REQUEST_ROOT + "/import";
 
-    // FIXME re-enable geocodeRepository...
-    // @Autowired
+    @Autowired
     private GeocodeRepository geocodeRepository;
 
     @Autowired
