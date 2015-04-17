@@ -29,7 +29,7 @@ extract_data() {
 
     EXTRACT=${TMPDIR}/${country}-${county}-religion-${type}.osm
 
-    ~/bin/osmconvert ${WORLD_FILE} -B=${POLY_FILE} > ${EXTRACT}
+    /home/osm-mosques/bin/osmconvert ${WORLD_FILE} -B=${POLY_FILE} > ${EXTRACT}
 
     mkdir -p ${STORAGE}/${country}/${MONTH}/${DAY}
 
