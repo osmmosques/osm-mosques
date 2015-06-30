@@ -3,6 +3,7 @@
 STORAGE=${HOME}/Dropbox/osmdata
 TMPDIR=${HOME}/tmp/osm-mosques
 WEBDATA=/home/tomcat/osm-mosques/data
+LOGDIR=${HOME}/logs
 
 COUNTIES=
 
@@ -143,9 +144,15 @@ do
     mkdir -p ${STORAGE}/${country}/${MONTH}/${DAY}
     curl \
 	"http://localhost:8888/rest/osm/import" \
-	-o ${STORAGE}/${country}/${MONTH}/${DAY}/curl-osm-mosques-import.data.txt \
-	> ${STORAGE}/${country}/${MONTH}/${DAY}/curl-osm-mosques-import.out \
-	2> ${STORAGE}/${country}/${MONTH}/${DAY}/curl-osm-mosques-import.err
+	-o ${LOGDIR}/curl-osm-mosques-import.data.txt \
+	> ${LOGDIR}/curl-osm-mosques-import.out \
+	2> ${LOGDIR}/curl-osm-mosques-import.err
+
+    for x in curl-osm-mosques-import.data.txt curl-osm-mosques-import.out curl-osm-mosques-import.err
+    do
+	mv ${LOGDIR}/${x} ${STORAGE}/${country}/${MONTH}/${DAY}/${x}
+    done
+    
 done
 
 db=osm_mosques
