@@ -94,8 +94,8 @@
         <geocoder-version>0.1.0-SNAPSHOT</geocoder-version>
 
         <!-- Testing -->
-        <junit.version>4.11</junit.version>
-        <mockito.version>1.9.5</mockito.version>
+        <junit.version>4.12</junit.version>
+        <mockito.version>1.10.19</mockito.version>
         <springockito.version>1.0.9</springockito.version>
 
         <!-- stuff -->
