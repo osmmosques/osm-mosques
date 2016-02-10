@@ -23,9 +23,9 @@ extract_data() {
 
     if [ ${type} == "all" ]
     then
-	tag="*"
+        tag="*"
     else
-	tag=${type}
+        tag=${type}
     fi
 
     EXTRACT=${TMPDIR}/${country}-${county}-religion-${type}.osm
@@ -35,12 +35,12 @@ extract_data() {
     mkdir -p ${STORAGE}/${country}/${MONTH}/${DAY}
 
     cp -f \
- 	${EXTRACT} \
- 	${STORAGE}/${country}/${MONTH}/${DAY}/${country}-${county}-religion-${type}.osm
+         ${EXTRACT} \
+         ${STORAGE}/${country}/${MONTH}/${DAY}/${country}-${county}-religion-${type}.osm
 
     cp -f \
- 	${EXTRACT} \
- 	${WEBDATA}/${country}-${county}-religion-${type}.osm
+         ${EXTRACT} \
+         ${WEBDATA}/${country}-${county}-religion-${type}.osm
 }
 
 
@@ -55,9 +55,9 @@ do
     WORLD_FILE=${TMPDIR}/world-religion-muslim-${type}.osm
 
     wget "http://www.overpass-api.de/api/interpreter" \
-	--post-file=${HERE}/data/query-${type}-religion-muslim.xml \
-	-O ${WORLD_FILE} \
-	> ${WORLD_FILE}.out 2> ${WORLD_FILE}.err
+        --post-file=${HERE}/data/query-${type}-religion-muslim.xml \
+        -O ${WORLD_FILE} \
+        > ${WORLD_FILE}.out 2> ${WORLD_FILE}.err
 
     MONTH=$(date +%Y%m --reference ${WORLD_FILE})
     DAY=$(date +%Y%m%d --reference ${WORLD_FILE})
@@ -77,60 +77,60 @@ do
 
     if [ "germany" == "${country}" ]
     then
-	COUNTIES="${COUNTIES} baden-wuerttemberg"
-	COUNTIES="${COUNTIES} bayern"
-	COUNTIES="${COUNTIES} berlin"
-	COUNTIES="${COUNTIES} brandenburg"
-	COUNTIES="${COUNTIES} bremen"
-	COUNTIES="${COUNTIES} hamburg"
-	COUNTIES="${COUNTIES} hessen"
-	COUNTIES="${COUNTIES} mecklenburg-vorpommern"
-	COUNTIES="${COUNTIES} niedersachsen"
-	COUNTIES="${COUNTIES} nordrhein-westfalen"
-	COUNTIES="${COUNTIES} rheinland-pfalz"
-	COUNTIES="${COUNTIES} saarland"
-	COUNTIES="${COUNTIES} sachsen"
-	COUNTIES="${COUNTIES} sachsen-anhalt"
-	COUNTIES="${COUNTIES} schleswig-holstein"
-	COUNTIES="${COUNTIES} thueringen"
+        COUNTIES="${COUNTIES} baden-wuerttemberg"
+        COUNTIES="${COUNTIES} bayern"
+        COUNTIES="${COUNTIES} berlin"
+        COUNTIES="${COUNTIES} brandenburg"
+        COUNTIES="${COUNTIES} bremen"
+        COUNTIES="${COUNTIES} hamburg"
+        COUNTIES="${COUNTIES} hessen"
+        COUNTIES="${COUNTIES} mecklenburg-vorpommern"
+        COUNTIES="${COUNTIES} niedersachsen"
+        COUNTIES="${COUNTIES} nordrhein-westfalen"
+        COUNTIES="${COUNTIES} rheinland-pfalz"
+        COUNTIES="${COUNTIES} saarland"
+        COUNTIES="${COUNTIES} sachsen"
+        COUNTIES="${COUNTIES} sachsen-anhalt"
+        COUNTIES="${COUNTIES} schleswig-holstein"
+        COUNTIES="${COUNTIES} thueringen"
     else
-	COUNTIES="${COUNTIES} all"
+        COUNTIES="${COUNTIES} all"
     fi
 
     for county in ${COUNTIES}
     do
-	:
-	mkdir -p ${TMPDIR}
-	cd ${TMPDIR}
+        :
+        mkdir -p ${TMPDIR}
+        cd ${TMPDIR}
 
 
-	if [ "${county}" == "all" ]
-	then
-	    POLY_URL=http://download.geofabrik.de/europe/${country}.poly
-	    POLY_FILE=${TMPDIR}/${country}.poly
-	else
-	    POLY_URL=http://download.geofabrik.de/europe/${country}/${county}.poly
-	    POLY_FILE=${TMPDIR}/${country}-${county}.poly
-	fi
+        if [ "${county}" == "all" ]
+        then
+            POLY_URL=http://download.geofabrik.de/europe/${country}.poly
+            POLY_FILE=${TMPDIR}/${country}.poly
+        else
+            POLY_URL=http://download.geofabrik.de/europe/${country}/${county}.poly
+            POLY_FILE=${TMPDIR}/${country}-${county}.poly
+        fi
 
-	wget "${POLY_URL}" -O ${POLY_FILE} \
-	    > ${POLY_FILE}.out 2> ${POLY_FILE}.err
+        wget "${POLY_URL}" -O ${POLY_FILE} \
+            > ${POLY_FILE}.out 2> ${POLY_FILE}.err
 
-	MONTH=$(date +%Y%m --reference ${POLY_FILE})
-	DAY=$(date +%Y%m%d --reference ${POLY_FILE})
+        MONTH=$(date +%Y%m --reference ${POLY_FILE})
+        DAY=$(date +%Y%m%d --reference ${POLY_FILE})
 
-	mkdir -p ${STORAGE}/${country}/${MONTH}/${DAY}
+        mkdir -p ${STORAGE}/${country}/${MONTH}/${DAY}
 
-	cp ${POLY_FILE} ${STORAGE}/${country}/${MONTH}/${DAY}
+        cp ${POLY_FILE} ${STORAGE}/${country}/${MONTH}/${DAY}
 
-	if [ -a ${WORLD_FILE} ] 
-	then
-	    if [ -s ${WORLD_FILE} ]
-	    then
-		:
-		extract_data ${country} ${county} muslim
-	    fi
-	fi
+        if [ -a ${WORLD_FILE} ] 
+        then
+            if [ -s ${WORLD_FILE} ]
+            then
+                :
+                extract_data ${country} ${county} muslim
+            fi
+        fi
     done
 
     find ${STORAGE}/${country} -type f -a -mtime +14 | xargs --no-run-if-empty rm
@@ -143,14 +143,14 @@ do
     :
     mkdir -p ${STORAGE}/${country}/${MONTH}/${DAY}
     curl \
-	"http://localhost:8888/rest/osm/import" \
-	-o ${LOGDIR}/curl-osm-mosques-import.data.txt \
-	> ${LOGDIR}/curl-osm-mosques-import.out \
-	2> ${LOGDIR}/curl-osm-mosques-import.err
+        "http://localhost:8888/rest/osm/import" \
+        -o ${LOGDIR}/curl-osm-mosques-import.data.txt \
+        > ${LOGDIR}/curl-osm-mosques-import.out \
+        2> ${LOGDIR}/curl-osm-mosques-import.err
 
     for x in curl-osm-mosques-import.data.txt curl-osm-mosques-import.out curl-osm-mosques-import.err
     do
-	mv ${LOGDIR}/${x} ${STORAGE}/${country}/${MONTH}/${DAY}/${x}
+        mv ${LOGDIR}/${x} ${STORAGE}/${country}/${MONTH}/${DAY}/${x}
     done
     
 done
