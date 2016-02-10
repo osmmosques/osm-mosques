@@ -61,9 +61,9 @@
         <jsoup.version>1.8.3</jsoup.version>
 
         <!-- Javascript libraries for frontend -->
-        <tablesorter.version>2.15.5</tablesorter.version>
-        <jquery.version>2.1.1</jquery.version>
-        <leaflet.version>0.7.3</leaflet.version>
+        <tablesorter.version>2.24.5</tablesorter.version>
+        <jquery.version>2.2.0</jquery.version>
+        <leaflet.version>0.7.7</leaflet.version>
         <leaflet-makimarkers.version>1.0.1</leaflet-makimarkers.version>
         <leaflet-markercluster.version>0.4.0</leaflet-markercluster.version>
         <leaflet-plugins.version>1.1.2</leaflet-plugins.version>
