@@ -44,9 +44,14 @@
 
 <script th:src="@{/js/osm-mosques.js}" src="../../static/js/osm-mosques.js"/>
 
-<script th:src="@{/rest/map/placemarkers/ditib/as-javascript.js}" src="../../../../../webapp-borken/src/main/resources/static/js/placemarkers-example-ditib.js"/>
-<script th:src="@{/rest/map/placemarkers/osm/as-javascript.js}" src="../../../../../webapp-borken/src/main/resources/static/js/placemarkers-example-osm.js"/>
-<script th:src="@{/js/osm-mosques-map.js}" src="../../../../../webapp-borken/src/main/resources/static/js/osm-mosques-map.js"/>
+<!--
+t_h:s_r_c="@{/rest/map/placemarkers/ditib/as-javascript.js}" src="../../../../../webapp-borken/src/main/resources/static/js/placemarkers-example-ditib.js"
+t_h:s_r_c="@{/rest/map/placemarkers/osm/as-javascript.js}" src="../../../../../webapp-borken/src/main/resources/static/js/placemarkers-example-osm.js"
+-->
+
+<script th:src="@{/js/placemarkers-example-ditib.js}" src="../../static/js/placemarkers-example-ditib.js"/>
+<script th:src="@{/js/placemarkers-example-osm.js}" src="../../static/js/placemarkers-example-osm.js"/>
+<script th:src="@{/js/osm-mosques-map.js}" src="../../static/js/osm-mosques-map.js"/>
 
 </body>
 </html>
