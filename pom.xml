@@ -94,6 +94,7 @@
 
         <!-- Our own libraries -->
         <osm-tools.version>0.0.1-SNAPSHOT</osm-tools.version>
+        <ditib-tools.version>0.0.1-SNAPSHOT</ditib-tools.version>
         <geocoder-version>0.1.0-SNAPSHOT</geocoder-version>
 
         <!-- Testing -->
@@ -163,18 +164,6 @@
         <dependencies>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>ditib-parser</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>ditib-persistence</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
                 <artifactId>osm-mosque-parser</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -214,6 +203,18 @@
                 <groupId>com.tandogan.osm</groupId>
                 <artifactId>opencagedata-geocoder-library</artifactId>
                 <version>${geocoder-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>ditib-parser</artifactId>
+                <version>${ditib-tools.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>ditib-persistence</artifactId>
+                <version>${ditib-tools.version}</version>
             </dependency>
 
             <!-- DI, ORM -->
