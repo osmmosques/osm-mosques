@@ -26,6 +26,7 @@ import com.gurkensalat.osm.repository.RepositoryComponentScanMarker;
 import com.tandogan.geostuff.opencagedata.GeocodeRepositoryComponentScanMarker;
 import com.tandogan.geostuff.opencagedata.entity.GeocodeEntityComponentScanMarker;
 import org.apache.commons.lang3.CharEncoding;
+import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.orm.jpa.EntityScan;
@@ -67,7 +68,7 @@ public class Application extends WebMvcConfigurerAdapter
     {
         SpringApplication app = new SpringApplication(Application.class);
 
-        app.setShowBanner(false);
+        app.setBannerMode(Banner.Mode.OFF);
         app.run(args);
     }
 
