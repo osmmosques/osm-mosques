@@ -97,10 +97,4 @@ public class Application extends WebMvcConfigurerAdapter
         messageSource.setDefaultEncoding(CharEncoding.UTF_8);
         return messageSource;
     }
-
-    @RequestMapping("/")
-    String index()
-    {
-        return "index";
-    }
 }
