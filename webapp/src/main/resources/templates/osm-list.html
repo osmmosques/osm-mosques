@@ -35,7 +35,7 @@
         <td th:text="${place.lat}"></td>
         <td th:text="${place.lon}"></td>
         <td></td>
-        <td><a target="map" th:text="#{list.link-to-map}" th:href="@{/map} + '#zoom=17&amp;lat=' + ${place.lat} + '&amp;lon=' + ${place.lon}"></a></td>
+        <td><a target="map" th:text="#{list.link-to-map}" th:href="@{/} + '#zoom=17&amp;lat=' + ${place.lat} + '&amp;lon=' + ${place.lon}"></a></td>
         <td th:text="${place.name}"></td>
         <td th:text="${place.address.country}"></td>
         <td th:text="${place.address.city}"></td>

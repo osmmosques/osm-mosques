@@ -37,7 +37,7 @@
         <td><input type="button" class="button-geocode"  th:onclick="'javascript:attemptGeocode(\'' + ${place.key} + '\');'" th:attr="data-id=${place.key}" th:text="#{list.geocode} + ' ' + ${place.key}" /></td>
         <td>
             <div th:if="${place.geocoded}">
-                <a target="map" th:text="#{list.link-to-map}" th:href="@{/map} + '#zoom=17&amp;lat=' + ${place.lat} + '&amp;lon=' + ${place.lon}"></a>
+                <a target="map" th:text="#{list.link-to-map}" th:href="@{/} + '#zoom=17&amp;lat=' + ${place.lat} + '&amp;lon=' + ${place.lon}"></a>
             </div>
             <div th:unless="${place.geocoded}" th:text="#{list.not-geocoded}" />
         </td>
