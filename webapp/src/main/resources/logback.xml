@@ -22,6 +22,7 @@
         </encoder>
     </appender>
 
+    <logger name="com.zaxxer.hikari.pool" level="info"/>
     <logger name="org.apache.commons.beanutils" level="info"/>
     <logger name="org.apache.commons.digester3" level="info"/>
     <logger name="org.hibernate" level="info"/>
