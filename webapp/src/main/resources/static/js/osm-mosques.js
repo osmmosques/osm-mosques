@@ -5,7 +5,7 @@
 function attemptGeocode(ditibKey)
 {
     var gcUrlBase = "../rest/ditib/geocode/";
-    var mapUrlBase = "../map/";
+    var mapUrlBase = "../";
 
     // http://localhost:8888/rest/ditib/geocode/84030-20-5
     var gcUrl = gcUrlBase + ditibKey;
