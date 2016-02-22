@@ -53,6 +53,7 @@ public class MapRestController
         for (DitibPlace place : ditibPlaceRepository.findAll())
         {
             String popupHtml = place.getAddress().getCity() + " / " + place.getName();
+            popupHtml = popupHtml.replaceAll("\"", "\'");
             result.append("[" + place.getLat() + ", " + place.getLon() + ", \"" + popupHtml + "\"]");
             result.append(",\n");
         }
@@ -93,6 +94,7 @@ public class MapRestController
         for (OsmPlace place : osmPlaceRepository.findAll())
         {
             String popupHtml = "OSM / " + place.getAddress().getCity() + " / " + place.getName();
+            popupHtml = popupHtml.replaceAll("\"", "\'");
             result.append("[" + place.getLat() + ", " + place.getLon() + ", \"" + popupHtml + "\"]");
             result.append(",\n");
 
