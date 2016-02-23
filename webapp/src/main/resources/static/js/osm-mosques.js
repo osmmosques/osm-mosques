@@ -19,7 +19,7 @@ function attemptGeocode(ditibKey)
             var lon = data["lon"];
             var jumpUrl = mapUrlBase + "#zoom=17&amp;lat=" + lat + "&amp;lon=" + lon;
 
-            window.location.href = jumpUrl;
+            window.open(jumpUrl, 'map');
         }
         else
         {
