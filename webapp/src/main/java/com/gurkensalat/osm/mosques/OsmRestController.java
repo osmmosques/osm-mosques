@@ -49,7 +49,12 @@ public class OsmRestController
                     "austria",
                     // "turkey",
                     "cyprus",
+                    "czech-republic",
+                    "france",
+                    "italy",
                     "netherlands",
+                    "portugal",
+                    "spain",
                     "switzerland"
             );
 
@@ -209,25 +214,45 @@ public class OsmRestController
             {
                 tempPlace.getAddress().setCountry("TR");
             }
-            else if ("cyprus".equals(country))
-            {
-                tempPlace.getAddress().setCountry("CY");
-            }
             else if ("austria".equals(country))
             {
                 tempPlace.getAddress().setCountry("AT");
             }
-            else if ("switzerland".equals(country))
+            else if ("cyprus".equals(country))
             {
-                tempPlace.getAddress().setCountry("CH");
+                tempPlace.getAddress().setCountry("CY");
+            }
+            else if ("czech-republic".equals(country))
+            {
+                tempPlace.getAddress().setCountry("CZ");
+            }
+            else if ("france".equals(country))
+            {
+                tempPlace.getAddress().setCountry("FR");
+            }
+            else if ("italy".equals(country))
+            {
+                tempPlace.getAddress().setCountry("IT");
+            }
+            else if ("germany".equals(country))
+            {
+                tempPlace.getAddress().setCountry("DE");
             }
             else if ("netherlands".equals(country))
             {
                 tempPlace.getAddress().setCountry("NL");
             }
-            else if ("germany".equals(country))
+            else if ("portugal".equals(country))
             {
-                tempPlace.getAddress().setCountry("DE");
+                tempPlace.getAddress().setCountry("PT");
+            }
+            else if ("spain".equals(country))
+            {
+                tempPlace.getAddress().setCountry("ES");
+            }
+            else if ("switzerland".equals(country))
+            {
+                tempPlace.getAddress().setCountry("CH");
             }
         }
 
