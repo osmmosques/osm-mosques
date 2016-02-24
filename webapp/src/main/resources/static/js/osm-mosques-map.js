@@ -38,15 +38,9 @@ var overlays =
 };
 
 <!-- Map providers -->
-var osmLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-var osmAttrib = '&copy; ' + osmLink + ' Contributors';
-var osmMap = L.tileLayer(osmUrl, {attribution: osmAttrib});
-
-var thunLink = '<a href="http://thunderforest.com/">Thunderforest</a>';
-var thunUrl = 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png';
-var thunAttrib = '&copy; ' + osmLink + ' Contributors &and;' + thunLink;
-var thunMap = L.tileLayer(thunUrl, {attribution: thunAttrib});
+var osmMapnikMap = L.tileLayer.provider('OpenStreetMap.Mapnik');
+var stamenWatercolorMap = L.tileLayer.provider('Stamen.Watercolor');
+var thunderforestMap = L.tileLayer.provider('Thunderforest.Landscape');
 
 mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
 
@@ -58,13 +52,14 @@ var googleHybridMap = new L.Google('HYBRID');
 var map = L.map('map', {
     center: [48.12955, 11.34873],
     zoom: 11,
-    layers: [osmMap, osmPlaces, ditibPlaces]
+    layers: [osmMapnikMap, osmPlaces, ditibPlaces]
 });
 
 var baseLayers =
 {
-    "OSM Mapnik": osmMap,
-    "Thunderforest": thunMap,
+    "OSM Mapnik": osmMapnikMap,
+    "Thunderforest": thunderforestMap,
+    "Watercolor": stamenWatercolorMap,
     "Google Satellite": googleSatMap,
     "Google Terrain": googleTerrainMap,
     "Google Hybrid": googleHybridMap
