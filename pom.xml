@@ -66,7 +66,7 @@
         <jquery.version>2.2.0</jquery.version>
         <leaflet.version>0.7.7</leaflet.version>
         <leaflet-makimarkers.version>1.0.1</leaflet-makimarkers.version>
-        <leaflet-markercluster.version>0.4.0</leaflet-markercluster.version>
+        <leaflet-markercluster.version>0.4.0-hotfix.1</leaflet-markercluster.version>
         <leaflet-plugins.version>1.1.2</leaflet-plugins.version>
 
         <thymeleaf-extras.version>1.0</thymeleaf-extras.version>
@@ -334,37 +334,37 @@
 
             <!-- Javascript libraries for frontend -->
             <dependency>
-                <groupId>org.webjars</groupId>
-                <artifactId>tablesorter</artifactId>
-                <version>${tablesorter.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.webjars</groupId>
+                <groupId>org.webjars.bower</groupId>
                 <artifactId>jquery</artifactId>
                 <version>${jquery.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.webjars</groupId>
+                <groupId>org.webjars.npm</groupId>
+                <artifactId>tablesorter</artifactId>
+                <version>${tablesorter.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.webjars.bower</groupId>
                 <artifactId>leaflet</artifactId>
                 <version>${leaflet.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.webjars</groupId>
+                <groupId>org.webjars.bower</groupId>
                 <artifactId>Leaflet.MakiMarkers</artifactId>
                 <version>${leaflet-makimarkers.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.webjars</groupId>
-                <artifactId>leaflet-markercluster</artifactId>
+                <groupId>org.webjars.bower</groupId>
+                <artifactId>leaflet.markercluster</artifactId>
                 <version>${leaflet-markercluster.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.webjars</groupId>
+                <groupId>org.webjars.bower</groupId>
                 <artifactId>leaflet-plugins</artifactId>
                 <version>${leaflet-plugins.version}</version>
             </dependency>
