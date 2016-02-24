@@ -268,6 +268,12 @@ public class DitibRestController
             }
         }
 
+        // Avoid NullPointerException when no good result can be found
+        if (bestResult == null)
+        {
+            return null;
+        }
+
         // Cornercase to avoid
         if (bestResult.getConfidence() == 0)
         {
