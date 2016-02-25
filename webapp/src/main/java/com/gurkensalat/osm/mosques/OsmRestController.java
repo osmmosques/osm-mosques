@@ -28,7 +28,9 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
@@ -44,19 +46,59 @@ public class OsmRestController
 
     private final static String REQUEST_FETCH_FROM_SERVER = REQUEST_ROOT + "/fetch";
 
-    private final static List<String> countries =
-            Arrays.asList(
-                    "austria",
-                    // "turkey",
-                    "cyprus",
-                    "czech-republic",
-                    "france",
-                    "italy",
-                    "netherlands",
-                    "portugal",
-                    "spain",
-                    "switzerland"
-            );
+    private final static Map<String, String> countries = new HashMap<>();
+
+    static
+    {
+        countries.put("albania", "AL");
+        countries.put("andorra", "AD");
+        countries.put("austria", "AT");
+        countries.put("azores", "PT"); // Autonomous Region of the Azores
+        countries.put("belarus", "BY");
+        countries.put("belgium", "BE");
+        countries.put("bosnia-herzegovina", "BA");
+        countries.put("bulgaria", "BG");
+        countries.put("croatia", "HR");
+        countries.put("cyprus", "CY");
+        countries.put("czech-republic", "CZ");
+        countries.put("denmark", "DK");
+        countries.put("estonia", "EE");
+        countries.put("faroe-islands", "FO");
+        countries.put("finland", "FI");
+        countries.put("france", "FR");
+        countries.put("georgia", "GE");
+        countries.put("germany", "DE");
+        countries.put("great-britain", "GB"); // United Kingdom
+        countries.put("greece", "GR");
+        countries.put("hungary", "HU");
+        countries.put("iceland", "IS");
+        countries.put("ireland-and-northern-ireland", "IE");
+        countries.put("isle-of-man", "IM");
+        countries.put("italy", "IT");
+        countries.put("kosovo", "XK");
+        countries.put("latvia", "LV");
+        countries.put("liechtenstein", "LI");
+        countries.put("lithuania", "LT");
+        countries.put("luxembourg", "LU");
+        countries.put("macedonia", "MK");
+        countries.put("malta", "MT");
+        countries.put("moldova", "MD");
+        countries.put("monaco", "MC");
+        countries.put("montenegro", "ME");
+        countries.put("netherlands", "NL");
+        countries.put("norway", "NO");
+        countries.put("poland", "PL");
+        countries.put("portugal", "PT");
+        countries.put("romania", "RO");
+        countries.put("serbia", "RS");
+        countries.put("slovakia", "SK");
+        countries.put("slovenia", "SI");
+        countries.put("spain", "ES");
+        countries.put("sweden", "SE");
+        countries.put("switzerland", "CH");
+        countries.put("turkey", "TR");
+        countries.put("ukraine", "UA");
+    }
 
     private final static List<String> germanCounties =
             Arrays.asList(
@@ -149,7 +191,7 @@ public class OsmRestController
             }
         }
 
-        for (String country : countries)
+        for (String country : countries.keySet())
         {
             File dataFile = new File(dataDirectory, country + "-all-religion-muslim" + ".osm");
 
@@ -210,50 +252,7 @@ public class OsmRestController
 
         if (isEmpty(tempPlace.getAddress().getCountry()))
         {
-            if ("turkey".equals(country))
-            {
-                tempPlace.getAddress().setCountry("TR");
-            }
-            else if ("austria".equals(country))
-            {
-                tempPlace.getAddress().setCountry("AT");
-            }
-            else if ("cyprus".equals(country))
-            {
-                tempPlace.getAddress().setCountry("CY");
-            }
-            else if ("czech-republic".equals(country))
-            {
-                tempPlace.getAddress().setCountry("CZ");
-            }
-            else if ("france".equals(country))
-            {
-                tempPlace.getAddress().setCountry("FR");
-            }
-            else if ("italy".equals(country))
-            {
-                tempPlace.getAddress().setCountry("IT");
-            }
-            else if ("germany".equals(country))
-            {
-                tempPlace.getAddress().setCountry("DE");
-            }
-            else if ("netherlands".equals(country))
-            {
-                tempPlace.getAddress().setCountry("NL");
-            }
-            else if ("portugal".equals(country))
-            {
-                tempPlace.getAddress().setCountry("PT");
-            }
-            else if ("spain".equals(country))
-            {
-                tempPlace.getAddress().setCountry("ES");
-            }
-            else if ("switzerland".equals(country))
-            {
-                tempPlace.getAddress().setCountry("CH");
-            }
+            tempPlace.getAddress().setCountry(countries.get(country));
         }
 
         tempPlace.getContact().setWebsite(StringUtils.substring(tempPlace.getContact().getWebsite(), 0, 79));
