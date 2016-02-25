@@ -199,9 +199,13 @@ public class OsmRestController
 
             LOGGER.info("Read {} nodes from {}", root.getNodes().size(), dataFile.getName());
 
-            for (OsmNode node : root.getNodes())
+            // Turkey has too many nodes at the moment...
+            if (!(StringUtils.equals("turkey", country)))
             {
-                persistOsmNode(node, country, "");
+                for (OsmNode node : root.getNodes())
+                {
+                    persistOsmNode(node, country, "");
+                }
             }
 
         }
