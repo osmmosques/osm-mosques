@@ -77,7 +77,7 @@
 
         <!-- Database stuff -->
         <jta.version>1.2</jta.version>
-        <hibernate.version>5.0.7.Final</hibernate.version>
+        <hibernate.version>5.1.0.Final</hibernate.version>
         <hibernate-jpa.version>1.0.0.Final</hibernate-jpa.version>
         <hikari-cp.version>2.4.3</hikari-cp.version>
         <javassist.version>3.20.0-GA</javassist.version>
