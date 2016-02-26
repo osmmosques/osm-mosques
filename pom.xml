@@ -62,6 +62,7 @@
         <jsoup.version>1.8.3</jsoup.version>
 
         <!-- Javascript libraries for frontend -->
+        <font-awesome.version>4.5.0</font-awesome.version>
         <tablesorter.version>2.24.5</tablesorter.version>
         <jquery.version>3.0.0-beta1</jquery.version>
         <leaflet.version>0.7.7</leaflet.version>
@@ -335,6 +336,12 @@
             </dependency>
 
             <!-- Javascript libraries for frontend -->
+            <dependency>
+                <groupId>org.webjars.bower</groupId>
+                <artifactId>font-awesome</artifactId>
+                <version>${font-awesome.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.webjars.bower</groupId>
                 <artifactId>jquery</artifactId>
