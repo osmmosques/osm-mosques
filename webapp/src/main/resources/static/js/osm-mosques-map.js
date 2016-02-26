@@ -52,6 +52,7 @@ var googleHybridMap = new L.Google('HYBRID');
 var map = L.map('map', {
     center: [48.12955, 11.34873],
     zoom: 11,
+    zoomControl: true,
     layers: [osmMapnikMap, osmPlaces, ditibPlaces]
 });
 
@@ -72,3 +73,5 @@ map.addLayer(ditibPlaces);
 var layers = new L.Control.Layers(baseLayers, overlays);
 map.addControl(layers);
 map.addControl(new L.Control.Permalink({text: 'Permalink', layers: layers}));
+
+L.control.locate().addTo(map);
