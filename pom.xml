@@ -66,6 +66,7 @@
         <tablesorter.version>2.24.5</tablesorter.version>
         <jquery.version>3.0.0-beta1</jquery.version>
         <leaflet.version>0.7.7</leaflet.version>
+        <leaflet-contextmenu.version>1.0.0</leaflet-contextmenu.version>
         <leaflet-locatecontrol.version>0.48.0</leaflet-locatecontrol.version>
         <leaflet-makimarkers.version>1.0.1</leaflet-makimarkers.version>
         <leaflet-markercluster.version>0.4.0-hotfix.1</leaflet-markercluster.version>
@@ -358,6 +359,12 @@
                 <groupId>org.webjars.bower</groupId>
                 <artifactId>leaflet</artifactId>
                 <version>${leaflet.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.webjars.npm</groupId>
+                <artifactId>leaflet-contextmenu</artifactId>
+                <version>${leaflet-contextmenu.version}</version>
             </dependency>
 
             <dependency>

@@ -113,6 +113,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>leaflet-contextmenu</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.webjars.bower</groupId>
             <artifactId>leaflet.locatecontrol</artifactId>
         </dependency>

@@ -1,3 +1,13 @@
+
+<!-- For contextmenu -->
+function showCoordinates (e) {
+    alert(e.latlng);
+}
+
+function centerMap (e) {
+    map.panTo(e.latlng);
+}
+
 <!-- Markers from here on -->
 var ditibMosqueIcon = L.MakiMarkers.icon({
     icon: "religious-muslim",
@@ -51,6 +61,13 @@ var googleHybridMap = new L.Google('HYBRID');
 <!-- Now the map itself -->
 var map = L.map('map', {
     center: [48.12955, 11.34873],
+    contextmenu: true,
+    contextmenuWidth: 140,
+    contextmenuItems: [{
+       text: 'Show coordinates', callback: showCoordinates
+    }, {
+       text: 'Center map here', callback: centerMap
+    }],
     zoom: 11,
     zoomControl: true,
     layers: [osmMapnikMap, osmPlaces, ditibPlaces]
