@@ -91,4 +91,9 @@ var layers = new L.Control.Layers(baseLayers, overlays);
 map.addControl(layers);
 map.addControl(new L.Control.Permalink({text: 'Permalink', layers: layers}));
 
+<!-- Location control -->
 L.control.locate().addTo(map);
+
+<!-- Sidebar -->
+<!-- var sidebar = L.control.sidebar('sidebar'); -->
+<!-- sidebar.addTo(map); -->
