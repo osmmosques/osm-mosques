@@ -95,5 +95,5 @@ map.addControl(new L.Control.Permalink({text: 'Permalink', layers: layers}));
 L.control.locate().addTo(map);
 
 <!-- Sidebar -->
-<!-- var sidebar = L.control.sidebar('sidebar'); -->
-<!-- sidebar.addTo(map); -->
+var sidebar = L.control.sidebar('sidebar', {position: 'left'});
+sidebar.addTo(map);

@@ -14,7 +14,7 @@
     <link th:href="@{/webjars/leaflet-contextmenu/1.0.0/dist/leaflet.contextmenu.css}" href="webjars/leaflet-contextmenu/1.0.0/dist/leaflet.contextmenu.css" rel="stylesheet"/>
     <link th:href="@{/webjars/leaflet.markercluster/0.4.0-hotfix.1/dist/MarkerCluster.css}" href="webjars/leaflet.markercluster/0.4.0-hotfix.1/dist/MarkerCluster.css" rel="stylesheet"/>
     <link th:href="@{/webjars/leaflet.markercluster/0.4.0-hotfix.1/dist/MarkerCluster.Default.css}" href="webjars/leaflet.markercluster/0.4.0-hotfix.1/dist/MarkerCluster.Default.css" rel="stylesheet"/>
-    <link th:href="@{/webjars/sidebar-v2/0.2.1/css/leaflet-sidebar.css}" href="webjars/sidebar-v2/0.2.1/css/leaflet-sidebar.css" rel="stylesheet"/>
+    <link th:href="@{/webjars/sidebar-v2/0.3.0/css/leaflet-sidebar.css}" href="webjars/sidebar-v2/0.3.0/css/leaflet-sidebar.css" rel="stylesheet"/>
 </head>
 <body>
 
@@ -24,10 +24,9 @@
     <div id="header-right">top right</div>
 </div>
 
-<!--
-<div id="sidebar" class="sidebar collapsed" style="display: none">
-    <! - - Nav tabs - - >
-    <! - - <div class="sidebar-tabs"> - - >
+<div id="sidebar" class="sidebar collapsed">
+    <!-- Nav tabs -->
+    <div class="sidebar-tabs">
         <ul role="tablist" class="sidebar-tabs">
             <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
             <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
@@ -37,9 +36,9 @@
         <ul role="tablist">
             <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
         </ul>
-    <! - - </div> - - >
+    </div>
 
-    <! - - Tab panes - - >
+    <!-- Tab panes -->
     <div class="sidebar-content">
         <div class="sidebar-pane" id="home">
             <h1 class="sidebar-header">
@@ -63,10 +62,8 @@
         </div>
     </div>
 </div>
--->
 
-<!--  class="sidebar-map" -->
-<div id="map">
+<div id="map" class="sidebar-map">
 </div>
 
 <div class="footer">
@@ -94,7 +91,7 @@
 <script th:src="@{/webjars/leaflet.markercluster/0.4.0-hotfix.1/dist/leaflet.markercluster.js}" src="webjars/leaflet.markercluster/0.4.0-hotfix.1/dist/leaflet.markercluster.js"/>
 <script th:src="@{/webjars/Leaflet.MakiMarkers/1.0.1/Leaflet.MakiMarkers.js}" src="webjars/Leaflet.MakiMarkers/1.0.1/Leaflet.MakiMarkers.js"/>
 
-<!-- <script th:src="@{/webjars/sidebar-v2/0.2.1/js/leaflet-sidebar.js}" src="webjars/sidebar-v2/0.2.1/js/leaflet-sidebar.js"/> -->
+<script th:src="@{/webjars/sidebar-v2/0.3.0/js/leaflet-sidebar.js}" src="webjars/sidebar-v2/0.3.0/js/leaflet-sidebar.js"/>
 
 <script th:src="@{/js/osm-mosques.js}" src="../../static/js/osm-mosques.js"/>
 
