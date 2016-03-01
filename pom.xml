@@ -55,7 +55,7 @@
         <commons-io.version>2.4</commons-io.version>
         <commons-lang.version>3.4</commons-lang.version>
 
-        <jackson.version>2.7.1</jackson.version>
+        <jackson.version>2.7.2</jackson.version>
 
         <joda-time.version>2.9.2</joda-time.version>
 
@@ -328,7 +328,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}-1</version>
+                <version>${jackson.version}</version>
             </dependency>
 
             <dependency>
