@@ -1,0 +1,22 @@
+{
+  "name": "osm-mosques-webapp-for-versioneye",
+  "description": "OSM Mosques webapp",
+  "private": true,
+  "dependencies":
+  {
+    "jquery": "~${jquery.version}",
+    "tablesorter": "~${tablesorter.version}",
+    "font-awesome": "${font-awesome.version}",
+    "leaflet": "${leaflet.version}",
+    "leaflet-contextmenu": "${leaflet-contextmenu.version}",
+    "leaflet.locatecontrol": "${leaflet-locatecontrol.version}",
+    "leaflet-markercluster": "${leaflet-markercluster.version}",
+    "leaflet-plugins": "${leaflet-plugins.version}",
+    "leaflet-providers": "${leaflet-providers.version}"
+  },
+  "not-on-npmjs.com":
+  {
+    "___Leaflet.MakiMarkers": "${leaflet-makimarkers.version}",
+    "___sidebar-v2": "${leaflet-sidebar-v2.version}"
+  }
+}
