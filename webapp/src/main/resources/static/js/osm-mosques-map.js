@@ -8,6 +8,21 @@ function centerMap (e) {
     map.panTo(e.latlng);
 }
 
+<!-- Map move methods -->
+function onMapLoaded() {
+    console.log("onLoaded:");
+    console.log("    Center: " + map.getCenter());
+    console.log("    Bounds: " + map.getBounds());
+    console.log("    BBOX:   " + map.getBounds().toBBoxString());
+}
+
+function onMapMoveEnd() {
+    console.log("onMoveEnd:");
+    console.log("    Center: " + map.getCenter());
+    console.log("    Bounds: " + map.getBounds());
+    console.log("    BBOX:   " + map.getBounds().toBBoxString());
+}
+
 <!-- Markers from here on -->
 var ditibMosqueIcon = L.MakiMarkers.icon({
     icon: "religious-muslim",
@@ -97,3 +112,7 @@ L.control.locate().addTo(map);
 <!-- Sidebar -->
 var sidebar = L.control.sidebar('sidebar', {position: 'left'});
 sidebar.addTo(map);
+
+<!-- Map move methods -->
+map.on('load', onMapLoaded);
+map.on('moveend', onMapMoveEnd);
