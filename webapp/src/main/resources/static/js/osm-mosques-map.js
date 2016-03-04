@@ -2,6 +2,8 @@ $(document).ready(init);
 
 var map;
 
+var ajaxQueryCache = {};
+
 <!-- For contextmenu -->
 function showCoordinates(e) {
     alert(e.latlng);
@@ -24,6 +26,27 @@ function onMapMoveEnd() {
     console.log("    Center: " + map.getCenter());
     console.log("    Bounds: " + map.getBounds());
     console.log("    BBOX:   " + map.getBounds().toBBoxString());
+
+    var request = ajaxQueryCache['myquery'];
+    if (request != null)
+    {
+        request.cancel();
+        console.log("Cancelled Ajax Query");
+    }
+
+    var url = '/rest/map/placemarkers/osm/as-json';
+    var request = $.ajax({
+        url: url,
+        dataType: 'json',
+        success: ajaxDataArrived
+    })
+
+    ajaxQueryCache['myquery'] = request;
+}
+
+function ajaxDataArrived() {
+    console.log("Ajax Data Arrived");
+    ajaxQueryCache['myquery'] = null;
 }
 
 <!-- Markers from here on -->
