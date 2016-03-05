@@ -128,7 +128,7 @@ function ditibPlacemarkerListArrived(data) {
     ajaxQueryCache['ditibPlacemarkerList'] = null;
 
     console.log("    Clearing ditibPlaces layers");
-    osmPlaces.clearLayers();
+    ditibPlaces.clearLayers();
 
     for (var i = 0; i < data.length; i++) {
         var node = data[i];
