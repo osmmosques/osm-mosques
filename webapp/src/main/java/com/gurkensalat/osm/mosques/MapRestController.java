@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -65,13 +66,23 @@ public class MapRestController
     }
 
     @RequestMapping(value = REQUEST_DITIB_MAPDATA + "/as-json", produces = APPLICATION_JSON_UTF8)
-    ResponseEntity<List<MapDataEntry>> ditibMapdataAsJSON()
+    ResponseEntity<List<MapDataEntry>> ditibMapdataAsJSON(
+            @RequestParam(value = "minlat", defaultValue = "-90") String minlat,
+            @RequestParam(value = "minlon", defaultValue = "-180") String minlon,
+            @RequestParam(value = "maxlat", defaultValue = "90") String maxlat,
+            @RequestParam(value = "maxlon", defaultValue = "180") String maxlon
+    )
     {
-        // TODO round query parameters to the nearest minute (or 10 minutes?)
-
         List<MapDataEntry> result = new ArrayList<MapDataEntry>();
 
-        for (DitibPlace place : ditibPlaceRepository.findAll())
+        double minLongitude = minLongitude(minlon);
+        double maxLongitude = maxLongitude(maxlon);
+        double minLatitude = minLatitude(minlat);
+        double maxLatitude = maxLatitude(maxlat);
+
+        LOGGER.info("Ditib Place Query: {}, {}, {}, {}", new Object[]{minLongitude, minLatitude, maxLongitude, maxLatitude});
+
+        for (DitibPlace place : ditibPlaceRepository.findByBbox(minLongitude, minLatitude, maxLongitude, maxLatitude))
         {
             MapDataEntry entry = new MapDataEntry(place);
             entry.setName(place.getAddress().getCountry() + " / " + place.getAddress().getCity() + " / " + place.getName());
@@ -116,13 +127,23 @@ public class MapRestController
     }
 
     @RequestMapping(value = REQUEST_OSM_MAPDATA + "/as-json", produces = APPLICATION_JSON_UTF8)
-    ResponseEntity<List<MapDataEntry>> osmMapdataAsJSON()
+    ResponseEntity<List<MapDataEntry>> osmMapdataAsJSON(
+            @RequestParam(value = "minlat", defaultValue = "-90") String minlat,
+            @RequestParam(value = "minlon", defaultValue = "-180") String minlon,
+            @RequestParam(value = "maxlat", defaultValue = "90") String maxlat,
+            @RequestParam(value = "maxlon", defaultValue = "180") String maxlon
+    )
     {
-        // TODO round query parameters to the nearest minute (or 10 minutes?)
-
         List<MapDataEntry> result = new ArrayList<MapDataEntry>();
 
-        for (OsmPlace place : osmPlaceRepository.findAll())
+        double minLongitude = minLongitude(minlon);
+        double maxLongitude = maxLongitude(maxlon);
+        double minLatitude = minLatitude(minlat);
+        double maxLatitude = maxLatitude(maxlat);
+
+        LOGGER.info("OSM Place Query: {}, {}, {}, {}", new Object[]{minLongitude, minLatitude, maxLongitude, maxLatitude});
+
+        for (OsmPlace place : osmPlaceRepository.findByBbox(minLongitude, minLatitude, maxLongitude, maxLatitude))
         {
             MapDataEntry entry = new MapDataEntry(place);
             entry.setName(place.getAddress().getCountry() + " / " + place.getAddress().getCity() + " / " + place.getName());
@@ -131,5 +152,101 @@ public class MapRestController
         }
 
         return new ResponseEntity<List<MapDataEntry>>(result, null, HttpStatus.OK);
+    }
+
+    protected double minLongitude(String data)
+    {
+        double result = 15;
+
+        try
+        {
+            result = Double.parseDouble(data);
+        }
+        catch (NumberFormatException nfe)
+        {
+            // Actually, not really important...
+            LOGGER.debug("Got malformed minLongitude: '{}'", data);
+        }
+
+        if (result < -180)
+        {
+            result = -180;
+        }
+
+        result = Math.floor(result * 10) / 10;
+
+        return result;
+    }
+
+    protected double minLatitude(String data)
+    {
+        double result = 45;
+
+        try
+        {
+            result = Double.parseDouble(data);
+        }
+        catch (NumberFormatException nfe)
+        {
+            // Actually, not really important...
+            LOGGER.debug("Got malformed minLatitude: '{}'", data);
+        }
+
+        if (result < -90)
+        {
+            result = -90;
+        }
+
+        result = Math.floor(result * 10) / 10;
+
+        return result;
+    }
+
+    protected double maxLongitude(String data)
+    {
+        double result = 25;
+
+        try
+        {
+            result = Double.parseDouble(data);
+        }
+        catch (NumberFormatException nfe)
+        {
+            // Actually, not really important...
+            LOGGER.debug("Got malformed maxLongitude: '{}'", data);
+        }
+
+        if (result > 180)
+        {
+            result = 180;
+        }
+
+        result = Math.ceil(result * 10) / 10;
+
+        return result;
+    }
+
+    protected double maxLatitude(String data)
+    {
+        double result = 49;
+
+        try
+        {
+            result = Double.parseDouble(data);
+        }
+        catch (NumberFormatException nfe)
+        {
+            // Actually, not really important...
+            LOGGER.debug("Got malformed maxLatitude: '{}'", data);
+        }
+
+        if (result > 90)
+        {
+            result = 90;
+        }
+
+        result = Math.ceil(result * 10) / 10;
+
+        return result;
     }
 }
