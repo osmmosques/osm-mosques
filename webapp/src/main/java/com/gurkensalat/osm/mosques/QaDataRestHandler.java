@@ -56,7 +56,7 @@ public class QaDataRestHandler
 
 
     @RequestMapping(value = REQUEST_CALCULATE_ALL_SCORES, produces = APPLICATION_JSON_UTF8)
-    ResponseEntity<String> calculateAllScores()
+    public GenericResponse calculateAllScores()
     {
         String result = "";
         linkedPlaceRepository.invalidateAll();
@@ -66,11 +66,11 @@ public class QaDataRestHandler
 
         linkedPlaceRepository.deleteAllInvalid();
 
-        return new ResponseEntity<String>(result, null, HttpStatus.OK);
+        return new GenericResponse(result);
     }
 
     @RequestMapping(value = REQUEST_CALCULATE_DITIB_SCORE, produces = APPLICATION_JSON_UTF8)
-    ResponseEntity<String> calculateDitibScore(@PathVariable("ditibCode") String ditibCode)
+    public GenericResponse calculateDitibScore(@PathVariable("ditibCode") String ditibCode)
     {
         String result = "";
         if ("all".equals(ditibCode))
@@ -117,11 +117,11 @@ public class QaDataRestHandler
             }
         }
 
-        return new ResponseEntity<String>(result, null, HttpStatus.OK);
+        return new GenericResponse(result);
     }
 
     @RequestMapping(value = REQUEST_CALCULATE_OSM_SCORE, produces = APPLICATION_JSON_UTF8)
-    ResponseEntity<String> calculateOsmScore(@PathVariable("osmId") String osmId)
+    public GenericResponse calculateOsmScore(@PathVariable("osmId") String osmId)
     {
         String result = "";
         if ("all".equals(osmId))
@@ -144,7 +144,8 @@ public class QaDataRestHandler
                 result = place.toString();
             }
         }
-        return new ResponseEntity<String>(result, null, HttpStatus.OK);
+
+        return new GenericResponse(result);
     }
 
     private Iterable<LinkedPlace> findByDitibCode(String ditibCode)

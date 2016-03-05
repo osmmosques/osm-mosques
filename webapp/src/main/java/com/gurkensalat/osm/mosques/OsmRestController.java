@@ -141,14 +141,14 @@ public class OsmRestController
 
     @RequestMapping(value = REQUEST_IMPORT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> importData()
+    public GenericResponse importData()
     {
         return importData(null);
     }
 
     @RequestMapping(value = REQUEST_IMPORT + "/{path}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> importData(@PathVariable("path") String path)
+    public GenericResponse importData(@PathVariable("path") String path)
     {
         LOGGER.info("About to import OSM data from {} / {}", dataLocation, path);
 
@@ -205,13 +205,13 @@ public class OsmRestController
             }
         }
 
-        return new ResponseEntity<String>("Done Massa", null, HttpStatus.OK);
+        return new GenericResponse("O.K., Massa!");
     }
 
 
     @RequestMapping(value = REQUEST_FETCH_FROM_SERVER + "/{osmId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> fetchFromServer(@PathVariable("osmId") String osmId)
+    public GenericResponse fetchFromServer(@PathVariable("osmId") String osmId)
     {
         LOGGER.info("About to reload OSM data with ID", osmId);
 
@@ -224,7 +224,7 @@ public class OsmRestController
             persistOsmNode(node);
         }
 
-        return new ResponseEntity<String>("Done Massa", null, HttpStatus.OK);
+        return new GenericResponse("O.K., Massa!");
     }
 
     private void persistOsmNode(OsmNode node)
