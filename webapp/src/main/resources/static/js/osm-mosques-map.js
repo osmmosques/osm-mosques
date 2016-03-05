@@ -148,4 +148,7 @@ function init() {
     <!-- Map move methods -->
     map.on('load', onMapLoaded);
     map.on('moveend', onMapMoveEnd);
+
+    <!-- Finally, kick off the moveend event after the page finished loading -->
+    onMapMoveEnd();
 }
