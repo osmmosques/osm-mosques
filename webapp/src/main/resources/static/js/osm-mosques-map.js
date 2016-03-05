@@ -107,7 +107,7 @@ function osmPlacemarkerListArrived(data) {
 
     for (var i = 0; i < data.length; i++) {
         var node = data[i];
-        var title = node['name'];
+        var title = "OSM / " + node['name'];
         var lat = node['lat'];
         var lon = node['lon'];
         var marker = L.marker(L.latLng(lat, lon), {
@@ -132,7 +132,7 @@ function ditibPlacemarkerListArrived(data) {
 
     for (var i = 0; i < data.length; i++) {
         var node = data[i];
-        var title = node['name'];
+        var title = "DITIB / " + node['name'];
         var lat = node['lat'];
         var lon = node['lon'];
         var marker = L.marker(L.latLng(lat, lon), {
