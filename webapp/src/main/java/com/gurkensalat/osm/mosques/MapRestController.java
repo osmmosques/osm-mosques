@@ -67,12 +67,14 @@ public class MapRestController
     @RequestMapping(value = REQUEST_DITIB_MAPDATA + "/as-json", produces = APPLICATION_JSON_UTF8)
     ResponseEntity<List<MapDataEntry>> ditibMapdataAsJSON()
     {
+        // TODO round query parameters to the nearest minute (or 10 minutes?)
+
         List<MapDataEntry> result = new ArrayList<MapDataEntry>();
 
         for (DitibPlace place : ditibPlaceRepository.findAll())
         {
             MapDataEntry entry = new MapDataEntry(place);
-            entry.setName(place.getAddress().getCity() + " / " + place.getName());
+            entry.setName(place.getAddress().getCountry() + " / " + place.getAddress().getCity() + " / " + place.getName());
 
             result.add(entry);
         }
@@ -116,12 +118,14 @@ public class MapRestController
     @RequestMapping(value = REQUEST_OSM_MAPDATA + "/as-json", produces = APPLICATION_JSON_UTF8)
     ResponseEntity<List<MapDataEntry>> osmMapdataAsJSON()
     {
+        // TODO round query parameters to the nearest minute (or 10 minutes?)
+
         List<MapDataEntry> result = new ArrayList<MapDataEntry>();
 
         for (OsmPlace place : osmPlaceRepository.findAll())
         {
             MapDataEntry entry = new MapDataEntry(place);
-            entry.setName("OSM / " + place.getAddress().getCity() + " / " + place.getName());
+            entry.setName(place.getAddress().getCountry() + " / " + place.getAddress().getCity() + " / " + place.getName());
 
             result.add(entry);
         }
