@@ -115,6 +115,7 @@ function osmPlacemarkerListArrived(data) {
             }
         );
         marker.bindPopup(title);
+        marker.on('click', onClickOsmMarker);
         osmPlaces.addLayer(marker);
     }
 
@@ -140,6 +141,7 @@ function ditibPlacemarkerListArrived(data) {
             }
         );
         marker.bindPopup(title);
+        marker.on('click', onClickDitibMarker);
         ditibPlaces.addLayer(marker);
     }
 
@@ -149,6 +151,14 @@ function ditibPlacemarkerListArrived(data) {
 }
 
 <!-- Markers from here on -->
+function onClickOsmMarker(e) {
+    console.log(this)
+}
+
+function onClickDitibMarker(e) {
+    console.log(this)
+}
+
 function init() {
 
     var overlays =
