@@ -50,7 +50,7 @@ function onMapMoveEnd() {
     if (true) {
         var request = ajaxQueryCache['osmPlacemarkerList'];
         if (request != null) {
-            request.cancel();
+            request.abort();
             console.log("Cancelled Ajax Query");
         }
 
@@ -73,7 +73,7 @@ function onMapMoveEnd() {
     if (true) {
         var request = ajaxQueryCache['ditibPlacemarkerList'];
         if (request != null) {
-            request.cancel();
+            request.abort();
             console.log("Cancelled Ajax Query");
         }
 
