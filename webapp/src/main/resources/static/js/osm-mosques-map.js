@@ -22,14 +22,10 @@ function onMapLoaded() {
 }
 
 function onMapMoveEnd() {
-    console.log("onMoveEnd:");
-    console.log("    Center: " + map.getCenter());
-    console.log("    minll:  " + map.getBounds().getSouthWest());
-    console.log("    maxll:  " + map.getBounds().getNorthEast());
-
-    // var minll=bounds.getSouthWest();
-    // var maxll=bounds.getNorthEast();
-    // var msg='leaflet/findbybbox.cgi?format=leaflet&bbox='+minll.lng+','+minll.lat+','+maxll.lng+','+maxll.lat;
+    // console.log("onMoveEnd:");
+    // console.log("    Center: " + map.getCenter());
+    // console.log("    minll:  " + map.getBounds().getSouthWest());
+    // console.log("    maxll:  " + map.getBounds().getNorthEast());
 
     var request = ajaxQueryCache['myquery'];
     if (request != null)
@@ -38,10 +34,17 @@ function onMapMoveEnd() {
         console.log("Cancelled Ajax Query");
     }
 
+    var sw = map.getBounds().getSouthWest();
+    var ne = map.getBounds().getNorthEast();
     var url = '/rest/map/placemarkers/osm/as-json';
-    var request = $.ajax({
+    var request = $.getJSON({
         url: url,
-        dataType: 'json',
+        data : {
+            'minlat': sw.lat,
+            'minlon': sw.lng,
+            'maxlat': ne.lat,
+            'maxlon': ne.lng
+        },
         success: ajaxDataArrived
     })
 
