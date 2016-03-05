@@ -10,6 +10,14 @@ var osmMosqueIcon = L.MakiMarkers.icon({
     size: "m"
 });
 
+var ditibMosqueIcon = L.MakiMarkers.icon({
+    icon: "religious-muslim",
+    color: "#00cc33",
+    size: "m"
+});
+
+var ditibPlaces = L.markerClusterGroup({chunkedLoading: true});
+
 var ajaxQueryCache = {};
 
 <!-- For contextmenu -->
@@ -35,28 +43,54 @@ function onMapMoveEnd() {
     // console.log("    minll:  " + map.getBounds().getSouthWest());
     // console.log("    maxll:  " + map.getBounds().getNorthEast());
 
-    var request = ajaxQueryCache['osmPlacemarkerList'];
-    if (request != null)
-    {
-        request.cancel();
-        console.log("Cancelled Ajax Query");
-    }
-
     var sw = map.getBounds().getSouthWest();
     var ne = map.getBounds().getNorthEast();
-    var url = '/rest/map/placemarkers/osm/as-json';
-    var request = $.getJSON({
-        url: url,
-        data : {
-            'minlat': sw.lat,
-            'minlon': sw.lng,
-            'maxlat': ne.lat,
-            'maxlon': ne.lng
-        },
-        success: osmPlacemarkerListArrived
-    })
 
-    ajaxQueryCache['osmPlacemarkerList'] = request;
+    // if (osm places enabled...)
+    if (true) {
+        var request = ajaxQueryCache['osmPlacemarkerList'];
+        if (request != null) {
+            request.cancel();
+            console.log("Cancelled Ajax Query");
+        }
+
+        var url = '/rest/map/placemarkers/osm/as-json';
+        var request = $.getJSON({
+            url: url,
+            data: {
+                'minlat': sw.lat,
+                'minlon': sw.lng,
+                'maxlat': ne.lat,
+                'maxlon': ne.lng
+            },
+            success: osmPlacemarkerListArrived
+        })
+
+        ajaxQueryCache['osmPlacemarkerList'] = request;
+    }
+
+    // if (ditib places enabled...)
+    if (true) {
+        var request = ajaxQueryCache['ditibPlacemarkerList'];
+        if (request != null) {
+            request.cancel();
+            console.log("Cancelled Ajax Query");
+        }
+
+        var url = '/rest/map/placemarkers/ditib/as-json';
+        var request = $.getJSON({
+            url: url,
+            data: {
+                'minlat': sw.lat,
+                'minlon': sw.lng,
+                'maxlat': ne.lat,
+                'maxlon': ne.lng
+            },
+            success: ditibPlacemarkerListArrived
+        })
+
+        ajaxQueryCache['ditibPlacemarkerList'] = request;
+    }
 }
 
 function ajaxDataArrived() {
@@ -89,24 +123,33 @@ function osmPlacemarkerListArrived(data) {
     console.log("osmPlacemarkerListArrived finished")
 }
 
-<!-- Markers from here on -->
-function init() {
+function ditibPlacemarkerListArrived(data) {
+    console.log("ditibPlacemarkerListArrived");
+    ajaxQueryCache['ditibPlacemarkerList'] = null;
 
-    var ditibMosqueIcon = L.MakiMarkers.icon({
-        icon: "religious-muslim",
-        color: "#00cc33",
-        size: "m"
-    });
+    console.log("    Clearing ditibPlaces layers");
+    osmPlaces.clearLayers();
 
-    var ditibPlaces = L.markerClusterGroup({chunkedLoading: true});
-
-    for (var i = 0; i < ditibAddressPoints.length; i++) {
-        var a = ditibAddressPoints[i];
-        var title = a[2];
-        var marker = L.marker(L.latLng(a[0], a[1]), {title: title, icon: ditibMosqueIcon});
+    for (var i = 0; i < data.length; i++) {
+        var node = data[i];
+        var title = node['name'];
+        var lat = node['lat'];
+        var lon = node['lon'];
+        var marker = L.marker(L.latLng(lat, lon), {
+                title: title, icon: ditibMosqueIcon
+            }
+        );
         marker.bindPopup(title);
         ditibPlaces.addLayer(marker);
     }
+
+    console.log("    Created fresh ditibPlace Markers");
+
+    console.log("ditibPlacemarkerListArrived finished")
+}
+
+<!-- Markers from here on -->
+function init() {
 
     var overlays =
     {
