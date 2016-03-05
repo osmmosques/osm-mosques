@@ -2,6 +2,14 @@ $(document).ready(init);
 
 var map;
 
+var osmPlaces = L.markerClusterGroup({chunkedLoading: true});
+
+var osmMosqueIcon = L.MakiMarkers.icon({
+    icon: "religious-muslim",
+    color: "#6699ff",
+    size: "m"
+});
+
 var ajaxQueryCache = {};
 
 <!-- For contextmenu -->
@@ -27,7 +35,7 @@ function onMapMoveEnd() {
     // console.log("    minll:  " + map.getBounds().getSouthWest());
     // console.log("    maxll:  " + map.getBounds().getNorthEast());
 
-    var request = ajaxQueryCache['myquery'];
+    var request = ajaxQueryCache['osmPlacemarkerList'];
     if (request != null)
     {
         request.cancel();
@@ -45,15 +53,40 @@ function onMapMoveEnd() {
             'maxlat': ne.lat,
             'maxlon': ne.lng
         },
-        success: ajaxDataArrived
+        success: osmPlacemarkerListArrived
     })
 
-    ajaxQueryCache['myquery'] = request;
+    ajaxQueryCache['osmPlacemarkerList'] = request;
 }
 
 function ajaxDataArrived() {
     console.log("Ajax Data Arrived");
     ajaxQueryCache['myquery'] = null;
+}
+
+function osmPlacemarkerListArrived(data) {
+    console.log("osmPlacemarkerListArrived");
+    ajaxQueryCache['osmPlacemarkerList'] = null;
+
+    console.log("    Clearing osmPlaces layers");
+    osmPlaces.clearLayers();
+
+    for (var i = 0; i < data.length; i++) {
+        var node = data[i];
+        var title = node['name'];
+        var lat = node['lat'];
+        var lon = node['lon'];
+        var marker = L.marker(L.latLng(lat, lon), {
+                title: title, icon: osmMosqueIcon
+            }
+        );
+        marker.bindPopup(title);
+        osmPlaces.addLayer(marker);
+    }
+
+    console.log("    Created fresh osmPlace Markers");
+
+    console.log("osmPlacemarkerListArrived finished")
 }
 
 <!-- Markers from here on -->
@@ -65,15 +98,7 @@ function init() {
         size: "m"
     });
 
-    var osmMosqueIcon = L.MakiMarkers.icon({
-        icon: "religious-muslim",
-        color: "#6699ff",
-        size: "m"
-    });
-
     var ditibPlaces = L.markerClusterGroup({chunkedLoading: true});
-
-    var osmPlaces = L.markerClusterGroup({chunkedLoading: true});
 
     for (var i = 0; i < ditibAddressPoints.length; i++) {
         var a = ditibAddressPoints[i];
@@ -81,14 +106,6 @@ function init() {
         var marker = L.marker(L.latLng(a[0], a[1]), {title: title, icon: ditibMosqueIcon});
         marker.bindPopup(title);
         ditibPlaces.addLayer(marker);
-    }
-
-    for (var i = 0; i < osmAddressPoints.length; i++) {
-        var a = osmAddressPoints[i];
-        var title = a[2];
-        var marker = L.marker(L.latLng(a[0], a[1]), {title: title, icon: osmMosqueIcon});
-        marker.bindPopup(title);
-        osmPlaces.addLayer(marker);
     }
 
     var overlays =
