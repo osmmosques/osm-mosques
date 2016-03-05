@@ -17,15 +17,19 @@ function centerMap(e) {
 function onMapLoaded() {
     console.log("onLoaded:");
     console.log("    Center: " + map.getCenter());
-    console.log("    Bounds: " + map.getBounds());
-    console.log("    BBOX:   " + map.getBounds().toBBoxString());
+    console.log("    minll:  " + map.getBounds().getSouthWest());
+    console.log("    maxll:  " + map.getBounds().getNorthEast());
 }
 
 function onMapMoveEnd() {
     console.log("onMoveEnd:");
     console.log("    Center: " + map.getCenter());
-    console.log("    Bounds: " + map.getBounds());
-    console.log("    BBOX:   " + map.getBounds().toBBoxString());
+    console.log("    minll:  " + map.getBounds().getSouthWest());
+    console.log("    maxll:  " + map.getBounds().getNorthEast());
+
+    // var minll=bounds.getSouthWest();
+    // var maxll=bounds.getNorthEast();
+    // var msg='leaflet/findbybbox.cgi?format=leaflet&bbox='+minll.lng+','+minll.lat+','+maxll.lng+','+maxll.lat;
 
     var request = ajaxQueryCache['myquery'];
     if (request != null)
