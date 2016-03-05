@@ -159,14 +159,6 @@ function init() {
 
     <!-- Map providers -->
     var osmMapnikMap = L.tileLayer.provider('OpenStreetMap.Mapnik');
-    var stamenWatercolorMap = L.tileLayer.provider('Stamen.Watercolor');
-    var thunderforestMap = L.tileLayer.provider('Thunderforest.Landscape');
-
-    mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-
-    var googleSatMap = new L.Google('SATELLITE');
-    var googleTerrainMap = new L.Google('TERRAIN');
-    var googleHybridMap = new L.Google('HYBRID');
 
     <!-- Now the map itself -->
     map = L.map('map', {
@@ -186,11 +178,13 @@ function init() {
     var baseLayers =
     {
         "OSM Mapnik": osmMapnikMap,
-        "Thunderforest": thunderforestMap,
-        "Watercolor": stamenWatercolorMap,
-        "Google Satellite": googleSatMap,
-        "Google Terrain": googleTerrainMap,
-        "Google Hybrid": googleHybridMap
+        "Thunderforest": L.tileLayer.provider('Thunderforest.Landscape'),
+        "Watercolor": L.tileLayer.provider('Stamen.Watercolor'),
+        "Esri Streetmap": L.tileLayer.provider('Esri.WorldStreetMap'),
+        "Esri Imagery": L.tileLayer.provider('Esri.WorldImagery'),
+        "Google Satellite": new L.Google('SATELLITE'),
+        "Google Terrain": new L.Google('TERRAIN'),
+        "Google Hybrid": new L.Google('HYBRID')
     };
 
     map.addLayer(osmPlaces);
