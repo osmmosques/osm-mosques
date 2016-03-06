@@ -122,9 +122,8 @@ public class DitibRestController
 
         LOGGER.info("DITIB Place Repository is: {}", ditibPlaceRepository);
 
-        // Empty the storage first
-        // ditibPlaceRepository.deleteAll();
-        // TODO actually invalidate, by setting the attribute via updateAll()
+        // Mark all places as invalid first
+        ditibPlaceRepository.invalidateAll();
 
         int parsedPlaceNumber = 10000;
         for (DitibParsedPlace parsedPlace : parsedPlaces)
@@ -183,6 +182,9 @@ public class DitibRestController
                 LOGGER.info("Place: {}", tempPlace);
             }
         }
+
+        // Lastly, remove all invalid places
+        ditibPlaceRepository.deleteAllInvalid();
 
         return new GenericResponse("O.K., Massa!");
     }
