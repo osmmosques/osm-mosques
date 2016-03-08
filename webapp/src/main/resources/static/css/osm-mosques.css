@@ -13,18 +13,73 @@ body {
 
 #map {
     position: absolute;
+    margin-top: 75px;
     top: 0;
     bottom: 30px;
     left: 0;
     right: 0;
-    height: 100%;
+    height: calc(100% - 75px);
     width: 100%;
 }
 
-#header {
-    width: auto;
-    height: auto;
-    display: none;
+.navbar {
+    height: 75px;
+    color: #6B6B6B;
+    background-color: #363636;
+}
+
+.navbar-brand {
+    color: #DADADA;
+    font-size: 20px;
+    font-family: 'Roboto Slab', serif;
+    float: left;
+    padding: 15px 15px;
+    padding-left: 100px;
+    margin: 13px;
+}
+
+.site-name {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.site-name a {
+    color: #DADADA;
+    display: inline;
+    text-decoration: none;
+}
+
+.navbar-menu {
+    color: #DADADA;
+    font-family: 'Open Sans', serif;
+    font-size: 14px;
+    font-weight: normal;
+    text-transform: uppercase;
+    margin: 35px;
+    float: right;
+    padding-right: 100px;
+}
+
+.navbar-menu ul {
+    margin: 0;
+    list-style-type: none;
+}
+
+.navbar-menu ul li {
+    display: inline;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.navbar-menu ul li a {
+    color: #DADADA;
+    display: inline;
+    text-decoration: none;
+}
+
+.navbar-menu ul li.menu-item.active a {
+    color: #DA4453;
+    display: inline;
 }
 
 .footer {
