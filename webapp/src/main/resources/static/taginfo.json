@@ -13,15 +13,24 @@
   "tags": [
     {
       "key": "amenity",
-      "value": "place_of_worship"
+      "value": "place_of_worship",
+      "object_types": [
+        "node"
+      ]
     },
     {
       "key": "religion",
-      "value": "muslim"
+      "value": "muslim",
+      "object_types": [
+        "node"
+      ]
     },
     {
       "key": "building",
-      "value": "mosque"
+      "value": "mosque",
+      "object_types": [
+        "node"
+      ]
     }
   ]
 }
