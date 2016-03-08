@@ -1,0 +1,27 @@
+{
+  "data_format": 1,
+  "data_url": "https://www.osmmosques.org/osmmosques-taginfo.json",
+  "project": {
+    "name": "OSM Mosques",
+    "description": "Muslim prayer sites on OSM.",
+    "project_url": "https://www.osmmosques.org/",
+    "doc_url": "https://blog.osmmosques.org/about/",
+    "icon_url": "https://www.osmmosques.org/favicon-mosque.png",
+    "contact_name": "Hakan Tandogan",
+    "contact_email": "hakan@osmmosques.org"
+  },
+  "tags": [
+    {
+      "key": "amenity",
+      "value": "place_of_worship"
+    },
+    {
+      "key": "religion",
+      "value": "muslim"
+    },
+    {
+      "key": "building",
+      "value": "mosque"
+    }
+  ]
+}
