@@ -31,6 +31,42 @@
       "object_types": [
         "node"
       ]
+    },
+    {
+      "key": "name",
+      "object_types": [
+        "node"
+      ]
+    },
+    {
+      "key": "addr:street",
+      "object_types": [
+        "node"
+      ]
+    },
+    {
+      "key": "addr:housenumber",
+      "object_types": [
+        "node"
+      ]
+    },
+    {
+      "key": "addr:postcode",
+      "object_types": [
+        "node"
+      ]
+    },
+    {
+      "key": "addr:city",
+      "object_types": [
+        "node"
+      ]
+    },
+    {
+      "key": "addr:country",
+      "object_types": [
+        "node"
+      ]
     }
   ]
 }
