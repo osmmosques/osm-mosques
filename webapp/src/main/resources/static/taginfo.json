@@ -91,6 +91,30 @@
       "object_types": [
         "node"
       ]
+    },
+    {
+      "key": "phone",
+      "object_types": [
+        "node"
+      ]
+    },
+    {
+      "key": "fax",
+      "object_types": [
+        "node"
+      ]
+    },
+    {
+      "key": "website",
+      "object_types": [
+        "node"
+      ]
+    },
+    {
+      "key": "email",
+      "object_types": [
+        "node"
+      ]
     }
   ]
 }
