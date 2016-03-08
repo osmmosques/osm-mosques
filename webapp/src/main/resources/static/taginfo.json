@@ -67,6 +67,30 @@
       "object_types": [
         "node"
       ]
+    },
+    {
+      "key": "contact:phone",
+      "object_types": [
+        "node"
+      ]
+    },
+    {
+      "key": "contact:fax",
+      "object_types": [
+        "node"
+      ]
+    },
+    {
+      "key": "contact:website",
+      "object_types": [
+        "node"
+      ]
+    },
+    {
+      "key": "contact:email",
+      "object_types": [
+        "node"
+      ]
     }
   ]
 }
