@@ -141,14 +141,14 @@ public class OsmRestController
 
     @RequestMapping(value = REQUEST_IMPORT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public GenericResponse importData()
+    public ImportDataResponse importData()
     {
         return importData(null);
     }
 
     @RequestMapping(value = REQUEST_IMPORT + "/{path}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public GenericResponse importData(@PathVariable("path") String path)
+    public ImportDataResponse importData(@PathVariable("path") String path)
     {
         LOGGER.info("About to import OSM data from {} / {}", dataLocation, path);
 
@@ -205,7 +205,10 @@ public class OsmRestController
             }
         }
 
-        return new GenericResponse("O.K., Massa!");
+        // Now, return the amount of items in the database
+        long loaded = osmPlaceRepository.count();
+
+        return new ImportDataResponse("O.K., Massa!", loaded);
     }
 
 

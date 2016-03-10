@@ -77,14 +77,14 @@ public class DitibRestController
 
     @RequestMapping(value = REQUEST_IMPORT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public GenericResponse importData()
+    public ImportDataResponse importData()
     {
         return importData(null);
     }
 
     @RequestMapping(value = REQUEST_IMPORT + "/{path}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public GenericResponse importData(@PathVariable("path") String path)
+    public ImportDataResponse importData(@PathVariable("path") String path)
     {
         LOGGER.info("About to import DITIB data from {} / {}", dataLocation, path);
 
@@ -186,7 +186,10 @@ public class DitibRestController
         // Lastly, remove all invalid places
         ditibPlaceRepository.deleteAllInvalid();
 
-        return new GenericResponse("O.K., Massa!");
+        // Now, return the amount of items in the database
+        long loaded = ditibPlaceRepository.count();
+
+        return new ImportDataResponse("O.K., Massa!", loaded);
     }
 
     @RequestMapping(value = REQUEST_GEOCODE, produces = MediaType.APPLICATION_JSON_VALUE)
