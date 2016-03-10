@@ -47,6 +47,11 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>osm-mosque-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>osm-mosque-qa-persistence</artifactId>
         </dependency>
 
