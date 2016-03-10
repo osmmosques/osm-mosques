@@ -172,6 +172,7 @@ public class DitibRestController
                 place.getContact().setFax(parsedPlace.getFax());
                 place.getContact().setWebsite(StringUtils.substring(parsedPlace.getUrl(), 0, 79));
 
+                place.setValid(true);
                 place = ditibPlaceRepository.save(place);
 
                 LOGGER.debug("Saved Place {}", place);
@@ -188,6 +189,7 @@ public class DitibRestController
 
         // Now, return the amount of items in the database
         long loaded = ditibPlaceRepository.count();
+        LOGGER.info("Loaded {} places into database", loaded);
 
         return new ImportDataResponse("O.K., Massa!", loaded);
     }

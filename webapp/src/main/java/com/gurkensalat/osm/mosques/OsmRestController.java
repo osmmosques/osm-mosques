@@ -171,9 +171,9 @@ public class OsmRestController
 
         LOGGER.debug("Place Repository is: {}", osmPlaceRepository);
 
-        // Empty the storage first
-        // osmPlaceRepository.deleteAll();
-        // TODO actually invalidate, by setting the attribute via updateAll()
+        // Mark all places as invalid first
+        osmPlaceRepository.invalidateAll();
+        osmTagRepository.invalidateAll();
 
         LOGGER.info("Data Directory is {}", dataDirectory.getAbsolutePath());
 
@@ -205,8 +205,12 @@ public class OsmRestController
             }
         }
 
+        // Lastly, remove all invalid places
+        osmPlaceRepository.deleteAllInvalid();
+
         // Now, return the amount of items in the database
         long loaded = osmPlaceRepository.count();
+        LOGGER.info("Loaded {} places into database", loaded);
 
         return new ImportDataResponse("O.K., Massa!", loaded);
     }
@@ -278,6 +282,7 @@ public class OsmRestController
 
             tempPlace.copyTo(place);
 
+            place.setValid(true);
             place = osmPlaceRepository.save(place);
 
             LOGGER.debug("Saved Place {}", place);
