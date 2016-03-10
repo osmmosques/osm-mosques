@@ -108,7 +108,7 @@ public class DitibRestController
 
         List<DitibParsedPlace> parsedPlaces = new ArrayList<DitibParsedPlace>();
 
-        for (int i = 1; i < 9; i++)
+        for (int i = 0; i < 9; i++)
         {
             String dataFileName = "germany-ditib-page-" + i + ".html";
             File dataFile = new File(dataDirectory, dataFileName);
