@@ -309,9 +309,12 @@ public class OsmRestController
                 LOGGER.debug("  reloaded: {} / {}", entry.getId(), entry.getVersion());
             }
 
-            entry.setCountryName(countryName);
+            if (countryName.length() > 20)
+            {
+                countryName = countryName.substring(0, 19);
+            }
 
-            // tempPlace.copyTo(entry);
+            entry.setCountryName(countryName);
 
             entry.setValid(true);
             entry = statisticsRepository.save(entry);
