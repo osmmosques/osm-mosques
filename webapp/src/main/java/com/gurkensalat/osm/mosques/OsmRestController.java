@@ -108,22 +108,29 @@ public class OsmRestController
 
         LOGGER.info("Data Directory is {}", dataDirectory.getAbsolutePath());
 
-        for (String state : Countries.getGermanCounties())
         {
             String country = "germany";
-            File dataFile = new File(dataDirectory, country + "-" + state + "-religion-muslim" + ".osm");
-
-            OsmRoot root = osmRepository.parse(dataFile);
-
-            LOGGER.info("Read {} nodes from {}", root.getNodes().size(), dataFile.getName());
-
-            for (OsmNode node : root.getNodes())
+            int overallNodes = 0;
+            for (String state : Countries.getGermanCounties())
             {
-                persistOsmNode(node, country, state);
+                File dataFile = new File(dataDirectory, country + "-" + state + "-religion-muslim" + ".osm");
+
+                OsmRoot root = osmRepository.parse(dataFile);
+
+                LOGGER.info("Read {} nodes from {}", root.getNodes().size(), dataFile.getName());
+
+                for (OsmNode node : root.getNodes())
+                {
+                    persistOsmNode(node, country, state);
+                }
+
+                overallNodes += root.getNodes().size();
             }
 
             StatisticsEntry statisticsEntry = persistStatisticsEntry(Countries.getCountries().get(country), country);
-            // TODO set some more data and persist the entry again
+
+            statisticsEntry.setOsmMosqueNodes(overallNodes);
+            statisticsEntry = statisticsRepository.save(statisticsEntry);
         }
 
         for (String country : Countries.getCountries().keySet())
@@ -141,7 +148,9 @@ public class OsmRestController
             }
 
             StatisticsEntry statisticsEntry = persistStatisticsEntry(Countries.getCountries().get(country), country);
-            // TODO set some more data and persist the entry again
+
+            statisticsEntry.setOsmMosqueNodes(root.getNodes().size());
+            statisticsEntry = statisticsRepository.save(statisticsEntry);
         }
 
         // Lastly, remove all invalid places
