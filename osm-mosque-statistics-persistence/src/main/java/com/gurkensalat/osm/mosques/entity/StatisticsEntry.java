@@ -23,7 +23,7 @@ public class StatisticsEntry extends AbstractPersistable<Long>
     @Column(name = "COUNTRY_NAME", length = 20)
     private String countryName;
 
-    @Column
+    @Column(name = "OSM_MOSQUE_NODES")
     private Integer osmMosqueNodes;
 
     @Column(name = "MIN_LAT")
