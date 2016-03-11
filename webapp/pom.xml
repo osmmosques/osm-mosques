@@ -56,6 +56,11 @@
         </dependency>
 
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>osm-mosque-statistics-persistence</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.tandogan.osm</groupId>
             <artifactId>opencagedata-geocoder-library</artifactId>
         </dependency>
