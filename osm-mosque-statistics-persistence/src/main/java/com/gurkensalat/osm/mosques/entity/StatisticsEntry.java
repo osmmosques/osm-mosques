@@ -26,6 +26,24 @@ public class StatisticsEntry extends AbstractPersistable<Long>
     @Column
     private Integer osmMosqueNodes;
 
+    @Column(name = "MIN_LAT")
+    private double minLat;
+
+    @Column(name = "MIN_LON")
+    private double minLon;
+
+    @Column(name = "MAX_LAT")
+    private double maxLat;
+
+    @Column(name = "MAX_LON")
+    private double maxLon;
+
+    @Column(name = "CENTROID_LAT")
+    private double centroidLat;
+
+    @Column(name = "CENTROID_LON")
+    private double centroidLon;
+
     public Integer getVersion()
     {
         return version;
@@ -74,6 +92,66 @@ public class StatisticsEntry extends AbstractPersistable<Long>
     public void setOsmMosqueNodes(Integer osmMosqueNodes)
     {
         this.osmMosqueNodes = osmMosqueNodes;
+    }
+
+    public double getMinLat()
+    {
+        return minLat;
+    }
+
+    public void setMinLat(double minLat)
+    {
+        this.minLat = minLat;
+    }
+
+    public double getMinLon()
+    {
+        return minLon;
+    }
+
+    public void setMinLon(double minLon)
+    {
+        this.minLon = minLon;
+    }
+
+    public double getMaxLat()
+    {
+        return maxLat;
+    }
+
+    public void setMaxLat(double maxLat)
+    {
+        this.maxLat = maxLat;
+    }
+
+    public double getMaxLon()
+    {
+        return maxLon;
+    }
+
+    public void setMaxLon(double maxLon)
+    {
+        this.maxLon = maxLon;
+    }
+
+    public double getCentroidLat()
+    {
+        return centroidLat;
+    }
+
+    public void setCentroidLat(double centroidLat)
+    {
+        this.centroidLat = centroidLat;
+    }
+
+    public double getCentroidLon()
+    {
+        return centroidLon;
+    }
+
+    public void setCentroidLon(double centroidLon)
+    {
+        this.centroidLon = centroidLon;
     }
 
     public String toString()
