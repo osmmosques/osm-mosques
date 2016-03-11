@@ -23,6 +23,9 @@ public class StatisticsEntry extends AbstractPersistable<Long>
     @Column(name = "COUNTRY_NAME", length = 20)
     private String countryName;
 
+    @Column
+    private Integer osmMosqueNodes;
+
     public Integer getVersion()
     {
         return version;
@@ -63,11 +66,22 @@ public class StatisticsEntry extends AbstractPersistable<Long>
         this.countryName = countryName;
     }
 
+    public Integer getOsmMosqueNodes()
+    {
+        return osmMosqueNodes;
+    }
+
+    public void setOsmMosqueNodes(Integer osmMosqueNodes)
+    {
+        this.osmMosqueNodes = osmMosqueNodes;
+    }
+
     public String toString()
     {
         return (new ToStringBuilder(this))
                 .append("countryCode", countryCode)
                 .append("countryName", countryName)
+                .append("osmMosqueNodes", osmMosqueNodes)
                 .toString();
     }
 }
