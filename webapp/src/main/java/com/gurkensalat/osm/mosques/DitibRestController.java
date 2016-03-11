@@ -117,13 +117,17 @@ public class DitibRestController
             splitDirectory.mkdirs();
             ditibParserRepository.prettify(splitDirectory, dataFile);
 
-            parsedPlaces.addAll(ditibParserRepository.parse(dataFile));
+            List<DitibParsedPlace> placesInFile = ditibParserRepository.parse(dataFile);
+            LOGGER.info("Loaded {} places from  {}", placesInFile.size(), dataFileName);
+
+            parsedPlaces.addAll(placesInFile);
         }
 
         LOGGER.info("DITIB Place Repository is: {}", ditibPlaceRepository);
 
         // Mark all places as invalid first
         ditibPlaceRepository.invalidateAll();
+        LOGGER.info("About to persist {} DITIB places", parsedPlaces.size());
 
         int parsedPlaceNumber = 10000;
         for (DitibParsedPlace parsedPlace : parsedPlaces)
