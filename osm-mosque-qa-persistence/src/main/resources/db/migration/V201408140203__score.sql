@@ -1,1 +1,1 @@
-ALTER TABLE `qa_places` add `score` double DEFAULT NULL;
+ALTER TABLE `QA_PLACES` add `SCORE` double DEFAULT NULL;

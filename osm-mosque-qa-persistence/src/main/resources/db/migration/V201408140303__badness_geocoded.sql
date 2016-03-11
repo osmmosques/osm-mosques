@@ -1,1 +1,1 @@
-ALTER TABLE `qa_places` add `bd_geocoded` int DEFAULT NULL;
+ALTER TABLE `QA_PLACES` add `BD_GEOCODED` int DEFAULT NULL;
