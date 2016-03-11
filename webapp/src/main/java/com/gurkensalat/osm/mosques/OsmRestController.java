@@ -6,6 +6,8 @@ import com.gurkensalat.osm.entity.OsmPlace;
 import com.gurkensalat.osm.entity.OsmRoot;
 import com.gurkensalat.osm.entity.OsmTag;
 import com.gurkensalat.osm.entity.PlaceType;
+import com.gurkensalat.osm.mosques.entity.StatisticsEntry;
+import com.gurkensalat.osm.mosques.repository.StatisticsRepository;
 import com.gurkensalat.osm.repository.OsmPlaceRepository;
 import com.gurkensalat.osm.repository.OsmRepository;
 import com.gurkensalat.osm.repository.OsmTagRepository;
@@ -54,6 +56,9 @@ public class OsmRestController
 
     @Autowired
     private OsmTagRepository osmTagRepository;
+
+    @Autowired
+    private StatisticsRepository statisticsRepository;
 
     @Value("${osm.data.location}")
     private String dataLocation;
@@ -105,7 +110,8 @@ public class OsmRestController
 
         for (String state : Countries.getGermanCounties())
         {
-            File dataFile = new File(dataDirectory, "germany-" + state + "-religion-muslim" + ".osm");
+            String country = "germany";
+            File dataFile = new File(dataDirectory, country + "-" + state + "-religion-muslim" + ".osm");
 
             OsmRoot root = osmRepository.parse(dataFile);
 
@@ -113,13 +119,17 @@ public class OsmRestController
 
             for (OsmNode node : root.getNodes())
             {
-                persistOsmNode(node, "germany", state);
+                persistOsmNode(node, country, state);
             }
+
+            StatisticsEntry statisticsEntry = persistStatisticsEntry(Countries.getCountries().get(country), country);
+            // TODO set some more data and persist the entry again
         }
 
         for (String country : Countries.getCountries().keySet())
         {
-            File dataFile = new File(dataDirectory, country + "-all-religion-muslim" + ".osm");
+            String state = "all";
+            File dataFile = new File(dataDirectory, country + "-" + state + "-religion-muslim" + ".osm");
 
             OsmRoot root = osmRepository.parse(dataFile);
 
@@ -129,6 +139,9 @@ public class OsmRestController
             {
                 persistOsmNode(node, country, "");
             }
+
+            StatisticsEntry statisticsEntry = persistStatisticsEntry(Countries.getCountries().get(country), country);
+            // TODO set some more data and persist the entry again
         }
 
         // Lastly, remove all invalid places
@@ -262,5 +275,43 @@ public class OsmRestController
             LOGGER.info("OSM node: {}", node);
             LOGGER.info("     tag: {}", osmTag);
         }
+    }
+
+    private StatisticsEntry persistStatisticsEntry(String countryCode, String countryName)
+    {
+        StatisticsEntry entry = null;
+
+        try
+        {
+            List<StatisticsEntry> entries = statisticsRepository.findByCountryCode(countryCode);
+            if ((entries == null) || (entries.size() == 0))
+            {
+                StatisticsEntry tempEntry = new StatisticsEntry();
+                tempEntry.setCountryCode(countryCode);
+                // Place could not be found, insert it...
+                entry = statisticsRepository.save(tempEntry);
+            }
+            else
+            {
+                // take the one from the database and update it
+                entry = entries.get(0);
+                LOGGER.debug("Found pre-existing entity {} / {}", entry.getId(), entry.getVersion());
+                entry = statisticsRepository.findOne(entry.getId());
+                LOGGER.debug("  reloaded: {} / {}", entry.getId(), entry.getVersion());
+            }
+
+            entry.setCountryName(countryName);
+
+            // tempPlace.copyTo(entry);
+
+            entry.setValid(true);
+            entry = statisticsRepository.save(entry);
+        }
+        catch (Exception e)
+        {
+            LOGGER.error("While persisting statistics entry", e);
+        }
+
+        return entry;
     }
 }
