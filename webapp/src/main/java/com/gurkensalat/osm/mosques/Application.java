@@ -22,6 +22,8 @@ package com.gurkensalat.osm.mosques;
 // import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 import com.gurkensalat.osm.entity.EntityComponentScanMarker;
+import com.gurkensalat.osm.mosques.entity.StatisticsEntityComponentScanMarker;
+import com.gurkensalat.osm.mosques.repository.StatisticsRepositoryComponentScanMarker;
 import com.gurkensalat.osm.repository.RepositoryComponentScanMarker;
 import com.tandogan.geostuff.opencagedata.GeocodeRepositoryComponentScanMarker;
 import com.tandogan.geostuff.opencagedata.entity.GeocodeEntityComponentScanMarker;
@@ -57,11 +59,12 @@ import java.util.Locale;
         ApplicationComponentScanMarker.class,
         EntityComponentScanMarker.class,
         RepositoryComponentScanMarker.class,
+        StatisticsRepositoryComponentScanMarker.class,
         GeocodeEntityComponentScanMarker.class,
         GeocodeRepositoryComponentScanMarker.class
 })
-@EnableJpaRepositories(basePackageClasses = {RepositoryComponentScanMarker.class})
-@EntityScan(basePackageClasses = {EntityComponentScanMarker.class})
+@EnableJpaRepositories(basePackageClasses = {RepositoryComponentScanMarker.class, StatisticsRepositoryComponentScanMarker.class})
+@EntityScan(basePackageClasses = {EntityComponentScanMarker.class, StatisticsEntityComponentScanMarker.class})
 public class Application extends WebMvcConfigurerAdapter
 {
     public static void main(String[] args)
