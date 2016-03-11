@@ -18,6 +18,7 @@
         <module>osm-mosque-parser</module>
         <module>osm-mosque-persistence</module>
         <module>osm-mosque-qa-persistence</module>
+        <module>osm-mosque-statistics-persistence</module>
         <module>webapp</module>
         <module>webapp-for-versioneye</module>
     </modules>
