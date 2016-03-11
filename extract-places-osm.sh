@@ -213,4 +213,8 @@ mysql -uroot -p$(cat ${HOME}/.my.pass) ${db} \
 mysql -uroot -p$(cat ${HOME}/.my.pass) ${db} \
     -e "select P_TABLE, P_ID, D_KEY, D_VAL, ID, VERSION from OSM_TAGS order by P_TABLE, P_ID, D_KEY;" \
     > ${DB_DIR}/${db}-osm_tags.sql
+
+mysql -uroot -p$(cat ${HOME}/.my.pass) ${db} \
+    -e "select * from STATISTICS order by COUNTRY_NAME;" \
+    > ${DB_DIR}/${db}-statistics.sql
     
