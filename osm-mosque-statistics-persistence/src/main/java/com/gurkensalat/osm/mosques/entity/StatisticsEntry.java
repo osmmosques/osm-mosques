@@ -26,6 +26,9 @@ public class StatisticsEntry extends AbstractPersistable<Long>
     @Column(name = "OSM_MOSQUE_NODES")
     private Integer osmMosqueNodes;
 
+    @Column(name = "DITIB_MOSQUE_NODES")
+    private Integer ditibMosqueNodes;
+
     @Column(name = "MIN_LAT")
     private double minLat;
 
@@ -94,6 +97,16 @@ public class StatisticsEntry extends AbstractPersistable<Long>
         this.osmMosqueNodes = osmMosqueNodes;
     }
 
+    public Integer getDitibMosqueNodes()
+    {
+        return ditibMosqueNodes;
+    }
+
+    public void setDitibMosqueNodes(Integer ditibMosqueNodes)
+    {
+        this.ditibMosqueNodes = ditibMosqueNodes;
+    }
+
     public double getMinLat()
     {
         return minLat;
@@ -160,6 +173,7 @@ public class StatisticsEntry extends AbstractPersistable<Long>
                 .append("countryCode", countryCode)
                 .append("countryName", countryName)
                 .append("osmMosqueNodes", osmMosqueNodes)
+                .append("ditibMosqueNodes", ditibMosqueNodes)
                 .toString();
     }
 }
