@@ -26,6 +26,12 @@
       ]
     },
     {
+      "key": "denomination",
+      "object_types": [
+        "node"
+      ]
+    },
+    {
       "key": "building",
       "value": "mosque",
       "object_types": [
