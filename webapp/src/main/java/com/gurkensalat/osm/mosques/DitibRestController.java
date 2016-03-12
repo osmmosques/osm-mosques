@@ -129,7 +129,7 @@ public class DitibRestController
             splitDirectory.mkdirs();
             ditibParserRepository.prettify(splitDirectory, dataFile);
 
-            List<DitibParsedPlace> placesInFile = ditibParserRepository.parse(dataFile);
+            List<DitibParsedPlace> placesInFile = ditibParserRepository.parseGermany(dataFile);
             LOGGER.info("Loaded {} places from  {}", placesInFile.size(), dataFileName);
 
             parsedPlaces.addAll(placesInFile);
@@ -142,9 +142,11 @@ public class DitibRestController
 
     private void importDataNetherlands(File dataDirectory)
     {
-        List<DitibParsedPlace> parsedPlaces = new ArrayList<DitibParsedPlace>();
+        String dataFileName = "netherlands-ditib.html";
+        File dataFile = new File(dataDirectory, dataFileName);
 
-        DitibParsedPlace
+        List<DitibParsedPlace> parsedPlaces = ditibParserRepository.parseNetherlands(dataFile);
+        LOGGER.info("Loaded {} places from  {}", parsedPlaces.size(), dataFileName);
 
         LOGGER.info("DITIB Place Repository is: {}", ditibPlaceRepository);
         persistPlaces(parsedPlaces, "NL");
@@ -156,10 +158,8 @@ public class DitibRestController
         ditibPlaceRepository.invalidateByCountryCode(countryCode);
         LOGGER.info("About to persist {} DITIB places", parsedPlaces.size());
 
-        int parsedPlaceNumber = 10000;
         for (DitibParsedPlace parsedPlace : parsedPlaces)
         {
-            parsedPlaceNumber++;
             String key = (new DitibParsedPlaceKey(parsedPlace)).getKey();
 
             DitibPlace tempPlace = new DitibPlace(key);
