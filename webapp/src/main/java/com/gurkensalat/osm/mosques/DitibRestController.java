@@ -106,6 +106,17 @@ public class DitibRestController
 
         LOGGER.info("DITIB Parser Repository is: {}", ditibParserRepository);
 
+        importDataGermany(dataDirectory);
+
+        // Now, return the amount of items in the database
+        long loaded = ditibPlaceRepository.count();
+        LOGGER.info("Loaded {} places into database", loaded);
+
+        return new ImportDataResponse("O.K., Massa!", loaded);
+    }
+
+    private void importDataGermany(File dataDirectory)
+    {
         List<DitibParsedPlace> parsedPlaces = new ArrayList<DitibParsedPlace>();
 
         for (int i = 0; i < 9; i++)
@@ -125,9 +136,13 @@ public class DitibRestController
         }
 
         LOGGER.info("DITIB Place Repository is: {}", ditibPlaceRepository);
+        persistPlaces(parsedPlaces, "DE");
+    }
 
-        // Mark all places as invalid first
-        ditibPlaceRepository.invalidateAll();
+    private void persistPlaces(List<DitibParsedPlace> parsedPlaces, String countryCode)
+    {
+        // Mark all places in Germany as invalid first
+        ditibPlaceRepository.invalidateByCountryCode(countryCode);
         LOGGER.info("About to persist {} DITIB places", parsedPlaces.size());
 
         int parsedPlaceNumber = 10000;
@@ -164,7 +179,7 @@ public class DitibRestController
                 place.setName(parsedPlace.getName());
 
                 place.setAddress(new Address());
-                place.getAddress().setCountry("DE");
+                place.getAddress().setCountry(countryCode);
                 place.getAddress().setPostcode(parsedPlace.getPostcode());
                 place.getAddress().setCity(parsedPlace.getCity());
                 place.getAddress().setStreet(parsedPlace.getStreet());
@@ -191,12 +206,6 @@ public class DitibRestController
 
         // Lastly, remove all invalid places
         ditibPlaceRepository.deleteAllInvalid();
-
-        // Now, return the amount of items in the database
-        long loaded = ditibPlaceRepository.count();
-        LOGGER.info("Loaded {} places into database", loaded);
-
-        return new ImportDataResponse("O.K., Massa!", loaded);
     }
 
     @RequestMapping(value = REQUEST_GEOCODE, produces = MediaType.APPLICATION_JSON_VALUE)
