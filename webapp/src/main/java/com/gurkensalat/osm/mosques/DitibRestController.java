@@ -56,6 +56,10 @@ public class DitibRestController
 
     private final static String REQUEST_IMPORT = REQUEST_ROOT + "/import";
 
+    private final static String REQUEST_IMPORT_DE = REQUEST_ROOT + "/import-de";
+
+    private final static String REQUEST_IMPORT_NL = REQUEST_ROOT + "/import-nl";
+
     @Autowired
     private GeocodeRepository geocodeRepository;
 
@@ -86,7 +90,30 @@ public class DitibRestController
     @ResponseStatus(HttpStatus.OK)
     public ImportDataResponse importData(@PathVariable("path") String path)
     {
-        LOGGER.info("About to import DITIB data from {} / {}", dataLocation, path);
+        LOGGER.info("Old Endpoint, do not use anymore...", dataLocation, path);
+
+        importDataGermany();
+        importDataNetherlands();
+
+        // Now, return the amount of items in the database
+        long loaded = ditibPlaceRepository.count();
+        LOGGER.info("Loaded {} places into database", loaded);
+
+        return new ImportDataResponse("O.K., Massa!", loaded);
+    }
+
+    @RequestMapping(value = REQUEST_IMPORT_DE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ImportDataResponse importDataGermany()
+    {
+        return importDataGermany(null);
+    }
+
+    @RequestMapping(value = REQUEST_IMPORT_DE + "/{path}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ImportDataResponse importDataGermany(@PathVariable("path") String path)
+    {
+        LOGGER.info("About to import DITIB (Germany) data from {} / {}", dataLocation, path);
 
         File dataDirectory = new File(dataLocation);
         if (path != null)
@@ -106,18 +133,6 @@ public class DitibRestController
 
         LOGGER.info("DITIB Parser Repository is: {}", ditibParserRepository);
 
-        importDataGermany(dataDirectory);
-        importDataNetherlands(dataDirectory);
-
-        // Now, return the amount of items in the database
-        long loaded = ditibPlaceRepository.count();
-        LOGGER.info("Loaded {} places into database", loaded);
-
-        return new ImportDataResponse("O.K., Massa!", loaded);
-    }
-
-    private void importDataGermany(File dataDirectory)
-    {
         List<DitibParsedPlace> parsedPlaces = new ArrayList<DitibParsedPlace>();
 
         for (int i = 0; i < 9; i++)
@@ -138,10 +153,45 @@ public class DitibRestController
 
         LOGGER.info("DITIB Place Repository is: {}", ditibPlaceRepository);
         persistPlaces(parsedPlaces, "DE");
+
+        // Now, return the amount of items in the database
+        long loaded = ditibPlaceRepository.count();
+        LOGGER.info("Loaded {} places into database", loaded);
+
+        return new ImportDataResponse("O.K., Massa!", loaded);
     }
 
-    private void importDataNetherlands(File dataDirectory)
+    @RequestMapping(value = REQUEST_IMPORT_NL, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ImportDataResponse importDataNetherlands()
     {
+        return importDataNetherlands(null);
+    }
+
+    @RequestMapping(value = REQUEST_IMPORT_NL + "/{path}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ImportDataResponse importDataNetherlands(@PathVariable("path") String path)
+    {
+        LOGGER.info("About to import Diyanet Isleri Vafki (Netherlands) data from {} / {}", dataLocation, path);
+
+        File dataDirectory = new File(dataLocation);
+        if (path != null)
+        {
+            try
+            {
+                path = URLDecoder.decode(path, CharEncoding.UTF_8);
+            }
+            catch (UnsupportedEncodingException e)
+            {
+                LOGGER.error("While decoding optional path", e);
+            }
+
+            // TODO sanitize data directory first...
+            dataDirectory = new File(dataDirectory, path);
+        }
+
+        LOGGER.info("DITIB Parser Repository is: {}", ditibParserRepository);
+
         String dataFileName = "netherlands-ditib.html";
         File dataFile = new File(dataDirectory, dataFileName);
 
@@ -150,6 +200,12 @@ public class DitibRestController
 
         LOGGER.info("DITIB Place Repository is: {}", ditibPlaceRepository);
         persistPlaces(parsedPlaces, "NL");
+
+        // Now, return the amount of items in the database
+        long loaded = ditibPlaceRepository.count();
+        LOGGER.info("Loaded {} places into database", loaded);
+
+        return new ImportDataResponse("O.K., Massa!", loaded);
     }
 
     private void persistPlaces(List<DitibParsedPlace> parsedPlaces, String countryCode)
