@@ -115,6 +115,13 @@
       "object_types": [
         "node"
       ]
+    },
+    {
+      "key": "ditib:code",
+      "description": "Reference to the database of mosques and societies managed by the turkish 'Diyanet Isleri' ministry",
+      "object_types": [
+        "node"
+      ]
     }
   ]
 }
