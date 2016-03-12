@@ -102,14 +102,17 @@ public class OsmRestController
 
         LOGGER.debug("Place Repository is: {}", osmPlaceRepository);
 
-        // Mark all places as invalid first
-        osmPlaceRepository.invalidateAll();
-        osmTagRepository.invalidateAll();
+        // TODO find a way to invalidate all tags belonging to nodes in a country...
+        // osmTagRepository.invalidateAll();
 
         LOGGER.info("Data Directory is {}", dataDirectory.getAbsolutePath());
 
         {
             String country = "germany";
+            String countryCode = Countries.getCountries().get(country);
+            // Mark all places as invalid first
+            osmPlaceRepository.invalidateByCountryCode(countryCode);
+
             int overallNodes = 0;
             for (String state : Countries.getGermanCounties())
             {
@@ -127,7 +130,7 @@ public class OsmRestController
                 overallNodes += root.getNodes().size();
             }
 
-            StatisticsEntry statisticsEntry = persistStatisticsEntry(Countries.getCountries().get(country), country);
+            StatisticsEntry statisticsEntry = persistStatisticsEntry(countryCode, country);
 
             statisticsEntry.setOsmMosqueNodes(overallNodes);
             statisticsEntry = statisticsRepository.save(statisticsEntry);
@@ -135,6 +138,7 @@ public class OsmRestController
 
         for (String country : Countries.getCountries().keySet())
         {
+            String countryCode = Countries.getCountries().get(country);
             String state = "all";
             File dataFile = new File(dataDirectory, country + "-" + state + "-religion-muslim" + ".osm");
 
@@ -147,7 +151,7 @@ public class OsmRestController
                 persistOsmNode(node, country, "");
             }
 
-            StatisticsEntry statisticsEntry = persistStatisticsEntry(Countries.getCountries().get(country), country);
+            StatisticsEntry statisticsEntry = persistStatisticsEntry(countryCode, country);
 
             statisticsEntry.setOsmMosqueNodes(root.getNodes().size());
             statisticsEntry = statisticsRepository.save(statisticsEntry);
