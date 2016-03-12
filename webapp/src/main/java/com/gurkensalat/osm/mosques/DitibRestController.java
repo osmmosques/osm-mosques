@@ -107,6 +107,7 @@ public class DitibRestController
         LOGGER.info("DITIB Parser Repository is: {}", ditibParserRepository);
 
         importDataGermany(dataDirectory);
+        importDataNetherlands(dataDirectory);
 
         // Now, return the amount of items in the database
         long loaded = ditibPlaceRepository.count();
@@ -137,6 +138,16 @@ public class DitibRestController
 
         LOGGER.info("DITIB Place Repository is: {}", ditibPlaceRepository);
         persistPlaces(parsedPlaces, "DE");
+    }
+
+    private void importDataNetherlands(File dataDirectory)
+    {
+        List<DitibParsedPlace> parsedPlaces = new ArrayList<DitibParsedPlace>();
+
+        DitibParsedPlace
+
+        LOGGER.info("DITIB Place Repository is: {}", ditibPlaceRepository);
+        persistPlaces(parsedPlaces, "NL");
     }
 
     private void persistPlaces(List<DitibParsedPlace> parsedPlaces, String countryCode)
