@@ -192,7 +192,7 @@ public class DitibRestController
 
         LOGGER.info("DITIB Parser Repository is: {}", ditibParserRepository);
 
-        String dataFileName = "netherlands-ditib.html";
+        String dataFileName = "netherlands-diyanet.html";
         File dataFile = new File(dataDirectory, dataFileName);
 
         List<DitibParsedPlace> parsedPlaces = ditibParserRepository.parseNetherlands(dataFile);
