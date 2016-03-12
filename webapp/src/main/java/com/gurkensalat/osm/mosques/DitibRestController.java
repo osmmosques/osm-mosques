@@ -121,6 +121,7 @@ public class DitibRestController
             LOGGER.info("Loaded {} places from  {}", placesInFile.size(), dataFileName);
 
             parsedPlaces.addAll(placesInFile);
+            LOGGER.info("  Overall places size is {}", parsedPlaces.size());
         }
 
         LOGGER.info("DITIB Place Repository is: {}", ditibPlaceRepository);
