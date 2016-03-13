@@ -116,7 +116,7 @@ public class OsmRestController
             int overallNodes = 0;
             for (String state : Countries.getGermanCounties())
             {
-                File dataFile = new File(dataDirectory, country + "-" + state + "-religion-muslim" + ".osm");
+                File dataFile = new File(dataDirectory, country + "-" + state + "-religion-muslim" + "-node" + ".osm");
 
                 OsmRoot root = osmRepository.parse(dataFile);
 
@@ -140,7 +140,7 @@ public class OsmRestController
         {
             String countryCode = Countries.getCountries().get(country);
             String state = "all";
-            File dataFile = new File(dataDirectory, country + "-" + state + "-religion-muslim" + ".osm");
+            File dataFile = new File(dataDirectory, country + "-" + state + "-religion-muslim" + "-node" + ".osm");
 
             OsmRoot root = osmRepository.parse(dataFile);
 
