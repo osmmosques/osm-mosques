@@ -73,7 +73,7 @@ extract_data() {
 
     EXTRACT=${TMPDIR}/${country}-${county}-religion-${religion}-${type}.osm
 
-    /home/osm-mosques/bin/osmconvert ${WORLD_FILE} -B=${POLY_FILE} > ${EXTRACT}
+    /home/osm-mosques/bin/osmconvert ${WORLD_FILE} -B=${POLY_FILE} -o=${EXTRACT}
 
     mkdir -p ${STORAGE}/${country}/${MONTH}/${DAY}
 
@@ -174,7 +174,7 @@ do
                 if [ -s ${WORLD_FILE} ]
                 then
                     :
-                    extract_data ${country} ${county} node muslim
+                    extract_data ${country} ${county} ${type} muslim
                 fi
             fi
         done
