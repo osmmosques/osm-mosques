@@ -62,6 +62,7 @@ extract_data() {
     country=$1
     county=$2
     type=$3
+    religion=$4
 
     if [ ${type} == "all" ]
     then
@@ -70,7 +71,7 @@ extract_data() {
         tag=${type}
     fi
 
-    EXTRACT=${TMPDIR}/${country}-${county}-religion-${type}.osm
+    EXTRACT=${TMPDIR}/${country}-${county}-religion-${religion}-${type}.osm
 
     /home/osm-mosques/bin/osmconvert ${WORLD_FILE} -B=${POLY_FILE} > ${EXTRACT}
 
@@ -78,11 +79,11 @@ extract_data() {
 
     cp -f \
          ${EXTRACT} \
-         ${STORAGE}/${country}/${MONTH}/${DAY}/${country}-${county}-religion-${type}.osm
+         ${STORAGE}/${country}/${MONTH}/${DAY}/${country}-${county}-religion-${religion}-${type}.osm
 
     cp -f \
          ${EXTRACT} \
-         ${WEBDATA}/${country}-${county}-religion-${type}.osm
+         ${WEBDATA}/${country}-${county}-religion-${religion}-${type}.osm
 }
 
 
@@ -165,14 +166,18 @@ do
 
         cp ${POLY_FILE} ${STORAGE}/${country}/${MONTH}/${DAY}
 
-        if [ -a ${WORLD_FILE} ] 
-        then
-            if [ -s ${WORLD_FILE} ]
+        for type in node way relation
+        do
+            WORLD_FILE=${TMPDIR}/world-religion-muslim-${type}.osm
+            if [ -a ${WORLD_FILE} ]
             then
-                :
-                extract_data ${country} ${county} muslim
+                if [ -s ${WORLD_FILE} ]
+                then
+                    :
+                    extract_data ${country} ${county} node muslim
+                fi
             fi
-        fi
+        done
     done
 
     find ${STORAGE}/${country} -type f -a -mtime +14 | xargs --no-run-if-empty rm
