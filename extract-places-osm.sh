@@ -64,12 +64,12 @@ extract_data() {
     type=$3
     religion=$4
 
-    if [ ${type} == "all" ]
-    then
-        tag="*"
-    else
-        tag=${type}
-    fi
+    # if [ ${type} == "all" ]
+    # then
+    #     tag="*"
+    # else
+    #     tag=${type}
+    # fi
 
     EXTRACT=${TMPDIR}/${country}-${county}-religion-${religion}-${type}.osm
 
