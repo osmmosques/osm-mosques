@@ -9,23 +9,26 @@
     <link rel="shortcut icon" th:href="@{/favicon-mosque.ico}" href="../../static/favicon-mosque.ico"
           type="image/x-icon"/>
 
-    <link th:href="@{/webjars/font-awesome/4.5.0/css/font-awesome.css}"
-          href="webjars/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet"/>
+    <link th:href="@{/webjars/font-awesome/css/font-awesome.css}"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet"/>
 
-    <link th:href="@{/webjars/leaflet/0.7.7/dist/leaflet.css}" href="webjars/leaflet/0.7.7/dist/leaflet.css"
+    <link th:href="@{/webjars/leaflet/dist/leaflet.css}"
+          href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css"
           rel="stylesheet"/>
 
-    <link th:href="@{/webjars/leaflet-contextmenu/1.0.0/dist/leaflet.contextmenu.css}"
-          href="webjars/leaflet-contextmenu/1.0.0/dist/leaflet.contextmenu.css" rel="stylesheet"/>
+    <link th:href="@{/webjars/leaflet-contextmenu/dist/leaflet.contextmenu.css}"
+          href="https://SOMEWHERE-ON-THE-INTARWEBS/webjars/leaflet-contextmenu/1.0.0/dist/leaflet.contextmenu.css"
+          rel="stylesheet"/>
 
-    <link th:href="@{/webjars/leaflet.markercluster/0.4.0-hotfix.1/dist/MarkerCluster.css}"
-          href="webjars/leaflet.markercluster/0.4.0-hotfix.1/dist/MarkerCluster.css" rel="stylesheet"/>
+    <link th:href="@{/webjars/leaflet.markercluster/dist/MarkerCluster.css}"
+          href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.css" rel="stylesheet"/>
 
-    <link th:href="@{/webjars/leaflet.markercluster/0.4.0-hotfix.1/dist/MarkerCluster.Default.css}"
-          href="webjars/leaflet.markercluster/0.4.0-hotfix.1/dist/MarkerCluster.Default.css" rel="stylesheet"/>
+    <link th:href="@{/webjars/leaflet.markercluster/dist/MarkerCluster.Default.css}"
+          href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css"
+          rel="stylesheet"/>
 
-    <link th:href="@{/webjars/sidebar-v2/0.3.0/css/leaflet-sidebar.css}"
-          href="webjars/sidebar-v2/0.3.0/css/leaflet-sidebar.css" rel="stylesheet"/>
+    <link th:href="@{/webjars/sidebar-v2/css/leaflet-sidebar.css}"
+          href="https://SOMEWHERE-ON-THE-INTARWEBS/webjars/sidebar-v2/0.3.0/css/leaflet-sidebar.css" rel="stylesheet"/>
 
     <link th:href="@{/css/osm-mosques.css}" href="../../static/css/osm-mosques.css" rel="stylesheet"/>
 </head>
@@ -84,36 +87,37 @@
     <div class="footer-content footer-contact" th:utext="#{footer.contact}">Contact me</div>
 </div>
 
-<script th:src="@{/webjars/leaflet/0.7.7/dist/leaflet.js}" src="webjars/leaflet/0.7.7/dist/leaflet.js"/>
+<script th:src="@{/webjars/leaflet/dist/leaflet.js}"
+        src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"/>
 
 <script src="https://maps.google.com/maps/api/js?v=3"/>
 
-<script th:src="@{/webjars/leaflet-contextmenu/1.0.0/dist/leaflet.contextmenu.js}"
-        src="webjars/leaflet-contextmenu/1.0.0/dist/leaflet.contextmenu.js"/>
+<script th:src="@{/webjars/leaflet-contextmenu/dist/leaflet.contextmenu.js}"
+        src="https://SOMEWHERE-ON-THE-INTARWEBS/webjars/leaflet-contextmenu/1.0.0/dist/leaflet.contextmenu.js"/>
 
-<script th:src="@{/webjars/leaflet.locatecontrol/0.48.0/src/L.Control.Locate.js}"
-        src="webjars/leaflet.locatecontrol/0.48.0/src/L.Control.Locate.js"/>
+<script th:src="@{/webjars/leaflet.locatecontrol/src/L.Control.Locate.js}"
+        src="https://SOMEWHERE-ON-THE-INTARWEBS/webjars/leaflet.locatecontrol/0.48.0/src/L.Control.Locate.js"/>
 
-<script th:src="@{/webjars/leaflet-providers/1.1.7/leaflet-providers.js}"
-        src="webjars/leaflet-providers/1.1.7/leaflet-providers.js"/>
+<script th:src="@{/webjars/leaflet-providers/leaflet-providers.js}"
+        src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-providers/1.1.7/leaflet-providers.min.js"/>
 
-<script th:src="@{/webjars/leaflet-plugins/1.4.3/layer/tile/Google.js}"
-        src="webjars/leaflet-plugins/1.4.3/layer/tile/Google.js"/>
+<script th:src="@{/webjars/leaflet-plugins/layer/tile/Google.js}"
+        src="https://SOMEWHERE-ON-THE-INTARWEBS/webjars/leaflet-plugins/1.4.3/layer/tile/Google.js"/>
 
-<script th:src="@{/webjars/leaflet-plugins/1.4.3/control/Permalink.js}"
-        src="webjars/leaflet-plugins/1.4.3/layer/control/Permalink.js"/>
-<script th:src="@{/webjars/leaflet-plugins/1.4.3/control/Permalink.Marker.js}"
-        src="webjars/leaflet-plugins/1.4.3/control/Permalink.Marker.js"/>
-<script th:src="@{/webjars/leaflet-plugins/1.4.3/control/Permalink.Layer.js}"
-        src="webjars/leaflet-plugins/1.4.3/control/Permalink.Layer.js"/>
+<script th:src="@{/webjars/leaflet-plugins/control/Permalink.js}"
+        src="https://SOMEWHERE-ON-THE-INTARWEBS/webjars/leaflet-plugins/1.4.3/layer/control/Permalink.js"/>
+<script th:src="@{/webjars/leaflet-plugins/control/Permalink.Marker.js}"
+        src="https://SOMEWHERE-ON-THE-INTARWEBS/webjars/leaflet-plugins/1.4.3/control/Permalink.Marker.js"/>
+<script th:src="@{/webjars/leaflet-plugins/control/Permalink.Layer.js}"
+        src="https://SOMEWHERE-ON-THE-INTARWEBS/webjars/leaflet-plugins/1.4.3/control/Permalink.Layer.js"/>
 
-<script th:src="@{/webjars/leaflet.markercluster/0.4.0-hotfix.1/dist/leaflet.markercluster.js}"
-        src="webjars/leaflet.markercluster/0.4.0-hotfix.1/dist/leaflet.markercluster.js"/>
-<script th:src="@{/webjars/Leaflet.MakiMarkers/1.0.1/Leaflet.MakiMarkers.js}"
-        src="webjars/Leaflet.MakiMarkers/1.0.1/Leaflet.MakiMarkers.js"/>
+<script th:src="@{/webjars/leaflet.markercluster/dist/leaflet.markercluster.js}"
+        src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster.js"/>
+<script th:src="@{/webjars/Leaflet.MakiMarkers/Leaflet.MakiMarkers.js}"
+        src="https://SOMEWHERE-ON-THE-INTARWEBS/webjars/Leaflet.MakiMarkers/1.0.1/Leaflet.MakiMarkers.js"/>
 
-<script th:src="@{/webjars/sidebar-v2/0.3.0/js/leaflet-sidebar.js}"
-        src="webjars/sidebar-v2/0.3.0/js/leaflet-sidebar.js"/>
+<script th:src="@{/webjars/sidebar-v2/js/leaflet-sidebar.js}"
+        src="https://SOMEWHERE-ON-THE-INTARWEBS/webjars/sidebar-v2/0.3.0/js/leaflet-sidebar.js"/>
 
 <script th:src="@{/webjars/jquery/dist/jquery.js}"
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"/>
