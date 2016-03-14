@@ -5,7 +5,7 @@ TMPDIR=${HOME}/tmp/osm-mosques
 WEBDATA=/home/tomcat/osm-mosques/data
 LOGDIR=${HOME}/logs
 
-COUNTIES=
+STATES=
 
 COUNTRIES=
 COUNTRIES="${COUNTRIES} albania"
@@ -60,7 +60,7 @@ COUNTRIES="${COUNTRIES} ukraine"
 extract_data() {
 
     country=$1
-    county=$2
+    state=$2
     type=$3
     religion=$4
 
@@ -71,7 +71,7 @@ extract_data() {
     #     tag=${type}
     # fi
 
-    EXTRACT=${TMPDIR}/${country}-${county}-religion-${religion}-${type}.osm
+    EXTRACT=${TMPDIR}/${country}-${state}-religion-${religion}-${type}.osm
 
     /home/osm-mosques/bin/osmconvert ${WORLD_FILE} -B=${POLY_FILE} -o=${EXTRACT}
 
@@ -79,11 +79,11 @@ extract_data() {
 
     cp -f \
          ${EXTRACT} \
-         ${STORAGE}/${country}/${MONTH}/${DAY}/${country}-${county}-religion-${religion}-${type}.osm
+         ${STORAGE}/${country}/${MONTH}/${DAY}/${country}-${state}-religion-${religion}-${type}.osm
 
     cp -f \
          ${EXTRACT} \
-         ${WEBDATA}/${country}-${county}-religion-${religion}-${type}.osm
+         ${WEBDATA}/${country}-${state}-religion-${religion}-${type}.osm
 }
 
 
@@ -116,44 +116,44 @@ WORLD_FILE=${TMPDIR}/world-religion-muslim-node.osm
 for country in ${COUNTRIES}
 do
 
-    COUNTIES=
+    STATES=
 
     if [ "germany" == "${country}" ]
     then
-        COUNTIES="${COUNTIES} baden-wuerttemberg"
-        COUNTIES="${COUNTIES} bayern"
-        COUNTIES="${COUNTIES} berlin"
-        COUNTIES="${COUNTIES} brandenburg"
-        COUNTIES="${COUNTIES} bremen"
-        COUNTIES="${COUNTIES} hamburg"
-        COUNTIES="${COUNTIES} hessen"
-        COUNTIES="${COUNTIES} mecklenburg-vorpommern"
-        COUNTIES="${COUNTIES} niedersachsen"
-        COUNTIES="${COUNTIES} nordrhein-westfalen"
-        COUNTIES="${COUNTIES} rheinland-pfalz"
-        COUNTIES="${COUNTIES} saarland"
-        COUNTIES="${COUNTIES} sachsen"
-        COUNTIES="${COUNTIES} sachsen-anhalt"
-        COUNTIES="${COUNTIES} schleswig-holstein"
-        COUNTIES="${COUNTIES} thueringen"
+        STATES="${STATES} baden-wuerttemberg"
+        STATES="${STATES} bayern"
+        STATES="${STATES} berlin"
+        STATES="${STATES} brandenburg"
+        STATES="${STATES} bremen"
+        STATES="${STATES} hamburg"
+        STATES="${STATES} hessen"
+        STATES="${STATES} mecklenburg-vorpommern"
+        STATES="${STATES} niedersachsen"
+        STATES="${STATES} nordrhein-westfalen"
+        STATES="${STATES} rheinland-pfalz"
+        STATES="${STATES} saarland"
+        STATES="${STATES} sachsen"
+        STATES="${STATES} sachsen-anhalt"
+        STATES="${STATES} schleswig-holstein"
+        STATES="${STATES} thueringen"
     else
-        COUNTIES="${COUNTIES} all"
+        STATES="${STATES} all"
     fi
 
-    for county in ${COUNTIES}
+    for state in ${STATES}
     do
         :
         mkdir -p ${TMPDIR}
         cd ${TMPDIR}
 
 
-        if [ "${county}" == "all" ]
+        if [ "${state}" == "all" ]
         then
             POLY_URL=http://download.geofabrik.de/europe/${country}.poly
             POLY_FILE=${TMPDIR}/${country}.poly
         else
-            POLY_URL=http://download.geofabrik.de/europe/${country}/${county}.poly
-            POLY_FILE=${TMPDIR}/${country}-${county}.poly
+            POLY_URL=http://download.geofabrik.de/europe/${country}/${state}.poly
+            POLY_FILE=${TMPDIR}/${country}-${state}.poly
         fi
 
         wget "${POLY_URL}" -O ${POLY_FILE} \
@@ -174,7 +174,7 @@ do
                 if [ -s ${WORLD_FILE} ]
                 then
                     :
-                    extract_data ${country} ${county} ${type} muslim
+                    extract_data ${country} ${state} ${type} muslim
                 fi
             fi
         done
