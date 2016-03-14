@@ -73,7 +73,12 @@ extract_data() {
 
     EXTRACT=${TMPDIR}/${country}-${state}-religion-${religion}-${type}.osm
 
-    /home/osm-mosques/bin/osmconvert ${WORLD_FILE} -B=${POLY_FILE} -o=${EXTRACT}
+    if [ "${country}" == "world" ]
+    then
+	/bin/cp ${WORLD_FILE} ${EXTRACT}
+    else
+	${HOME}/bin/osmconvert ${WORLD_FILE} -B=${POLY_FILE} -o=${EXTRACT}
+    fi
 
     mkdir -p ${STORAGE}/${country}/${MONTH}/${DAY}
 
@@ -113,7 +118,7 @@ done
 WORLD_FILE=${TMPDIR}/world-religion-muslim-node.osm
 
 
-for country in ${COUNTRIES}
+for country in ${COUNTRIES} world
 do
 
     STATES=
@@ -147,24 +152,27 @@ do
         cd ${TMPDIR}
 
 
-        if [ "${state}" == "all" ]
-        then
-            POLY_URL=http://download.geofabrik.de/europe/${country}.poly
-            POLY_FILE=${TMPDIR}/${country}.poly
-        else
-            POLY_URL=http://download.geofabrik.de/europe/${country}/${state}.poly
-            POLY_FILE=${TMPDIR}/${country}-${state}.poly
-        fi
+	if [ "${country}" != "world" ]
+	then
+            if [ "${state}" == "all" ]
+            then
+		POLY_URL=http://download.geofabrik.de/europe/${country}.poly
+		POLY_FILE=${TMPDIR}/${country}.poly
+            else
+		POLY_URL=http://download.geofabrik.de/europe/${country}/${state}.poly
+		POLY_FILE=${TMPDIR}/${country}-${state}.poly
+            fi
 
-        wget "${POLY_URL}" -O ${POLY_FILE} \
-            > ${POLY_FILE}.out 2> ${POLY_FILE}.err
+            wget "${POLY_URL}" -O ${POLY_FILE} \
+		> ${POLY_FILE}.out 2> ${POLY_FILE}.err
 
-        MONTH=$(date +%Y%m --reference ${POLY_FILE})
-        DAY=$(date +%Y%m%d --reference ${POLY_FILE})
+            MONTH=$(date +%Y%m --reference ${POLY_FILE})
+            DAY=$(date +%Y%m%d --reference ${POLY_FILE})
 
-        mkdir -p ${STORAGE}/${country}/${MONTH}/${DAY}
+            mkdir -p ${STORAGE}/${country}/${MONTH}/${DAY}
 
-        cp ${POLY_FILE} ${STORAGE}/${country}/${MONTH}/${DAY}
+            cp ${POLY_FILE} ${STORAGE}/${country}/${MONTH}/${DAY}
+	fi
 
         for type in node way relation
         do
@@ -185,7 +193,7 @@ do
 done
 
 # TODO grep in property file to obtain username / password for webapp
-for country in germany # ${COUNTRIES}
+for country in world # ${COUNTRIES}
 do
     :
     mkdir -p ${STORAGE}/${country}/${MONTH}/${DAY}
