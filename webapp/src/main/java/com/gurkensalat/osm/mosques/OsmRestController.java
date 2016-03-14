@@ -111,9 +111,9 @@ public class OsmRestController
 
             if ("germany".equals(country))
             {
-                for (String county : Countries.getGermanCounties())
+                for (String state : Countries.getGermanyStates())
                 {
-                    importData(dataDirectory, country, county);
+                    importData(dataDirectory, country, state);
                 }
             }
             else

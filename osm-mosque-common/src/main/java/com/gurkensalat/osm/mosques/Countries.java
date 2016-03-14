@@ -61,7 +61,7 @@ public class Countries
         countries.put("ukraine", "UA");
     }
 
-    private final static List<String> germanCounties =
+    private final static List<String> germanyStates =
             Arrays.asList(
                     "baden-wuerttemberg",
                     "bayern",
@@ -86,8 +86,8 @@ public class Countries
         return countries;
     }
 
-    public static List<String> getGermanCounties()
+    public static List<String> getGermanyStates()
     {
-        return germanCounties;
+        return germanyStates;
     }
 }
