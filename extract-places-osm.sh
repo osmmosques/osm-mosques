@@ -1,9 +1,10 @@
 #! /bin/sh
 
-STORAGE=${HOME}/Dropbox/osmdata
-TMPDIR=${HOME}/tmp/osm-mosques
-WEBDATA=/home/tomcat/osm-mosques/data
-LOGDIR=${HOME}/logs
+set -e
+
+export HERE=$(dirname $(readlink -f $0))
+. ${HERE}/settings.sh
+
 
 STATES=
 
@@ -103,9 +104,9 @@ do
     WORLD_FILE=${TMPDIR}/world-religion-muslim-${type}.osm
 
     wget "http://www.overpass-api.de/api/interpreter" \
-        --post-file=${HERE}/data/query-${type}-religion-muslim.xml \
-        -O ${WORLD_FILE} \
-        > ${WORLD_FILE}.out 2> ${WORLD_FILE}.err
+	--post-file=${HERE}/data/query-${type}-religion-muslim.xml \
+	-O ${WORLD_FILE} \
+	> ${WORLD_FILE}.out 2> ${WORLD_FILE}.err
 
     MONTH=$(date +%Y%m --reference ${WORLD_FILE})
     DAY=$(date +%Y%m%d --reference ${WORLD_FILE})
