@@ -104,6 +104,9 @@ public class OsmRestController
 
         LOGGER.info("Data Directory is {}", dataDirectory.getAbsolutePath());
 
+        // First, import everything so we won't miss anything.
+        importData(dataDirectory, "world", "all");
+
         for (String country : Countries.getCountries().keySet())
         {
             String countryCode = Countries.getCountries().get(country);
@@ -135,6 +138,12 @@ public class OsmRestController
     private void importData(File dataDirectory, String country, String state)
     {
         String countryCode = Countries.getCountries().get(country);
+        if (isEmpty(countryCode))
+        {
+            // Special hack for "world" :)
+            countryCode = "ZZ";
+        }
+
         File dataFile = new File(dataDirectory, country + "-" + state + "-religion-muslim" + "-node" + ".osm");
 
         OsmRoot root = osmRepository.parse(dataFile);
