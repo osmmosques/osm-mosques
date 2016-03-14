@@ -6,18 +6,19 @@
     <title th:text="#{titleprefix}+ ': ' + #{list.ditib.title}">OSM Mosques: List of DITIB places</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-    <link rel="shortcut icon" th:href="@{/favicon-mosque.ico}" href="../../static/favicon-mosque.ico" type="image/x-icon" />
+    <link rel="shortcut icon" th:href="@{/favicon-mosque.ico}" href="../../static/favicon-mosque.ico"
+          type="image/x-icon"/>
 
-    <link th:href="@{/webjars/tablesorter/2.25.4/dist/css/theme.dropbox.min.css}" href="../webjars/tablesorter/2.25.4/dist/css/theme.dropbox.min.css" rel="stylesheet"/>
+    <link th:href="@{/webjars/tablesorter/dist/css/theme.dropbox.min.css}"
+          href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.25.5/css/theme.dropbox.min.css"
+          rel="stylesheet"/>
 
     <link th:href="@{/css/osm-mosques.css}" href="../../static/css/osm-mosques.css" rel="stylesheet"/>
-
-    <script th:src="@{/webjars/jquery/3.0.0-beta1/dist/jquery.js}" src="../webjars/jquery/3.0.0-beta1/dist/jquery.js"/>
-    <script th:src="@{/webjars/tablesorter/2.25.4/dist/js/jquery.tablesorter.js}" src="../webjars/tablesorter/2.25.4/dist/js/jquery.tablesorter.js"/>
 </head>
 <body>
 
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="menu_bar" th:replace="fragments/navbar :: navbar">
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="menu_bar"
+     th:replace="fragments/navbar :: navbar">
     Navbar stuff
 </div>
 
@@ -41,12 +42,15 @@
     <tr th:each="place : ${places}">
         <td th:text="${place.lat}"></td>
         <td th:text="${place.lon}"></td>
-        <td><input type="button" class="button-geocode"  th:onclick="'javascript:attemptGeocode(\'' + ${place.key} + '\');'" th:attr="data-id=${place.key}" th:text="#{list.geocode} + ' ' + ${place.key}" /></td>
+        <td><input type="button" class="button-geocode"
+                   th:onclick="'javascript:attemptGeocode(\'' + ${place.key} + '\');'" th:attr="data-id=${place.key}"
+                   th:text="#{list.geocode} + ' ' + ${place.key}"/></td>
         <td>
             <div th:if="${place.geocoded}">
-                <a target="map" th:text="#{list.link-to-map}" th:href="@{/} + '#zoom=17&amp;lat=' + ${place.lat} + '&amp;lon=' + ${place.lon}"></a>
+                <a target="map" th:text="#{list.link-to-map}"
+                   th:href="@{/} + '#zoom=17&amp;lat=' + ${place.lat} + '&amp;lon=' + ${place.lon}"></a>
             </div>
-            <div th:unless="${place.geocoded}" th:text="#{list.not-geocoded}" />
+            <div th:unless="${place.geocoded}" th:text="#{list.not-geocoded}"/>
         </td>
         <td th:text="${place.name}"></td>
         <td th:text="${place.address.country}"></td>
@@ -62,6 +66,12 @@
     <div class="footer-content footer-legal-license" th:utext="#{footer.legal.license}">Someone owns all</div>
     <div class="footer-content footer-contact" th:utext="#{footer.contact}">Contact me</div>
 </div>
+
+<script th:src="@{/webjars/jquery/dist/jquery.js}"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"/>
+
+<script th:src="@{/webjars/tablesorter/dist/js/jquery.tablesorter.js}"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.25.5/js/jquery.tablesorter.js"/>
 
 <script th:src="@{/js/osm-mosques.js}" src="../../static/js/osm-mosques.js"/>
 
