@@ -29,10 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
@@ -107,54 +104,22 @@ public class OsmRestController
 
         LOGGER.info("Data Directory is {}", dataDirectory.getAbsolutePath());
 
-        {
-            String country = "germany";
-            String countryCode = Countries.getCountries().get(country);
-            // Mark all places as invalid first
-            osmPlaceRepository.invalidateByCountryCode(countryCode);
-
-            int overallNodes = 0;
-            for (String state : Countries.getGermanCounties())
-            {
-                File dataFile = new File(dataDirectory, country + "-" + state + "-religion-muslim" + "-node" + ".osm");
-
-                OsmRoot root = osmRepository.parse(dataFile);
-
-                LOGGER.info("Read {} nodes from {}", root.getNodes().size(), dataFile.getName());
-
-                for (OsmNode node : root.getNodes())
-                {
-                    persistOsmNode(node, country, state);
-                }
-
-                overallNodes += root.getNodes().size();
-            }
-
-            StatisticsEntry statisticsEntry = persistStatisticsEntry(countryCode, country);
-
-            statisticsEntry.setOsmMosqueNodes(overallNodes);
-            statisticsEntry = statisticsRepository.save(statisticsEntry);
-        }
-
         for (String country : Countries.getCountries().keySet())
         {
             String countryCode = Countries.getCountries().get(country);
-            String state = "all";
-            File dataFile = new File(dataDirectory, country + "-" + state + "-religion-muslim" + "-node" + ".osm");
+            osmPlaceRepository.invalidateByCountryCode(countryCode);
 
-            OsmRoot root = osmRepository.parse(dataFile);
-
-            LOGGER.info("Read {} nodes from {}", root.getNodes().size(), dataFile.getName());
-
-            for (OsmNode node : root.getNodes())
+            if ("germany".equals(country))
             {
-                persistOsmNode(node, country, "");
+                for (String county : Countries.getGermanCounties())
+                {
+                    importData(dataDirectory, country, county);
+                }
             }
-
-            StatisticsEntry statisticsEntry = persistStatisticsEntry(countryCode, country);
-
-            statisticsEntry.setOsmMosqueNodes(root.getNodes().size());
-            statisticsEntry = statisticsRepository.save(statisticsEntry);
+            else
+            {
+                importData(dataDirectory, country, "all");
+            }
         }
 
         // Lastly, remove all invalid places
@@ -167,6 +132,24 @@ public class OsmRestController
         return new ImportDataResponse("O.K., Massa!", loaded);
     }
 
+    private void importData(File dataDirectory, String country, String state)
+    {
+        String countryCode = Countries.getCountries().get(country);
+        File dataFile = new File(dataDirectory, country + "-" + state + "-religion-muslim" + "-node" + ".osm");
+
+        OsmRoot root = osmRepository.parse(dataFile);
+        for (OsmNode node : root.getNodes())
+        {
+            persistOsmNode(node, countryCode, state);
+        }
+
+        LOGGER.info("Read {} nodes from {}", root.getNodes().size(), dataFile.getName());
+
+        StatisticsEntry statisticsEntry = persistStatisticsEntry(countryCode, country);
+
+        statisticsEntry.setOsmMosqueNodes(root.getNodes().size());
+        statisticsEntry = statisticsRepository.save(statisticsEntry);
+    }
 
     @RequestMapping(value = REQUEST_FETCH_FROM_SERVER + "/{osmId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -191,7 +174,7 @@ public class OsmRestController
         persistOsmNode(node, null, null);
     }
 
-    private void persistOsmNode(OsmNode node, String country, String state)
+    private void persistOsmNode(OsmNode node, String countryCode, String state)
     {
         LOGGER.debug("Read node: {}, {}, {}", node, node.getLat(), node.getLon());
 
@@ -209,7 +192,7 @@ public class OsmRestController
 
         if (isEmpty(tempPlace.getAddress().getCountry()))
         {
-            tempPlace.getAddress().setCountry(Countries.getCountries().get(country));
+            tempPlace.getAddress().setCountry(countryCode);
         }
 
         tempPlace.getContact().setWebsite(StringUtils.substring(tempPlace.getContact().getWebsite(), 0, 79));
