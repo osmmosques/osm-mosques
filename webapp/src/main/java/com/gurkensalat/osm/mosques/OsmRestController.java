@@ -105,7 +105,10 @@ public class OsmRestController
         LOGGER.info("Data Directory is {}", dataDirectory.getAbsolutePath());
 
         // First, import everything so we won't miss anything.
-        importData(dataDirectory, "world", "all");
+        for (String continent : Continents.getContinents().keySet())
+        {
+            importData(dataDirectory, continent, "all");
+        }
 
         for (String country : Countries.getCountries().keySet())
         {
@@ -140,8 +143,13 @@ public class OsmRestController
         String countryCode = Countries.getCountries().get(country);
         if (isEmpty(countryCode))
         {
-            // Special hack for "world" :)
-            countryCode = "ZZ";
+            // Hack to identify continental data
+            countryCode = Continents.getContinents().get(country);
+            if (isEmpty(countryCode))
+            {
+                // Still empty? Then, special hack for "world" :)
+                countryCode = "ZZ";
+            }
         }
 
         File dataFile = new File(dataDirectory, country + "-" + state + "-religion-muslim" + "-node" + ".osm");
