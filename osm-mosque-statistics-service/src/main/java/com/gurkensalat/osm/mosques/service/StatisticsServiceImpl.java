@@ -9,7 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 @Component
 public class StatisticsServiceImpl implements StatisticsService
@@ -33,7 +35,9 @@ public class StatisticsServiceImpl implements StatisticsService
      */
         // Inefficient as hell, but will be improved later on
         statisticsRepository.invalidateAll();
-        statisticsRepository.deleteAllInvalid();
+        // statisticsRepository.deleteAllInvalid();
+
+        HashMap<String, StatisticsEntry> entries = new HashMap<>();
 
         Iterable<OsmPlace> places = osmPlaceRepository.findAll();
         if (places != null)
@@ -41,8 +45,30 @@ public class StatisticsServiceImpl implements StatisticsService
             for (OsmPlace place : places)
             {
                 String countryCode = place.getAddress().getCountry();
-                StatisticsEntry entry = persistStatisticsEntry(countryCode);
+                StatisticsEntry entry = entries.get(countryCode);
+                if (entry == null)
+                {
+                    // Try to load entry from database
+                    entry = persistStatisticsEntry(countryCode);
 
+                    // Initialize all Integer attributes
+                    entry.setOsmMosqueNodes(0);
+
+                    entry.setMinLat(1000);
+                    entry.setMaxLat(-1000);
+
+                    entry.setMinLon(1000);
+                    entry.setMaxLon(-1000);
+
+                    entry.setCentroidLat(0);
+                    entry.setCentroidLon(0);
+
+                    entry = statisticsRepository.save(entry);
+
+                    entries.put(countryCode, entry);
+                }
+
+                // We already have a valid entry in the Map
                 entry.setOsmMosqueNodes(entry.getOsmMosqueNodes() + 1);
 
                 entry.setMinLat(Math.min(entry.getMinLat(), place.getLat()));
@@ -53,8 +79,20 @@ public class StatisticsServiceImpl implements StatisticsService
 
                 entry.setCentroidLat((entry.getMinLat() + entry.getMaxLat()) / 2);
                 entry.setCentroidLon((entry.getMinLon() + entry.getMaxLon()) / 2);
+            }
+        }
 
+        // Done, now save all entries...
+        for (StatisticsEntry entry : entries.values())
+        {
+            try
+            {
+                entry.setValid(true);
                 entry = statisticsRepository.save(entry);
+            }
+            catch (Exception e)
+            {
+                LOGGER.error("While saving {}", entry, e);
             }
         }
 
