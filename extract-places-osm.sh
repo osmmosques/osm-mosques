@@ -193,6 +193,10 @@ do
     find ${STORAGE}/${country} -type d -a -empty | xargs --no-run-if-empty rmdir
 done
 
+# Copy WEBDATA back to Dropbox
+mkdir -p ${STORAGE}/_data-osm/${MONTH}/${DAY}
+rsync -ar ${WEBDATA}/ ${STORAGE}/_data-osm/${MONTH}/${DAY}/
+
 # TODO grep in property file to obtain username / password for webapp
 for country in world # ${COUNTRIES}
 do
