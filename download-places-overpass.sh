@@ -14,8 +14,17 @@ do
 
     wget "http://www.overpass-api.de/api/interpreter" \
 	--post-file=${HERE}/data/query-${type}-religion-muslim.xml \
-	-O ${WORLD_FILE} \
+	-O ${WORLD_FILE}_temp \
 	> ${WORLD_FILE}.out 2> ${WORLD_FILE}.err
+
+    # Successfully got the file, now rename it to its proper place
+    if [ -a ${WORLD_FILE}_temp ]
+    then
+        if [ -s ${WORLD_FILE}_temp ]
+        then
+	    mv ${WORLD_FILE}_temp ${WORLD_FILE}
+	fi
+    fi
 
     MONTH=$(date +%Y%m --reference ${WORLD_FILE})
     DAY=$(date +%Y%m%d --reference ${WORLD_FILE})
