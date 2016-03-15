@@ -6,8 +6,7 @@ import com.gurkensalat.osm.entity.OsmPlace;
 import com.gurkensalat.osm.entity.OsmRoot;
 import com.gurkensalat.osm.entity.OsmTag;
 import com.gurkensalat.osm.entity.PlaceType;
-import com.gurkensalat.osm.mosques.entity.StatisticsEntry;
-import com.gurkensalat.osm.mosques.repository.StatisticsRepository;
+import com.gurkensalat.osm.mosques.service.StatisticsService;
 import com.gurkensalat.osm.repository.OsmPlaceRepository;
 import com.gurkensalat.osm.repository.OsmRepository;
 import com.gurkensalat.osm.repository.OsmTagRepository;
@@ -55,7 +54,7 @@ public class OsmRestController
     private OsmTagRepository osmTagRepository;
 
     @Autowired
-    private StatisticsRepository statisticsRepository;
+    private StatisticsService statisticsService;
 
     @Value("${osm.data.location}")
     private String dataLocation;
@@ -154,10 +153,7 @@ public class OsmRestController
 
         LOGGER.info("Read {} nodes from {}", root.getNodes().size(), dataFile.getName());
 
-        StatisticsEntry statisticsEntry = persistStatisticsEntry(countryCode, country);
-
-        statisticsEntry.setOsmMosqueNodes(root.getNodes().size());
-        statisticsEntry = statisticsRepository.save(statisticsEntry);
+        statisticsService.calculate();
     }
 
     @RequestMapping(value = REQUEST_FETCH_FROM_SERVER + "/{osmId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -231,8 +227,6 @@ public class OsmRestController
 
             LOGGER.debug("Saved Place {}", place);
             persistTags(node);
-
-
         }
         catch (Exception e)
         {
@@ -280,46 +274,5 @@ public class OsmRestController
             LOGGER.info("OSM node: {}", node);
             LOGGER.info("     tag: {}", osmTag);
         }
-    }
-
-    private StatisticsEntry persistStatisticsEntry(String countryCode, String countryName)
-    {
-        StatisticsEntry entry = null;
-
-        try
-        {
-            List<StatisticsEntry> entries = statisticsRepository.findByCountryCode(countryCode);
-            if ((entries == null) || (entries.size() == 0))
-            {
-                StatisticsEntry tempEntry = new StatisticsEntry();
-                tempEntry.setCountryCode(countryCode);
-                // Place could not be found, insert it...
-                entry = statisticsRepository.save(tempEntry);
-            }
-            else
-            {
-                // take the one from the database and update it
-                entry = entries.get(0);
-                LOGGER.debug("Found pre-existing entity {} / {}", entry.getId(), entry.getVersion());
-                entry = statisticsRepository.findOne(entry.getId());
-                LOGGER.debug("  reloaded: {} / {}", entry.getId(), entry.getVersion());
-            }
-
-            if (countryName.length() > 20)
-            {
-                countryName = countryName.substring(0, 19);
-            }
-
-            entry.setCountryName(countryName);
-
-            entry.setValid(true);
-            entry = statisticsRepository.save(entry);
-        }
-        catch (Exception e)
-        {
-            LOGGER.error("While persisting statistics entry", e);
-        }
-
-        return entry;
     }
 }
