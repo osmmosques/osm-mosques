@@ -119,6 +119,11 @@ done
 WORLD_FILE=${TMPDIR}/world-religion-muslim-node.osm
 
 
+# Copy WEBDATA back to Dropbox
+mkdir -p ${STORAGE}/_data-osm/${MONTH}/${DAY}
+rsync -ar ${WEBDATA}/ ${STORAGE}/_data-osm/${MONTH}/${DAY}/
+
+
 for country in ${COUNTRIES} world
 do
 
