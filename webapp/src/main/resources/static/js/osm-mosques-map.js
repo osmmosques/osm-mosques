@@ -33,6 +33,7 @@ function centerMap(e) {
 function onMapLoaded() {
     console.log("onLoaded:");
     console.log("    Center: " + map.getCenter());
+    console.log("    Zoom: " + map.getZoom());
     console.log("    minll:  " + map.getBounds().getSouthWest());
     console.log("    maxll:  " + map.getBounds().getNorthEast());
 }
@@ -40,6 +41,7 @@ function onMapLoaded() {
 function onMapMoveEnd() {
     // console.log("onMoveEnd:");
     // console.log("    Center: " + map.getCenter());
+    // console.log("    Zoom: " + map.getZoom());
     // console.log("    minll:  " + map.getBounds().getSouthWest());
     // console.log("    maxll:  " + map.getBounds().getNorthEast());
 
@@ -47,6 +49,7 @@ function onMapMoveEnd() {
     var ne = map.getBounds().getNorthEast();
 
     // if (osm places enabled...)
+
     if (true) {
         var request = ajaxQueryCache['osmPlacemarkerList'];
         if (request != null) {
@@ -55,6 +58,12 @@ function onMapMoveEnd() {
         }
 
         var url = '/rest/map/placemarkers/osm/as-json';
+        var cbFunction = osmPlacemarkerListArrived;
+        if (map.getZoom() < 6) {
+            url = '/rest/map/statisticmarkers/osm/as-json';
+            cbFunction = osmStatisticsmarkerListArrived;
+        }
+
         var request = $.getJSON({
             url: url,
             data: {
@@ -63,7 +72,7 @@ function onMapMoveEnd() {
                 'maxlat': ne.lat,
                 'maxlon': ne.lng
             },
-            success: osmPlacemarkerListArrived
+            success: cbFunction
         })
 
         ajaxQueryCache['osmPlacemarkerList'] = request;
@@ -122,6 +131,18 @@ function osmPlacemarkerListArrived(data) {
     console.log("    Created fresh osmPlace Markers");
 
     console.log("osmPlacemarkerListArrived finished")
+}
+
+function osmStatisticsmarkerListArrived(data) {
+    console.log("osmStatisticsmarkerListArrived");
+    ajaxQueryCache['osmPlacemarkerList'] = null;
+
+    console.log("    Clearing osmPlaces layers");
+    osmPlaces.clearLayers();
+
+    console.log("    Created fresh osmPlace Markers");
+
+    console.log("osmStatisticsmarkerListArrived finished")
 }
 
 function ditibPlacemarkerListArrived(data) {
