@@ -11,7 +11,7 @@ for country in world # ${COUNTRIES}
 do
     :
     mkdir -p ${STORAGE}/${country}/${MONTH}/${DAY}
-    curl \
+    curl -X POST \
         "http://localhost:8888/rest/osm/import" \
         -o ${LOGDIR}/curl-osm-mosques-import.data.txt \
         > ${LOGDIR}/curl-osm-mosques-import.out \
