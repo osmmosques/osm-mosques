@@ -110,8 +110,6 @@ public class OsmRestController
             importData(dataDirectory, continent, "all");
         }
 
-        statisticsService.calculate();
-
         for (String country : Countries.getCountries().keySet())
         {
             String countryCode = Countries.getCountries().get(country);
