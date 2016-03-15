@@ -110,6 +110,8 @@ public class OsmRestController
             importData(dataDirectory, continent, "all");
         }
 
+        statisticsService.calculate();
+
         for (String country : Countries.getCountries().keySet())
         {
             String countryCode = Countries.getCountries().get(country);
@@ -127,6 +129,8 @@ public class OsmRestController
                 importData(dataDirectory, country, "all");
             }
         }
+
+        statisticsService.calculate();
 
         // Lastly, remove all invalid places
         osmPlaceRepository.deleteAllInvalid();
@@ -161,8 +165,6 @@ public class OsmRestController
         }
 
         LOGGER.info("Read {} nodes from {}", root.getNodes().size(), dataFile.getName());
-
-        statisticsService.calculate();
     }
 
     @RequestMapping(value = REQUEST_FETCH_FROM_SERVER + "/{osmId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
