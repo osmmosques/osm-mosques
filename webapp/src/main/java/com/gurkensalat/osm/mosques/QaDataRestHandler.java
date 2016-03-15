@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
@@ -55,7 +56,7 @@ public class QaDataRestHandler
     private QaScoreCalculator qaScoreCalculator;
 
 
-    @RequestMapping(value = REQUEST_CALCULATE_ALL_SCORES, produces = APPLICATION_JSON_UTF8)
+    @RequestMapping(value = REQUEST_CALCULATE_ALL_SCORES, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public GenericResponse calculateAllScores()
     {
         String result = "";
@@ -69,7 +70,7 @@ public class QaDataRestHandler
         return new GenericResponse(result);
     }
 
-    @RequestMapping(value = REQUEST_CALCULATE_DITIB_SCORE, produces = APPLICATION_JSON_UTF8)
+    @RequestMapping(value = REQUEST_CALCULATE_DITIB_SCORE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public GenericResponse calculateDitibScore(@PathVariable("ditibCode") String ditibCode)
     {
         String result = "";
@@ -120,7 +121,7 @@ public class QaDataRestHandler
         return new GenericResponse(result);
     }
 
-    @RequestMapping(value = REQUEST_CALCULATE_OSM_SCORE, produces = APPLICATION_JSON_UTF8)
+    @RequestMapping(value = REQUEST_CALCULATE_OSM_SCORE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public GenericResponse calculateOsmScore(@PathVariable("osmId") String osmId)
     {
         String result = "";

@@ -28,6 +28,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -72,21 +73,21 @@ public class DitibRestController
     @Value("${ditib.data.location}")
     private String dataLocation;
 
-    @RequestMapping(value = REQUEST_ROOT, produces = "application/hal+json")
+    @RequestMapping(value = REQUEST_ROOT, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> allMethods()
     {
         return new ResponseEntity<String>("{ '_links': {} }", null, HttpStatus.OK);
     }
 
-    @RequestMapping(value = REQUEST_IMPORT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = REQUEST_IMPORT, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ImportDataResponse importData()
     {
         return importData(null);
     }
 
-    @RequestMapping(value = REQUEST_IMPORT + "/{path}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = REQUEST_IMPORT + "/{path}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ImportDataResponse importData(@PathVariable("path") String path)
     {
@@ -102,14 +103,14 @@ public class DitibRestController
         return new ImportDataResponse("O.K., Massa!", loaded);
     }
 
-    @RequestMapping(value = REQUEST_IMPORT_DE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = REQUEST_IMPORT_DE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ImportDataResponse importDataGermany()
     {
         return importDataGermany(null);
     }
 
-    @RequestMapping(value = REQUEST_IMPORT_DE + "/{path}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = REQUEST_IMPORT_DE + "/{path}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ImportDataResponse importDataGermany(@PathVariable("path") String path)
     {
@@ -161,14 +162,14 @@ public class DitibRestController
         return new ImportDataResponse("O.K., Massa!", loaded);
     }
 
-    @RequestMapping(value = REQUEST_IMPORT_NL, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = REQUEST_IMPORT_NL, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ImportDataResponse importDataNetherlands()
     {
         return importDataNetherlands(null);
     }
 
-    @RequestMapping(value = REQUEST_IMPORT_NL + "/{path}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = REQUEST_IMPORT_NL + "/{path}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ImportDataResponse importDataNetherlands(@PathVariable("path") String path)
     {
@@ -275,14 +276,14 @@ public class DitibRestController
         ditibPlaceRepository.deleteAllInvalid();
     }
 
-    @RequestMapping(value = REQUEST_GEOCODE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = REQUEST_GEOCODE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<DitibPlace> geocode()
     {
         return geocode("first");
     }
 
-    @RequestMapping(value = REQUEST_GEOCODE_BY_CODE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = REQUEST_GEOCODE_BY_CODE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<DitibPlace> geocode(@PathVariable String code)
     {
