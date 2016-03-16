@@ -42,29 +42,6 @@ public class MapRestController
     @Autowired
     private OsmPlaceRepository osmPlaceRepository;
 
-    @RequestMapping(value = REQUEST_DITIB_MAPDATA + "/as-javascript", produces = MEDIATYPE_JAVASCRIPT)
-    public String ditibMapdataAsJavascript()
-    {
-        StringBuffer result = new StringBuffer();
-        result.append("\n");
-
-        result.append("var ditibAddressPoints = [");
-        result.append("\n");
-
-        for (DitibPlace place : ditibPlaceRepository.findAll())
-        {
-            String popupHtml = place.getAddress().getCity() + " / " + place.getName();
-            popupHtml = popupHtml.replaceAll("\"", "\'");
-            result.append("[" + place.getLat() + ", " + place.getLon() + ", \"" + popupHtml + "\"]");
-            result.append(",\n");
-        }
-
-        result.append("\n");
-        result.append("]\n");
-
-        return result.toString();
-    }
-
     @RequestMapping(value = REQUEST_DITIB_MAPDATA + "/as-json", produces = APPLICATION_JSON_UTF8)
     ResponseEntity<List<MapDataEntry>> ditibMapdataAsJSON(
             @RequestParam(value = "minlat", defaultValue = "-90") String minlat,
@@ -91,39 +68,6 @@ public class MapRestController
         }
 
         return new ResponseEntity<List<MapDataEntry>>(result, null, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = REQUEST_OSM_MAPDATA + "/as-javascript", produces = MEDIATYPE_JAVASCRIPT)
-    public String osmMapdataAsJavascript()
-    {
-        StringBuffer result = new StringBuffer();
-        result.append("\n");
-
-        result.append("var osmAddressPoints = [");
-        result.append("\n");
-
-        ExtendedMessageFormat mf = new ExtendedMessageFormat("[{0}, {1}, \"{2}\"]", Locale.ENGLISH);
-
-        for (OsmPlace place : osmPlaceRepository.findAll())
-        {
-            String popupHtml = "OSM / " + place.getAddress().getCity() + " / " + place.getName();
-            popupHtml = popupHtml.replaceAll("\"", "\'");
-            result.append("[" + place.getLat() + ", " + place.getLon() + ", \"" + popupHtml + "\"]");
-            result.append(",\n");
-
-            if ("82110".equals(place.getAddress().getPostcode()))
-            {
-                // [48.136, 11.387, "OSM / Germering / Germering Camii"],
-                // result.append(mf.format(new Object[]{place.getLat(), place.getLon(), popupHtml}));
-                String foo = mf.format(new Object[]{place.getLat(), place.getLon(), popupHtml});
-                int breakpoint = 42;
-            }
-        }
-
-        result.append("\n");
-        result.append("]\n");
-
-        return result.toString();
     }
 
     @RequestMapping(value = REQUEST_OSM_MAPDATA + "/as-json", produces = APPLICATION_JSON_UTF8)
