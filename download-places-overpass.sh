@@ -13,7 +13,7 @@ do
     WORLD_FILE=${TMPDIR}/world-religion-muslim-${type}.osm
 
     wget "http://www.overpass-api.de/api/interpreter" \
-	--post-file=${HERE}/data/query-${type}-religion-muslim.xml \
+	--post-file=${HERE}/data/query-${type}-religion-muslim.oql \
 	-O ${WORLD_FILE}_temp \
 	> ${WORLD_FILE}.out 2> ${WORLD_FILE}.err
 
