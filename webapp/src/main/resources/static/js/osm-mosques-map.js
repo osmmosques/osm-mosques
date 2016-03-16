@@ -2,6 +2,11 @@ $(document).ready(init);
 
 var map;
 
+var lowZoomMode = true;
+
+var osmDataUrl;
+var osmMarkersArrivedFunction;
+
 var osmPlaces = L.markerClusterGroup({chunkedLoading: true});
 
 var osmMosqueIcon = L.MakiMarkers.icon({
@@ -48,6 +53,23 @@ function onMapMoveEnd() {
     var sw = map.getBounds().getSouthWest();
     var ne = map.getBounds().getNorthEast();
 
+    if (map.getZoom() < 6) {
+        if (lowZoomMode == true) {
+            lowZoomMode = false;
+            osmDataUrl = '/rest/map/statisticmarkers/osm/as-json';
+            osmMarkersArrivedFunction = osmStatisticsmarkerListArrived;
+            osmPlaces.singleMarkerMode = false;
+            osmPlaces.disableClusteringAtZoom = false;
+        }
+    } else {
+        if (lowZoomMode == false) {
+            lowZoomMode = true;
+            osmDataUrl = '/rest/map/placemarkers/osm/as-json';
+            osmMarkersArrivedFunction = osmPlacemarkerListArrived;
+            osmPlaces.singleMarkerMode = true;
+            osmPlaces.disableClusteringAtZoom = 1;
+        }
+    }
     // if (osm places enabled...)
 
     if (true) {
@@ -57,22 +79,15 @@ function onMapMoveEnd() {
             console.log("Cancelled Ajax Query");
         }
 
-        var url = '/rest/map/placemarkers/osm/as-json';
-        var cbFunction = osmPlacemarkerListArrived;
-        if (map.getZoom() < 6) {
-            url = '/rest/map/statisticmarkers/osm/as-json';
-            cbFunction = osmStatisticsmarkerListArrived;
-        }
-
         var request = $.getJSON({
-            url: url,
+            url: osmDataUrl,
             data: {
                 'minlat': sw.lat,
                 'minlon': sw.lng,
                 'maxlat': ne.lat,
                 'maxlon': ne.lng
             },
-            success: cbFunction
+            success: osmMarkersArrivedFunction
         })
 
         ajaxQueryCache['osmPlacemarkerList'] = request;
@@ -108,10 +123,10 @@ function ajaxDataArrived() {
 }
 
 function osmPlacemarkerListArrived(data) {
-    console.log("osmPlacemarkerListArrived");
+    // console.log("osmPlacemarkerListArrived");
     ajaxQueryCache['osmPlacemarkerList'] = null;
 
-    console.log("    Clearing osmPlaces layers");
+    // console.log("    Clearing osmPlaces layers");
     osmPlaces.clearLayers();
 
     for (var i = 0; i < data.length; i++) {
@@ -128,9 +143,9 @@ function osmPlacemarkerListArrived(data) {
         osmPlaces.addLayer(marker);
     }
 
-    console.log("    Created fresh osmPlace Markers");
+    // console.log("    Created fresh osmPlace Markers");
 
-    console.log("osmPlacemarkerListArrived finished")
+    // console.log("osmPlacemarkerListArrived finished")
 }
 
 function osmStatisticsmarkerListArrived(data) {
@@ -139,6 +154,20 @@ function osmStatisticsmarkerListArrived(data) {
 
     console.log("    Clearing osmPlaces layers");
     osmPlaces.clearLayers();
+
+    for (var i = 0; i < data.length; i++) {
+        var node = data[i];
+        var title = node['countryCode'] + (node['countryName'] == "" ? "" : " / " + node['countryName']) + " : " + node['osmMosqueNodes'] + " Nodes";
+        var lat = node['lat'];
+        var lon = node['lon'];
+        var marker = L.marker(L.latLng(lat, lon), {
+                title: title, icon: osmMosqueIcon
+            }
+        );
+        marker.bindPopup(title);
+        marker.on('click', onClickOsmMarker);
+        osmPlaces.addLayer(marker);
+    }
 
     console.log("    Created fresh osmPlace Markers");
 

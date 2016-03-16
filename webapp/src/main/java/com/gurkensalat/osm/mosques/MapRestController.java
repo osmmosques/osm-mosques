@@ -2,8 +2,11 @@ package com.gurkensalat.osm.mosques;
 
 import com.gurkensalat.osm.entity.DitibPlace;
 import com.gurkensalat.osm.entity.OsmPlace;
+import com.gurkensalat.osm.mosques.entity.StatisticsEntry;
+import com.gurkensalat.osm.mosques.repository.StatisticsRepository;
 import com.gurkensalat.osm.repository.DitibPlaceRepository;
 import com.gurkensalat.osm.repository.OsmPlaceRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.ExtendedMessageFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+
 @RestController
 @EnableAutoConfiguration
 public class MapRestController
@@ -32,11 +37,16 @@ public class MapRestController
 
     private final static String REQUEST_OSM_MAPDATA = REQUEST_ROOT + "/placemarkers/osm";
 
+    private final static String REQUEST_OSM_STATISTICS_MAPDATA = REQUEST_ROOT + "/statisticmarkers/osm";
+
     @Autowired
     private DitibPlaceRepository ditibPlaceRepository;
 
     @Autowired
     private OsmPlaceRepository osmPlaceRepository;
+
+    @Autowired
+    private StatisticsRepository statisticsRepository;
 
     @RequestMapping(value = REQUEST_DITIB_MAPDATA + "/as-json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     ResponseEntity<List<MapDataEntry>> ditibMapdataAsJSON(
@@ -92,6 +102,45 @@ public class MapRestController
         }
 
         return new ResponseEntity<List<MapDataEntry>>(result, null, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = REQUEST_OSM_STATISTICS_MAPDATA + "/as-json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    ResponseEntity<List<MapStatisticsDataEntry>> osmStatisticsdataAsJSON(
+            @RequestParam(value = "minlat", defaultValue = "-90") String minlat,
+            @RequestParam(value = "minlon", defaultValue = "-180") String minlon,
+            @RequestParam(value = "maxlat", defaultValue = "90") String maxlat,
+            @RequestParam(value = "maxlon", defaultValue = "180") String maxlon
+    )
+    {
+        List<MapStatisticsDataEntry> result = new ArrayList<MapStatisticsDataEntry>();
+
+        double minLongitude = minLongitude(minlon);
+        double maxLongitude = maxLongitude(maxlon);
+        double minLatitude = minLatitude(minlat);
+        double maxLatitude = maxLatitude(maxlat);
+
+        LOGGER.info("OSM Statistics Query: {}, {}, {}, {}", new Object[]{minLongitude, minLatitude, maxLongitude, maxLatitude});
+
+        // For now, always provide all statistics
+        for (StatisticsEntry statisticsEntry : statisticsRepository.findAll())
+        {
+            MapStatisticsDataEntry entry = new MapStatisticsDataEntry(statisticsEntry);
+
+            entry.setOsmMosqueNodes(statisticsEntry.getOsmMosqueNodes());
+            entry.setName(statisticsEntry.getCountryName() + " : " + statisticsEntry.getOsmMosqueNodes() + " Places");
+
+            // TODO this should already be properly populated in the Statistics table...
+            String countryName = Countries.getCountries().get(statisticsEntry.getCountryCode());
+            if (isEmpty(countryName)) {
+                countryName = "";
+            }
+
+            entry.setCountryName(countryName);
+
+            result.add(entry);
+        }
+
+        return new ResponseEntity<List<MapStatisticsDataEntry>>(result, null, HttpStatus.OK);
     }
 
     protected double minLongitude(String data)
