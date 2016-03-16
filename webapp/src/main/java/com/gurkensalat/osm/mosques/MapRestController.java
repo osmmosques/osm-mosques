@@ -32,17 +32,13 @@ public class MapRestController
 
     private final static String REQUEST_OSM_MAPDATA = REQUEST_ROOT + "/placemarkers/osm";
 
-    private static final String MEDIATYPE_JAVASCRIPT = "application/javascript";
-
-    private static final String APPLICATION_JSON_UTF8 = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8";
-
     @Autowired
     private DitibPlaceRepository ditibPlaceRepository;
 
     @Autowired
     private OsmPlaceRepository osmPlaceRepository;
 
-    @RequestMapping(value = REQUEST_DITIB_MAPDATA + "/as-json", produces = APPLICATION_JSON_UTF8)
+    @RequestMapping(value = REQUEST_DITIB_MAPDATA + "/as-json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     ResponseEntity<List<MapDataEntry>> ditibMapdataAsJSON(
             @RequestParam(value = "minlat", defaultValue = "-90") String minlat,
             @RequestParam(value = "minlon", defaultValue = "-180") String minlon,
@@ -70,7 +66,7 @@ public class MapRestController
         return new ResponseEntity<List<MapDataEntry>>(result, null, HttpStatus.OK);
     }
 
-    @RequestMapping(value = REQUEST_OSM_MAPDATA + "/as-json", produces = APPLICATION_JSON_UTF8)
+    @RequestMapping(value = REQUEST_OSM_MAPDATA + "/as-json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     ResponseEntity<List<MapDataEntry>> osmMapdataAsJSON(
             @RequestParam(value = "minlat", defaultValue = "-90") String minlat,
             @RequestParam(value = "minlon", defaultValue = "-180") String minlon,
