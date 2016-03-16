@@ -33,4 +33,3 @@ data/*.html
 data/*.osm
 data/*.osm.pbf
 data/*.xapi
-data/*
