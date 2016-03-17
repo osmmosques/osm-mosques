@@ -2,10 +2,10 @@ package com.gurkensalat.osm.mosques;
 
 import com.gurkensalat.osm.entity.DitibPlace;
 import com.gurkensalat.osm.entity.LinkedPlace;
-import com.gurkensalat.osm.entity.OsmPlace;
+import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
+import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
 import com.gurkensalat.osm.repository.DitibPlaceRepository;
 import com.gurkensalat.osm.repository.LinkedPlaceRepository;
-import com.gurkensalat.osm.repository.OsmPlaceRepository;
 import com.gurkensalat.osm.repository.QaScoreCalculator;
 import com.gurkensalat.osm.utils.GreatCircle;
 import org.apache.commons.collections4.ListUtils;
@@ -13,9 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,7 +48,7 @@ public class QaDataRestHandler
     private DitibPlaceRepository ditibPlaceRepository;
 
     @Autowired
-    private OsmPlaceRepository osmPlaceRepository;
+    private OsmMosquePlaceRepository osmMosquePlaceRepository;
 
     @Autowired
     private QaScoreCalculator qaScoreCalculator;
@@ -102,11 +100,11 @@ public class QaDataRestHandler
                     place = linkedPlaceRepository.save(place);
                 }
 
-                OsmPlace osmPlace = findClosestByBBOX(place, DELTA_LAT_LON_10_KM, DELTA_LAT_LON_10_KM);
-                if (osmPlace != null)
+                OsmMosquePlace osmMosquePlace = findClosestByBBOX(place, DELTA_LAT_LON_10_KM, DELTA_LAT_LON_10_KM);
+                if (osmMosquePlace != null)
                 {
-                    place.setOsmId(osmPlace.getKey());
-                    place.setOsmPlace(osmPlace);
+                    place.setOsmId(osmMosquePlace.getKey());
+                    place.setOsmMosquePlace(osmMosquePlace);
                     place = linkedPlaceRepository.save(place);
                 }
 
@@ -127,8 +125,8 @@ public class QaDataRestHandler
         String result = "";
         if ("all".equals(osmId))
         {
-            Iterable<OsmPlace> places = osmPlaceRepository.findAll();
-            for (OsmPlace place : places)
+            Iterable<OsmMosquePlace> places = osmMosquePlaceRepository.findAll();
+            for (OsmMosquePlace place : places)
             {
                 calculateOsmScore(place.getKey());
             }
@@ -179,9 +177,9 @@ public class QaDataRestHandler
         return places;
     }
 
-    private OsmPlace findClosestByBBOX(LinkedPlace place, double deltaLat, double deltaLon)
+    private OsmMosquePlace findClosestByBBOX(LinkedPlace place, double deltaLat, double deltaLon)
     {
-        OsmPlace result = null;
+        OsmMosquePlace result = null;
 
         LOGGER.info("  Calculating distance for {} / {} / {} / {} / {}",
                 place.getId(),
@@ -190,14 +188,14 @@ public class QaDataRestHandler
                 place.getLat(),
                 place.getLon());
 
-        List<OsmPlace> osmPlaces = osmPlaceRepository.findByBbox(
+        List<OsmMosquePlace> osmPlaces = osmMosquePlaceRepository.findByBbox(
                 place.getLon() - deltaLon, place.getLat() - deltaLat,
                 place.getLon() + deltaLon, place.getLat() + deltaLat);
 
         osmPlaces = ListUtils.emptyIfNull(osmPlaces);
 
         double distance = 1000000000;
-        for (OsmPlace osmPlace : osmPlaces)
+        for (OsmMosquePlace osmPlace : osmPlaces)
         {
             LOGGER.info("    calculating {}", osmPlace);
             double newDistance = GreatCircle.distanceInKm(place.getLat(), place.getLon(), osmPlace.getLat(), osmPlace.getLon());

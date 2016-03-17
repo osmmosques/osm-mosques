@@ -55,7 +55,7 @@ public class QaDataController
             linkedPlace = sanitize(linkedPlace);
             model.addAttribute("place", linkedPlace);
 
-            OsmPlace place = linkedPlace.getOsmPlace();
+            OsmMosquePlace place = linkedPlace.getOsmMosquePlace();
 
             String josmURL = "http://localhost:8111/load_and_zoom";
             josmURL = josmURL + "?left=" + (place.getLon() - DELTA_LAT_LON_100_M);
@@ -100,7 +100,7 @@ public class QaDataController
             sanitize(linkedPlace);
 
             linkedPlace.setDitibPlace(sanitize("D", linkedPlace.getDitibPlace()));
-            linkedPlace.setOsmPlace(sanitize("O", linkedPlace.getOsmPlace()));
+            linkedPlace.setOsmMosquePlace(sanitize("O", linkedPlace.getOsmMosquePlace()));
 
         }
 
@@ -130,7 +130,7 @@ public class QaDataController
         }
 
         {
-            OsmMosquePlace place = new OsmMosquePlace("", PlaceType.OSM_CITY);
+            OsmMosquePlace place = new OsmMosquePlace("", PlaceType.OSM_PLACE_OF_WORSHIP);
 
             String key = linkedPlace.getOsmId();
             if (isNotEmpty(key))
@@ -144,7 +144,7 @@ public class QaDataController
                 }
             }
 
-            linkedPlace.setOsmPlace(sanitize("", place));
+            linkedPlace.setOsmMosquePlace(sanitize("", place));
         }
 
         return linkedPlace;
