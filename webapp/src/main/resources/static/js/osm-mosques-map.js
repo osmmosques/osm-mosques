@@ -54,18 +54,18 @@ function onMapMoveEnd() {
     var ne = map.getBounds().getNorthEast();
 
     if (map.getZoom() < 6) {
+        osmDataUrl = '/rest/map/statisticmarkers/osm/as-json';
+        osmMarkersArrivedFunction = osmStatisticsmarkerListArrived;
         if (lowZoomMode == true) {
             lowZoomMode = false;
-            osmDataUrl = '/rest/map/statisticmarkers/osm/as-json';
-            osmMarkersArrivedFunction = osmStatisticsmarkerListArrived;
             osmPlaces.singleMarkerMode = false;
             osmPlaces.disableClusteringAtZoom = false;
         }
     } else {
+        osmDataUrl = '/rest/map/placemarkers/osm/as-json';
+        osmMarkersArrivedFunction = osmPlacemarkerListArrived;
         if (lowZoomMode == false) {
             lowZoomMode = true;
-            osmDataUrl = '/rest/map/placemarkers/osm/as-json';
-            osmMarkersArrivedFunction = osmPlacemarkerListArrived;
             osmPlaces.singleMarkerMode = true;
             osmPlaces.disableClusteringAtZoom = 1;
         }
