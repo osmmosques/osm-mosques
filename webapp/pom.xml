@@ -159,6 +159,11 @@
 
         <dependency>
             <groupId>org.webjars.bower</groupId>
+            <artifactId>Leaflet.extra-markers</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
             <artifactId>leaflet.markercluster</artifactId>
         </dependency>
 
