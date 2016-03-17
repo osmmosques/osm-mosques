@@ -2,15 +2,13 @@ package com.gurkensalat.osm.mosques;
 
 import com.gurkensalat.osm.entity.OsmNode;
 import com.gurkensalat.osm.entity.OsmNodeTag;
-import com.gurkensalat.osm.entity.OsmPlace;
 import com.gurkensalat.osm.entity.OsmRoot;
 import com.gurkensalat.osm.entity.OsmTag;
 import com.gurkensalat.osm.entity.PlaceType;
 import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
 import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
 import com.gurkensalat.osm.mosques.service.StatisticsService;
-import com.gurkensalat.osm.repository.OsmPlaceRepository;
-import com.gurkensalat.osm.repository.OsmRepository;
+import com.gurkensalat.osm.repository.OsmParserRepository;
 import com.gurkensalat.osm.repository.OsmTagRepository;
 import org.apache.commons.lang3.CharEncoding;
 import org.apache.commons.lang3.StringUtils;
@@ -48,7 +46,7 @@ public class OsmRestController
     private final static String REQUEST_FETCH_FROM_SERVER = REQUEST_ROOT + "/fetch";
 
     @Autowired
-    private OsmRepository osmRepository;
+    private OsmParserRepository osmParserRepository;
 
     @Autowired
     private OsmMosquePlaceRepository osmMosquePlaceRepository;
@@ -97,7 +95,7 @@ public class OsmRestController
             dataDirectory = new File(dataDirectory, path);
         }
 
-        LOGGER.info("OSM Repository is: {}", osmRepository);
+        LOGGER.info("OSM Repository is: {}", osmParserRepository);
 
         LOGGER.debug("Place Repository is: {}", osmMosquePlaceRepository);
 
@@ -158,7 +156,7 @@ public class OsmRestController
 
         File dataFile = new File(dataDirectory, country + "-" + state + "-religion-muslim" + "-node" + ".osm");
 
-        OsmRoot root = osmRepository.parse(dataFile);
+        OsmRoot root = osmParserRepository.parse(dataFile);
         for (OsmNode node : root.getNodes())
         {
             persistOsmNode(node, countryCode, state);
@@ -175,7 +173,7 @@ public class OsmRestController
 
         long id = Long.parseLong(osmId);
 
-        OsmRoot root = osmRepository.loadFromServer(id);
+        OsmRoot root = osmParserRepository.loadFromServer(id);
 
         for (OsmNode node : root.getNodes())
         {
