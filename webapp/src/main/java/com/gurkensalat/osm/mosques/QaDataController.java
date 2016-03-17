@@ -4,6 +4,8 @@ import com.gurkensalat.osm.entity.DitibPlace;
 import com.gurkensalat.osm.entity.LinkedPlace;
 import com.gurkensalat.osm.entity.OsmPlace;
 import com.gurkensalat.osm.entity.PlaceType;
+import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
+import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
 import com.gurkensalat.osm.repository.DitibPlaceRepository;
 import com.gurkensalat.osm.repository.LinkedPlaceRepository;
 import com.gurkensalat.osm.repository.OsmPlaceRepository;
@@ -40,7 +42,7 @@ public class QaDataController
     private DitibPlaceRepository ditibPlaceRepository;
 
     @Autowired
-    private OsmPlaceRepository osmPlaceRepository;
+    private OsmMosquePlaceRepository osmMosquePlaceRepository;
 
     @RequestMapping(value = REQUEST_ROOT + "/details/{id}", method = RequestMethod.GET)
     public String linkedPlaceDetails(Model model, @PathVariable("id") String id)
@@ -128,15 +130,15 @@ public class QaDataController
         }
 
         {
-            OsmPlace place = new OsmPlace("", PlaceType.OSM_CITY);
+            OsmMosquePlace place = new OsmMosquePlace("", PlaceType.OSM_CITY);
 
             String key = linkedPlace.getOsmId();
             if (isNotEmpty(key))
             {
-                List<OsmPlace> osmPlaces = emptyIfNull(osmPlaceRepository.findByKey(key));
-                if (osmPlaces.size() > 0)
+                List<OsmMosquePlace> osmMosquePlaces = emptyIfNull(osmMosquePlaceRepository.findByKey(key));
+                if (osmMosquePlaces.size() > 0)
                 {
-                    place = osmPlaces.get(0);
+                    place = osmMosquePlaces.get(0);
                     linkedPlace.setLat(place.getLat());
                     linkedPlace.setLon(place.getLon());
                 }
@@ -171,7 +173,7 @@ public class QaDataController
         return place;
     }
 
-    private OsmPlace sanitize(String prefix, OsmPlace place)
+    private OsmMosquePlace sanitize(String prefix, OsmMosquePlace place)
     {
         place.setName(trimToEmpty(place.getName()));
         place.setKey(trimToEmpty(place.getKey()));

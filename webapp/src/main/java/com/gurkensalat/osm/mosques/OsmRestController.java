@@ -6,6 +6,8 @@ import com.gurkensalat.osm.entity.OsmPlace;
 import com.gurkensalat.osm.entity.OsmRoot;
 import com.gurkensalat.osm.entity.OsmTag;
 import com.gurkensalat.osm.entity.PlaceType;
+import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
+import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
 import com.gurkensalat.osm.mosques.service.StatisticsService;
 import com.gurkensalat.osm.repository.OsmPlaceRepository;
 import com.gurkensalat.osm.repository.OsmRepository;
@@ -49,7 +51,7 @@ public class OsmRestController
     private OsmRepository osmRepository;
 
     @Autowired
-    private OsmPlaceRepository osmPlaceRepository;
+    private OsmMosquePlaceRepository osmMosquePlaceRepository;
 
     @Autowired
     private OsmTagRepository osmTagRepository;
@@ -97,7 +99,7 @@ public class OsmRestController
 
         LOGGER.info("OSM Repository is: {}", osmRepository);
 
-        LOGGER.debug("Place Repository is: {}", osmPlaceRepository);
+        LOGGER.debug("Place Repository is: {}", osmMosquePlaceRepository);
 
         // TODO find a way to invalidate all tags belonging to nodes in a country...
         // osmTagRepository.invalidateAll();
@@ -113,7 +115,7 @@ public class OsmRestController
         for (String country : Countries.getCountries().keySet())
         {
             String countryCode = Countries.getCountries().get(country);
-            osmPlaceRepository.invalidateByCountryCode(countryCode);
+            osmMosquePlaceRepository.invalidateByCountryCode(countryCode);
 
             if ("germany".equals(country))
             {
@@ -131,10 +133,10 @@ public class OsmRestController
         statisticsService.calculate();
 
         // Lastly, remove all invalid places
-        osmPlaceRepository.deleteAllInvalid();
+        osmMosquePlaceRepository.deleteAllInvalid();
 
         // Now, return the amount of items in the database
-        long loaded = osmPlaceRepository.count();
+        long loaded = osmMosquePlaceRepository.count();
         LOGGER.info("Loaded {} places into database", loaded);
 
         return new ImportDataResponse("O.K., Massa!", loaded);
@@ -195,7 +197,7 @@ public class OsmRestController
         String key = Long.toString(node.getId());
 
         // re-create a place from OSM data
-        OsmPlace tempPlace = new OsmPlace(node);
+        OsmMosquePlace tempPlace = new OsmMosquePlace(node);
         tempPlace.setKey(key);
         tempPlace.setType(PlaceType.OSM_PLACE_OF_WORSHIP);
 
@@ -213,26 +215,26 @@ public class OsmRestController
 
         try
         {
-            OsmPlace place;
-            List<OsmPlace> places = osmPlaceRepository.findByKey(key);
+            OsmMosquePlace place;
+            List<OsmMosquePlace> places = osmMosquePlaceRepository.findByKey(key);
             if ((places == null) || (places.size() == 0))
             {
                 // Place could not be found, insert it...
-                place = osmPlaceRepository.save(tempPlace);
+                place = osmMosquePlaceRepository.save(tempPlace);
             }
             else
             {
                 // take the one from the database and update it
                 place = places.get(0);
                 LOGGER.debug("Found pre-existing entity {} / {}", place.getId(), place.getVersion());
-                place = osmPlaceRepository.findOne(place.getId());
+                place = osmMosquePlaceRepository.findOne(place.getId());
                 LOGGER.debug("  reloaded: {} / {}", place.getId(), place.getVersion());
             }
 
             tempPlace.copyTo(place);
 
             place.setValid(true);
-            place = osmPlaceRepository.save(place);
+            place = osmMosquePlaceRepository.save(place);
 
             LOGGER.debug("Saved Place {}", place);
             persistTags(node);

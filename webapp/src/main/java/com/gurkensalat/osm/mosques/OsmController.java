@@ -1,7 +1,7 @@
 package com.gurkensalat.osm.mosques;
 
-import com.gurkensalat.osm.entity.OsmPlace;
-import com.gurkensalat.osm.repository.OsmPlaceRepository;
+import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
+import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +20,16 @@ public class OsmController
     private final static String REQUEST_ROOT = "/osm";
 
     @Autowired
-    private OsmPlaceRepository osmPlaceRepository;
+    private OsmMosquePlaceRepository osmMosquePlaceRepository;
 
     @RequestMapping(value = REQUEST_ROOT + "/list", method = RequestMethod.GET)
     public String osmList(Model model)
     {
-        LOGGER.info("osmPlaceRepository is {}", osmPlaceRepository);
+        LOGGER.info("osmMosquePlaceRepository is {}", osmMosquePlaceRepository);
 
-        model.addAttribute("repository", osmPlaceRepository);
+        model.addAttribute("repository", osmMosquePlaceRepository);
 
-        Iterable<OsmPlace> places = osmPlaceRepository.findAll();
+        Iterable<OsmMosquePlace> places = osmMosquePlaceRepository.findAll();
         model.addAttribute("places", places);
 
         return "osm-list";

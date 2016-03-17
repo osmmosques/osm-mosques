@@ -2,6 +2,7 @@ package com.gurkensalat.osm.mosques;
 
 import com.gurkensalat.osm.entity.DitibPlace;
 import com.gurkensalat.osm.entity.OsmPlace;
+import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
 
 public class MapDataEntry
 {
@@ -19,6 +20,13 @@ public class MapDataEntry
     }
 
     public MapDataEntry(OsmPlace place)
+    {
+        this.setLat(place.getLat());
+        this.setLon(place.getLon());
+        this.setName(place.getName());
+    }
+
+    public MapDataEntry(OsmMosquePlace place)
     {
         this.setLat(place.getLat());
         this.setLon(place.getLon());

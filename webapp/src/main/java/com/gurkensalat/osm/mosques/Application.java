@@ -22,7 +22,9 @@ package com.gurkensalat.osm.mosques;
 // import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 import com.gurkensalat.osm.entity.EntityComponentScanMarker;
+import com.gurkensalat.osm.mosques.entity.OsmMosqueEntityComponentScanMarker;
 import com.gurkensalat.osm.mosques.entity.StatisticsEntityComponentScanMarker;
+import com.gurkensalat.osm.mosques.repository.OsmMosqueRepositoryComponentScanMarker;
 import com.gurkensalat.osm.mosques.repository.StatisticsRepositoryComponentScanMarker;
 import com.gurkensalat.osm.repository.RepositoryComponentScanMarker;
 import com.tandogan.geostuff.opencagedata.GeocodeRepositoryComponentScanMarker;
@@ -60,6 +62,8 @@ import java.util.Locale;
         EntityComponentScanMarker.class,
         RepositoryComponentScanMarker.class,
         StatisticsRepositoryComponentScanMarker.class,
+        OsmMosqueEntityComponentScanMarker.class,
+        OsmMosqueRepositoryComponentScanMarker.class,
         GeocodeEntityComponentScanMarker.class,
         GeocodeRepositoryComponentScanMarker.class
 })

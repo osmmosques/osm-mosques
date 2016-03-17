@@ -2,7 +2,9 @@ package com.gurkensalat.osm.mosques;
 
 import com.gurkensalat.osm.entity.DitibPlace;
 import com.gurkensalat.osm.entity.OsmPlace;
+import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
 import com.gurkensalat.osm.mosques.entity.StatisticsEntry;
+import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
 import com.gurkensalat.osm.mosques.repository.StatisticsRepository;
 import com.gurkensalat.osm.repository.DitibPlaceRepository;
 import com.gurkensalat.osm.repository.OsmPlaceRepository;
@@ -43,7 +45,7 @@ public class MapRestController
     private DitibPlaceRepository ditibPlaceRepository;
 
     @Autowired
-    private OsmPlaceRepository osmPlaceRepository;
+    private OsmMosquePlaceRepository osmMosquePlaceRepository;
 
     @Autowired
     private StatisticsRepository statisticsRepository;
@@ -93,7 +95,7 @@ public class MapRestController
 
         LOGGER.info("OSM Place Query: {}, {}, {}, {}", new Object[]{minLongitude, minLatitude, maxLongitude, maxLatitude});
 
-        for (OsmPlace place : osmPlaceRepository.findByBbox(minLongitude, minLatitude, maxLongitude, maxLatitude))
+        for (OsmMosquePlace place : osmMosquePlaceRepository.findByBbox(minLongitude, minLatitude, maxLongitude, maxLatitude))
         {
             MapDataEntry entry = new MapDataEntry(place);
             entry.setName(place.getAddress().getCountry() + " / " + place.getAddress().getCity() + " / " + place.getName());
