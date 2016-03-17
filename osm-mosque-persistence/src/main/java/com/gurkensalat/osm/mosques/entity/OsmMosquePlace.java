@@ -1,6 +1,11 @@
 package com.gurkensalat.osm.mosques.entity;
 
+import com.gurkensalat.osm.entity.Address;
+import com.gurkensalat.osm.entity.Contact;
+import com.gurkensalat.osm.entity.OsmNode;
+import com.gurkensalat.osm.entity.OsmPlace;
 import com.gurkensalat.osm.entity.OsmPlaceBase;
+import com.gurkensalat.osm.entity.PlaceType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +23,16 @@ public class OsmMosquePlace extends OsmPlaceBase
 
     @Column(name = "ADDR_COUNTRY_GEOCODING", length = 80)
     private String countryFromGeocoding;
+
+    public OsmMosquePlace(String name, PlaceType type)
+    {
+        super(name, type);
+    }
+
+    public OsmMosquePlace(OsmNode node)
+    {
+        super(node);
+    }
 
     public String getCountryFromDatafile()
     {
@@ -48,4 +63,43 @@ public class OsmMosquePlace extends OsmPlaceBase
     {
         this.countryFromGeocoding = countryFromGeocoding;
     }
+
+    public void copyTo(OsmMosquePlace other)
+    {
+        other.setLon(getLon());
+        other.setLat(getLat());
+        other.setName(getName());
+        other.setType(getType());
+        other.setKey(getKey());
+        other.setValid(isValid());
+
+        other.setCountryFromDatafile(getCountryFromDatafile());
+        other.setCountryFromGeocoding(getCountryFromGeocoding());
+        other.setCountryFromOSM(getCountryFromOSM());
+
+        if (getAddress() == null)
+        {
+            setAddress(new Address());
+        }
+
+        if (other.getAddress() == null)
+        {
+            other.setAddress(new Address());
+        }
+
+        getAddress().copyTo(other.getAddress());
+
+        if (getContact() == null)
+        {
+            setContact(new Contact());
+        }
+
+        if (other.getContact() == null)
+        {
+            other.setContact(new Contact());
+        }
+
+        getContact().copyTo(other.getContact());
+    }
+
 }
