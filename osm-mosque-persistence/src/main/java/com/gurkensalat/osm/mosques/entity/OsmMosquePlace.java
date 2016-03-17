@@ -24,6 +24,10 @@ public class OsmMosquePlace extends OsmPlaceBase
     @Column(name = "ADDR_COUNTRY_GEOCODING", length = 80)
     private String countryFromGeocoding;
 
+    protected OsmMosquePlace()
+    {
+    }
+
     public OsmMosquePlace(String name, PlaceType type)
     {
         super(name, type);
