@@ -104,6 +104,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.gurkensalat.osm</groupId>
+            <artifactId>osm-mosque-persistence</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.gurkensalat.osm.verification</groupId>
             <artifactId>ditib-persistence</artifactId>
         </dependency>
@@ -214,6 +219,11 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.gurkensalat.osm.verification</groupId>
+            <artifactId>osm-mosque-persistence</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
     </dependencies>

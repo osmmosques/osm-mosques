@@ -1,5 +1,6 @@
 package com.gurkensalat.osm.entity;
 
+import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.Column;
@@ -23,7 +24,7 @@ public class LinkedPlace extends AbstractPersistable<Long>
     @Column(name = "OSM_ID", length = 20)
     private String osmId;
 
-    private transient OsmPlace osmPlace;
+    private transient OsmMosquePlace osmMosquePlace;
 
     @Column(name = "DITIB_CODE", length = 20)
     private String ditibCode;
@@ -89,14 +90,14 @@ public class LinkedPlace extends AbstractPersistable<Long>
         this.osmId = osmId;
     }
 
-    public OsmPlace getOsmPlace()
+    public OsmMosquePlace getOsmMosquePlace()
     {
-        return osmPlace;
+        return osmMosquePlace;
     }
 
-    public void setOsmPlace(OsmPlace osmPlace)
+    public void setOsmMosquePlace(OsmMosquePlace osmMosquePlace)
     {
-        this.osmPlace = osmPlace;
+        this.osmMosquePlace = osmMosquePlace;
     }
 
     public String getDitibCode()
