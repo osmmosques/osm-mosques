@@ -7,8 +7,13 @@ import com.gurkensalat.osm.entity.Contact;
 import com.gurkensalat.osm.entity.DitibParsedPlace;
 import com.gurkensalat.osm.entity.DitibParsedPlaceKey;
 import com.gurkensalat.osm.entity.DitibPlace;
+import com.gurkensalat.osm.entity.OsmNode;
+import com.gurkensalat.osm.entity.OsmNodeTag;
+import com.gurkensalat.osm.entity.OsmRoot;
 import com.gurkensalat.osm.repository.DitibParserRepository;
 import com.gurkensalat.osm.repository.DitibPlaceRepository;
+import com.gurkensalat.osm.repository.OsmParserRepository;
+import com.gurkensalat.osm.repository.OsmRepository;
 import com.tandogan.geostuff.opencagedata.GeocodeRepository;
 import com.tandogan.geostuff.opencagedata.GeocodeRepositoryImpl;
 import com.tandogan.geostuff.opencagedata.entity.GeocodeResponse;
@@ -61,8 +66,13 @@ public class DitibRestController
 
     private final static String REQUEST_IMPORT_NL = REQUEST_ROOT + "/import-nl";
 
+    private final static String REQUEST_MOVE_TO_LINKED_PLACE = REQUEST_ROOT + "/move-to-linked-place";
+
     @Autowired
     private GeocodeRepository geocodeRepository;
+
+    @Autowired
+    private OsmParserRepository osmParserRepository;
 
     @Autowired
     private DitibParserRepository ditibParserRepository;
@@ -434,4 +444,71 @@ public class DitibRestController
         }
         return result;
     }
+
+    @RequestMapping(value = REQUEST_MOVE_TO_LINKED_PLACE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GenericResponse moveToLinkedPlace()
+    {
+        return moveToLinkedPlace(null);
+    }
+
+    @RequestMapping(value = REQUEST_MOVE_TO_LINKED_PLACE + "/{path}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GenericResponse moveToLinkedPlace(@PathVariable("path") String path)
+    {
+        // TODO Actually, this should be a service and later on a Job...
+
+        LOGGER.info("About to set move DITIB places with data from {} / {}", dataLocation, path);
+
+        File dataDirectory = new File(dataLocation);
+        if (path != null)
+        {
+            try
+            {
+                path = URLDecoder.decode(path, CharEncoding.UTF_8);
+            }
+            catch (UnsupportedEncodingException e)
+            {
+                LOGGER.error("While decoding optional path", e);
+            }
+
+            // TODO sanitize data directory first...
+            dataDirectory = new File(dataDirectory, path);
+        }
+
+        LOGGER.info("OSM Parser Repository is: {}", osmParserRepository);
+
+        File dataFile = new File(dataDirectory, "world-ditib-code-node.osm");
+
+        OsmRoot root = osmParserRepository.parse(dataFile);
+        LOGGER.info("Read {} nodes from {}", root.getNodes().size(), dataFile.getName());
+
+        for (OsmNode node : root.getNodes())
+        {
+            LOGGER.info("Checking to conflate {} - {}", node.getId(), node);
+            for (OsmNodeTag tag: node.getTags())
+            {
+                if ("ditib:code".equals(tag.getKey()))
+                {
+                    LOGGER.info("Checking to conflate {}", tag.getValue());
+
+                    List<DitibPlace> possiblePlaces = ditibPlaceRepository.findByKey(tag.getValue());
+                    if ((possiblePlaces != null) || (possiblePlaces.size() > 0))
+                    {
+                        DitibPlace place = possiblePlaces.get(0);
+                        // Actually, should be precisely one
+                        LOGGER.info("  Found place {} - {}", place.getName(), place);
+
+                        place.setLat(node.getLat());
+                        place.setLon(node.getLon());
+
+                        place = ditibPlaceRepository.save(place);
+                    }
+                }
+            }
+        }
+
+        return new GenericResponse("O.K., Massa!");
+    }
+
 }
