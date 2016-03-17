@@ -104,7 +104,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.gurkensalat.osm</groupId>
+            <groupId>com.gurkensalat.osm.verification</groupId>
             <artifactId>osm-mosque-persistence</artifactId>
         </dependency>
 
