@@ -96,7 +96,7 @@
 
         <metrics.version>3.1.2</metrics.version>
 
-        <flyway.version>3.2.1</flyway.version>
+        <flyway.version>4.0</flyway.version>
 
         <jadira-usertype.version>5.0.0.GA</jadira-usertype.version>
 
