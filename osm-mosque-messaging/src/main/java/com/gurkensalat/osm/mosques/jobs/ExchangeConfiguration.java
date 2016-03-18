@@ -11,13 +11,14 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Producer
+public class ExchangeConfiguration
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger(Producer.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ExchangeConfiguration.class);
 
     /*
      * From Log:
@@ -33,28 +34,22 @@ public class Producer
     @Autowired
     RabbitTemplate rabbitTemplate;
 
+    @Value("${mq.exchange.name}")
+    private String exchangeName;
+
+    @Value("${mq.demo.queue.name}")
+    private String demoQueueName;
+
     @Bean
-    Receiver receiver()
+    DemoReceiver demoReceiver()
     {
-        return new Receiver();
+        return new DemoReceiver();
     }
 
     @Bean
-    Queue queue()
+    Queue demoQueue()
     {
-        return new Queue(QueueNames.queueName, false);
-    }
-
-    @Bean
-    TopicExchange exchange()
-    {
-        return new TopicExchange(QueueNames.exchangeName);
-    }
-
-    @Bean
-    Binding binding(Queue queue, TopicExchange exchange)
-    {
-        return BindingBuilder.bind(queue).to(exchange).with(QueueNames.queueName);
+        return new Queue(demoQueueName, true);
     }
 
     @Bean
@@ -62,21 +57,28 @@ public class Producer
     {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(QueueNames.queueName);
+        container.setQueueNames(demoQueueName);
         container.setMessageListener(listenerAdapter);
         return container;
     }
 
     @Bean
-    MessageListenerAdapter listenerAdapter(Receiver receiver)
+    TopicExchange exchange()
+    {
+        return new TopicExchange(exchangeName, true, false);
+    }
+
+    @Bean
+    Binding demoBinding(Queue queue, TopicExchange exchange)
+    {
+        return BindingBuilder.bind(queue).to(exchange).with(demoQueueName);
+    }
+
+    @Bean
+    MessageListenerAdapter listenerAdapter(DemoReceiver receiver)
     {
         String defaultListenerMethod = "receiveMessage";
         return new MessageListenerAdapter(receiver, defaultListenerMethod);
     }
 
-    public void enqueueMessage() throws Exception
-    {
-        LOGGER.info("Sending message...");
-        rabbitTemplate.convertAndSend(QueueNames.queueName, "Hello from RabbitMQ!");
-    }
 }

@@ -5,9 +5,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.CountDownLatch;
 
-public class Receiver
+public class DemoReceiver
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger(Receiver.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(DemoReceiver.class);
 
     private CountDownLatch latch = new CountDownLatch(1);
 

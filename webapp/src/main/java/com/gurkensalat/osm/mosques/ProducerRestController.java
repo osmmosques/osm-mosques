@@ -1,6 +1,6 @@
 package com.gurkensalat.osm.mosques;
 
-import com.gurkensalat.osm.mosques.jobs.Producer;
+import com.gurkensalat.osm.mosques.jobs.DemoProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class ProducerRestController
     private final static String REQUEST_ENQUEUE = REQUEST_ROOT + "/enqueue";
 
     @Autowired
-    Producer producer;
+    DemoProducer producer;
 
     @RequestMapping(value = REQUEST_ENQUEUE, produces = "application/hal+json")
     @ResponseStatus(HttpStatus.OK)
