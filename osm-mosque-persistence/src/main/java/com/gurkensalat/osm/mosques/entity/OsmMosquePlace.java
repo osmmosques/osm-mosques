@@ -3,13 +3,15 @@ package com.gurkensalat.osm.mosques.entity;
 import com.gurkensalat.osm.entity.Address;
 import com.gurkensalat.osm.entity.Contact;
 import com.gurkensalat.osm.entity.OsmNode;
-import com.gurkensalat.osm.entity.OsmPlace;
 import com.gurkensalat.osm.entity.OsmPlaceBase;
 import com.gurkensalat.osm.entity.PlaceType;
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "MOSQUE_PLACES")
@@ -23,6 +25,14 @@ public class OsmMosquePlace extends OsmPlaceBase
 
     @Column(name = "ADDR_COUNTRY_GEOCODING", length = 80)
     private String countryFromGeocoding;
+
+    @Column(name = "LAST_GEOCODE_ATTEMPT")
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    private DateTime lastGeocodeAttempt;
+
+    @Transient
+    private String humanReadableLastGeocodeAttempt;
+
 
     protected OsmMosquePlace()
     {
@@ -68,6 +78,26 @@ public class OsmMosquePlace extends OsmPlaceBase
         this.countryFromGeocoding = countryFromGeocoding;
     }
 
+    public DateTime getLastGeocodeAttempt()
+    {
+        return lastGeocodeAttempt;
+    }
+
+    public void setLastGeocodeAttempt(DateTime lastGeocodeAttempt)
+    {
+        this.lastGeocodeAttempt = lastGeocodeAttempt;
+    }
+
+    public String getHumanReadableLastGeocodeAttempt()
+    {
+        return humanReadableLastGeocodeAttempt;
+    }
+
+    public void setHumanReadableLastGeocodeAttempt(String humanReadableLastGeocodeAttempt)
+    {
+        this.humanReadableLastGeocodeAttempt = humanReadableLastGeocodeAttempt;
+    }
+
     public void copyTo(OsmMosquePlace other)
     {
         other.setLon(getLon());
@@ -80,6 +110,9 @@ public class OsmMosquePlace extends OsmPlaceBase
         other.setCountryFromDatafile(getCountryFromDatafile());
         other.setCountryFromGeocoding(getCountryFromGeocoding());
         other.setCountryFromOSM(getCountryFromOSM());
+
+        other.setLastGeocodeAttempt(getLastGeocodeAttempt());
+        other.setHumanReadableLastGeocodeAttempt(getHumanReadableLastGeocodeAttempt());
 
         if (getAddress() == null)
         {
