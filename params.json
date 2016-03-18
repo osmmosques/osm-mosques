@@ -1,1 +1,7 @@
-{"name":"Osm-mosques","tagline":"A Web application to display maps of muslim prayer sites","body":"osm-mosques\r\n===========\r\n\r\nA Web application to display maps of muslim prayer sites\r\n\r\nStatus\r\n======\r\n* [![Dependency Status](https://www.versioneye.com/user/projects/53aae466d043f92bf900007f/badge.png)](https://www.versioneye.com/user/projects/53aae466d043f92bf900007f)\r\n\r\nMaven site(s)\r\n=============\r\n* [SNAPSHOT](http://hakan42.github.io/osm-mosques/site/0.0.1-SNAPSHOT/)\r\n\r\n","google":"","note":"Don't delete this file! It's used internally to help with page regeneration."}
+{
+  "name": "Osm-mosques",
+  "tagline": "A Web application to display maps of muslim prayer sites",
+  "body": "osm-mosques\r\n===========\r\nA Web application to display maps of muslim prayer sites\r\n\r\nStatus\r\n======\r\n[![Dependency Status](https://www.versioneye.com/user/projects/53de9ae116279fb98c000007/badge.svg?style=flat)](https://www.versioneye.com/user/projects/53de9ae116279fb98c000007)\r\n\r\nMaven site(s)\r\n=============\r\n* [SNAPSHOT](http://hakan42.github.io/osm-mosques/site/0.0.1-SNAPSHOT/)\r\n",
+  "google": "",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
