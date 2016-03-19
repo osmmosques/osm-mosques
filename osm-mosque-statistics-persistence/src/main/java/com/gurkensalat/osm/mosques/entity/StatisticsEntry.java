@@ -23,6 +23,8 @@ public class StatisticsEntry extends AbstractPersistable<Long>
     @Column(name = "COUNTRY_NAME", length = 20)
     private String countryName;
 
+    private transient String countryFlagImgUrl;
+
     @Column(name = "OSM_MOSQUE_NODES")
     private Integer osmMosqueNodes;
 
@@ -85,6 +87,16 @@ public class StatisticsEntry extends AbstractPersistable<Long>
     public void setCountryName(String countryName)
     {
         this.countryName = countryName;
+    }
+
+    public String getCountryFlagImgUrl()
+    {
+        return countryFlagImgUrl;
+    }
+
+    public void setCountryFlagImgUrl(String countryFlagImgUrl)
+    {
+        this.countryFlagImgUrl = countryFlagImgUrl;
     }
 
     public Integer getOsmMosqueNodes()

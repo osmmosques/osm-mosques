@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{titleprefix}+ ': ' + #{statistics.title}">OSM Mosques: Statistics</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="shortcut icon" th:href="@{/favicon-mosque.ico}" href="../../static/favicon-mosque.ico"
+          type="image/x-icon"/>
+
+    <link th:href="@{/webjars/tablesorter/dist/css/theme.dropbox.min.css}"
+          href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.25.5/css/theme.dropbox.min.css"
+          rel="stylesheet"/>
+
+    <link th:href="@{/css/osm-mosques.css}" href="../../static/css/osm-mosques.css" rel="stylesheet"/>
+</head>
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="menu_bar"
+     th:replace="fragments/navbar :: navbar">
+    Navbar stuff
+</div>
+
+<h1 th:text="#{titleprefix}+ ': ' + #{statistics.title}">OSM Mosques: Statistics</h1>
+
+<div class="statistics">
+
+    <div class="statictics.marked">
+        <div th:remove="tag" th:text="#{statistics.marked.pre}">There are</div>
+        <div th:remove="tag" th:text="${overall_count}">4711</div>
+        <div th:remove="tag" th:text="#{statistics.marked.post}">places marked.</div>
+    </div>
+
+    <div class="statictics.see">
+        <div th:remove="tag" th:utext="#{statistics.see.aswell}">See:</div>
+        <a href="http://resultmaps.neis-one.org/osm-changesets?comment=OsmMosques">
+            <div th:remove="tag" th:utext="#{statistics.changesets}">Changesets Yadda Yadda</div>
+        </a>
+    </div>
+
+
+    <div class="statictics.byContinent">
+        <h2 th:text="#{statistics.byContinent}">Continents</h2>
+        <table id="statistics-list-continents" class="tablesorter" data-sortlist="[[1,1]]">
+            <thead>
+            <tr>
+                <th th:text="#{statistics.continentName}">CN</th>
+                <th th:text="#{statistics.osmMosqueNodes}">OSM Nodes</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="statisticsEntry : ${continents}">
+                <td th:text="${statisticsEntry.countryName}"></td>
+                <td th:text="${statisticsEntry.osmMosqueNodes}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="statictics.byCountry">
+        <h2 th:text="#{statistics.byCountry}">Countries</h2>
+        <table id="statistics-list-countries" class="tablesorter" data-sortlist="[[1,1]]">
+            <thead>
+            <tr>
+                <th th:text="#{statistics.countryName}">CN</th>
+                <th th:text="#{statistics.osmMosqueNodes}">OSM Nodes</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="statisticsEntry : ${countries}">
+                <td>
+                    <img th:src="${statisticsEntry.countryFlagImgUrl}"
+                         src="https://blog.osmmosques.org/wp-content/uploads/2016/03/tr.png"/>
+                    <div th:remove="tag" th:text="${statisticsEntry.countryName}"/>
+                </td>
+                <td th:text="${statisticsEntry.osmMosqueNodes}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+
+<script th:src="@{/webjars/jquery/dist/jquery.js}"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"/>
+
+<script th:src="@{/webjars/tablesorter/dist/js/jquery.tablesorter.js}"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.25.5/js/jquery.tablesorter.js"/>
+
+<script th:src="@{/js/osm-mosques.js}" src="../../static/js/osm-mosques.js"/>
+
+<script id="js">
+    $(function () {
+        $.extend($.tablesorter.defaults, {
+            theme: 'dropbox',
+            widthFixed: true
+        });
+        $(".compatibility").tablesorter();
+        $("#statistics-list-countries").tablesorter({widgets: ['zebra']});
+        $("table.options, table.api").tablesorter({widgets: ['stickyHeaders']});
+    });
+</script>
+
+<script id="js">
+    $(function () {
+        $.extend($.tablesorter.defaults, {
+            theme: 'dropbox',
+            widthFixed: true
+        });
+        $(".compatibility").tablesorter();
+        $("#statistics-list-continents").tablesorter({widgets: ['zebra']});
+        $("table.options, table.api").tablesorter({widgets: ['stickyHeaders']});
+    });
+</script>
+
+</body>
+</html>
