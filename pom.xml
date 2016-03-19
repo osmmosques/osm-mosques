@@ -70,7 +70,7 @@
         <!-- Javascript libraries for frontend -->
 	<webjars-locator.version>0.30</webjars-locator.version>
         <font-awesome.version>4.5.0</font-awesome.version>
-        <tablesorter.version>2.25.4</tablesorter.version>
+        <tablesorter.version>2.25.6</tablesorter.version>
         <jquery.version>3.0.0-beta1</jquery.version>
         <leaflet.version>0.7.7</leaflet.version>
         <leaflet-contextmenu.version>1.0.0</leaflet-contextmenu.version>
