@@ -2,6 +2,8 @@ $(document).ready(init);
 
 var map;
 
+var popup;
+
 var lowZoomMode = true;
 
 var osmDataUrl;
@@ -165,7 +167,9 @@ function osmStatisticsmarkerListArrived(data) {
             }
         );
         marker.bindPopup(title);
-        marker.on('click', onClickOsmMarker);
+        marker.on('click', function(){
+            marker._popup.setContent('something better content for statistics nodes...')
+        });
         osmPlaces.addLayer(marker);
     }
 
@@ -202,11 +206,59 @@ function ditibPlacemarkerListArrived(data) {
 
 <!-- Markers from here on -->
 function onClickOsmMarker(e) {
-    console.log(this)
+    console.log("onClickOsmMarker");
+
+    // console.log(this);
+
+    // console.log(e);
+
+    // console.log(this._popup);
+
+    popup = this._popup;
+    console.log(popup);
+
+    // console.log(_popup);
+
+    // console.log(e._popup._source);
+
+    // console.log(popup);
+
+    // Update the contents of the popup
+    $(popup._contentNode).html('Asking backend for details...');
+    // popup._contentNode.html('Asking backend for details...');
+
+    // Wo ist der Unterschied zu
+    // $(popup._contentNode).html
+
+    // Calling _updateLayout to the popup resizes to the new content
+    popup._updateLayout();
+
+    // Calling _updatePosition so the popup is centered.
+    popup._updatePosition();
+
+    // Fake AJAX call...
+    osmPlacemarkerDetailsArrived();
+
+    return false;
 }
 
 function onClickDitibMarker(e) {
     console.log(this)
+}
+
+<!-- Fake Details call -->
+function osmPlacemarkerDetailsArrived(data) {
+    console.log(this);
+
+    $(popup._contentNode).html('The new content is much longer so the popup should update how it looks.');
+
+    // Calling _updateLayout to the popup resizes to the new content
+    popup._updateLayout();
+
+    // Calling _updatePosition so the popup is centered.
+    popup._updatePosition();
+
+    return false;
 }
 
 function init() {
