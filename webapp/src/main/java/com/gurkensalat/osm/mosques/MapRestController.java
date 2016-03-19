@@ -70,6 +70,7 @@ public class MapRestController
         for (DitibPlace place : ditibPlaceRepository.findByBbox(minLongitude, minLatitude, maxLongitude, maxLatitude))
         {
             MapDataEntry entry = new MapDataEntry(place);
+            entry.setKey(place.getKey());
             entry.setName(place.getAddress().getCountry() + " / " + place.getAddress().getCity() + " / " + place.getName());
 
             result.add(entry);
@@ -98,6 +99,7 @@ public class MapRestController
         for (OsmMosquePlace place : osmMosquePlaceRepository.findByBbox(minLongitude, minLatitude, maxLongitude, maxLatitude))
         {
             MapDataEntry entry = new MapDataEntry(place);
+            entry.setKey(place.getKey());
             entry.setName(place.getAddress().getCountry() + " / " + place.getAddress().getCity() + " / " + place.getName());
 
             result.add(entry);
@@ -128,6 +130,7 @@ public class MapRestController
         {
             MapStatisticsDataEntry entry = new MapStatisticsDataEntry(statisticsEntry);
 
+            entry.setKey(statisticsEntry.getCountryCode());
             entry.setOsmMosqueNodes(statisticsEntry.getOsmMosqueNodes());
             entry.setName(statisticsEntry.getCountryName() + " : " + statisticsEntry.getOsmMosqueNodes() + " Places");
 

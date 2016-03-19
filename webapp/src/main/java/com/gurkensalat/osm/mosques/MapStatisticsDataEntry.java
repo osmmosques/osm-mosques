@@ -4,6 +4,8 @@ import com.gurkensalat.osm.mosques.entity.StatisticsEntry;
 
 public class MapStatisticsDataEntry
 {
+    private String key;
+
     private double lat;
 
     private double lon;
@@ -24,6 +26,16 @@ public class MapStatisticsDataEntry
         this.setCountryName(statisticsEntry.getCountryName());
         this.setCountryCode(statisticsEntry.getCountryName());
         this.setOsmMosqueNodes(statisticsEntry.getOsmMosqueNodes());
+    }
+
+    public String getKey()
+    {
+        return key;
+    }
+
+    public void setKey(String key)
+    {
+        this.key = key;
     }
 
     public double getLat()
