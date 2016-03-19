@@ -133,11 +133,14 @@ function osmPlacemarkerListArrived(data) {
 
     for (var i = 0; i < data.length; i++) {
         var node = data[i];
-        var title = "OSM / " + node['name'];
+        var key = node['key'];
+        var title = "OSM / " + key + ' / ' + node['name'];
         var lat = node['lat'];
         var lon = node['lon'];
         var marker = L.marker(L.latLng(lat, lon), {
-                title: title, icon: osmMosqueIcon
+                customAttrPlaceKey: key,
+                title: title,
+                icon: osmMosqueIcon
             }
         );
         marker.bindPopup(title);
@@ -206,29 +209,12 @@ function ditibPlacemarkerListArrived(data) {
 
 <!-- Markers from here on -->
 function onClickOsmMarker(e) {
-    console.log("onClickOsmMarker");
-
-    // console.log(this);
-
-    // console.log(e);
-
-    // console.log(this._popup);
-
+    // console.log("onClickOsmMarker");
     popup = this._popup;
-    console.log(popup);
-
-    // console.log(_popup);
-
-    // console.log(e._popup._source);
-
     // console.log(popup);
 
     // Update the contents of the popup
     $(popup._contentNode).html('Asking backend for details...');
-    // popup._contentNode.html('Asking backend for details...');
-
-    // Wo ist der Unterschied zu
-    // $(popup._contentNode).html
 
     // Calling _updateLayout to the popup resizes to the new content
     popup._updateLayout();
@@ -236,29 +222,49 @@ function onClickOsmMarker(e) {
     // Calling _updatePosition so the popup is centered.
     popup._updatePosition();
 
-    // Fake AJAX call...
-    osmPlacemarkerDetailsArrived();
+    var request = ajaxQueryCache['osmPlaceDetails'];
+    if (request != null) {
+        request.abort();
+        console.log("Cancelled Ajax Query");
+    }
 
-    return false;
+    var marker = popup._source;
+    // console.log(marker);
+
+    var placeKey = marker.options.customAttrPlaceKey;
+    // console.log(placeKey);
+
+    var osmPopupDetailsUrl = "/osm-details-for-popup";
+
+    var request = $.get({
+        url: osmPopupDetailsUrl,
+        data: {
+            'placeKey': placeKey
+        },
+        success: osmPlacemarkerDetailsArrived
+    });
+
+    ajaxQueryCache['osmPlaceDetails'] = request;
 }
 
 function onClickDitibMarker(e) {
     console.log(this)
 }
 
-<!-- Fake Details call -->
+<!-- OSM Place Details callback -->
 function osmPlacemarkerDetailsArrived(data) {
-    console.log(this);
+    // console.log("osmPlacemarkerDetailsArrived");
+    // console.log(this);
+    ajaxQueryCache['osmPlaceDetails'] = null;
 
-    $(popup._contentNode).html('The new content is much longer so the popup should update how it looks.');
+    // $(popup._contentNode).html('The new content is much longer so the popup should update how it looks.');
+    $(popup._contentNode).html(data);
 
     // Calling _updateLayout to the popup resizes to the new content
     popup._updateLayout();
 
     // Calling _updatePosition so the popup is centered.
     popup._updatePosition();
-
-    return false;
 }
 
 function init() {
