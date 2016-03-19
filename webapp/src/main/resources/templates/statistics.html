@@ -9,6 +9,9 @@
     <link rel="shortcut icon" th:href="@{/favicon-mosque.ico}" href="../../static/favicon-mosque.ico"
           type="image/x-icon"/>
 
+    <link th:href="@{/webjars/font-awesome/css/font-awesome.css}"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet"/>
+
     <link th:href="@{/webjars/tablesorter/dist/css/theme.dropbox.min.css}"
           href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.25.5/css/theme.dropbox.min.css"
           rel="stylesheet"/>
@@ -61,10 +64,11 @@
 
     <div class="statictics.byCountry">
         <h2 th:text="#{statistics.byCountry}">Countries</h2>
-        <table id="statistics-list-countries" class="tablesorter" data-sortlist="[[1,1]]">
+        <table id="statistics-list-countries" class="tablesorter" data-sortlist="[[2,1]]">
             <thead>
             <tr>
                 <th th:text="#{statistics.countryName}">CN</th>
+                <th th:text="#{list.link-to-map}">MAP</th>
                 <th th:text="#{statistics.osmMosqueNodes}">OSM Nodes</th>
             </tr>
             </thead>
@@ -74,6 +78,12 @@
                     <img th:src="${statisticsEntry.countryFlagImgUrl}"
                          src="https://blog.osmmosques.org/wp-content/uploads/2016/03/tr.png"/>
                     <div th:remove="tag" th:text="${statisticsEntry.countryName}"/>
+                </td>
+                <td>
+                    <i class="fa fa-map-marker">
+                        <a target="map" th:text="#{statistics.link-to-map}"
+                           th:href="@{/} + '#zoom=7&amp;lat=' + ${statisticsEntry.centroidLat} + '&amp;lon=' + ${statisticsEntry.centroidLat}"></a>
+                    </i>
                 </td>
                 <td th:text="${statisticsEntry.osmMosqueNodes}"></td>
             </tr>
