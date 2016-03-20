@@ -12,6 +12,7 @@ import com.gurkensalat.osm.repository.OsmPlaceRepository;
 import com.gurkensalat.osm.repository.OsmTagRepository;
 import org.apache.commons.lang3.CharEncoding;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -185,6 +186,8 @@ public class OsmConverterServiceImpl implements OsmConverterService
             if ((places == null) || (places.size() == 0))
             {
                 // Place could not be found, insert it...
+                tempPlace.setCreationTime(DateTime.now());
+                tempPlace.setModificationTime(DateTime.now());
                 place = osmMosquePlaceRepository.save(tempPlace);
             }
             else
@@ -199,6 +202,7 @@ public class OsmConverterServiceImpl implements OsmConverterService
             tempPlace.copyTo(place);
 
             place.setValid(true);
+            place.setModificationTime(DateTime.now());
             place = osmMosquePlaceRepository.save(place);
 
             LOGGER.debug("Saved Place {}", place);
