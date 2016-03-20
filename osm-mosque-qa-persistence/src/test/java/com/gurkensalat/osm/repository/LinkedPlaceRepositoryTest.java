@@ -2,6 +2,7 @@ package com.gurkensalat.osm.repository;
 
 import com.gurkensalat.osm.SimpleConfiguration;
 import com.gurkensalat.osm.entity.LinkedPlace;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,6 +37,9 @@ public class LinkedPlaceRepositoryTest
         LinkedPlace place = new LinkedPlace();
 
         assertTrue(place.isNew());
+
+        place.setCreationTime(DateTime.now());
+        place.setModificationTime(DateTime.now());
 
         LinkedPlace qaData = linkedPlaceRepository.save(place);
         assertNotNull(qaData);

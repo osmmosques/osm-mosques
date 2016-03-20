@@ -1,6 +1,10 @@
 package com.gurkensalat.osm.mosques.entity;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.Column;
@@ -16,6 +20,16 @@ public class StatisticsEntry extends AbstractPersistable<Long>
 
     @Column(name = "VALID")
     private boolean valid;
+
+    @Column(name = "CREATION_TIME", nullable = false)
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    @CreatedDate
+    private DateTime creationTime;
+
+    @Column(name = "MODIFICATION_TIME", nullable = false)
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    @LastModifiedDate
+    private DateTime modificationTime;
 
     @Column(name = "COUNTRY_CODE", length = 5)
     private String countryCode;
@@ -67,6 +81,27 @@ public class StatisticsEntry extends AbstractPersistable<Long>
     public void setValid(boolean valid)
     {
         this.valid = valid;
+        this.setModificationTime(DateTime.now());
+    }
+
+    public DateTime getCreationTime()
+    {
+        return creationTime;
+    }
+
+    public void setCreationTime(DateTime creationTime)
+    {
+        this.creationTime = creationTime;
+    }
+
+    public DateTime getModificationTime()
+    {
+        return modificationTime;
+    }
+
+    public void setModificationTime(DateTime modificationTime)
+    {
+        this.modificationTime = modificationTime;
     }
 
     public String getCountryCode()

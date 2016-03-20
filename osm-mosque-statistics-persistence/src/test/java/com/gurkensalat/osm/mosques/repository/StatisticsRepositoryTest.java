@@ -2,6 +2,7 @@ package com.gurkensalat.osm.mosques.repository;
 
 import com.gurkensalat.osm.mosques.SimpleConfiguration;
 import com.gurkensalat.osm.mosques.entity.StatisticsEntry;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,6 +37,9 @@ public class StatisticsRepositoryTest
         StatisticsEntry entry = new StatisticsEntry();
 
         assertTrue(entry.isNew());
+
+        entry.setCreationTime(DateTime.now());
+        entry.setModificationTime(DateTime.now());
 
         StatisticsEntry qaData = statisticsRepository.save(entry);
         assertNotNull(qaData);
