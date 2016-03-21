@@ -1,18 +1,6 @@
 package com.gurkensalat.osm.mosques;
 
-import com.gurkensalat.osm.entity.OsmNode;
-import com.gurkensalat.osm.entity.OsmNodeTag;
-import com.gurkensalat.osm.entity.OsmRoot;
-import com.gurkensalat.osm.entity.OsmTag;
-import com.gurkensalat.osm.entity.PlaceType;
-import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
-import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
 import com.gurkensalat.osm.mosques.service.OsmConverterService;
-import com.gurkensalat.osm.mosques.service.StatisticsService;
-import com.gurkensalat.osm.repository.OsmParserRepository;
-import com.gurkensalat.osm.repository.OsmTagRepository;
-import org.apache.commons.lang3.CharEncoding;
-import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,13 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.List;
-
-import static org.apache.commons.lang3.StringUtils.isEmpty;
-
 @RestController
 @EnableAutoConfiguration
 public class OsmRestController
@@ -49,9 +30,9 @@ public class OsmRestController
 
     private final static String REQUEST_IMPORT_FRESHENED_WAYS = REQUEST_ROOT_INTERNAL + "/import-freshened-ways";
 
-    private final static String REQUEST_IMPORT_QUADTILE_NODES = REQUEST_ROOT_INTERNAL + "/import-quadtile-nodes";
+    private final static String REQUEST_IMPORT_QUADTILED_NODES = REQUEST_ROOT_INTERNAL + "/import-quadtiled-nodes";
 
-    private final static String REQUEST_IMPORT_QUADTILE_WAYS = REQUEST_ROOT_INTERNAL + "/import-quadtile-ways";
+    private final static String REQUEST_IMPORT_QUADTILED_WAYS = REQUEST_ROOT_INTERNAL + "/import-quadtiled-ways";
 
     private final static String REQUEST_FETCH_FROM_SERVER = REQUEST_ROOT + "/fetch";
 
@@ -86,9 +67,9 @@ public class OsmRestController
         return new GenericResponse("Import kicked off.");
     }
 
-    @RequestMapping(value = REQUEST_IMPORT_QUADTILE_NODES, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = REQUEST_IMPORT_QUADTILED_NODES, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public GenericResponse importQuadtileNodes()
+    public GenericResponse importQuadtiledNodes()
     {
         String cell = calculateQuadtileCell();
         osmConverterService.importNodes("by-quadtile/world-religion-muslim-node-by-quadtile-" + cell + ".osm");
@@ -96,9 +77,9 @@ public class OsmRestController
         return new GenericResponse("Import kicked off.");
     }
 
-    @RequestMapping(value = REQUEST_IMPORT_QUADTILE_WAYS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = REQUEST_IMPORT_QUADTILED_WAYS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public GenericResponse importQuadtileWays()
+    public GenericResponse importQuadtiledWays()
     {
         String cell = calculateQuadtileCell();
         osmConverterService.importWays("by-quadtile/world-religion-muslim-way-by-quadtile-" + cell + ".osm");
