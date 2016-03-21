@@ -18,6 +18,10 @@ import javax.persistence.Transient;
 @Table(name = "MOSQUE_PLACES")
 public class OsmMosquePlace extends OsmPlaceBase
 {
+    // Adapted from osmconvert, see
+    // http://wiki.openstreetmap.org/wiki/Osmconvert#Dispose_of_Ways_and_Relations_and_Convert_them_to_Nodes
+    private transient static final long WAY_OFFSET = (long) Math.pow(10, 15);
+
     @Column(name = "ADDR_COUNTRY_DATAFILE", length = 80)
     private String countryFromDatafile;
 
@@ -52,6 +56,21 @@ public class OsmMosquePlace extends OsmPlaceBase
     public OsmMosquePlace(OsmWay way)
     {
         super(way);
+    }
+
+    public static long getWayOffset()
+    {
+        return WAY_OFFSET;
+    }
+
+    public boolean isOsmNode()
+    {
+        return ((getId() != null) && (WAY_OFFSET > getId()));
+    }
+
+    public boolean isOsmWay()
+    {
+        return ((getId() != null) && (WAY_OFFSET < getId()));
     }
 
     public String getCountryFromDatafile()
