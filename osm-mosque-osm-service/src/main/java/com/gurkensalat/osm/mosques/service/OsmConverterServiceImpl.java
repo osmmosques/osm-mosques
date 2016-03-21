@@ -4,11 +4,12 @@ import com.gurkensalat.osm.entity.OsmNode;
 import com.gurkensalat.osm.entity.OsmNodeTag;
 import com.gurkensalat.osm.entity.OsmRoot;
 import com.gurkensalat.osm.entity.OsmTag;
+import com.gurkensalat.osm.entity.OsmWay;
+import com.gurkensalat.osm.entity.OsmWayTag;
 import com.gurkensalat.osm.entity.PlaceType;
 import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
 import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
 import com.gurkensalat.osm.repository.OsmParserRepository;
-import com.gurkensalat.osm.repository.OsmPlaceRepository;
 import com.gurkensalat.osm.repository.OsmTagRepository;
 import org.apache.commons.lang3.CharEncoding;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
@@ -44,9 +46,9 @@ public class OsmConverterServiceImpl implements OsmConverterService
     @Value("${osm.data.location}")
     private String dataLocation;
 
-    public void importData(String path)
+    public void importNodes(String path)
     {
-        LOGGER.info("Request to import {} arrived.", path);
+        LOGGER.info("Request to import nodes from {} arrived.", path);
 
         File dataFile = new File(dataLocation);
 
@@ -74,7 +76,38 @@ public class OsmConverterServiceImpl implements OsmConverterService
         }
 
         LOGGER.info("Read {} nodes from {}", root.getNodes().size(), dataFile.getName());
+    }
 
+    public void importWays(String path)
+    {
+        LOGGER.info("Request to import ways from {} arrived.", path);
+
+        File dataFile = new File(dataLocation);
+
+        // Actually, sanitize this input parameter first...
+        if (!(isEmpty(path)))
+        {
+            try
+            {
+                path = URLDecoder.decode(path, CharEncoding.UTF_8);
+            }
+            catch (UnsupportedEncodingException e)
+            {
+                LOGGER.error("While decoding optional path", e);
+            }
+
+            dataFile = new File(dataFile, path);
+        }
+
+        LOGGER.info("Data Directory is {}", dataFile.getAbsolutePath());
+
+        OsmRoot root = osmParserRepository.parse(dataFile);
+        for (OsmWay way : root.getWays())
+        {
+            persistOsmWay(way, null, null);
+        }
+
+        LOGGER.info("Read {} ways from {}", root.getNodes().size(), dataFile.getName());
     }
 
         /*
@@ -167,6 +200,50 @@ public class OsmConverterServiceImpl implements OsmConverterService
         tempPlace.setKey(key);
         tempPlace.setType(PlaceType.OSM_PLACE_OF_WORSHIP);
 
+        OsmMosquePlace place = persistOsmMosquePlace(tempPlace, key, countryCode, state);
+        if (place.isValid())
+        {
+            persistTags(place.getId(), node.getTags());
+        }
+    }
+
+    private void persistOsmWay(OsmWay way)
+    {
+        persistOsmWay(way, null, null);
+    }
+
+    private void persistOsmWay(OsmWay way, String countryCode, String state)
+    {
+
+        LOGGER.debug("Read node: {}, {}, {}", way, way.getLat(), way.getLon());
+
+        String key = Long.toString(way.getId() + OsmMosquePlace.getWayOffset());
+
+        // re-create a place from OSM data
+        OsmMosquePlace tempPlace = new OsmMosquePlace(way);
+        tempPlace.setKey(key);
+        tempPlace.setType(PlaceType.OSM_PLACE_OF_WORSHIP);
+
+        OsmMosquePlace place = persistOsmMosquePlace(tempPlace, key, countryCode, state);
+        if (place.isValid())
+        {
+            List<OsmNodeTag> tags = new ArrayList<>();
+            for (OsmWayTag wayTag : way.getTags())
+            {
+                OsmNodeTag tag = new OsmNodeTag();
+                tag.setKey(wayTag.getKey());
+                tag.setValue(wayTag.getValue());
+                tags.add(tag);
+            }
+
+            persistTags(place.getId(), tags);
+        }
+    }
+
+    private OsmMosquePlace persistOsmMosquePlace(OsmMosquePlace tempPlace, String key, String state, String countryCode)
+    {
+        OsmMosquePlace place = null;
+
         if (isEmpty(tempPlace.getAddress().getState()))
         {
             tempPlace.getAddress().setState(state);
@@ -181,7 +258,6 @@ public class OsmConverterServiceImpl implements OsmConverterService
 
         try
         {
-            OsmMosquePlace place;
             List<OsmMosquePlace> places = osmMosquePlaceRepository.findByKey(key);
             if ((places == null) || (places.size() == 0))
             {
@@ -206,17 +282,18 @@ public class OsmConverterServiceImpl implements OsmConverterService
             place = osmMosquePlaceRepository.save(place);
 
             LOGGER.debug("Saved Place {}", place);
-            persistTags(node);
         }
         catch (Exception e)
         {
             LOGGER.error("While persisting place", e);
             LOGGER.info("Place: {}", tempPlace);
-            LOGGER.info("OSM node: {}", node);
+            LOGGER.info("OSM node: {}", tempPlace);
         }
+
+        return place;
     }
 
-    private void persistTags(OsmNode node)
+    private void persistTags(long parentId, List<OsmNodeTag> tags)
     {
         OsmTag osmTag = null;
 
@@ -224,14 +301,14 @@ public class OsmConverterServiceImpl implements OsmConverterService
         {
             // Now, save the tags
             // TODO allow for Strings as node ids too
-            osmTagRepository.deleteByParentTableAndParentId("OSM_PLACES", node.getId());
-            for (OsmNodeTag tag : node.getTags())
+            osmTagRepository.deleteByParentTableAndParentId("OSM_PLACES", parentId);
+            for (OsmNodeTag tag : tags)
             {
                 // TODO allow for creation of lists of OsmTag entities from OsmNode objects
                 // TODO allow for creation of OsmTag entities from OsmNodeTag objects
                 osmTag = new OsmTag();
                 osmTag.setParentTable("OSM_PLACES");
-                osmTag.setParentId(node.getId());
+                osmTag.setParentId(parentId);
                 osmTag.setKey(tag.getKey());
                 osmTag.setValue(tag.getValue());
                 osmTag.setValid(true);
@@ -251,7 +328,7 @@ public class OsmConverterServiceImpl implements OsmConverterService
         catch (Exception e)
         {
             LOGGER.error("While persisting place", e);
-            LOGGER.info("OSM node: {}", node);
+            LOGGER.info("parent  : {}", parentId);
             LOGGER.info("     tag: {}", osmTag);
         }
     }
