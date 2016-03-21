@@ -44,7 +44,9 @@ public class OsmRestController
 
     private final static String REQUEST_ROOT_INTERNAL = "/rest/internal/osm";
 
-    private final static String REQUEST_IMPORT = REQUEST_ROOT_INTERNAL + "/import";
+    private final static String REQUEST_IMPORT_FRESHENED_NODES = REQUEST_ROOT_INTERNAL + "/import-freshened-nodes";
+
+    private final static String REQUEST_IMPORT_FRESHENED_WAYS = REQUEST_ROOT_INTERNAL + "/import-freshened-ways";
 
     private final static String REQUEST_FETCH_FROM_SERVER = REQUEST_ROOT + "/fetch";
 
@@ -61,18 +63,20 @@ public class OsmRestController
         return new ResponseEntity<String>("{ '_links': {} }", null, HttpStatus.OK);
     }
 
-    @RequestMapping(value = REQUEST_IMPORT, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = REQUEST_IMPORT_FRESHENED_NODES, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public GenericResponse importData()
+    public GenericResponse importFreshenedNodes()
     {
-        return importData(null);
+        osmConverterService.importNodes("world/world-religion-muslim-node-freshened.osm");
+
+        return new GenericResponse("Import kicked off.");
     }
 
-    @RequestMapping(value = REQUEST_IMPORT + "/{path}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = REQUEST_IMPORT_FRESHENED_WAYS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public GenericResponse importData(@PathVariable("path") String path)
+    public GenericResponse importFreshenedWays()
     {
-        osmConverterService.importData("world/world-religion-muslim-node-freshened.osm");
+        osmConverterService.importWays("world/world-religion-muslim-way-freshened.osm");
 
         return new GenericResponse("Import kicked off.");
     }
