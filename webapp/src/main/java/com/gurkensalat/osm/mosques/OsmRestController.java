@@ -13,6 +13,7 @@ import com.gurkensalat.osm.repository.OsmParserRepository;
 import com.gurkensalat.osm.repository.OsmTagRepository;
 import org.apache.commons.lang3.CharEncoding;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,10 @@ public class OsmRestController
 
     private final static String REQUEST_IMPORT_FRESHENED_WAYS = REQUEST_ROOT_INTERNAL + "/import-freshened-ways";
 
+    private final static String REQUEST_IMPORT_QUADTILE_NODES = REQUEST_ROOT_INTERNAL + "/import-quadtile-nodes";
+
+    private final static String REQUEST_IMPORT_QUADTILE_WAYS = REQUEST_ROOT_INTERNAL + "/import-quadtile-ways";
+
     private final static String REQUEST_FETCH_FROM_SERVER = REQUEST_ROOT + "/fetch";
 
     @Autowired
@@ -81,6 +86,26 @@ public class OsmRestController
         return new GenericResponse("Import kicked off.");
     }
 
+    @RequestMapping(value = REQUEST_IMPORT_QUADTILE_NODES, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GenericResponse importQuadtileNodes()
+    {
+        String cell = calculateQuadtileCell();
+        osmConverterService.importNodes("by-quadtile/world-religion-muslim-node-by-quadtile-" + cell + ".osm");
+
+        return new GenericResponse("Import kicked off.");
+    }
+
+    @RequestMapping(value = REQUEST_IMPORT_QUADTILE_WAYS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GenericResponse importQuadtileWays()
+    {
+        String cell = calculateQuadtileCell();
+        osmConverterService.importWays("by-quadtile/world-religion-muslim-way-by-quadtile-" + cell + ".osm");
+
+        return new GenericResponse("Import kicked off.");
+    }
+
     @RequestMapping(value = REQUEST_FETCH_FROM_SERVER + "/{osmId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public GenericResponse fetchFromServer(@PathVariable("osmId") String osmId)
@@ -98,5 +123,26 @@ public class OsmRestController
         }
 */
         return new GenericResponse("O.K., Massa!");
+    }
+
+    /* package level protection for unit testing */
+    String calculateQuadtileCell()
+    {
+        String result;
+
+        DateTime today = DateTime.now().withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfDay(0);
+
+        long day = today.getMillis() / 1000 / 86400;
+
+        // Offset to align with the shell script
+        day = day + 1;
+
+        long quadtile = day % 16;
+        long row = quadtile / 4;
+        long col = quadtile % 4;
+
+        result = Long.toString(row) + Long.toString(col) + "-" + Long.toString(quadtile);
+
+        return result;
     }
 }
