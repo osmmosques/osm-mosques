@@ -4,6 +4,7 @@ import com.gurkensalat.osm.entity.Address;
 import com.gurkensalat.osm.entity.Contact;
 import com.gurkensalat.osm.entity.OsmNode;
 import com.gurkensalat.osm.entity.OsmPlaceBase;
+import com.gurkensalat.osm.entity.OsmWay;
 import com.gurkensalat.osm.entity.PlaceType;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
@@ -46,6 +47,11 @@ public class OsmMosquePlace extends OsmPlaceBase
     public OsmMosquePlace(OsmNode node)
     {
         super(node);
+    }
+
+    public OsmMosquePlace(OsmWay way)
+    {
+        super(way);
     }
 
     public String getCountryFromDatafile()
