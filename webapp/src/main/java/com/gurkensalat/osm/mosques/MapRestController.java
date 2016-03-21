@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.stripToEmpty;
 
 @RestController
 @EnableAutoConfiguration
@@ -100,7 +101,11 @@ public class MapRestController
         {
             MapDataEntry entry = new MapDataEntry(place);
             entry.setKey(place.getKey());
-            entry.setName(place.getAddress().getCountry() + " / " + place.getAddress().getCity() + " / " + place.getName());
+
+            if (place.getAddress() != null)
+            {
+                entry.setName(stripToEmpty(place.getAddress().getCountry()) + " / " + stripToEmpty(place.getAddress().getCity()) + " / " + stripToEmpty(place.getName()));
+            }
 
             result.add(entry);
         }
@@ -136,7 +141,8 @@ public class MapRestController
 
             // TODO this should already be properly populated in the Statistics table...
             String countryName = Countries.getCountries().get(statisticsEntry.getCountryCode());
-            if (isEmpty(countryName)) {
+            if (isEmpty(countryName))
+            {
                 countryName = "";
             }
 
