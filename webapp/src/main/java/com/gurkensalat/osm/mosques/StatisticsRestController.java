@@ -18,7 +18,7 @@ public class StatisticsRestController
 {
     private final static Logger LOGGER = LoggerFactory.getLogger(StatisticsRestController.class);
 
-    private final static String REQUEST_ROOT = "/rest/statistics";
+    private final static String REQUEST_ROOT = "/rest/internal/statistics";
 
     private final static String REQUEST_CALCULATE = REQUEST_ROOT + "/calculate";
 
