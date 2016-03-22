@@ -28,6 +28,7 @@ import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.substring;
+import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 
 @Component
 public class OsmConverterServiceImpl implements OsmConverterService
@@ -252,6 +253,15 @@ public class OsmConverterServiceImpl implements OsmConverterService
         if (isEmpty(tempPlace.getAddress().getCountry()))
         {
             tempPlace.getAddress().setCountry(countryCode);
+        }
+
+        String placeName = trimToEmpty(tempPlace.getName());
+
+        if (placeName.length() > 79)
+        {
+            LOGGER.error("Place name too long ({} chars", placeName.length());
+            LOGGER.error("  was '{}'", placeName);
+            tempPlace.setName(placeName.substring(0, 79));
         }
 
         tempPlace.getContact().setWebsite(substring(tempPlace.getContact().getWebsite(), 0, 79));
