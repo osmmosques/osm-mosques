@@ -42,6 +42,9 @@ public class StatisticsEntry extends AbstractPersistable<Long>
     @Column(name = "OSM_MOSQUE_NODES")
     private Integer osmMosqueNodes;
 
+    @Column(name = "OSM_MOSQUE_WAYS")
+    private Integer osmMosqueWays;
+
     @Column(name = "DITIB_MOSQUE_NODES")
     private Integer ditibMosqueNodes;
 
@@ -144,6 +147,16 @@ public class StatisticsEntry extends AbstractPersistable<Long>
         this.osmMosqueNodes = osmMosqueNodes;
     }
 
+    public Integer getOsmMosqueWays()
+    {
+        return osmMosqueWays;
+    }
+
+    public void setOsmMosqueWays(Integer osmMosqueWays)
+    {
+        this.osmMosqueWays = osmMosqueWays;
+    }
+
     public Integer getDitibMosqueNodes()
     {
         return ditibMosqueNodes;
@@ -220,6 +233,7 @@ public class StatisticsEntry extends AbstractPersistable<Long>
                 .append("countryCode", countryCode)
                 .append("countryName", countryName)
                 .append("osmMosqueNodes", osmMosqueNodes)
+                .append("osmMosqueWays", osmMosqueWays)
                 .append("ditibMosqueNodes", ditibMosqueNodes)
                 .toString();
     }
