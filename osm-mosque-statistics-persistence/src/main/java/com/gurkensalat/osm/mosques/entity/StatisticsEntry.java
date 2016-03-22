@@ -45,6 +45,8 @@ public class StatisticsEntry extends AbstractPersistable<Long>
     @Column(name = "OSM_MOSQUE_WAYS")
     private Integer osmMosqueWays;
 
+    private transient Integer osmMosqueTotal;
+
     @Column(name = "DITIB_MOSQUE_NODES")
     private Integer ditibMosqueNodes;
 
@@ -155,6 +157,16 @@ public class StatisticsEntry extends AbstractPersistable<Long>
     public void setOsmMosqueWays(Integer osmMosqueWays)
     {
         this.osmMosqueWays = osmMosqueWays;
+    }
+
+    public Integer getOsmMosqueTotal()
+    {
+        return osmMosqueTotal;
+    }
+
+    public void setOsmMosqueTotal(Integer osmMosqueTotal)
+    {
+        this.osmMosqueTotal = osmMosqueTotal;
     }
 
     public Integer getDitibMosqueNodes()
