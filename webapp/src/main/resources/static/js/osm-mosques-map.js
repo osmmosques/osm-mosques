@@ -162,7 +162,7 @@ function osmStatisticsmarkerListArrived(data) {
 
     for (var i = 0; i < data.length; i++) {
         var node = data[i];
-        var title = node['countryCode'] + (node['countryName'] == "" ? "" : " / " + node['countryName']) + " : " + node['osmMosqueTotal'] + " Places";
+        var title = (node['countryName'] == "" ? node['countryCode'] : node['countryName']) + " : " + node['osmMosqueTotal'] + " Places";
         var lat = node['lat'];
         var lon = node['lon'];
         var marker = L.marker(L.latLng(lat, lon), {
