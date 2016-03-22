@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+
 @Controller
 @EnableAutoConfiguration
 public class StatisticsController
@@ -55,16 +57,23 @@ public class StatisticsController
 
             statisticsEntry.setCountryCode(StringUtils.trimToEmpty(statisticsEntry.getCountryCode()).toLowerCase());
 
+            String countryName = Countries.getCountries().get(statisticsEntry.getCountryCode());
+
+            if (isEmpty(countryName))
+            {
+                countryName = Countries.getCountries().get("??");
+            }
+
+            statisticsEntry.setCountryName(countryName);
+
             statisticsEntry.setCountryFlagImgUrl("https://blog.osmmosques.org/wp-content/uploads/2016/03/" + statisticsEntry.getCountryCode() + ".png");
 
-            if (statisticsEntry.getCountryCode().startsWith("z"))
-            {
-                continents.add(statisticsEntry);
-            }
-            else
-            {
-                countries.add(statisticsEntry);
-            }
+            // if (statisticsEntry.getCountryCode().startsWith("z"))
+            // {
+            // continents.add(statisticsEntry);
+            // }
+
+            countries.add(statisticsEntry);
         }
 
         List<StatisticsEntry> topCountries = new ArrayList<>();

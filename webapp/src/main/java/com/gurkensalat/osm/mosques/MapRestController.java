@@ -1,15 +1,11 @@
 package com.gurkensalat.osm.mosques;
 
 import com.gurkensalat.osm.entity.DitibPlace;
-import com.gurkensalat.osm.entity.OsmPlace;
 import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
 import com.gurkensalat.osm.mosques.entity.StatisticsEntry;
 import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
 import com.gurkensalat.osm.mosques.repository.StatisticsRepository;
 import com.gurkensalat.osm.repository.DitibPlaceRepository;
-import com.gurkensalat.osm.repository.OsmPlaceRepository;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.ExtendedMessageFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.stripToEmpty;
+import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 
 @RestController
 @EnableAutoConfiguration
@@ -136,17 +132,18 @@ public class MapRestController
             MapStatisticsDataEntry entry = new MapStatisticsDataEntry(statisticsEntry);
 
             entry.setKey(statisticsEntry.getCountryCode());
+            entry.setCountryCode(trimToEmpty(statisticsEntry.getCountryCode()).toLowerCase());
 
-            entry.setName(statisticsEntry.getCountryName() + " : " + entry.getOsmMosqueTotal() + " Places");
+            String countryName = Countries.getCountries().get(entry.getCountryCode());
 
-            // TODO this should already be properly populated in the Statistics table...
-            String countryName = Countries.getCountries().get(statisticsEntry.getCountryCode());
             if (isEmpty(countryName))
             {
-                countryName = "";
+                countryName = Countries.getCountries().get("??");
             }
 
             entry.setCountryName(countryName);
+
+            entry.setName(entry.getCountryName() + " : " + entry.getOsmMosqueTotal() + " Places");
 
             result.add(entry);
         }
