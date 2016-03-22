@@ -18,6 +18,10 @@ public class MapStatisticsDataEntry
 
     private int osmMosqueNodes;
 
+    private int osmMosqueWays;
+
+    private int osmMosqueTotal;
+
     public MapStatisticsDataEntry(StatisticsEntry statisticsEntry)
     {
         this.setLat(statisticsEntry.getCentroidLat());
@@ -25,7 +29,26 @@ public class MapStatisticsDataEntry
         this.setName(statisticsEntry.getCountryName());
         this.setCountryName(statisticsEntry.getCountryName());
         this.setCountryCode(statisticsEntry.getCountryName());
-        this.setOsmMosqueNodes(statisticsEntry.getOsmMosqueNodes());
+
+        if (statisticsEntry.getOsmMosqueNodes() != null)
+        {
+            this.setOsmMosqueNodes(statisticsEntry.getOsmMosqueNodes());
+        }
+        else
+        {
+            this.setOsmMosqueNodes(0);
+        }
+
+        if (statisticsEntry.getOsmMosqueWays() != null)
+        {
+            this.setOsmMosqueWays(statisticsEntry.getOsmMosqueWays());
+        }
+        else
+        {
+            this.setOsmMosqueWays(0);
+        }
+
+        this.setOsmMosqueTotal(this.getOsmMosqueNodes() + this.getOsmMosqueWays());
     }
 
     public String getKey()
@@ -96,5 +119,25 @@ public class MapStatisticsDataEntry
     public void setOsmMosqueNodes(int osmMosqueNodes)
     {
         this.osmMosqueNodes = osmMosqueNodes;
+    }
+
+    public int getOsmMosqueWays()
+    {
+        return osmMosqueWays;
+    }
+
+    public void setOsmMosqueWays(int osmMosqueWays)
+    {
+        this.osmMosqueWays = osmMosqueWays;
+    }
+
+    public int getOsmMosqueTotal()
+    {
+        return osmMosqueTotal;
+    }
+
+    public void setOsmMosqueTotal(int osmMosqueTotal)
+    {
+        this.osmMosqueTotal = osmMosqueTotal;
     }
 }

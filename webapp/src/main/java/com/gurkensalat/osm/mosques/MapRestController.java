@@ -136,8 +136,8 @@ public class MapRestController
             MapStatisticsDataEntry entry = new MapStatisticsDataEntry(statisticsEntry);
 
             entry.setKey(statisticsEntry.getCountryCode());
-            entry.setOsmMosqueNodes(statisticsEntry.getOsmMosqueNodes());
-            entry.setName(statisticsEntry.getCountryName() + " : " + statisticsEntry.getOsmMosqueNodes() + " Places");
+
+            entry.setName(statisticsEntry.getCountryName() + " : " + entry.getOsmMosqueTotal() + " Places");
 
             // TODO this should already be properly populated in the Statistics table...
             String countryName = Countries.getCountries().get(statisticsEntry.getCountryCode());

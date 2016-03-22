@@ -32,7 +32,14 @@
     <div class="statictics.marked">
         <div th:remove="tag" th:text="#{statistics.marked.pre}">There are</div>
         <div th:remove="tag" th:text="${overall_count}">4711</div>
-        <div th:remove="tag" th:text="#{statistics.marked.post}">places marked.</div>
+        <div th:remove="tag" th:text="#{statistics.marked.post}">places marked in OSM.</div>
+        (
+        <div th:remove="tag" th:text="${overall_osm_nodes}">4711</div>
+        <div th:remove="tag" th:text="#{statistics.marked.nodes}">Nodes</div>
+        <div th:remove="tag" th:text="#{statistics.marked.and}">and</div>
+        <div th:remove="tag" th:text="${overall_osm_ways}">4711</div>
+        <div th:remove="tag" th:text="#{statistics.marked.ways}">Ways</div>
+        )
     </div>
 
     <div class="statictics.see">
@@ -49,13 +56,17 @@
             <thead>
             <tr>
                 <th th:text="#{statistics.continentName}">CN</th>
-                <th th:text="#{statistics.osmMosqueNodes}">OSM Nodes</th>
+                <th th:text="#{statistics.osmMosqueTotal}">Total</th>
+                <th th:text="#{statistics.osmMosqueNodes}">Nodes</th>
+                <th th:text="#{statistics.osmMosqueWays}">Ways</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="statisticsEntry : ${continents}">
                 <td th:text="${statisticsEntry.countryName}"></td>
+                <td th:text="${statisticsEntry.osmMosqueTotal}"></td>
                 <td th:text="${statisticsEntry.osmMosqueNodes}"></td>
+                <td th:text="${statisticsEntry.osmMosqueWays}"></td>
             </tr>
             </tbody>
         </table>
@@ -69,7 +80,9 @@
             <tr>
                 <th th:text="#{statistics.countryName}">CN</th>
                 <th th:text="#{list.link-to-map}">MAP</th>
-                <th th:text="#{statistics.osmMosqueNodes}">OSM Nodes</th>
+                <th th:text="#{statistics.osmMosqueTotal}">Total</th>
+                <th th:text="#{statistics.osmMosqueNodes}">Nodes</th>
+                <th th:text="#{statistics.osmMosqueWays}">Ways</th>
             </tr>
             </thead>
             <tbody>
@@ -85,7 +98,9 @@
                            th:href="@{/} + '#zoom=7&amp;lat=' + ${statisticsEntry.centroidLat} + '&amp;lon=' + ${statisticsEntry.centroidLat}"></a>
                     </i>
                 </td>
+                <td th:text="${statisticsEntry.osmMosqueTotal}"></td>
                 <td th:text="${statisticsEntry.osmMosqueNodes}"></td>
+                <td th:text="${statisticsEntry.osmMosqueWays}"></td>
             </tr>
             </tbody>
         </table>

@@ -29,7 +29,8 @@ public class StatisticsController
     @RequestMapping(value = REQUEST_ROOT, method = RequestMethod.GET)
     String statistics(Model model)
     {
-        int overallCount = 0;
+        int overallNodes = 0;
+        int overallWays = 0;
 
         List<StatisticsEntry> countries = new ArrayList<>();
         List<StatisticsEntry> continents = new ArrayList<>();
@@ -37,7 +38,21 @@ public class StatisticsController
         Iterable<StatisticsEntry> statisticsEntries = statisticsRepository.findAll();
         for (StatisticsEntry statisticsEntry : statisticsEntries)
         {
-            overallCount += statisticsEntry.getOsmMosqueNodes();
+            if (statisticsEntry.getOsmMosqueNodes() == null)
+            {
+                statisticsEntry.setOsmMosqueNodes(0);
+            }
+
+            if (statisticsEntry.getOsmMosqueWays() == null)
+            {
+                statisticsEntry.setOsmMosqueWays(0);
+            }
+
+            overallNodes += statisticsEntry.getOsmMosqueNodes();
+            overallWays += statisticsEntry.getOsmMosqueWays();
+
+            statisticsEntry.setOsmMosqueTotal(statisticsEntry.getOsmMosqueNodes() + statisticsEntry.getOsmMosqueWays());
+
             statisticsEntry.setCountryCode(StringUtils.trimToEmpty(statisticsEntry.getCountryCode()).toLowerCase());
 
             statisticsEntry.setCountryFlagImgUrl("https://blog.osmmosques.org/wp-content/uploads/2016/03/" + statisticsEntry.getCountryCode() + ".png");
@@ -63,7 +78,10 @@ public class StatisticsController
 
         model.addAttribute("continents", continents);
 
-        model.addAttribute("overall_count", overallCount);
+        model.addAttribute("overall_osm_nodes", overallNodes);
+        model.addAttribute("overall_osm_ways", overallWays);
+
+        model.addAttribute("overall_count", overallNodes + overallWays);
 
         return "statistics";
     }
