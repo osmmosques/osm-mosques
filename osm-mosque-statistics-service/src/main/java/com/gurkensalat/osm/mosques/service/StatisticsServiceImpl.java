@@ -1,9 +1,11 @@
 package com.gurkensalat.osm.mosques.service;
 
-import com.gurkensalat.osm.entity.OsmPlace;
+import com.gurkensalat.osm.entity.Address;
+import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
 import com.gurkensalat.osm.mosques.entity.StatisticsEntry;
+import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
 import com.gurkensalat.osm.mosques.repository.StatisticsRepository;
-import com.gurkensalat.osm.repository.OsmPlaceRepository;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.TreeMap;
+
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @Component
 public class StatisticsServiceImpl implements StatisticsService
@@ -22,7 +25,7 @@ public class StatisticsServiceImpl implements StatisticsService
     private StatisticsRepository statisticsRepository;
 
     @Autowired
-    private OsmPlaceRepository osmPlaceRepository;
+    private OsmMosquePlaceRepository osmMosquePlaceRepository;
 
     public void calculate()
     {
@@ -39,20 +42,39 @@ public class StatisticsServiceImpl implements StatisticsService
 
         HashMap<String, StatisticsEntry> entries = new HashMap<>();
 
-        Iterable<OsmPlace> places = osmPlaceRepository.findAll();
+        Iterable<OsmMosquePlace> places = osmMosquePlaceRepository.findAll();
         if (places != null)
         {
-            for (OsmPlace place : places)
+            for (OsmMosquePlace place : places)
             {
+                if (place.getAddress() == null)
+                {
+                    // Actually should never happen but you never knwo...
+                    place.setAddress(new Address());
+                }
+
                 String countryCode = place.getAddress().getCountry();
+                if (isEmpty(countryCode))
+                {
+                    place.getAddress().setCountry("??");
+                }
+
+                if ("NULL".equals(countryCode))
+                {
+                    place.getAddress().setCountry("??");
+                }
+
+                countryCode = place.getAddress().getCountry();
+
                 StatisticsEntry entry = entries.get(countryCode);
                 if (entry == null)
                 {
                     // Try to load entry from database
-                    entry = persistStatisticsEntry(countryCode);
+                    entry = findOrCreate(countryCode);
 
                     // Initialize all Integer attributes
                     entry.setOsmMosqueNodes(0);
+                    entry.setOsmMosqueWays(0);
 
                     entry.setMinLat(1000);
                     entry.setMaxLat(-1000);
@@ -69,16 +91,21 @@ public class StatisticsServiceImpl implements StatisticsService
                 }
 
                 // We already have a valid entry in the Map
-                entry.setOsmMosqueNodes(entry.getOsmMosqueNodes() + 1);
+                if (place.getKey().length() > 12)
+                {
+                    LOGGER.info("Key Length: {} , {}", place.getKey().length(), place.getKey());
+                    entry.setOsmMosqueWays(entry.getOsmMosqueWays() + 1);
+                }
+                else
+                {
+                    entry.setOsmMosqueNodes(entry.getOsmMosqueNodes() + 1);
+                }
 
                 entry.setMinLat(Math.min(entry.getMinLat(), place.getLat()));
                 entry.setMaxLat(Math.max(entry.getMaxLat(), place.getLat()));
 
                 entry.setMinLon(Math.min(entry.getMinLon(), place.getLon()));
                 entry.setMaxLon(Math.max(entry.getMaxLon(), place.getLon()));
-
-                entry.setCentroidLat((entry.getMinLat() + entry.getMaxLat()) / 2);
-                entry.setCentroidLon((entry.getMinLon() + entry.getMaxLon()) / 2);
             }
         }
 
@@ -87,7 +114,11 @@ public class StatisticsServiceImpl implements StatisticsService
         {
             try
             {
+                entry.setCentroidLat((entry.getMinLat() + entry.getMaxLat()) / 2);
+                entry.setCentroidLon((entry.getMinLon() + entry.getMaxLon()) / 2);
+
                 entry.setValid(true);
+                entry.setModificationTime(DateTime.now());
                 entry = statisticsRepository.save(entry);
             }
             catch (Exception e)
@@ -96,13 +127,10 @@ public class StatisticsServiceImpl implements StatisticsService
             }
         }
 
-        // StatisticsEntry statisticsEntry = persistStatisticsEntry(countryCode, country);
-
-        // statisticsEntry.setOsmMosqueNodes(root.getNodes().size());
-        // statisticsEntry = statisticsRepository.save(statisticsEntry);
+        statisticsRepository.deleteAllInvalid();
     }
 
-    private StatisticsEntry persistStatisticsEntry(String countryCode)
+    private StatisticsEntry findOrCreate(String countryCode)
     {
         StatisticsEntry entry = null;
 
@@ -113,11 +141,15 @@ public class StatisticsServiceImpl implements StatisticsService
             {
                 // Place could not be found, insert it...
                 StatisticsEntry tempEntry = new StatisticsEntry();
+                tempEntry.setCreationTime(DateTime.now());
+                tempEntry.setModificationTime(DateTime.now());
+
                 tempEntry.setCountryCode(countryCode);
                 tempEntry.setCountryName(countryCode);
 
                 // Initialize all Integer attributes
                 tempEntry.setOsmMosqueNodes(0);
+                tempEntry.setOsmMosqueWays(0);
 
                 tempEntry.setMinLat(1000);
                 tempEntry.setMaxLat(-1000);
@@ -140,6 +172,7 @@ public class StatisticsServiceImpl implements StatisticsService
             }
 
             entry.setValid(true);
+            entry.setModificationTime(DateTime.now());
             entry = statisticsRepository.save(entry);
         }
         catch (Exception e)
