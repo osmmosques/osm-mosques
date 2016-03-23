@@ -9,6 +9,7 @@
     "font-awesome": "${font-awesome.version}",
     "leaflet": "${leaflet.version}",
     "leaflet-contextmenu": "${leaflet-contextmenu.version}",
+    "leaflet-easybutton": "${leaflet-easybutton.version}",
     "leaflet.locatecontrol": "${leaflet-locatecontrol.version}",
     "leaflet-markercluster": "${leaflet-markercluster.version}",
     "leaflet-plugins": "${leaflet-plugins.version}",

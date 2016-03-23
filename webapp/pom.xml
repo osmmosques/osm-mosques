@@ -169,6 +169,11 @@
 
         <dependency>
             <groupId>org.webjars.bower</groupId>
+            <artifactId>Leaflet.EasyButton</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
             <artifactId>Leaflet.extra-markers</artifactId>
         </dependency>
 

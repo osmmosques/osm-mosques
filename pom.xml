@@ -78,6 +78,7 @@
         <leaflet.version>0.7.7</leaflet.version>
         <leaflet-contextmenu.version>1.0.0</leaflet-contextmenu.version>
         <leaflet-locatecontrol.version>0.48.0</leaflet-locatecontrol.version>
+        <leaflet-easybutton.version>1.1.2</leaflet-easybutton.version>
         <leaflet-extramarkers.version>1.0.5</leaflet-extramarkers.version>
         <leaflet-makimarkers.version>1.0.1</leaflet-makimarkers.version>
         <leaflet-markercluster.version>0.4.0-hotfix.1</leaflet-markercluster.version>
@@ -425,6 +426,12 @@
                 <groupId>org.webjars.bower</groupId>
                 <artifactId>leaflet.locatecontrol</artifactId>
                 <version>${leaflet-locatecontrol.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.webjars.bower</groupId>
+                <artifactId>Leaflet.EasyButton</artifactId>
+                <version>${leaflet-easybutton.version}</version>
             </dependency>
 
             <dependency>
