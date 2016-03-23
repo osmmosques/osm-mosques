@@ -5,14 +5,10 @@ import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 @Controller
 public class MapController
@@ -20,6 +16,8 @@ public class MapController
     private static final Logger LOGGER = LoggerFactory.getLogger(MapController.class);
 
     private final static String REQUEST_MAP = "/";
+
+    private final static String REQUEST_MAP_UNASSIGNED_COUNTRY = "/unassigned-country";
 
     private final static String REQUEST_MAP_OSM_POPUP = "/osm-details-for-popup";
 
@@ -30,6 +28,13 @@ public class MapController
     String map()
     {
         return "map";
+    }
+
+    @RequestMapping(REQUEST_MAP_UNASSIGNED_COUNTRY)
+    String mapUnassignedCountry()
+    {
+        // TODO set 'flavour' property and include the main map html
+        return "map-unassigned-country";
     }
 
     @RequestMapping(value = REQUEST_MAP_OSM_POPUP)
