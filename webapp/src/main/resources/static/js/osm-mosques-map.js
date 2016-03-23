@@ -316,10 +316,6 @@ function init() {
     <!-- Location control -->
     L.control.locate().addTo(map);
 
-    <!-- Sidebar -->
-    var sidebar = L.control.sidebar('sidebar', {position: 'left'});
-    sidebar.addTo(map);
-
     <!-- Map move methods -->
     map.on('load', onMapLoaded);
     map.on('moveend', onMapMoveEnd);

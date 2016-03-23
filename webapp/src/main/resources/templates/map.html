@@ -27,9 +27,6 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css"
           rel="stylesheet"/>
 
-    <link th:href="@{/webjars/sidebar-v2/css/leaflet-sidebar.css}"
-          href="https://SOMEWHERE-ON-THE-INTARWEBS/webjars/sidebar-v2/0.3.0/css/leaflet-sidebar.css" rel="stylesheet"/>
-
     <link th:href="@{/css/osm-mosques.css}" href="../../static/css/osm-mosques.css" rel="stylesheet"/>
 </head>
 <body>
@@ -37,45 +34,6 @@
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="menu_bar"
      th:replace="fragments/navbar :: navbar">
     Navbar stuff
-</div>
-
-<div id="sidebar" class="sidebar collapsed">
-    <!-- Nav tabs -->
-    <div class="sidebar-tabs">
-        <ul role="tablist" class="sidebar-tabs">
-            <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
-            <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
-            <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
-        </ul>
-
-        <ul role="tablist">
-            <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
-        </ul>
-    </div>
-
-    <!-- Tab panes -->
-    <div class="sidebar-content">
-        <div class="sidebar-pane" id="home">
-            <h1 class="sidebar-header">
-                sidebar-v2
-                <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
-            </h1>
-
-            <p>A responsive sidebar for mapping libraries like <a href="http://leafletjs.com/">Leaflet</a>.</p>
-        </div>
-
-        <div class="sidebar-pane" id="profile">
-            <h1 class="sidebar-header">Profile<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
-        </div>
-
-        <div class="sidebar-pane" id="messages">
-            <h1 class="sidebar-header">Messages<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
-        </div>
-
-        <div class="sidebar-pane" id="settings">
-            <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
-        </div>
-    </div>
 </div>
 
 <div id="map" class="sidebar-map">
@@ -115,9 +73,6 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster.js"/>
 <script th:src="@{/webjars/Leaflet.MakiMarkers/Leaflet.MakiMarkers.js}"
         src="https://SOMEWHERE-ON-THE-INTARWEBS/webjars/Leaflet.MakiMarkers/1.0.1/Leaflet.MakiMarkers.js"/>
-
-<script th:src="@{/webjars/sidebar-v2/js/leaflet-sidebar.js}"
-        src="https://SOMEWHERE-ON-THE-INTARWEBS/webjars/sidebar-v2/0.3.0/js/leaflet-sidebar.js"/>
 
 <script th:src="@{/webjars/jquery/dist/jquery.js}"
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"/>
