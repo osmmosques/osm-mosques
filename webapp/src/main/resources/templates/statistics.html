@@ -44,11 +44,15 @@
 
     <div class="statictics.see">
         <div th:remove="tag" th:utext="#{statistics.see.aswell}">See:</div>
-        <a href="http://resultmaps.neis-one.org/osm-changesets?comment=OsmMosques">
+        <a target="_resultmaps" href="http://resultmaps.neis-one.org/osm-changesets?comment=OsmMosques">
             <div th:remove="tag" th:utext="#{statistics.changesets}">Changesets Yadda Yadda</div>
         </a>
     </div>
 
+    <div class="statistics.countryname.disclaimer">
+        <div th:remove="tag" th:utext="#{statistics.countryName.disclaimer}">Taken from Yadda Yadda Yadda</div>
+        ( <a target="_wiki" href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO_3166-1_alpha2</a> ).
+    </div>
 
     <div class="statictics.byContinent">
         <h2 th:text="#{statistics.byContinent}">Continents</h2>
