@@ -200,6 +200,7 @@ public class OsmConverterServiceImpl implements OsmConverterService
         OsmMosquePlace tempPlace = new OsmMosquePlace(node);
         tempPlace.setKey(key);
         tempPlace.setType(PlaceType.OSM_PLACE_OF_WORSHIP);
+        tempPlace.setCountryFromOSM(tempPlace.getAddress().getCountry());
 
         OsmMosquePlace place = persistOsmMosquePlace(tempPlace, key, countryCode, state);
         if (place.isValid())
@@ -224,6 +225,7 @@ public class OsmConverterServiceImpl implements OsmConverterService
         OsmMosquePlace tempPlace = new OsmMosquePlace(way);
         tempPlace.setKey(key);
         tempPlace.setType(PlaceType.OSM_PLACE_OF_WORSHIP);
+        tempPlace.setCountryFromOSM(tempPlace.getAddress().getCountry());
 
         OsmMosquePlace place = persistOsmMosquePlace(tempPlace, key, countryCode, state);
         if (place.isValid())
