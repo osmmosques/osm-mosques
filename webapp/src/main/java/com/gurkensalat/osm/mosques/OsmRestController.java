@@ -34,7 +34,18 @@ public class OsmRestController
 
     private final static String REQUEST_IMPORT_QUADTILED_WAYS = REQUEST_ROOT_INTERNAL + "/import-quadtiled-ways";
 
+    private final static String REQUEST_IMPORT_FULLY_NODES = REQUEST_ROOT_INTERNAL + "/import-fully-nodes";
+
+    private final static String REQUEST_IMPORT_FULLY_WAYS = REQUEST_ROOT_INTERNAL + "/import-fully-ways";
+
     private final static String REQUEST_FETCH_FROM_SERVER = REQUEST_ROOT + "/fetch";
+
+    private final static String[] quadTiles = new String[]{
+            "00-0", "01-1", "02-2", "03-3",
+            "10-4", "11-5", "12-6", "13-7",
+            "20-8", "21-9", "22-10", "23-11",
+            "30-12", "31-13", "32-14", "33-15"
+    };
 
     @Autowired
     private OsmConverterService osmConverterService;
@@ -83,6 +94,30 @@ public class OsmRestController
     {
         String cell = calculateQuadtileCell();
         osmConverterService.importWays("by-quadtile/world-religion-muslim-way-by-quadtile-" + cell + ".osm");
+
+        return new GenericResponse("Import kicked off.");
+    }
+
+    @RequestMapping(value = REQUEST_IMPORT_FULLY_NODES, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GenericResponse importFullyNodes()
+    {
+        for (String cell : quadTiles)
+        {
+            osmConverterService.importNodes("by-quadtile/world-religion-muslim-node-by-quadtile-" + cell + ".osm");
+        }
+
+        return new GenericResponse("Import kicked off.");
+    }
+
+    @RequestMapping(value = REQUEST_IMPORT_FULLY_WAYS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GenericResponse importFullyWays()
+    {
+        for (String cell : quadTiles)
+        {
+            osmConverterService.importWays("by-quadtile/world-religion-muslim-way-by-quadtile-" + cell + ".osm");
+        }
 
         return new GenericResponse("Import kicked off.");
     }
