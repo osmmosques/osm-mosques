@@ -61,7 +61,8 @@ public class StatisticsController
 
             if (isEmpty(countryName))
             {
-                countryName = Countries.getCountries().get("??");
+                // countryName = Countries.getCountries().get("??");
+                countryName = statisticsEntry.getCountryCode();
             }
 
             statisticsEntry.setCountryName(countryName);
