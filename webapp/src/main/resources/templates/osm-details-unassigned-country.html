@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <div lang="en"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-    Detailed information for OSM Node '<span th:remove="tag" th:text="${placeKey}"/>'
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.thymeleaf.org">
+    Detailed information for OSM <span th:remove="tag" th:text="${placeType}"/>
+    '<span th:remove="tag" th:text="${placeName}"/>'
     <p/>
+    Place Id: '<span th:remove="tag" th:text="${placeKey}"/>'
+    <p/>
+    <!--
+    http://127.0.0.1:8111/load_and_zoom?left=8.19&right=8.20&top=48.605&bottom=48.590&select=node413602999
+    -->
     <i class="fa fa-cloud"></i>
 </div>

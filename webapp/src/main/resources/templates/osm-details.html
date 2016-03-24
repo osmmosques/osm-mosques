@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <div lang="en"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-    Detailed information for OSM Node '<span th:remove="tag" th:text="${placeKey}"/>'
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.thymeleaf.org">
+    Detailed information for OSM <span th:remove="tag" th:text="${placeType}"/>
+    '<span th:remove="tag" th:text="${placeName}"/>'
+    <p/>
+    Place Id: '<span th:remove="tag" th:text="${placeKey}"/>'
+    <p/>
 </div>
