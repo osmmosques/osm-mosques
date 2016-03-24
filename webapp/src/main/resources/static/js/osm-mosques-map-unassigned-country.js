@@ -12,9 +12,12 @@ var osmUnassignedMarkersArrivedFunction;
 var osmKnownDataUrl;
 var osmKnownMarkersArrivedFunction;
 
+var osmPopupDetailsUrl = "/osm-details-unassigned-country-for-popup";
+
 var osmUnassignedPlaces = L.markerClusterGroup({chunkedLoading: true});
 
 var osmKnownPlaces = L.markerClusterGroup({chunkedLoading: true});
+
 
 var osmUnassignedMosqueIcon = L.MakiMarkers.icon({
     icon: "religious-muslim",

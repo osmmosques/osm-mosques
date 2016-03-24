@@ -9,6 +9,8 @@ var lowZoomMode = true;
 var osmDataUrl;
 var osmMarkersArrivedFunction;
 
+var osmPopupDetailsUrl = "/osm-details-for-popup";
+
 var osmPlaces = L.markerClusterGroup({chunkedLoading: true});
 
 var osmMosqueIcon = L.MakiMarkers.icon({

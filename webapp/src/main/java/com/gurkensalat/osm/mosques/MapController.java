@@ -21,6 +21,8 @@ public class MapController
 
     private final static String REQUEST_MAP_OSM_POPUP = "/osm-details-for-popup";
 
+    private final static String REQUEST_MAP_UNASSIGNED_COUNTRY_OSM_POPUP = "/osm-details-unassigned-country-for-popup";
+
     @Autowired
     private OsmMosquePlaceRepository osmMosquePlaceRepository;
 
@@ -45,5 +47,15 @@ public class MapController
         model.addAttribute("placeKey", placeKey);
 
         return "osm-details";
+    }
+
+    @RequestMapping(value = REQUEST_MAP_UNASSIGNED_COUNTRY_OSM_POPUP)
+    String osmDetailsUnassignedCountryForPopup(Model model, @RequestParam(value = "placeKey", defaultValue = "0") String placeKey)
+    {
+        LOGGER.info("Requested place details for '{}'", placeKey);
+
+        model.addAttribute("placeKey", placeKey);
+
+        return "osm-details-unassigned-country";
     }
 }

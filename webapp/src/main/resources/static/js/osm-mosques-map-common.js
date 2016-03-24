@@ -25,8 +25,7 @@ function onClickOsmMarker(e) {
     var placeKey = marker.options.customAttrPlaceKey;
     // console.log(placeKey);
 
-    var osmPopupDetailsUrl = "/osm-details-for-popup";
-
+    // osmPopupDetailsUrl will be set externally
     var request = $.get({
         url: osmPopupDetailsUrl,
         data: {
