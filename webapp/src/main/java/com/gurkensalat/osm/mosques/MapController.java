@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -90,13 +91,47 @@ public class MapController
         model.addAttribute("placeName", place.getName());
         model.addAttribute("placeKey", place.getKey());
 
+        UriComponentsBuilder builder = UriComponentsBuilder.newInstance()
+                .scheme("http")
+                .host("localhost")
+                .port(8111)
+                .path("load_and_zoom");
+
         if (place.getKey().length() > 14)
         {
             model.addAttribute("placeType", "Way");
+            String id = place.getKey().substring(2);
+            while (id.charAt(0) == '0')
+            {
+                id = id.substring(1);
+            }
+
+            builder.queryParam("select", "way" + id);
         }
         else
         {
             model.addAttribute("placeType", "Node");
+
+            builder.queryParam("select", "node" + place.getKey());
         }
+
+        builder.queryParam("left", place.getLon() - 0.001);
+        builder.queryParam("right", place.getLon() + 0.001);
+        builder.queryParam("top", place.getLat() + 0.001);
+        builder.queryParam("bottom", place.getLat() - 0.001);
+
+        // http://localhost:8111/load_and_zoom?
+        // addtags=wikipedia:de=Wei%C3%9Fe_Gasse%7Cmaxspeed=5&
+        // select=way23071688,way23076176,way23076177,&
+        // left=13.739727546842&
+        // right=13.740890970188&
+        // top=51.049987191025&
+        // bottom=51.048466954325
+
+        model.addAttribute("josmEditUrl", builder.toUriString());
+
+        // TODO this is still a bit hackish...
+        builder.queryParam("addtags", "addr:country=TR");
+        model.addAttribute("josmEditUrlUnassignedCountry", builder.toUriString());
     }
 }

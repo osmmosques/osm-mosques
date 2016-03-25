@@ -7,8 +7,5 @@
     <p/>
     Place Id: '<span th:remove="tag" th:text="${placeKey}"/>'
     <p/>
-    <!--
-    http://127.0.0.1:8111/load_and_zoom?left=8.19&right=8.20&top=48.605&bottom=48.590&select=node413602999
-    -->
-    <i class="fa fa-cloud"></i>
+    <a class="fa fa-pencil" target="_josm" href="http://www.google.com/" th:href="${josmEditUrlUnassignedCountry}" th:text="#{map.edit-in-josm}">Edit in JOSM</a>
 </div>
