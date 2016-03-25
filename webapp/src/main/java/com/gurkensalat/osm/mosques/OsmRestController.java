@@ -38,7 +38,9 @@ public class OsmRestController
 
     private final static String REQUEST_IMPORT_FULLY_WAYS = REQUEST_ROOT_INTERNAL + "/import-fully-ways";
 
-    private final static String REQUEST_FETCH_FROM_SERVER = REQUEST_ROOT + "/fetch";
+    private final static String REQUEST_REIMPORT_FROM_SERVER_NODE = REQUEST_ROOT + "/reimport-node";
+
+    private final static String REQUEST_REIMPORT_FROM_SERVER_WAY = REQUEST_ROOT + "/reimport-way";
 
     private final static String[] quadTiles = new String[]{
             "00-0", "01-1", "02-2", "03-3",
@@ -122,22 +124,25 @@ public class OsmRestController
         return new GenericResponse("Import kicked off.");
     }
 
-    @RequestMapping(value = REQUEST_FETCH_FROM_SERVER + "/{osmId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = REQUEST_REIMPORT_FROM_SERVER_NODE + "/{osmId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public GenericResponse fetchFromServer(@PathVariable("osmId") String osmId)
+    public GenericResponse reimportNodeFromServer(@PathVariable("osmId") String osmId)
     {
-        /*
         LOGGER.info("About to reload OSM data with ID", osmId);
 
-        long id = Long.parseLong(osmId);
+        osmConverterService.fetchAndImportNode(osmId);
 
-        OsmRoot root = osmParserRepository.loadFromServer(id);
+        return new GenericResponse("O.K., Massa!");
+    }
 
-        for (OsmNode node : root.getNodes())
-        {
-            persistOsmNode(node);
-        }
-*/
+    @RequestMapping(value = REQUEST_REIMPORT_FROM_SERVER_WAY + "/{osmId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GenericResponse reimportWayFromServer(@PathVariable("osmId") String osmId)
+    {
+        LOGGER.info("About to reload OSM data with ID", osmId);
+
+        osmConverterService.fetchAndImportNode(osmId);
+
         return new GenericResponse("O.K., Massa!");
     }
 
