@@ -21,13 +21,13 @@ var osmKnownPlaces = L.markerClusterGroup({chunkedLoading: true});
 
 var osmUnassignedMosqueIcon = L.MakiMarkers.icon({
     icon: "religious-muslim",
-    color: "#ff3300",
+    color: "#00cc00",
     size: "m"
 });
 
 var osmKnownMosqueIcon = L.MakiMarkers.icon({
     icon: "religious-muslim",
-    color: "#00cc00",
+    color: "#ff3300",
     size: "m"
 });
 
