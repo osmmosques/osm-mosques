@@ -1,5 +1,6 @@
 package com.gurkensalat.osm.mosques;
 
+import com.gurkensalat.osm.entity.Address;
 import com.gurkensalat.osm.entity.DitibPlace;
 import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
 import com.gurkensalat.osm.mosques.entity.StatisticsEntry;
@@ -132,15 +133,16 @@ public class MapRestController
 
         for (OsmMosquePlace place : osmMosquePlaceRepository.findByBbox(minLongitude, minLatitude, maxLongitude, maxLatitude))
         {
-            if ((place.getAddress() == null) || ("".equals(stripToEmpty(place.getAddress().getCountry()))))
+            if ("".equals(stripToEmpty(place.getCountryFromOSM())))
             {
                 MapDataEntry entry = new MapDataEntry(place);
                 entry.setKey(place.getKey());
-
-                if (place.getAddress() != null)
+                if (place.getAddress() == null)
                 {
-                    entry.setName(stripToEmpty(place.getAddress().getCountry()) + " / " + stripToEmpty(place.getAddress().getCity()) + " / " + stripToEmpty(place.getName()));
+                    place.setAddress(new Address());
                 }
+
+                entry.setName(stripToEmpty(place.getAddress().getCountry()) + " / " + stripToEmpty(place.getAddress().getCity()) + " / " + stripToEmpty(place.getName()));
 
                 result.add(entry);
             }
@@ -168,20 +170,18 @@ public class MapRestController
 
         for (OsmMosquePlace place : osmMosquePlaceRepository.findByBbox(minLongitude, minLatitude, maxLongitude, maxLatitude))
         {
-            if (place.getAddress() != null)
+            if (!("".equals(stripToEmpty(place.getCountryFromOSM()))))
             {
-                if (!("".equals(stripToEmpty(place.getAddress().getCountry()))))
+                MapDataEntry entry = new MapDataEntry(place);
+                entry.setKey(place.getKey());
+                if (place.getAddress() == null)
                 {
-                    MapDataEntry entry = new MapDataEntry(place);
-                    entry.setKey(place.getKey());
-
-                    if (place.getAddress() != null)
-                    {
-                        entry.setName(stripToEmpty(place.getAddress().getCountry()) + " / " + stripToEmpty(place.getAddress().getCity()) + " / " + stripToEmpty(place.getName()));
-                    }
-
-                    result.add(entry);
+                    place.setAddress(new Address());
                 }
+
+                entry.setName(stripToEmpty(place.getAddress().getCountry()) + " / " + stripToEmpty(place.getAddress().getCity()) + " / " + stripToEmpty(place.getName()));
+
+                result.add(entry);
             }
         }
 
