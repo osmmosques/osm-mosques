@@ -111,7 +111,18 @@ public class OsmConverterServiceImpl implements OsmConverterService
         LOGGER.info("Read {} ways from {}", root.getNodes().size(), dataFile.getName());
     }
 
-        /*
+    @Override
+    public void fetchAndImportNode(String id)
+    {
+        LOGGER.info("Request to re-import node {} arrived.", id);
+    }
+
+    @Override
+    public void fetchAndImportWay(String id)
+    {
+        LOGGER.info("Request to re-import way {} arrived.", id);
+    }
+    /*
         LOGGER.info("About to import OSM data from {} / {}", dataLocation, path);
 
         LOGGER.info("OSM Repository is: {}", osmParserRepository);
