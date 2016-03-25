@@ -130,8 +130,12 @@ public class MapController
 
         model.addAttribute("josmEditUrl", builder.toUriString());
 
-        // TODO this is still a bit hackish...
-        builder.queryParam("addtags", "addr:country=TR");
+        // TODO this is still a bit hackish... The country should come from the session
+        if ("".equals(StringUtils.stripToEmpty(place.getCountryFromOSM())))
+        {
+            builder.queryParam("addtags", "addr:country=TR");
+        }
+
         model.addAttribute("josmEditUrlUnassignedCountry", builder.toUriString());
     }
 }
