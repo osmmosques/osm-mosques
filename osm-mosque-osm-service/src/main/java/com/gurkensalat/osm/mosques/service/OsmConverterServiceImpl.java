@@ -203,9 +203,12 @@ public class OsmConverterServiceImpl implements OsmConverterService
         tempPlace.setCountryFromOSM(tempPlace.getAddress().getCountry());
 
         OsmMosquePlace place = persistOsmMosquePlace(tempPlace, key, countryCode, state);
-        if (place.isValid())
+        if (place != null)
         {
-            persistTags(place.getId(), node.getTags());
+            if (place.isValid())
+            {
+                persistTags(place.getId(), node.getTags());
+            }
         }
     }
 
@@ -228,18 +231,21 @@ public class OsmConverterServiceImpl implements OsmConverterService
         tempPlace.setCountryFromOSM(tempPlace.getAddress().getCountry());
 
         OsmMosquePlace place = persistOsmMosquePlace(tempPlace, key, countryCode, state);
-        if (place.isValid())
+        if (place != null)
         {
-            List<OsmNodeTag> tags = new ArrayList<>();
-            for (OsmWayTag wayTag : way.getTags())
+            if (place.isValid())
             {
-                OsmNodeTag tag = new OsmNodeTag();
-                tag.setKey(wayTag.getKey());
-                tag.setValue(wayTag.getValue());
-                tags.add(tag);
-            }
+                List<OsmNodeTag> tags = new ArrayList<>();
+                for (OsmWayTag wayTag : way.getTags())
+                {
+                    OsmNodeTag tag = new OsmNodeTag();
+                    tag.setKey(wayTag.getKey());
+                    tag.setValue(wayTag.getValue());
+                    tags.add(tag);
+                }
 
-            persistTags(place.getId(), tags);
+                persistTags(place.getId(), tags);
+            }
         }
     }
 
