@@ -1,6 +1,7 @@
 package com.gurkensalat.osm.mosques;
 
 import com.gurkensalat.osm.mosques.service.OsmConverterService;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,8 @@ public class OsmRestController
     private final static String REQUEST_REIMPORT_FROM_SERVER_NODE = REQUEST_ROOT + "/reimport-node";
 
     private final static String REQUEST_REIMPORT_FROM_SERVER_WAY = REQUEST_ROOT + "/reimport-way";
+
+    private final static String REQUEST_REIMPORT_FROM_SERVER = REQUEST_ROOT + "/reimport";
 
     private final static String[] quadTiles = new String[]{
             "00-0", "01-1", "02-2", "03-3",
@@ -144,6 +147,28 @@ public class OsmRestController
         osmConverterService.fetchAndImportNode(osmId);
 
         return new GenericResponse("O.K., Massa!");
+    }
+
+    @RequestMapping(value = REQUEST_REIMPORT_FROM_SERVER + "/{osmId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GenericResponse reimportFromServer(@PathVariable("osmId") String osmId)
+    {
+        osmId = StringUtils.trimToEmpty(osmId);
+
+        if (osmId.length() > 14)
+        {
+            osmId = osmId.substring(2);
+            while (osmId.charAt(0) == '0')
+            {
+                osmId = osmId.substring(1);
+            }
+
+            return reimportWayFromServer(osmId);
+        }
+        else
+        {
+            return reimportNodeFromServer(osmId);
+        }
     }
 
     /* package level protection for unit testing */
