@@ -38,6 +38,6 @@ public class CountriesTest
     @Test
     public void testDefaultUnknown()
     {
-        assertEquals("Unknown", testable.getCountries().get("??"));
+        assertEquals("Unassigned in OSM", testable.getCountries().get("??"));
     }
 }
