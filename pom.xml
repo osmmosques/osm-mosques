@@ -83,6 +83,7 @@
         <leaflet-extramarkers.version>1.0.5</leaflet-extramarkers.version>
         <leaflet-makimarkers.version>1.0.1</leaflet-makimarkers.version>
         <leaflet-markercluster.version>0.4.0-hotfix.1</leaflet-markercluster.version>
+        <leaflet-opencage-search.version>1.1.2</leaflet-opencage-search.version>
         <leaflet-plugins.version>1.5.2</leaflet-plugins.version>
         <leaflet-providers.version>1.1.7</leaflet-providers.version>
         <leaflet-sidebar-v2.version>0.3.0</leaflet-sidebar-v2.version>
@@ -469,6 +470,12 @@
                 <groupId>org.webjars.bower</groupId>
                 <artifactId>leaflet-providers</artifactId>
                 <version>${leaflet-providers.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.webjars.bower</groupId>
+                <artifactId>Leaflet.OpenCage.Search</artifactId>
+                <version>${leaflet-opencage-search.version}</version>
             </dependency>
 
             <dependency>
