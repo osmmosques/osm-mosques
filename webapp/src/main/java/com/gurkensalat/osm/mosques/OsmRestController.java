@@ -144,7 +144,7 @@ public class OsmRestController
     {
         LOGGER.info("About to reload OSM data with ID", osmId);
 
-        osmConverterService.fetchAndImportNode(osmId);
+        osmConverterService.fetchAndImportWay(osmId);
 
         return new GenericResponse("O.K., Massa!");
     }
