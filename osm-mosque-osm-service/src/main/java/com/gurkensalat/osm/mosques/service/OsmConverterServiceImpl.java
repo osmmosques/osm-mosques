@@ -324,7 +324,20 @@ public class OsmConverterServiceImpl implements OsmConverterService
                 LOGGER.debug("  reloaded: {} / {}", place.getId(), place.getVersion());
             }
 
+            double oldLat = place.getLat();
+            double oldLon = place.getLon();
+
             tempPlace.copyTo(place);
+
+            if (place.getLat() == 0)
+            {
+                place.setLat(oldLat);
+            }
+
+            if (place.getLon() == 0)
+            {
+                place.setLon(oldLon);
+            }
 
             place.setValid(true);
             place.setModificationTime(DateTime.now());
