@@ -27,11 +27,6 @@
 
         <dependency>
             <groupId>com.gurkensalat.osm.verification</groupId>
-            <artifactId>ditib-persistence</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.gurkensalat.osm.verification</groupId>
             <artifactId>osm-mosque-common</artifactId>
         </dependency>
 
@@ -41,8 +36,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.gurkensalat.osm.verification</groupId>
-            <artifactId>osm-mosque-statistics-persistence</artifactId>
+            <groupId>com.tandogan.osm</groupId>
+            <artifactId>opencagedata-geocoder-library</artifactId>
         </dependency>
 
         <!-- DI, ORM -->
