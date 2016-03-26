@@ -6,9 +6,34 @@
     <div id="osm-details" th:replace="fragments/osm-details :: osm-details">OSM Details common stuff</div>
 
 
-    <a class="fa fa-refresh" target="_refresh" href="http://www.google.com/" th:href="${refreshFromServerUrl}"
+    <a class="fa fa-refresh" id="refresh-from-server" target="_refresh" href="http://www.google.com/"
+       th:href="${refreshFromServerUrl}"
        th:text="#{map.refresh-from-server}">Refresh</a>
 
     <a class="fa fa-pencil" target="_josm" href="http://www.google.com/" th:href="${josmEditUrlUnassignedCountry}"
        th:text="#{map.edit-in-josm}">Edit in JOSM</a>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var refreshFromServerUrl = [[${refreshFromServerUrl}]];
+        /*]]>*/
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#refresh-from-server").click(function () {
+                var request = $.getJSON({
+                    url: refreshFromServerUrl,
+                    data: {
+                        'cachebuster': new Date().getTime()
+                    },
+                    success: onMapMoveEnd
+                });
+
+                // TODO pop up small div that goes away by itself...
+
+                return false;
+            });
+        });
+    </script>
 </div>
