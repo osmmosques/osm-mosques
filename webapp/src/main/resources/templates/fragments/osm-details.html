@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div th:fragment="osm-details" id="osm-details">
+    Detailed information for OSM <span th:remove="tag" th:text="${placeType}"/>
+    '<span th:remove="tag" th:text="${placeName}"/>'
+    <p/>
+    Place Id: '<span th:remove="tag" th:text="${placeKey}"/>'
+    <p/>
+</div>
+</body>
+</html>
