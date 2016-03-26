@@ -330,7 +330,7 @@ public class OsmConverterServiceImpl implements OsmConverterService
             place.setModificationTime(DateTime.now());
             place = osmMosquePlaceRepository.save(place);
 
-            LOGGER.debug("Saved Place {}", place);
+            LOGGER.info("Saved Place {}", place);
         }
         catch (Exception e)
         {

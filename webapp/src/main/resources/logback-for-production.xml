@@ -31,6 +31,7 @@
 
     <logger name="com.gurkensalat.osm.repository.DitibParserRepositoryImpl" level="info"/>
     <logger name="com.gurkensalat.osm.repository.OsmRepositoryImpl" level="info"/>
+    <logger name="com.gurkensalat.osm.mosques.service.OsmConverterServiceImpl" level="info"/>
 
     <root level="debug">
         <!-- <appender-ref ref="console"/> -->
