@@ -26,6 +26,7 @@ import com.gurkensalat.osm.mosques.entity.OsmMosqueEntityComponentScanMarker;
 import com.gurkensalat.osm.mosques.entity.StatisticsEntityComponentScanMarker;
 import com.gurkensalat.osm.mosques.repository.OsmMosqueRepositoryComponentScanMarker;
 import com.gurkensalat.osm.mosques.repository.StatisticsRepositoryComponentScanMarker;
+import com.gurkensalat.osm.mosques.service.GeocodingServiceComponentScanMarker;
 import com.gurkensalat.osm.repository.RepositoryComponentScanMarker;
 import com.tandogan.geostuff.opencagedata.GeocodeRepositoryComponentScanMarker;
 import com.tandogan.geostuff.opencagedata.entity.GeocodeEntityComponentScanMarker;
@@ -65,7 +66,8 @@ import java.util.Locale;
         OsmMosqueEntityComponentScanMarker.class,
         OsmMosqueRepositoryComponentScanMarker.class,
         GeocodeEntityComponentScanMarker.class,
-        GeocodeRepositoryComponentScanMarker.class
+        GeocodeRepositoryComponentScanMarker.class,
+        GeocodingServiceComponentScanMarker.class
 })
 @EnableJpaRepositories(basePackageClasses = {RepositoryComponentScanMarker.class, StatisticsRepositoryComponentScanMarker.class})
 @EntityScan(basePackageClasses = {EntityComponentScanMarker.class, StatisticsEntityComponentScanMarker.class})
