@@ -58,6 +58,11 @@ public class OsmRestController
     @Value("${osm.data.location}")
     private String dataLocation;
 
+    public static String getRequestReimportFromServer()
+    {
+        return REQUEST_REIMPORT_FROM_SERVER;
+    }
+
     @RequestMapping(value = REQUEST_ROOT, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> allMethods()
@@ -149,7 +154,7 @@ public class OsmRestController
         return new GenericResponse("O.K., Massa!");
     }
 
-    @RequestMapping(value = REQUEST_REIMPORT_FROM_SERVER + "/{osmId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = REQUEST_REIMPORT_FROM_SERVER + "/{osmId}", method = {RequestMethod.GET, RequestMethod.POST}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public GenericResponse reimportFromServer(@PathVariable("osmId") String osmId)
     {

@@ -91,7 +91,7 @@ public class MapController
         model.addAttribute("placeName", place.getName());
         model.addAttribute("placeKey", place.getKey());
 
-        UriComponentsBuilder builder = UriComponentsBuilder.newInstance()
+        UriComponentsBuilder editInJosmBuilder = UriComponentsBuilder.newInstance()
                 .scheme("http")
                 .host("localhost")
                 .port(8111)
@@ -106,19 +106,19 @@ public class MapController
                 id = id.substring(1);
             }
 
-            builder.queryParam("select", "way" + id);
+            editInJosmBuilder.queryParam("select", "way" + id);
         }
         else
         {
             model.addAttribute("placeType", "Node");
 
-            builder.queryParam("select", "node" + place.getKey());
+            editInJosmBuilder.queryParam("select", "node" + place.getKey());
         }
 
-        builder.queryParam("left", place.getLon() - 0.001);
-        builder.queryParam("right", place.getLon() + 0.001);
-        builder.queryParam("top", place.getLat() + 0.001);
-        builder.queryParam("bottom", place.getLat() - 0.001);
+        editInJosmBuilder.queryParam("left", place.getLon() - 0.001);
+        editInJosmBuilder.queryParam("right", place.getLon() + 0.001);
+        editInJosmBuilder.queryParam("top", place.getLat() + 0.001);
+        editInJosmBuilder.queryParam("bottom", place.getLat() - 0.001);
 
         // http://localhost:8111/load_and_zoom?
         // addtags=wikipedia:de=Wei%C3%9Fe_Gasse%7Cmaxspeed=5&
@@ -128,14 +128,23 @@ public class MapController
         // top=51.049987191025&
         // bottom=51.048466954325
 
-        model.addAttribute("josmEditUrl", builder.toUriString());
+        model.addAttribute("josmEditUrl", editInJosmBuilder.toUriString());
 
         // TODO this is still a bit hackish... The country should come from the session
         if ("".equals(StringUtils.stripToEmpty(place.getCountryFromOSM())))
         {
-            builder.queryParam("addtags", "addr:country=TR");
+            editInJosmBuilder.queryParam("addtags", "addr:country=TR");
         }
 
-        model.addAttribute("josmEditUrlUnassignedCountry", builder.toUriString());
+        model.addAttribute("josmEditUrlUnassignedCountry", editInJosmBuilder.toUriString());
+
+
+        // http://localhost:8888/rest/osm/reimport/3370089414
+        // Actually, this needs some help from the thymleaf configuration...
+        UriComponentsBuilder refreshFromServerBuilder = UriComponentsBuilder.newInstance()
+                .path(OsmRestController.getRequestReimportFromServer() + "/" + place.getKey());
+
+        model.addAttribute("refreshFromServerUrl", refreshFromServerBuilder.toUriString());
+
     }
 }
