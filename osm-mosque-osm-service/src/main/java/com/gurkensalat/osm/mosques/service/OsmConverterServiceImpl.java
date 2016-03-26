@@ -71,12 +71,12 @@ public class OsmConverterServiceImpl implements OsmConverterService
         LOGGER.info("Data Directory is {}", dataFile.getAbsolutePath());
 
         OsmRoot root = osmParserRepository.parse(dataFile);
+        LOGGER.info("Read {} nodes from {}", root.getNodes().size(), dataFile.getName());
+
         for (OsmNode node : root.getNodes())
         {
             persistOsmNode(node, null, null);
         }
-
-        LOGGER.info("Read {} nodes from {}", root.getNodes().size(), dataFile.getName());
     }
 
     public void importWays(String path)
@@ -103,24 +103,44 @@ public class OsmConverterServiceImpl implements OsmConverterService
         LOGGER.info("Data Directory is {}", dataFile.getAbsolutePath());
 
         OsmRoot root = osmParserRepository.parse(dataFile);
+        LOGGER.info("Read {} ways from {}", root.getNodes().size(), dataFile.getName());
+
         for (OsmWay way : root.getWays())
         {
             persistOsmWay(way, null, null);
         }
-
-        LOGGER.info("Read {} ways from {}", root.getNodes().size(), dataFile.getName());
     }
 
     @Override
     public void fetchAndImportNode(String id)
     {
         LOGGER.info("Request to re-import node {} arrived.", id);
+
+        long parsedId = Long.parseLong(id);
+        OsmRoot root = osmParserRepository.loadNodeFromServer(parsedId);
+
+        LOGGER.info("Read {} nodes and {} ways from server.", root.getNodes().size(), root.getWays().size());
+
+        for (OsmNode node : root.getNodes())
+        {
+            persistOsmNode(node, null, null);
+        }
     }
 
     @Override
     public void fetchAndImportWay(String id)
     {
         LOGGER.info("Request to re-import way {} arrived.", id);
+
+        long parsedId = Long.parseLong(id);
+        OsmRoot root = osmParserRepository.loadWayFromServer(parsedId);
+
+        LOGGER.info("Read {} nodes and {} ways from server.", root.getNodes().size(), root.getWays().size());
+
+        for (OsmWay way : root.getWays())
+        {
+            persistOsmWay(way, null, null);
+        }
     }
     /*
         LOGGER.info("About to import OSM data from {} / {}", dataLocation, path);
@@ -231,7 +251,7 @@ public class OsmConverterServiceImpl implements OsmConverterService
     private void persistOsmWay(OsmWay way, String countryCode, String state)
     {
 
-        LOGGER.debug("Read node: {}, {}, {}", way, way.getLat(), way.getLon());
+        LOGGER.debug("Read way: {}, {}, {}", way, way.getLat(), way.getLon());
 
         String key = Long.toString(way.getId() + OsmMosquePlace.getWayOffset());
 
