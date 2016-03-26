@@ -18,6 +18,7 @@
         <module>osm-mosque-osm-service</module>
         <module>osm-mosque-parser</module>
         <module>osm-mosque-persistence</module>
+        <module>osm-mosque-geocoding-service</module>
         <module>osm-mosque-qa-persistence</module>
         <module>osm-mosque-statistics-persistence</module>
         <module>osm-mosque-statistics-service</module>
@@ -202,6 +203,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>osm-mosque-persistence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>osm-mosque-geocoding-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
