@@ -92,9 +92,11 @@ public class MapController
         model.addAttribute("placeKey", place.getKey());
 
         UriComponentsBuilder editInJosmBuilder = UriComponentsBuilder.newInstance()
+                // .scheme("http")
+                // .port(8111)
                 .scheme("https")
+                .port(8112)
                 .host("localhost")
-                .port(8111)
                 .path("load_and_zoom");
 
         if (place.getKey().length() > 14)
