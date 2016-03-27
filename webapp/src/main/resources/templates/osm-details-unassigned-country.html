@@ -10,9 +10,6 @@
        th:href="${refreshFromServerUrl}"
        th:text="#{map.refresh-from-server}">Refresh</a>
 
-    <a class="fa fa-pencil" target="_josm" href="http://www.google.com/" th:href="${josmEditUrlUnassignedCountry}"
-       th:text="#{map.edit-in-josm}">Edit in JOSM</a>
-
     <script th:inline="javascript">
         /*<![CDATA[*/
         var refreshFromServerUrl = [[${refreshFromServerUrl}]];
@@ -24,6 +21,34 @@
             $("#refresh-from-server").click(function () {
                 var request = $.getJSON({
                     url: refreshFromServerUrl,
+                    data: {
+                        'cachebuster': new Date().getTime()
+                    },
+                    success: onMapMoveEnd
+                });
+
+                // TODO pop up small div that goes away by itself...
+
+                return false;
+            });
+        });
+    </script>
+
+    <a class="fa fa-pencil" id="edit-in-josm-unassigned-country" target="_josm" href="http://www.google.com/"
+       th:href="${josmEditUrlUnassignedCountry}"
+       th:text="#{map.edit-in-josm}">Edit in JOSM</a>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var josmEditUrlUnassignedCountry = [[${josmEditUrlUnassignedCountry}]];
+        /*]]>*/
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#edit-in-josm-unassigned-country").click(function () {
+                var request = $.getJSON({
+                    url: josmEditUrlUnassignedCountry,
                     data: {
                         'cachebuster': new Date().getTime()
                     },

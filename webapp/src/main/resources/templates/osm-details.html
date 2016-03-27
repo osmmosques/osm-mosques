@@ -5,7 +5,31 @@
 
     <div id="osm-details" th:replace="fragments/osm-details :: osm-details">OSM Details common stuff</div>
 
-    <a class="fa fa-pencil" target="_josm" href="http://www.google.com/" th:href="${josmEditUrl}"
+    <a class="fa fa-pencil" id="edit-in-josm" target="_josm" href="http://www.google.com/"
+       th:href="${josmEditUrlUnassignedCountry}"
        th:text="#{map.edit-in-josm}">Edit in JOSM</a>
 
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var josmEditUrl = [[${josmEditUrl}]];
+        /*]]>*/
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#edit-in-josm").click(function () {
+                var request = $.getJSON({
+                    url: josmEditUrl,
+                    data: {
+                        'cachebuster': new Date().getTime()
+                    },
+                    success: onMapMoveEnd
+                });
+
+                // TODO pop up small div that goes away by itself...
+
+                return false;
+            });
+        });
+    </script>
 </div>
