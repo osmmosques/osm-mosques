@@ -4,7 +4,6 @@ package com.gurkensalat.osm.mosques;
 import com.gurkensalat.osm.entity.PlaceType;
 import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
 import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+
+import static org.apache.commons.lang3.StringUtils.stripToEmpty;
 
 @Controller
 public class MapController
@@ -29,6 +30,8 @@ public class MapController
 
     private final static String REQUEST_MAP_UNASSIGNED_COUNTRY_OSM_POPUP = "/osm-details-unassigned-country-for-popup";
 
+    private static String countryCodeToAdd = "TR";
+
     @Autowired
     private OsmMosquePlaceRepository osmMosquePlaceRepository;
 
@@ -39,8 +42,10 @@ public class MapController
     }
 
     @RequestMapping(REQUEST_MAP_UNASSIGNED_COUNTRY)
-    String mapUnassignedCountry()
+    String mapUnassignedCountry(@RequestParam(value = "countryCode", defaultValue = "TR", required = false) String countryCode)
     {
+        countryCodeToAdd = countryCode;
+
         // TODO set 'flavour' property and include the main map html
         return "map-unassigned-country";
     }
@@ -82,7 +87,7 @@ public class MapController
     private void populateModel(Model model, OsmMosquePlace place)
     {
 
-        if ("".equals(StringUtils.trimToEmpty(place.getName())))
+        if ("".equals(stripToEmpty(place.getName())))
         {
             place.setName(place.getKey());
         }
@@ -133,9 +138,12 @@ public class MapController
         model.addAttribute("josmEditUrl", editInJosmBuilder.toUriString());
 
         // TODO this is still a bit hackish... The country should come from the session
-        if ("".equals(StringUtils.stripToEmpty(place.getCountryFromOSM())))
+        if ("".equals(stripToEmpty(place.getCountryFromOSM())))
         {
-            editInJosmBuilder.queryParam("addtags", "addr:country=TR");
+            if (!("".equals(countryCodeToAdd)))
+            {
+                editInJosmBuilder.queryParam("addtags", "addr:country=" + countryCodeToAdd);
+            }
         }
 
         model.addAttribute("josmEditUrlUnassignedCountry", editInJosmBuilder.toUriString());
