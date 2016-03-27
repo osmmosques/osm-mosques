@@ -93,7 +93,6 @@ public class StatisticsServiceImpl implements StatisticsService
                 // We already have a valid entry in the Map
                 if (place.getKey().length() > 12)
                 {
-                    LOGGER.info("Key Length: {} , {}", place.getKey().length(), place.getKey());
                     entry.setOsmMosqueWays(entry.getOsmMosqueWays() + 1);
                 }
                 else
