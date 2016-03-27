@@ -2,13 +2,13 @@
 host = https://www.transifex.com
 minimum_perc = 80
 
-[osm-mosques.countryNames]
+[osm-mosques-country-names.ISO3166_1]
 file_filter = osm-mosque-common/src/main/resources/i18n/countryNames_<lang>.properties
 source_file = osm-mosque-common/src/main/resources/i18n/countryNames.properties
 source_lang = en
 type = PROPERTIES
 
-[osm-mosques.webapp-messages]
+[osm-mosques-webapp-frontend.messages]
 file_filter = webapp/src/main/resources/i18n/messages_<lang>.properties
 source_file = webapp/src/main/resources/i18n/messages.properties
 source_lang = en
