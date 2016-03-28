@@ -78,7 +78,14 @@ public class StatisticsController
         }
 
         List<StatisticsEntry> topCountries = new ArrayList<>();
-        topCountries.addAll(countries.subList(0, 10));
+        if (countries.size() > 10)
+        {
+            topCountries.addAll(countries.subList(0, 10));
+        }
+        else
+        {
+            topCountries.addAll(countries);
+        }
 
         model.addAttribute("statisticsEntries", statisticsEntries);
 
