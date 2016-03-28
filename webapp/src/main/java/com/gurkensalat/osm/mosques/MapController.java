@@ -1,6 +1,7 @@
 package com.gurkensalat.osm.mosques;
 
 
+import com.gurkensalat.osm.entity.OsmEntityType;
 import com.gurkensalat.osm.entity.PlaceType;
 import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
 import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
@@ -86,6 +87,18 @@ public class MapController
 
     private void populateModel(Model model, OsmMosquePlace place)
     {
+        String osmId = place.getKey();
+
+        if (osmId.length() > 14)
+        {
+            osmId = osmId.substring(1);
+
+            while (osmId.charAt(0) == '0')
+            {
+                osmId = osmId.substring(1);
+            }
+        }
+
         if ("".equals(stripToEmpty(place.getName())))
         {
             place.setName(place.getKey());
@@ -116,19 +129,13 @@ public class MapController
                 .host("localhost")
                 .path("load_and_zoom");
 
-        if (place.getKey().length() > 14)
+        if (place.getType() == OsmEntityType.WAY)
         {
-            String id = place.getKey().substring(2);
-            while (id.charAt(0) == '0')
-            {
-                id = id.substring(1);
-            }
-
-            editInJosmBuilder.queryParam("select", "way" + id);
+            editInJosmBuilder.queryParam("select", "way" + osmId);
         }
         else
         {
-            editInJosmBuilder.queryParam("select", "node" + place.getKey());
+            editInJosmBuilder.queryParam("select", "node" + osmId);
         }
 
         editInJosmBuilder.queryParam("left", place.getLon() - 0.001);
@@ -165,5 +172,19 @@ public class MapController
 
         model.addAttribute("refreshFromServerUrl", refreshFromServerBuilder.toUriString());
 
+        UriComponentsBuilder detailsOnOSMBuilder = UriComponentsBuilder.newInstance()
+                .scheme("https")
+                .host("www.openstreetmap.org");
+
+        if (place.getType() == OsmEntityType.WAY)
+        {
+            detailsOnOSMBuilder.path("way/" + osmId);
+        }
+        else
+        {
+            detailsOnOSMBuilder.path("node/" + osmId);
+        }
+
+        model.addAttribute("detailsOnOSM", detailsOnOSMBuilder.toUriString());
     }
 }

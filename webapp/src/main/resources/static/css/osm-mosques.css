@@ -30,6 +30,14 @@ body {
     vertical-align: top;
 }
 
+#details-on-osm {
+    margin-right: 10px;
+}
+
+#refresh-from-server {
+    margin-right: 10px;
+}
+
 .navbar {
     height: 75px;
     color: #6B6B6B;

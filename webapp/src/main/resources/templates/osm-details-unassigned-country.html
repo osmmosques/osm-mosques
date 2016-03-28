@@ -6,6 +6,10 @@
     <div id="osm-details" th:replace="fragments/osm-details :: osm-details">OSM Details common stuff</div>
 
 
+    <a class="fa fa-info" id="details-on-osm" target="_osm" href="http://www.google.com/"
+       th:href="${detailsOnOSM}"
+       th:text="#{map.details-on-osm}">Details on OSM</a>
+
     <a class="fa fa-refresh" id="refresh-from-server" target="_refresh" href="http://www.google.com/"
        th:href="${refreshFromServerUrl}"
        th:text="#{map.refresh-from-server}">Refresh</a>

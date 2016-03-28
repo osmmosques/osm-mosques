@@ -5,6 +5,10 @@
 
     <div id="osm-details" th:replace="fragments/osm-details :: osm-details">OSM Details common stuff</div>
 
+    <a class="fa fa-info" id="details-on-osm" target="_osm" href="http://www.google.com/"
+       th:href="${detailsOnOSM}"
+       th:text="#{map.details-on-osm}">Details on OSM</a>
+
     <a class="fa fa-pencil" id="edit-in-josm" target="_josm" href="http://www.google.com/"
        th:href="${josmEditUrlUnassignedCountry}"
        th:text="#{map.edit-in-josm}">Edit in JOSM</a>
