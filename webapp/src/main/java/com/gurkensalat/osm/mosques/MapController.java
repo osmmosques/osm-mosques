@@ -86,7 +86,6 @@ public class MapController
 
     private void populateModel(Model model, OsmMosquePlace place)
     {
-
         if ("".equals(stripToEmpty(place.getName())))
         {
             place.setName(place.getKey());
@@ -95,6 +94,14 @@ public class MapController
         model.addAttribute("place", place);
         model.addAttribute("placeName", place.getName());
         model.addAttribute("placeKey", place.getKey());
+        model.addAttribute("placeStreet", place.getAddress().getStreet());
+        model.addAttribute("placeHouseNumber", place.getAddress().getHousenumber());
+        model.addAttribute("placeCity", place.getAddress().getCity());
+        model.addAttribute("placePostcode", place.getAddress().getPostcode());
+        model.addAttribute("placeCountryCode", place.getAddress().getCountry());
+
+        model.addAttribute("placeCountry", Countries.getCountries().getOrDefault(
+                stripToEmpty(place.getAddress().getCountry().toLowerCase()), "Unassigned..."));
 
         UriComponentsBuilder editInJosmBuilder = UriComponentsBuilder.newInstance()
                 // .scheme("http")
