@@ -26,6 +26,10 @@ body {
     top: 85px;
 }
 
+.details td {
+    vertical-align: top;
+}
+
 .navbar {
     height: 75px;
     color: #6B6B6B;
