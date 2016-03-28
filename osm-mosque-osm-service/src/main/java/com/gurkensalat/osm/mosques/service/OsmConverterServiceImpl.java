@@ -1,5 +1,6 @@
 package com.gurkensalat.osm.mosques.service;
 
+import com.gurkensalat.osm.entity.OsmEntityType;
 import com.gurkensalat.osm.entity.OsmNode;
 import com.gurkensalat.osm.entity.OsmNodeTag;
 import com.gurkensalat.osm.entity.OsmRoot;
@@ -230,7 +231,8 @@ public class OsmConverterServiceImpl implements OsmConverterService
         // re-create a place from OSM data
         OsmMosquePlace tempPlace = new OsmMosquePlace(node);
         tempPlace.setKey(key);
-        tempPlace.setType(PlaceType.OSM_PLACE_OF_WORSHIP);
+        tempPlace.setType(OsmEntityType.NODE);
+        tempPlace.setPlaceType(PlaceType.OSM_PLACE_OF_WORSHIP);
         tempPlace.setCountryFromOSM(tempPlace.getAddress().getCountry());
 
         OsmMosquePlace place = persistOsmMosquePlace(tempPlace, key, countryCode, state);
@@ -258,7 +260,8 @@ public class OsmConverterServiceImpl implements OsmConverterService
         // re-create a place from OSM data
         OsmMosquePlace tempPlace = new OsmMosquePlace(way);
         tempPlace.setKey(key);
-        tempPlace.setType(PlaceType.OSM_PLACE_OF_WORSHIP);
+        tempPlace.setType(OsmEntityType.WAY);
+        tempPlace.setPlaceType(PlaceType.OSM_PLACE_OF_WORSHIP);
         tempPlace.setCountryFromOSM(tempPlace.getAddress().getCountry());
 
         OsmMosquePlace place = persistOsmMosquePlace(tempPlace, key, countryCode, state);
