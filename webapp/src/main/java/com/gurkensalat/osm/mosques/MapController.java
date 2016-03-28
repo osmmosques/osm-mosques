@@ -103,6 +103,11 @@ public class MapController
         model.addAttribute("placeCountry", Countries.getCountries().getOrDefault(
                 stripToEmpty(place.getAddress().getCountry().toLowerCase()), "Unassigned..."));
 
+        model.addAttribute("placeType", "amenity - place_of_worship");
+
+        model.addAttribute("_placeKey", place.getKey());
+        model.addAttribute("_placeType", place.getType());
+
         UriComponentsBuilder editInJosmBuilder = UriComponentsBuilder.newInstance()
                 // .scheme("http")
                 // .port(8111)
@@ -113,7 +118,6 @@ public class MapController
 
         if (place.getKey().length() > 14)
         {
-            model.addAttribute("placeType", "Way");
             String id = place.getKey().substring(2);
             while (id.charAt(0) == '0')
             {
@@ -124,8 +128,6 @@ public class MapController
         }
         else
         {
-            model.addAttribute("placeType", "Node");
-
             editInJosmBuilder.queryParam("select", "node" + place.getKey());
         }
 

@@ -59,6 +59,25 @@
                 </td>
             </tr>
 
+            <tr>
+                <td>
+                    <label th:text="#{map.details._key}">Key</label>
+                </td>
+                <td>
+                    <input type="text" class="form-control" th:readonly="true" id="_placeKey" th:value="${placeKey}"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label th:text="#{map.details._type}">Type</label>
+                </td>
+                <td>
+                    <input type="text" class="form-control" th:readonly="true" id="_placeType"
+                           th:value="${_placeType}"/>
+                </td>
+            </tr>
+
             </tbody>
 
         </table>
