@@ -29,7 +29,7 @@
 
             <tr>
                 <td>
-                    <label th:text="#{map.details.address}">Address</label>
+                    <label th:text="#{map.details.street}">Street</label>
                 </td>
                 <td>
                     <input type="text" class="form-control" th:readonly="true" id="placeStreet"
@@ -41,6 +41,7 @@
 
             <tr>
                 <td>
+                    <label th:text="#{map.details.city}">City</label>
                 </td>
                 <td>
                     <input type="text" class="form-control" th:readonly="true" id="placePostcode"
@@ -50,6 +51,7 @@
             </tr>
             <tr>
                 <td>
+                    <label th:text="#{map.details.country}">Country</label>
                 </td>
                 <td>
                     <input type="text" class="form-control" th:readonly="true" id="placeCountryCode"
