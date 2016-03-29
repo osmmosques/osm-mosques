@@ -99,7 +99,7 @@
                 <td>
                     <i class="fa fa-map-marker">
                         <a target="map" th:text="#{statistics.link-to-map}"
-                           th:href="@{/} + '#zoom=7&amp;lat=' + ${statisticsEntry.centroidLat} + '&amp;lon=' + ${statisticsEntry.centroidLat}"></a>
+                           th:href="@{/} + '#zoom=7&amp;lat=' + ${statisticsEntry.centroidLat} + '&amp;lon=' + ${statisticsEntry.centroidLon}"></a>
                     </i>
                 </td>
                 <td th:text="${statisticsEntry.osmMosqueTotal}"></td>
