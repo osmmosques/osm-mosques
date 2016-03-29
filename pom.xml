@@ -59,6 +59,7 @@
         <spring-data.version>1.9.4.RELEASE</spring-data.version>
         <spring-data-rest.version>2.4.4.RELEASE</spring-data-rest.version>
         <spring-session.version>1.1.1.RELEASE</spring-session.version>
+        <spring-social.version>1.1.4.RELEASE</spring-social.version>
 
         <commons-codec.version>1.6</commons-codec.version>
         <commons-collections.version>4.1</commons-collections.version>
@@ -374,6 +375,12 @@
                 <groupId>org.springframework.session</groupId>
                 <artifactId>spring-session</artifactId>
                 <version>${spring-session.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.social</groupId>
+                <artifactId>spring-social-core</artifactId>
+                <version>${spring-social.version}</version>
             </dependency>
 
             <dependency>
