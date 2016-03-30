@@ -1,6 +1,7 @@
 package com.gurkensalat.osm.mosques.service;
 
 import com.gurkensalat.osm.entity.Address;
+import com.gurkensalat.osm.mosques.Countries;
 import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
 import com.gurkensalat.osm.mosques.entity.StatisticsEntry;
 import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
@@ -42,6 +43,11 @@ public class StatisticsServiceImpl implements StatisticsService
 
         HashMap<String, StatisticsEntry> entries = new HashMap<>();
 
+        for (String countryCode : Countries.getCountries().keySet())
+        {
+            cache(entries, countryCode);
+        }
+
         Iterable<OsmMosquePlace> places = osmMosquePlaceRepository.findAll();
         if (places != null)
         {
@@ -66,29 +72,7 @@ public class StatisticsServiceImpl implements StatisticsService
 
                 countryCode = place.getAddress().getCountry();
 
-                StatisticsEntry entry = entries.get(countryCode);
-                if (entry == null)
-                {
-                    // Try to load entry from database
-                    entry = findOrCreate(countryCode);
-
-                    // Initialize all Integer attributes
-                    entry.setOsmMosqueNodes(0);
-                    entry.setOsmMosqueWays(0);
-
-                    entry.setMinLat(1000);
-                    entry.setMaxLat(-1000);
-
-                    entry.setMinLon(1000);
-                    entry.setMaxLon(-1000);
-
-                    entry.setCentroidLat(0);
-                    entry.setCentroidLon(0);
-
-                    entry = statisticsRepository.save(entry);
-
-                    entries.put(countryCode, entry);
-                }
+                StatisticsEntry entry = cache(entries, countryCode);
 
                 // We already have a valid entry in the Map
                 if (place.getKey().length() > 12)
@@ -127,6 +111,35 @@ public class StatisticsServiceImpl implements StatisticsService
         }
 
         statisticsRepository.deleteAllInvalid();
+    }
+
+    private StatisticsEntry cache(HashMap<String, StatisticsEntry> cache, String countryCode)
+    {
+        StatisticsEntry entry = cache.get(countryCode);
+        if (entry == null)
+        {
+            // Try to load entry from database
+            entry = findOrCreate(countryCode);
+
+            // Initialize all Integer attributes
+            entry.setOsmMosqueNodes(0);
+            entry.setOsmMosqueWays(0);
+
+            entry.setMinLat(1000);
+            entry.setMaxLat(-1000);
+
+            entry.setMinLon(1000);
+            entry.setMaxLon(-1000);
+
+            entry.setCentroidLat(0);
+            entry.setCentroidLon(0);
+
+            entry = statisticsRepository.save(entry);
+
+            cache.put(countryCode, entry);
+        }
+
+        return entry;
     }
 
     private StatisticsEntry findOrCreate(String countryCode)
