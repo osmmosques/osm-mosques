@@ -1,6 +1,7 @@
 package com.gurkensalat.osm.mosques;
 
-
+import com.gurkensalat.osm.entity.Address;
+import com.gurkensalat.osm.entity.Contact;
 import com.gurkensalat.osm.entity.OsmEntityType;
 import com.gurkensalat.osm.entity.PlaceType;
 import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
@@ -80,6 +81,16 @@ public class MapController
         if (!((places == null) || (places.size() == 0)))
         {
             place = places.get(0);
+        }
+
+        if (place.getAddress() == null)
+        {
+            place.setAddress(new Address());
+        }
+
+        if (place.getContact() == null)
+        {
+            place.setContact(new Contact());
         }
 
         return place;
