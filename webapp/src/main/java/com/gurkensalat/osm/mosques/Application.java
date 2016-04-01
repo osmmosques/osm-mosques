@@ -31,6 +31,10 @@ import com.gurkensalat.osm.repository.RepositoryComponentScanMarker;
 import com.tandogan.geostuff.opencagedata.GeocodeRepositoryComponentScanMarker;
 import com.tandogan.geostuff.opencagedata.entity.GeocodeEntityComponentScanMarker;
 import org.apache.commons.lang3.CharEncoding;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.annotation.RabbitListenerConfigurer;
+import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistrar;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -41,6 +45,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.handler.annotation.support.DefaultMessageHandlerMethodFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.LocaleResolver;
@@ -71,7 +77,8 @@ import java.util.Locale;
 })
 @EnableJpaRepositories(basePackageClasses = {RepositoryComponentScanMarker.class, StatisticsRepositoryComponentScanMarker.class})
 @EntityScan(basePackageClasses = {EntityComponentScanMarker.class, StatisticsEntityComponentScanMarker.class})
-public class Application extends WebMvcConfigurerAdapter
+@EnableRabbit
+public class Application extends WebMvcConfigurerAdapter implements RabbitListenerConfigurer
 {
     public static void main(String[] args)
     {
@@ -106,5 +113,26 @@ public class Application extends WebMvcConfigurerAdapter
         messageSource.setFallbackToSystemLocale(false);
         messageSource.setDefaultEncoding(CharEncoding.UTF_8);
         return messageSource;
+    }
+
+    @Override
+    public void configureRabbitListeners(RabbitListenerEndpointRegistrar registrar)
+    {
+        registrar.setMessageHandlerMethodFactory(myHandlerMethodFactory());
+    }
+
+    @Bean
+    public DefaultMessageHandlerMethodFactory myHandlerMethodFactory()
+    {
+        DefaultMessageHandlerMethodFactory factory = new DefaultMessageHandlerMethodFactory();
+        factory.setMessageConverter(jackson2Converter());
+        return factory;
+    }
+
+    @Bean
+    public MappingJackson2MessageConverter jackson2Converter()
+    {
+        MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+        return converter;
     }
 }
