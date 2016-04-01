@@ -45,7 +45,7 @@ public class StatisticsRestController
         return new GenericResponse("Calculation triggered");
     }
 
-    @RequestMapping(value = REQUEST_ROOT + "/demo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/rest/internal/demo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public GenericResponse demo()
     {
@@ -55,9 +55,9 @@ public class StatisticsRestController
         }
         catch (Exception e)
         {
-            LOGGER.error("While launching statistics calculation", e);
+            LOGGER.error("While launching messaging demo", e);
         }
 
-        return new GenericResponse("Calculation triggered");
+        return new GenericResponse("Demo triggered");
     }
 }
