@@ -2,17 +2,6 @@ package com.gurkensalat.osm.mosques.jobs;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -31,54 +20,57 @@ public class ExchangeConfiguration
      * Look at the Auto-declaring part....
      */
 
-    @Autowired
-    RabbitTemplate rabbitTemplate;
+//    @Autowired
+//    RabbitTemplate rabbitTemplate;
 
-    @Value("${mq.exchange.name}")
-    private String exchangeName;
+//    @Value("${mq.exchange.name}")
+//    private String exchangeName;
 
-    @Value("${mq.demo.queue.name}")
-    private String demoQueueName;
+//    @Value("${mq.demo.queue.name}")
+//    private String demoQueueName;
 
-    @Bean
-    DemoReceiver demoReceiver()
-    {
-        return new DemoReceiver();
-    }
+//    @Value("${mq.queue.calculate-statistics}")
+//    private String calculateStatisticsQueueName;
 
-    @Bean
-    Queue demoQueue()
-    {
-        return new Queue(demoQueueName, true);
-    }
-
-    @Bean
-    SimpleMessageListenerContainer container(ConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter)
-    {
-        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(demoQueueName);
-        container.setMessageListener(listenerAdapter);
-        return container;
-    }
-
-    @Bean
-    TopicExchange exchange()
-    {
-        return new TopicExchange(exchangeName, true, false);
-    }
-
-    @Bean
-    Binding demoBinding(Queue queue, TopicExchange exchange)
-    {
-        return BindingBuilder.bind(queue).to(exchange).with(demoQueueName);
-    }
-
-    @Bean
-    MessageListenerAdapter listenerAdapter(DemoReceiver receiver)
-    {
-        String defaultListenerMethod = "receiveMessage";
-        return new MessageListenerAdapter(receiver, defaultListenerMethod);
-    }
-
+//    @Bean
+//    DemoReceiver demoReceiver()
+//    {
+//        return new DemoReceiver();
+//    }
+//
+//    @Bean
+//    @Qualifier("demoBindingQueue")
+//    Queue demoQueue()
+//    {
+//        return new Queue(demoQueueName, true);
+//    }
+//
+//    @Bean
+//    SimpleMessageListenerContainer container(ConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter)
+//    {
+//        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+//        container.setConnectionFactory(connectionFactory);
+//        container.setQueueNames(demoQueueName);
+//        container.setMessageListener(listenerAdapter);
+//        return container;
+//    }
+//
+//    @Bean
+//    TopicExchange exchange()
+//    {
+//        return new TopicExchange(exchangeName, true, false);
+//    }
+//
+//    @Bean
+//    Binding demoBinding(Queue queue, TopicExchange exchange)
+//    {
+//        return BindingBuilder.bind(queue).to(exchange).with(demoQueueName);
+//    }
+//
+//    @Bean
+//    MessageListenerAdapter listenerAdapter(DemoReceiver receiver)
+//    {
+//        String defaultListenerMethod = "receiveMessage";
+//        return new MessageListenerAdapter(receiver, defaultListenerMethod);
+//    }
 }

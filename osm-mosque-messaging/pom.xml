@@ -18,6 +18,12 @@
     </properties>
 
     <dependencies>
+        <!-- Our own libraries -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>osm-mosque-statistics-service</artifactId>
+        </dependency>
+
         <!-- Spring goes here -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

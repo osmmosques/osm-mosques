@@ -7,15 +7,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DemoProducer
+public class CalculatorStatisticsProducer
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger(DemoProducer.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(CalculatorStatisticsProducer.class);
 
-    @Value("${mq.queue.demo.name}")
+    @Value("${mq.queue.calculate-statistics.name}")
     private String queueName;
 
     @Autowired
-    private DemoProducerConfiguration demoProducerConfiguration;
+    private CalculatorStatisticsProducerConfiguration calculatorStatisticsProducerConfiguration;
 
     public void enqueueMessage( /* TaskMessage taskMessage */)
     {
@@ -24,6 +24,6 @@ public class DemoProducer
 
         LOGGER.info("  sending message <{}>", message);
 
-        demoProducerConfiguration.rabbitTemplate().convertAndSend(queueName, message);
+        calculatorStatisticsProducerConfiguration.rabbitTemplate().convertAndSend(queueName, message);
     }
 }
