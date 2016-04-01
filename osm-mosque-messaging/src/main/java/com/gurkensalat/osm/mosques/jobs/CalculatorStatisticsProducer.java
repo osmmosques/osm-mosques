@@ -20,7 +20,7 @@ public class CalculatorStatisticsProducer
     public void enqueueMessage( /* TaskMessage taskMessage */)
     {
         TaskMessage message = new TaskMessage();
-        message.setMessage("Hello from Demo service...");
+        message.setMessage("Kick off some statistics...");
 
         LOGGER.info("  sending message <{}>", message);
 
