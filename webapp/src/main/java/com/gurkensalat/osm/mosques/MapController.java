@@ -88,6 +88,8 @@ public class MapController
             place.setAddress(new Address());
         }
 
+        place.getAddress().setCountry(stripToEmpty(place.getAddress().getCountry()));
+
         if (place.getContact() == null)
         {
             place.setContact(new Contact());
