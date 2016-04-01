@@ -23,12 +23,16 @@ public class RabbitMqConfiguration
     @Value("${spring.rabbitmq.password}")
     private String rabbitmqPassword;
 
+    @Value("${spring.rabbitmq.virtualHost}")
+    private String rabbitmqVirtualHost;
+
     @Bean
     public ConnectionFactory connectionFactory()
     {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory("127.0.0.1");
         connectionFactory.setUsername(rabbitmqUsername);
         connectionFactory.setPassword(rabbitmqPassword);
+        connectionFactory.setVirtualHost(rabbitmqVirtualHost);
         return connectionFactory;
     }
 
