@@ -10,13 +10,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class CalculatorStatisticsProducerConfiguration extends RabbitMqConfiguration
+public class StatisticsCalculatorConfiguration extends RabbitMqConfiguration
 {
     @Value("${mq.queue.calculate-statistics.name}")
     private String queueName;
 
     @Autowired
-    private CalculatorStatisticsHandler handler;
+    private StatisticsCalculatorHandler handler;
 
     @Bean
     public RabbitTemplate rabbitTemplate()

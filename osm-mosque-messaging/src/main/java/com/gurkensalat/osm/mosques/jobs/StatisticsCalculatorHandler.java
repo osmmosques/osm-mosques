@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 
 @Configuration
 @Component
-public class CalculatorStatisticsHandler
+public class StatisticsCalculatorHandler
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger(CalculatorStatisticsHandler.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(StatisticsCalculatorHandler.class);
 
     @Autowired
     private StatisticsService statisticsService;
