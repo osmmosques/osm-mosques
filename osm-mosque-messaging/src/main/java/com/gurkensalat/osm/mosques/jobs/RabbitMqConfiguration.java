@@ -59,6 +59,7 @@ public class RabbitMqConfiguration
         typeMapper.setDefaultType(TaskMessage.class);
 
         Map<String, Class<?>> idClassMapping = new HashMap<String, Class<?>>();
+        idClassMapping.put("com.gurkensalat.osm.mosques.jobs.ImportDataMessage", ImportDataMessage.class);
         idClassMapping.put("com.gurkensalat.osm.mosques.jobs.TaskMessage", TaskMessage.class);
         typeMapper.setIdClassMapping(idClassMapping);
 
