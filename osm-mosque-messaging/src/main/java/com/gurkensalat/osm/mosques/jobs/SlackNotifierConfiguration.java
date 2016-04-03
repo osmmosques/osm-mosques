@@ -10,13 +10,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class CalculatorStatisticsProducerConfiguration extends RabbitMqConfiguration
+public class SlackNotifierConfiguration extends RabbitMqConfiguration
 {
-    @Value("${mq.queue.calculate-statistics.name}")
+    @Value("${mq.queue.slacknotifier.name}")
     private String queueName;
 
     @Autowired
-    private CalculatorStatisticsHandler handler;
+    private SlackNotifierHandler handler;
 
     @Bean
     public RabbitTemplate rabbitTemplate()

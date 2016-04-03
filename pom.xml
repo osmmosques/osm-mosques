@@ -72,6 +72,8 @@
 
         <jsoup.version>1.8.3</jsoup.version>
 
+        <simpleslackapi.version>0.5.1</simpleslackapi.version>
+
         <!-- Javascript libraries for frontend -->
         <webjars-locator.version>0.30</webjars-locator.version>
         <font-awesome.version>4.5.0</font-awesome.version>
@@ -398,6 +400,12 @@
                 <groupId>com.connect-group</groupId>
                 <artifactId>thymeleaf-extras</artifactId>
                 <version>${thymeleaf-extras.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ullink.slack</groupId>
+                <artifactId>simpleslackapi</artifactId>
+                <version>${simpleslackapi.version}</version>
             </dependency>
 
             <!-- Javascript libraries for frontend -->

@@ -16,7 +16,7 @@ public class DemoProducerConfiguration extends RabbitMqConfiguration
     private String queueName;
 
     @Autowired
-    private DemoHandler demoHandler;
+    private DemoHandler handler;
 
     @Bean
     public RabbitTemplate rabbitTemplate()
@@ -48,6 +48,6 @@ public class DemoProducerConfiguration extends RabbitMqConfiguration
     @Bean
     public MessageListenerAdapter messageListenerAdapter()
     {
-        return new MessageListenerAdapter(demoHandler, jsonMessageConverter());
+        return new MessageListenerAdapter(handler, jsonMessageConverter());
     }
 }

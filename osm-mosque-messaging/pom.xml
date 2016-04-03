@@ -30,6 +30,12 @@
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
 
+        <!-- And other dependencies... -->
+        <dependency>
+            <groupId>com.ullink.slack</groupId>
+            <artifactId>simpleslackapi</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
