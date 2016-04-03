@@ -1,6 +1,7 @@
 package com.gurkensalat.osm.mosques;
 
 import com.gurkensalat.osm.mosques.jobs.DemoProducer;
+import com.gurkensalat.osm.mosques.jobs.SlackNotifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class ProducerRestController
     @Autowired
     DemoProducer demoProducer;
 
+    @Autowired
+    SlackNotifier slackNotifier;
+
     @RequestMapping(value = "/rest/internal/demo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public GenericResponse demo()
@@ -32,6 +36,8 @@ public class ProducerRestController
         try
         {
             demoProducer.enqueueMessage();
+
+            slackNotifier.notify("random", "Some random thingy from here...");
         }
         catch (Exception e)
         {
