@@ -1,6 +1,7 @@
 package com.gurkensalat.osm.mosques;
 
 import com.gurkensalat.osm.mosques.jobs.DemoProducer;
+import com.gurkensalat.osm.mosques.jobs.ImportData;
 import com.gurkensalat.osm.mosques.jobs.SlackNotifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,9 @@ public class ProducerRestController
     @Autowired
     SlackNotifier slackNotifier;
 
+    @Autowired
+    ImportData importData;
+
     @RequestMapping(value = "/rest/internal/demo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public GenericResponse demo()
@@ -45,5 +49,21 @@ public class ProducerRestController
         }
 
         return new GenericResponse("Demo triggered");
+    }
+
+    @RequestMapping(value = "/rest/internal/import-demo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GenericResponse importDemo()
+    {
+        try
+        {
+            importData.importData("zumfink", "From-Over-The-Rainbow");
+        }
+        catch (Exception e)
+        {
+            LOGGER.error("While launching messaging demo", e);
+        }
+
+        return new GenericResponse("Import Demo triggered");
     }
 }
