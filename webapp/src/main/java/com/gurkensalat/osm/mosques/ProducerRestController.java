@@ -6,8 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,21 +23,21 @@ public class ProducerRestController
     private final static String REQUEST_ENQUEUE = REQUEST_ROOT + "/enqueue";
 
     @Autowired
-    DemoProducer producer;
+    DemoProducer demoProducer;
 
-    @RequestMapping(value = REQUEST_ENQUEUE, produces = "application/hal+json")
+    @RequestMapping(value = "/rest/internal/demo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> allMethods()
+    public GenericResponse demo()
     {
         try
         {
-            producer.enqueueMessage();
+            demoProducer.enqueueMessage();
         }
         catch (Exception e)
         {
-            LOGGER.error("While launching Producer", e);
+            LOGGER.error("While launching messaging demo", e);
         }
 
-        return new ResponseEntity<String>("{ '_links': {} }", null, HttpStatus.OK);
+        return new GenericResponse("Demo triggered");
     }
 }

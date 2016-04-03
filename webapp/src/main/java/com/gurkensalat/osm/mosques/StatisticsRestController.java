@@ -1,7 +1,6 @@
 package com.gurkensalat.osm.mosques;
 
 import com.gurkensalat.osm.mosques.jobs.CalculatorStatisticsProducer;
-import com.gurkensalat.osm.mosques.jobs.DemoProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +25,6 @@ public class StatisticsRestController
     @Autowired
     private CalculatorStatisticsProducer calculatorStatisticsProducer;
 
-    @Autowired
-    private DemoProducer demoProducer;
-
     @RequestMapping(value = REQUEST_CALCULATE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public GenericResponse calculate()
@@ -43,21 +39,5 @@ public class StatisticsRestController
         }
 
         return new GenericResponse("Calculation triggered");
-    }
-
-    @RequestMapping(value = "/rest/internal/demo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public GenericResponse demo()
-    {
-        try
-        {
-            demoProducer.enqueueMessage();
-        }
-        catch (Exception e)
-        {
-            LOGGER.error("While launching messaging demo", e);
-        }
-
-        return new GenericResponse("Demo triggered");
     }
 }
