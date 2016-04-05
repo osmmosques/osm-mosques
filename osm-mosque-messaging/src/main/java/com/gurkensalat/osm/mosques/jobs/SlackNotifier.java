@@ -11,6 +11,8 @@ public class SlackNotifier
 {
     private final static Logger LOGGER = LoggerFactory.getLogger(SlackNotifier.class);
 
+    public static final String CHANNEL_IMPORTS = "imports";
+
     @Value("${mq.queue.slacknotifier.name}")
     private String queueName;
 
