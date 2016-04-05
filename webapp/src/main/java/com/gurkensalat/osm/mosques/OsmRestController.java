@@ -1,5 +1,7 @@
 package com.gurkensalat.osm.mosques;
 
+import com.gurkensalat.osm.mosques.jobs.SlackNotifier;
+import com.gurkensalat.osm.mosques.service.OsmConverterResult;
 import com.gurkensalat.osm.mosques.service.OsmConverterService;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
@@ -55,6 +57,9 @@ public class OsmRestController
     @Autowired
     private OsmConverterService osmConverterService;
 
+    @Autowired
+    SlackNotifier slackNotifier;
+
     @Value("${osm.data.location}")
     private String dataLocation;
 
@@ -74,7 +79,10 @@ public class OsmRestController
     @ResponseStatus(HttpStatus.OK)
     public GenericResponse importFreshenedNodes()
     {
-        osmConverterService.importNodes("world/world-religion-muslim-node-freshened.osm");
+        OsmConverterResult result = osmConverterService.importNodes("world/world-religion-muslim-node-freshened.osm");
+
+        LOGGER.info("Import done, result is {}", result);
+        slackNotifier.notify(SlackNotifier.CHANNEL_IMPORTS, prettyPrint(result));
 
         return new GenericResponse("Import kicked off.");
     }
@@ -83,7 +91,10 @@ public class OsmRestController
     @ResponseStatus(HttpStatus.OK)
     public GenericResponse importFreshenedWays()
     {
-        osmConverterService.importWays("world/world-religion-muslim-way-freshened.osm");
+        OsmConverterResult result = osmConverterService.importWays("world/world-religion-muslim-way-freshened.osm");
+
+        LOGGER.info("Import done, result is {}", result);
+        slackNotifier.notify(SlackNotifier.CHANNEL_IMPORTS, prettyPrint(result));
 
         return new GenericResponse("Import kicked off.");
     }
@@ -93,7 +104,10 @@ public class OsmRestController
     public GenericResponse importQuadtiledNodes()
     {
         String cell = calculateQuadtileCell();
-        osmConverterService.importNodes("by-quadtile/world-religion-muslim-node-by-quadtile-" + cell + ".osm");
+        OsmConverterResult result = osmConverterService.importNodes("by-quadtile/world-religion-muslim-node-by-quadtile-" + cell + ".osm");
+
+        LOGGER.info("Import done, result is {}", result);
+        slackNotifier.notify(SlackNotifier.CHANNEL_IMPORTS, prettyPrint(result));
 
         return new GenericResponse("Import kicked off.");
     }
@@ -103,7 +117,10 @@ public class OsmRestController
     public GenericResponse importQuadtiledWays()
     {
         String cell = calculateQuadtileCell();
-        osmConverterService.importWays("by-quadtile/world-religion-muslim-way-by-quadtile-" + cell + ".osm");
+        OsmConverterResult result = osmConverterService.importWays("by-quadtile/world-religion-muslim-way-by-quadtile-" + cell + ".osm");
+
+        LOGGER.info("Import done, result is {}", result);
+        slackNotifier.notify(SlackNotifier.CHANNEL_IMPORTS, prettyPrint(result));
 
         return new GenericResponse("Import kicked off.");
     }
@@ -114,7 +131,10 @@ public class OsmRestController
     {
         for (String cell : quadTiles)
         {
-            osmConverterService.importNodes("by-quadtile/world-religion-muslim-node-by-quadtile-" + cell + ".osm");
+            OsmConverterResult result = osmConverterService.importNodes("by-quadtile/world-religion-muslim-node-by-quadtile-" + cell + ".osm");
+
+            LOGGER.info("Import done, result is {}", result);
+            slackNotifier.notify(SlackNotifier.CHANNEL_IMPORTS, prettyPrint(result));
         }
 
         return new GenericResponse("Import kicked off.");
@@ -126,7 +146,10 @@ public class OsmRestController
     {
         for (String cell : quadTiles)
         {
-            osmConverterService.importWays("by-quadtile/world-religion-muslim-way-by-quadtile-" + cell + ".osm");
+            OsmConverterResult result = osmConverterService.importWays("by-quadtile/world-religion-muslim-way-by-quadtile-" + cell + ".osm");
+
+            LOGGER.info("Import done, result is {}", result);
+            slackNotifier.notify(SlackNotifier.CHANNEL_IMPORTS, prettyPrint(result));
         }
 
         return new GenericResponse("Import kicked off.");
@@ -138,9 +161,12 @@ public class OsmRestController
     {
         LOGGER.info("About to reload OSM data with ID", osmId);
 
-        osmConverterService.fetchAndImportNode(osmId);
+        OsmConverterResult result = osmConverterService.fetchAndImportNode(osmId);
 
-        return new GenericResponse("O.K., Massa!");
+        LOGGER.info("Import done, result is {}", result);
+        // Reloading from Server does only logging, no need to spam Slack with it.
+
+        return new GenericResponse(prettyPrint(result));
     }
 
     @RequestMapping(value = REQUEST_REIMPORT_FROM_SERVER_WAY + "/{osmId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -149,9 +175,12 @@ public class OsmRestController
     {
         LOGGER.info("About to reload OSM data with ID", osmId);
 
-        osmConverterService.fetchAndImportWay(osmId);
+        OsmConverterResult result = osmConverterService.fetchAndImportWay(osmId);
 
-        return new GenericResponse("O.K., Massa!");
+        LOGGER.info("Import done, result is {}", result);
+        // Reloading from Server does only logging, no need to spam Slack with it.
+
+        return new GenericResponse(prettyPrint(result));
     }
 
     @RequestMapping(value = REQUEST_REIMPORT_FROM_SERVER + "/{osmId}", method = {RequestMethod.GET, RequestMethod.POST}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -195,5 +224,39 @@ public class OsmRestController
         result = Long.toString(row) + Long.toString(col) + "-" + Long.toString(quadtile);
 
         return result;
+    }
+
+    private String prettyPrint(OsmConverterResult result)
+    {
+        // TODO this needs to be done in the service....
+        String s = "";
+        s = s + "Imported " + result.getPlaces() + " " + result.getWhat() + " from " + result.getPath() + ".";
+        s = s + "\n";
+        s = s + "There were " + result.getNodes() + " nodes and " + result.getWays() + " ways in the source.";
+        s = s + "\n";
+
+        if ((result.getStart() != null) && (result.getEnd() != null))
+        {
+
+            long millis = result.getEnd().getMillis() - result.getStart().getMillis();
+            long seconds = millis / 1000;
+            long minutes = seconds / 60;
+            seconds = seconds % 60;
+
+            // TODO generify the beautified time span
+            s = s + "The import took ";
+            if (minutes > 0)
+            {
+                s = s + minutes + " minutes";
+
+                if (seconds > 0)
+                {
+                    s = s + " and";
+                }
+            }
+            s = s + seconds + " seconds.";
+        }
+
+        return s;
     }
 }
