@@ -2,11 +2,11 @@ package com.gurkensalat.osm.mosques.service;
 
 public interface OsmConverterService
 {
-    void importNodes(String path);
+    OsmConverterResult importNodes(String path);
 
-    void importWays(String path);
+    OsmConverterResult importWays(String path);
 
-    void fetchAndImportNode(String id);
+    OsmConverterResult fetchAndImportNode(String id);
 
-    void fetchAndImportWay(String id);
+    OsmConverterResult fetchAndImportWay(String id);
 }

@@ -48,9 +48,14 @@ public class OsmConverterServiceImpl implements OsmConverterService
     @Value("${osm.data.location}")
     private String dataLocation;
 
-    public void importNodes(String path)
+    public OsmConverterResult importNodes(String path)
     {
         LOGGER.info("Request to import nodes from {} arrived.", path);
+
+        OsmConverterResult result = new OsmConverterResult();
+        result.setWhat("nodes from file");
+        result.setPath(path);
+        result.setStart(DateTime.now());
 
         File dataFile = new File(dataLocation);
 
@@ -73,16 +78,30 @@ public class OsmConverterServiceImpl implements OsmConverterService
 
         OsmRoot root = osmParserRepository.parse(dataFile);
         LOGGER.info("Read {} nodes from {}", root.getNodes().size(), dataFile.getName());
+        result.setNodes(root.getNodes().size());
+        result.setWays(root.getWays().size());
 
         for (OsmNode node : root.getNodes())
         {
-            persistOsmNode(node, null, null);
+            if (persistOsmNode(node, null, null) != null)
+            {
+                result.setPlaces(result.getPlaces() + 1);
+            }
         }
+
+        result.setEnd(DateTime.now());
+
+        return result;
     }
 
-    public void importWays(String path)
+    public OsmConverterResult importWays(String path)
     {
         LOGGER.info("Request to import ways from {} arrived.", path);
+
+        OsmConverterResult result = new OsmConverterResult();
+        result.setWhat("ways from file");
+        result.setPath(path);
+        result.setStart(DateTime.now());
 
         File dataFile = new File(dataLocation);
 
@@ -105,43 +124,80 @@ public class OsmConverterServiceImpl implements OsmConverterService
 
         OsmRoot root = osmParserRepository.parse(dataFile);
         LOGGER.info("Read {} ways from {}", root.getNodes().size(), dataFile.getName());
+        result.setNodes(root.getNodes().size());
+        result.setWays(root.getWays().size());
 
         for (OsmWay way : root.getWays())
         {
-            persistOsmWay(way, null, null);
+            if (persistOsmWay(way, null, null) != null)
+            {
+                result.setPlaces(result.getPlaces() + 1);
+            }
         }
+
+        result.setEnd(DateTime.now());
+
+        return result;
     }
 
     @Override
-    public void fetchAndImportNode(String id)
+    public OsmConverterResult fetchAndImportNode(String id)
     {
         LOGGER.info("Request to re-import node {} arrived.", id);
+
+        OsmConverterResult result = new OsmConverterResult();
+        result.setWhat("nodes from server");
+        result.setPath(id);
+        result.setStart(DateTime.now());
 
         long parsedId = Long.parseLong(id);
         OsmRoot root = osmParserRepository.loadNodeFromServer(parsedId);
 
         LOGGER.info("Read {} nodes and {} ways from server.", root.getNodes().size(), root.getWays().size());
+        result.setNodes(root.getNodes().size());
+        result.setWays(root.getWays().size());
 
         for (OsmNode node : root.getNodes())
         {
-            persistOsmNode(node, null, null);
+            if (persistOsmNode(node, null, null) != null)
+            {
+                result.setPlaces(result.getPlaces() + 1);
+            }
         }
+
+        result.setEnd(DateTime.now());
+
+        return result;
     }
 
     @Override
-    public void fetchAndImportWay(String id)
+    public OsmConverterResult fetchAndImportWay(String id)
     {
         LOGGER.info("Request to re-import way {} arrived.", id);
+
+        OsmConverterResult result = new OsmConverterResult();
+        result.setWhat("ways from server");
+        result.setPath(id);
+        result.setStart(DateTime.now());
 
         long parsedId = Long.parseLong(id);
         OsmRoot root = osmParserRepository.loadWayFromServer(parsedId);
 
         LOGGER.info("Read {} nodes and {} ways from server.", root.getNodes().size(), root.getWays().size());
+        result.setNodes(root.getNodes().size());
+        result.setWays(root.getWays().size());
 
         for (OsmWay way : root.getWays())
         {
-            persistOsmWay(way, null, null);
+            if (persistOsmWay(way, null, null) != null)
+            {
+                result.setPlaces(result.getPlaces() + 1);
+            }
         }
+
+        result.setEnd(DateTime.now());
+
+        return result;
     }
     /*
         LOGGER.info("About to import OSM data from {} / {}", dataLocation, path);
@@ -217,12 +273,12 @@ public class OsmConverterServiceImpl implements OsmConverterService
 */
 
 
-    private void persistOsmNode(OsmNode node)
+    private OsmMosquePlace persistOsmNode(OsmNode node)
     {
-        persistOsmNode(node, null, null);
+        return persistOsmNode(node, null, null);
     }
 
-    private void persistOsmNode(OsmNode node, String countryCode, String state)
+    private OsmMosquePlace persistOsmNode(OsmNode node, String countryCode, String state)
     {
         LOGGER.debug("Read node: {}, {}, {}", node, node.getLat(), node.getLon());
 
@@ -243,14 +299,16 @@ public class OsmConverterServiceImpl implements OsmConverterService
                 persistTags(place.getId(), node.getTags());
             }
         }
+
+        return place;
     }
 
-    private void persistOsmWay(OsmWay way)
+    private OsmMosquePlace persistOsmWay(OsmWay way)
     {
-        persistOsmWay(way, null, null);
+        return persistOsmWay(way, null, null);
     }
 
-    private void persistOsmWay(OsmWay way, String countryCode, String state)
+    private OsmMosquePlace persistOsmWay(OsmWay way, String countryCode, String state)
     {
 
         LOGGER.debug("Read way: {}, {}, {}", way, way.getLat(), way.getLon());
@@ -281,6 +339,8 @@ public class OsmConverterServiceImpl implements OsmConverterService
                 persistTags(place.getId(), tags);
             }
         }
+
+        return place;
     }
 
     private OsmMosquePlace persistOsmMosquePlace(OsmMosquePlace tempPlace, String key, String state, String countryCode)
