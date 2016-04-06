@@ -45,7 +45,7 @@ public class SlackNotifierHandler
             }
             else
             {
-                session.sendMessage(channel, message.toString());
+                session.sendMessage(channel, message.getMessage());
             }
 
             session.disconnect();
