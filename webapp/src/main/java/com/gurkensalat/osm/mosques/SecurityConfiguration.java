@@ -32,6 +32,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 
         LOGGER.debug("--- ALLOW all HTTP Requests");
         http.authorizeRequests().anyRequest().permitAll();
+
+        // Allow access to internal REST urls
+        http.csrf().ignoringAntMatchers("/rest/internal/**/*");
     }
 
     @Bean
