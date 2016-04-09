@@ -4,6 +4,8 @@ var map;
 
 var popup;
 
+var userPreferencesPopup;
+
 var lowZoomMode = true;
 
 var osmUnassignedDataUrl;
@@ -255,6 +257,10 @@ function init() {
 
     <!-- Location control -->
     L.control.locate().addTo(map);
+
+    <!-- Preferences control -->
+    userPreferencesPopup = L.popup().setContent('<p>Hello world!<br />This is a nice popup.</p>');
+    L.easyButton('fa-user', onClickUserPreferences).addTo(map);
 
     <!-- Map move methods -->
     map.on('load', onMapLoaded);

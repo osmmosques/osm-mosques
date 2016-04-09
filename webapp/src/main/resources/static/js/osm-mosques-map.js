@@ -4,6 +4,8 @@ var map;
 
 var popup;
 
+var userPreferencesPopup;
+
 var lowZoomMode = true;
 
 var osmDataUrl;
@@ -172,7 +174,7 @@ function osmStatisticsmarkerListArrived(data) {
             }
         );
         marker.bindPopup(title);
-        marker.on('click', function(){
+        marker.on('click', function () {
             marker._popup.setContent('something better content for statistics nodes...')
         });
         osmPlaces.addLayer(marker);
@@ -262,6 +264,10 @@ function init() {
 
     <!-- Location control -->
     L.control.locate().addTo(map);
+
+    <!-- Preferences control -->
+    userPreferencesPopup = L.popup().setContent('<p>Hello world!<br />This is a nice popup.</p>');
+    L.easyButton('fa-user', onClickUserPreferences).addTo(map);
 
     <!-- Map move methods -->
     map.on('load', onMapLoaded);
