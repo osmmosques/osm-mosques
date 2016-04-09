@@ -7,15 +7,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ImportData
+public class OsmDataImporter
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger(ImportData.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(OsmDataImporter.class);
 
-    @Value("${mq.queue.import-data.name}")
+    public static final String KIND_NODES = "nodes";
+
+    public static final String KIND_WAYS = "ways";
+
+    @Value("${mq.queue.osm-data-importer.name}")
     private String queueName;
 
     @Autowired
-    private ImportDataConfiguration importDataConfiguration;
+    private OsmDataImporterConfiguration osmDataImporterConfiguration;
 
     public void importData(String kind, String path)
     {
@@ -25,6 +29,6 @@ public class ImportData
 
         LOGGER.info("  sending message <{}>", message);
 
-        importDataConfiguration.rabbitTemplate().convertAndSend(queueName, message);
+        osmDataImporterConfiguration.rabbitTemplate().convertAndSend(queueName, message);
     }
 }

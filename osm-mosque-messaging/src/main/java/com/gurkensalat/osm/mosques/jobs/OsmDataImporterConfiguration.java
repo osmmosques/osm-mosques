@@ -10,13 +10,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ImportDataConfiguration extends RabbitMqConfiguration
+public class OsmDataImporterConfiguration extends RabbitMqConfiguration
 {
-    @Value("${mq.queue.import-data.name}")
+    @Value("${mq.queue.osm-data-importer.name}")
     private String queueName;
 
     @Autowired
-    private ImportDataHandler handler;
+    private OsmDataImporterHandler handler;
 
     @Bean
     public RabbitTemplate rabbitTemplate()

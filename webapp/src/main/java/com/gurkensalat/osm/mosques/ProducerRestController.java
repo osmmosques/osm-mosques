@@ -1,7 +1,7 @@
 package com.gurkensalat.osm.mosques;
 
 import com.gurkensalat.osm.mosques.jobs.DemoProducer;
-import com.gurkensalat.osm.mosques.jobs.ImportData;
+import com.gurkensalat.osm.mosques.jobs.OsmDataImporter;
 import com.gurkensalat.osm.mosques.jobs.SlackNotifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ public class ProducerRestController
     SlackNotifier slackNotifier;
 
     @Autowired
-    ImportData importData;
+    OsmDataImporter osmDataImporter;
 
     @RequestMapping(value = "/rest/internal/demo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -57,7 +57,7 @@ public class ProducerRestController
     {
         try
         {
-            importData.importData("zumfink", "From-Over-The-Rainbow");
+            osmDataImporter.importData("zumfink", "From-Over-The-Rainbow");
         }
         catch (Exception e)
         {
