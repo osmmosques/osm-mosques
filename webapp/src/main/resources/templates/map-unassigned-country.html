@@ -6,7 +6,12 @@
     <title th:text="#{titleprefix}+ ': ' + #{map.title}">OSM Mosques: Map</title>
     <meta charset="utf-8"/>
 
-    <div th:replace="fragments/map-common-stylesheets :: map-common-javascripts">Common Map Stylesheet stuff</div>
+    <link rel="shortcut icon" th:href="@{/favicon-mosque.ico}" href="../../static/favicon-mosque.ico"
+          type="image/x-icon"/>
+
+    <object th:include="fragments/map-common-stylesheets :: map-common-stylesheets" th:remove="tag">
+        Common Map Stylesheet stuff
+    </object>
 </head>
 <body>
 

@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-</head>
-<body>
-<div th:fragment="map-common-stylesheets">
-
-    <link rel="shortcut icon" th:href="@{/favicon-mosque.ico}" href="../../static/favicon-mosque.ico"
-          type="image/x-icon"/>
+<head th:fragment="map-common-stylesheets">
 
     <link th:href="@{/webjars/font-awesome/css/font-awesome.css}"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet"/>
@@ -27,7 +21,9 @@
           rel="stylesheet"/>
 
     <link th:href="@{/css/osm-mosques.css}" href="../../static/css/osm-mosques.css" rel="stylesheet"/>
+</head>
 
-</div>
+<body>
 </body>
+
 </html>
