@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div th:fragment="map-common-stylesheets">
+
+    <link rel="shortcut icon" th:href="@{/favicon-mosque.ico}" href="../../static/favicon-mosque.ico"
+          type="image/x-icon"/>
+
+    <link th:href="@{/webjars/font-awesome/css/font-awesome.css}"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet"/>
+
+    <link th:href="@{/webjars/leaflet/dist/leaflet.css}"
+          href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css"
+          rel="stylesheet"/>
+
+    <link th:href="@{/webjars/leaflet-contextmenu/dist/leaflet.contextmenu.css}"
+          href="https://SOMEWHERE-ON-THE-INTARWEBS/webjars/leaflet-contextmenu/1.0.0/dist/leaflet.contextmenu.css"
+          rel="stylesheet"/>
+
+    <link th:href="@{/webjars/leaflet.markercluster/dist/MarkerCluster.css}"
+          href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.css" rel="stylesheet"/>
+
+    <link th:href="@{/webjars/leaflet.markercluster/dist/MarkerCluster.Default.css}"
+          href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css"
+          rel="stylesheet"/>
+
+    <link th:href="@{/css/osm-mosques.css}" href="../../static/css/osm-mosques.css" rel="stylesheet"/>
+
+</div>
+</body>
+</html>
