@@ -11,6 +11,9 @@ var lowZoomMode = true;
 var osmUnassignedDataUrl;
 var osmUnassignedMarkersArrivedFunction;
 
+var osmOnlyReverseGeocodedDataUrl;
+var osmOnlyReverseGeocodedMarkersArrivedFunction;
+
 var osmKnownDataUrl;
 var osmKnownMarkersArrivedFunction;
 
@@ -18,18 +21,26 @@ var osmPopupDetailsUrl = "/osm-details-unassigned-country-for-popup";
 
 var osmUnassignedPlaces = L.markerClusterGroup({chunkedLoading: true});
 
+var osmOnlyReverseGeocodedPlaces = L.markerClusterGroup({chunkedLoading: true});
+
 var osmKnownPlaces = L.markerClusterGroup({chunkedLoading: true});
 
 
 var osmUnassignedMosqueIcon = L.MakiMarkers.icon({
     icon: "religious-muslim",
-    color: "#00cc00",
+    color: "#ff3300",
+    size: "m"
+});
+
+var osmOnlyReverseGeocodedMosqueIcon = L.MakiMarkers.icon({
+    icon: "religious-muslim",
+    color: "#ff9900",
     size: "m"
 });
 
 var osmKnownMosqueIcon = L.MakiMarkers.icon({
     icon: "religious-muslim",
-    color: "#ff3300",
+    color: "#00cc00",
     size: "m"
 });
 
@@ -66,6 +77,8 @@ function onMapMoveEnd() {
     if (map.getZoom() < 6) {
         osmUnassignedDataUrl = '/rest/map/statisticmarkers/osm/as-json';
         osmUnassignedMarkersArrivedFunction = osmStatisticsmarkerListArrived;
+        osmOnlyReverseGeocodedDataUrl = '/rest/map/statisticmarkers/osm/as-json';
+        osmOnlyReverseGeocodedMarkersArrivedFunction = osmStatisticsmarkerListArrived;
         osmKnownDataUrl = '/rest/map/statisticmarkers/osm/as-json';
         osmKnownMarkersArrivedFunction = osmStatisticsmarkerListArrived;
         if (lowZoomMode == true) {
@@ -78,6 +91,8 @@ function onMapMoveEnd() {
     } else {
         osmUnassignedDataUrl = '/rest/map/placemarkers/osm-unassigned.json';
         osmUnassignedMarkersArrivedFunction = osmUnassignedPlacemarkerListArrived;
+        osmOnlyReverseGeocodedDataUrl = '/rest/map/placemarkers/osm-only-reverse-geocoded.json';
+        osmOnlyReverseGeocodedMarkersArrivedFunction = osmOnlyReverseGeocodedPlacemarkerListArrived;
         osmKnownDataUrl = '/rest/map/placemarkers/osm-known.json';
         osmKnownMarkersArrivedFunction = osmKnownPlacemarkerListArrived;
         if (lowZoomMode == false) {
@@ -106,9 +121,30 @@ function onMapMoveEnd() {
                 'maxlon': ne.lng
             },
             success: osmUnassignedMarkersArrivedFunction
-        })
+        });
 
         ajaxQueryCache['osmUnassignedPlacemarkerList'] = request;
+    }
+
+    if (true) {
+        var request = ajaxQueryCache['osmOnlyReverseGeocodedPlacemarkerList'];
+        if (request != null) {
+            request.abort();
+            console.log("Cancelled Ajax Query");
+        }
+
+        var request = $.getJSON({
+            url: osmOnlyReverseGeocodedDataUrl,
+            data: {
+                'minlat': sw.lat,
+                'minlon': sw.lng,
+                'maxlat': ne.lat,
+                'maxlon': ne.lng
+            },
+            success: osmOnlyReverseGeocodedMarkersArrivedFunction
+        });
+
+        ajaxQueryCache['osmOnlyReverseGeocodedPlacemarkerList'] = request;
     }
 
     if (true) {
@@ -127,7 +163,7 @@ function onMapMoveEnd() {
                 'maxlon': ne.lng
             },
             success: osmKnownMarkersArrivedFunction
-        })
+        });
 
         ajaxQueryCache['osmKnownPlacemarkerList'] = request;
     }
@@ -154,6 +190,30 @@ function osmUnassignedPlacemarkerListArrived(data) {
         marker.bindPopup(title);
         marker.on('click', onClickOsmMarker);
         osmUnassignedPlaces.addLayer(marker);
+    }
+}
+
+function osmOnlyReverseGeocodedPlacemarkerListArrived(data) {
+    ajaxQueryCache['osmOnlyReverseGeocodedPlacemarkerList'] = null;
+
+    // console.log("    Clearing osmPlaces layers");
+    osmOnlyReverseGeocodedPlaces.clearLayers();
+
+    for (var i = 0; i < data.length; i++) {
+        var node = data[i];
+        var key = node['key'];
+        var title = "OSM / " + key + ' / ' + node['name'];
+        var lat = node['lat'];
+        var lon = node['lon'];
+        var marker = L.marker(L.latLng(lat, lon), {
+                customAttrPlaceKey: key,
+                title: title,
+                icon: osmOnlyReverseGeocodedMosqueIcon
+            }
+        );
+        marker.bindPopup(title);
+        marker.on('click', onClickOsmMarker);
+        osmOnlyReverseGeocodedPlaces.addLayer(marker);
     }
 }
 
@@ -213,7 +273,8 @@ function init() {
 
     var overlays =
     {
-        "WITHOUT addr:country": osmUnassignedPlaces,
+        "No addr:country": osmUnassignedPlaces,
+        "No addr:country, but reverse geocoded": osmOnlyReverseGeocodedPlaces,
         "with addr:country": osmKnownPlaces
     };
 
@@ -232,7 +293,7 @@ function init() {
         }],
         zoom: 11,
         zoomControl: true,
-        layers: [osmMapnikMap, osmUnassignedPlaces, osmKnownPlaces]
+        layers: [osmMapnikMap]
     });
 
     var baseLayers =
@@ -248,6 +309,7 @@ function init() {
     };
 
     map.addLayer(osmUnassignedPlaces);
+    map.addLayer(osmOnlyReverseGeocodedPlaces);
     map.addLayer(osmKnownPlaces);
 
     <!-- Now add the layer switcher to the map -->

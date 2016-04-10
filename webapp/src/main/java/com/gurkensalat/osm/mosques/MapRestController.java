@@ -41,6 +41,8 @@ public class MapRestController
 
     private final static String REQUEST_OSM_ASSIGNED_COUNTRY_MAPDATA = REQUEST_ROOT + "/placemarkers/osm-known";
 
+    private final static String REQUEST_OSM_ONLY_REVERSE_GEOCODED_COUNTRY_MAPDATA = REQUEST_ROOT + "/placemarkers/osm-only-reverse-geocoded";
+
     private final static String REQUEST_OSM_UNASSIGNED_COUNTRY_MAPDATA = REQUEST_ROOT + "/placemarkers/osm-unassigned";
 
     @Autowired
@@ -145,6 +147,46 @@ public class MapRestController
                 entry.setName(stripToEmpty(place.getAddress().getCountry()) + " / " + stripToEmpty(place.getAddress().getCity()) + " / " + stripToEmpty(place.getName()));
 
                 result.add(entry);
+            }
+        }
+
+        return new ResponseEntity<List<MapDataEntry>>(result, null, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = REQUEST_OSM_ONLY_REVERSE_GEOCODED_COUNTRY_MAPDATA + ".json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    ResponseEntity<List<MapDataEntry>> osmMapdataOnlyReverseGeocodedCountryPlacesAsJSON(
+            @RequestParam(value = "minlat", defaultValue = "-90") String minlat,
+            @RequestParam(value = "minlon", defaultValue = "-180") String minlon,
+            @RequestParam(value = "maxlat", defaultValue = "90") String maxlat,
+            @RequestParam(value = "maxlon", defaultValue = "180") String maxlon
+    )
+    {
+        List<MapDataEntry> result = new ArrayList<MapDataEntry>();
+
+        double minLongitude = minLongitude(minlon);
+        double maxLongitude = maxLongitude(maxlon);
+        double minLatitude = minLatitude(minlat);
+        double maxLatitude = maxLatitude(maxlat);
+
+        LOGGER.info("OSM Place Query: {}, {}, {}, {}", new Object[]{minLongitude, minLatitude, maxLongitude, maxLatitude});
+
+        for (OsmMosquePlace place : osmMosquePlaceRepository.findByBbox(minLongitude, minLatitude, maxLongitude, maxLatitude))
+        {
+            if ("".equals(stripToEmpty(place.getCountryFromOSM())))
+            {
+                if (!("".equals(stripToEmpty(place.getCountryFromGeocoding()))))
+                {
+                    MapDataEntry entry = new MapDataEntry(place);
+                    entry.setKey(place.getKey());
+                    if (place.getAddress() == null)
+                    {
+                        place.setAddress(new Address());
+                    }
+
+                    entry.setName(stripToEmpty(place.getAddress().getCountry()) + " / " + stripToEmpty(place.getAddress().getCity()) + " / " + stripToEmpty(place.getName()));
+
+                    result.add(entry);
+                }
             }
         }
 
