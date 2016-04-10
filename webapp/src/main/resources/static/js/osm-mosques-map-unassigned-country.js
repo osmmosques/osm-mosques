@@ -103,9 +103,8 @@ function onMapMoveEnd() {
             osmUnassignedPlaces.disableClusteringAtZoom = 1;
         }
     }
-    // if (osm places enabled...)
 
-    if (true) {
+    if (map.hasLayer(osmUnassignedPlaces)) {
         var request = ajaxQueryCache['osmUnassignedPlacemarkerList'];
         if (request != null) {
             request.abort();
@@ -126,7 +125,7 @@ function onMapMoveEnd() {
         ajaxQueryCache['osmUnassignedPlacemarkerList'] = request;
     }
 
-    if (true) {
+    if (map.hasLayer(osmOnlyReverseGeocodedPlaces)) {
         var request = ajaxQueryCache['osmOnlyReverseGeocodedPlacemarkerList'];
         if (request != null) {
             request.abort();
@@ -147,7 +146,7 @@ function onMapMoveEnd() {
         ajaxQueryCache['osmOnlyReverseGeocodedPlacemarkerList'] = request;
     }
 
-    if (true) {
+    if (map.hasLayer(osmKnownPlaces)) {
         var request = ajaxQueryCache['osmKnownPlacemarkerList'];
         if (request != null) {
             request.abort();

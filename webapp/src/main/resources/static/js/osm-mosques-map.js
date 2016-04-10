@@ -76,9 +76,8 @@ function onMapMoveEnd() {
             osmPlaces.disableClusteringAtZoom = 1;
         }
     }
-    // if (osm places enabled...)
 
-    if (true) {
+    if (map.hasLayer(osmPlaces)) {
         var request = ajaxQueryCache['osmPlacemarkerList'];
         if (request != null) {
             request.abort();
@@ -99,8 +98,7 @@ function onMapMoveEnd() {
         ajaxQueryCache['osmPlacemarkerList'] = request;
     }
 
-    // if (ditib places enabled...)
-    if (true) {
+    if (map.hasLayer(ditibPlaces)) {
         var request = ajaxQueryCache['ditibPlacemarkerList'];
         if (request != null) {
             request.abort();
