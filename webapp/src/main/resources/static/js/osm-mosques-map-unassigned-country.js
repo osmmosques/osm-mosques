@@ -76,9 +76,9 @@ function onMapMoveEnd() {
             osmUnassignedPlaces.disableClusteringAtZoom = false;
         }
     } else {
-        osmUnassignedDataUrl = '/rest/map/placemarkers/osm-known.json';
+        osmUnassignedDataUrl = '/rest/map/placemarkers/osm-unassigned.json';
         osmUnassignedMarkersArrivedFunction = osmUnassignedPlacemarkerListArrived;
-        osmKnownDataUrl = '/rest/map/placemarkers/osm-unassigned.json';
+        osmKnownDataUrl = '/rest/map/placemarkers/osm-known.json';
         osmKnownMarkersArrivedFunction = osmKnownPlacemarkerListArrived;
         if (lowZoomMode == false) {
             lowZoomMode = true;
