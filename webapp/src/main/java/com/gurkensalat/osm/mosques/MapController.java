@@ -168,10 +168,18 @@ public class MapController
 
         model.addAttribute("josmEditUrl", editInJosmBuilder.toUriString());
 
-        // TODO this is still a bit hackish... The country should come from the session
         if ("".equals(stripToEmpty(place.getCountryFromOSM())))
         {
-            if (!("".equals(countryCodeToAdd)))
+            if (!("".equals(stripToEmpty(place.getCountryFromDatafile()))))
+            {
+                editInJosmBuilder.queryParam("addtags", "addr:country=" + place.getCountryFromDatafile());
+            }
+            else if (!("".equals(stripToEmpty(place.getCountryFromGeocoding()))))
+            {
+                editInJosmBuilder.queryParam("addtags", "addr:country=" + place.getCountryFromGeocoding());
+            }
+            // TODO this is still a bit hackish... The country should come from the session
+            else if (!("".equals(countryCodeToAdd)))
             {
                 editInJosmBuilder.queryParam("addtags", "addr:country=" + countryCodeToAdd);
             }
