@@ -123,6 +123,24 @@
       ]
     },
     {
+      "key": "man_made",
+      "value": "tower",
+      "description": "Used to determine wheter there are minarets next to the prayer place",
+      "object_types": [
+        "node",
+        "way"
+      ]
+    },
+    {
+      "key": "tower:type",
+      "value": "minaret",
+      "description": "Used to determine wheter there are minarets next to the prayer place",
+      "object_types": [
+        "node",
+        "way"
+      ]
+    },
+    {
       "key": "ditib:code",
       "description": "Reference to the database of mosques and societies managed by the turkish 'Diyanet Isleri' ministry",
       "object_types": [
