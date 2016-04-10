@@ -19,6 +19,14 @@
       ]
     },
     {
+      "key": "landuse",
+      "value": "cemetery",
+      "object_types": [
+        "node",
+        "way"
+      ]
+    },
+    {
       "key": "religion",
       "value": "muslim",
       "object_types": [
