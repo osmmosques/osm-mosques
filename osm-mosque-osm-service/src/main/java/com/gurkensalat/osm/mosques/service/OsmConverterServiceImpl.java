@@ -157,11 +157,18 @@ public class OsmConverterServiceImpl implements OsmConverterService
         result.setNodes(root.getNodes().size());
         result.setWays(root.getWays().size());
 
-        for (OsmNode node : root.getNodes())
+        if (root.isGone())
         {
-            if (persistOsmNode(node, null, null) != null)
+            deleteOsmNode(parsedId);
+        }
+        else
+        {
+            for (OsmNode node : root.getNodes())
             {
-                result.setPlaces(result.getPlaces() + 1);
+                if (persistOsmNode(node, null, null) != null)
+                {
+                    result.setPlaces(result.getPlaces() + 1);
+                }
             }
         }
 
@@ -187,11 +194,18 @@ public class OsmConverterServiceImpl implements OsmConverterService
         result.setNodes(root.getNodes().size());
         result.setWays(root.getWays().size());
 
-        for (OsmWay way : root.getWays())
+        if (root.isGone())
         {
-            if (persistOsmWay(way, null, null) != null)
+            deleteOsmWay(parsedId);
+        }
+        else
+        {
+            for (OsmWay way : root.getWays())
             {
-                result.setPlaces(result.getPlaces() + 1);
+                if (persistOsmWay(way, null, null) != null)
+                {
+                    result.setPlaces(result.getPlaces() + 1);
+                }
             }
         }
 
@@ -272,6 +286,11 @@ public class OsmConverterServiceImpl implements OsmConverterService
         LOGGER.info("Read {} nodes from {}", root.getNodes().size(), dataFile.getName());
 */
 
+    private void deleteOsmNode(long id)
+    {
+        LOGGER.info("Deleting node {}", id);
+        osmMosquePlaceRepository.delete(id);
+    }
 
     private OsmMosquePlace persistOsmNode(OsmNode node)
     {
@@ -301,6 +320,12 @@ public class OsmConverterServiceImpl implements OsmConverterService
         }
 
         return place;
+    }
+
+    private void deleteOsmWay(long id)
+    {
+        LOGGER.info("Deleting way {}", id);
+        osmMosquePlaceRepository.delete(id + OsmMosquePlace.getWayOffset());
     }
 
     private OsmMosquePlace persistOsmWay(OsmWay way)
