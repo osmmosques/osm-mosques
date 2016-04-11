@@ -289,7 +289,13 @@ public class OsmConverterServiceImpl implements OsmConverterService
     private void deleteOsmNode(long id)
     {
         LOGGER.info("Deleting node {}", id);
-        osmMosquePlaceRepository.delete(id);
+        String key = Long.toString(id);
+        List<OsmMosquePlace> places = osmMosquePlaceRepository.findByKey(key);
+        if ((places != null) && (places.size() > 0))
+        {
+            OsmMosquePlace place = places.get(0);
+            osmMosquePlaceRepository.delete(place.getId());
+        }
     }
 
     private OsmMosquePlace persistOsmNode(OsmNode node)
@@ -325,7 +331,13 @@ public class OsmConverterServiceImpl implements OsmConverterService
     private void deleteOsmWay(long id)
     {
         LOGGER.info("Deleting way {}", id);
-        osmMosquePlaceRepository.delete(id + OsmMosquePlace.getWayOffset());
+        String key = Long.toString(id + OsmMosquePlace.getWayOffset());
+        List<OsmMosquePlace> places = osmMosquePlaceRepository.findByKey(key);
+        if ((places != null) && (places.size() > 0))
+        {
+            OsmMosquePlace place = places.get(0);
+            osmMosquePlaceRepository.delete(place.getId());
+        }
     }
 
     private OsmMosquePlace persistOsmWay(OsmWay way)
