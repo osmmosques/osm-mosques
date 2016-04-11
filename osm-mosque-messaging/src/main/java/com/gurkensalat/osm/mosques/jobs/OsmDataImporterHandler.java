@@ -66,8 +66,21 @@ public class OsmDataImporterHandler
             long minutes = seconds / 60;
             seconds = seconds % 60;
 
+            long hours = minutes / 60;
+            minutes = minutes % 60;
+
             // TODO generify the beautified time span
             s = s + "The import took ";
+            if (hours > 0)
+            {
+                s = s + hours + " hours";
+
+                if ((minutes > 0) || (seconds > 0))
+                {
+                    s = s + ", ";
+                }
+            }
+
             if (minutes > 0)
             {
                 s = s + minutes + " minutes";
@@ -77,7 +90,8 @@ public class OsmDataImporterHandler
                     s = s + " and";
                 }
             }
-            s = s + seconds + " seconds.";
+
+            s = s + " " + seconds + " seconds.";
         }
 
         return s;
