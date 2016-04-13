@@ -8,6 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -49,7 +52,9 @@ public class OsmMosquePlaceRepositoryTest
         assertNotNull(places);
         assertEquals(2, countFoundPlaces(places.iterator()));
 
-        int i = 42;
+        Page<OsmMosquePlace> justOnePlace = testable.findAll(new PageRequest(0, 1));
+        assertNotNull(justOnePlace);
+        assertEquals(1, countFoundPlaces(justOnePlace.iterator()));
     }
 
     private OsmMosquePlace createTestPlace(String name)
