@@ -1,6 +1,7 @@
 package com.gurkensalat.osm.mosques.repository;
 
 import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -57,4 +58,15 @@ public interface OsmMosquePlaceRepository extends PagingAndSortingRepository<Osm
     @Transactional
     @Query("update OsmMosquePlace set ADDR_COUNTRY_GEOCODING = '' where ADDR_COUNTRY_GEOCODING is null")
     void emptyIfNullCountryCodeFromGeocoding();
+
+    @Query("SELECT p FROM OsmMosquePlace p WHERE ADDR_COUNTRY is null and p.countryFromGeocoding = '' order by p.lastGeocodeAttempt, p.key")
+    List<OsmMosquePlace> reverseCountryGeocodingCandidates(Pageable pageable);
+
+    @Query("SELECT p FROM OsmMosquePlace p WHERE :min_lon <= p.lon and p.lon < :max_lon and :min_lat <= p.lat and p.lat <= :max_lat and ADDR_COUNTRY is null and p.countryFromGeocoding = '' order by p.lastGeocodeAttempt, p.key")
+    List<OsmMosquePlace> reverseCountryGeocodingCandidates(Pageable pageable,
+                                                           @Param("min_lon") double minLongitude,
+                                                           @Param("min_lat") double minLatitude,
+                                                           @Param("max_lon") double maxLongitude,
+                                                           @Param("max_lat") double maxLatitude);
+
 }
