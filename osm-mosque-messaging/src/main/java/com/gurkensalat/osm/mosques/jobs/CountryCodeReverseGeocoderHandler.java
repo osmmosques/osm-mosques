@@ -49,6 +49,9 @@ public class CountryCodeReverseGeocoderHandler
                 // Do some magic... Maybe the service should not write directly to the database...
                 GeocodeResponse response = geocodingService.reverse(key);
 
+                // Reload the place, it might have been changed by the geocodingService
+                place = osmMosquePlaceRepository.findOne(place.getId());
+
                 // did what we had to, now mark this place as "touched"
                 place.setLastGeocodeAttempt(DateTime.now());
                 place = osmMosquePlaceRepository.save(place);
