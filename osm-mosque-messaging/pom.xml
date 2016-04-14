@@ -29,6 +29,11 @@
             <artifactId>osm-mosque-osm-service</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>osm-mosque-geocoding-service</artifactId>
+        </dependency>
+
         <!-- Spring goes here -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
