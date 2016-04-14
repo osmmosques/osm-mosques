@@ -3,7 +3,6 @@ package com.gurkensalat.osm.mosques;
 import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
 import com.gurkensalat.osm.mosques.jobs.CountryCodeReverseGeocoder;
 import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
-import com.gurkensalat.osm.mosques.service.GeocodingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +28,7 @@ public class GeocodingRestController
 
     private final static String REQUEST_INTERNAL_ROOT = "/rest/internal/osm/geocode";
 
-    private final static String REQUEST_GEOCODE_REVERSE = REQUEST_ROOT + "/reverse";
-
-    @Autowired
-    private GeocodingService geocodingService;
+    private final static String REQUEST_GEOCODE_REVERSE = REQUEST_INTERNAL_ROOT + "/reverse";
 
     @Autowired
     private CountryCodeReverseGeocoder countryCodeReverseGeocoder;
@@ -46,7 +42,7 @@ public class GeocodingRestController
     {
         LOGGER.debug("Request to reverse geocode {} arrived", placeId);
 
-        geocodingService.reverse(placeId);
+        countryCodeReverseGeocoder.enqueue(placeId);
 
         return new GenericResponse("Reverse geocoding attempt kicked off.");
     }
@@ -64,6 +60,6 @@ public class GeocodingRestController
             countryCodeReverseGeocoder.enqueue(candidate.getKey());
         }
 
-        return new GenericResponse("O.K. Massa");
+        return new GenericResponse("Reverse geocoding attempt kicked off.");
     }
 }
