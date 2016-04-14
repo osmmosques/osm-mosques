@@ -1,10 +1,14 @@
 package com.gurkensalat.osm.mosques;
 
+import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
+import com.gurkensalat.osm.mosques.jobs.CountryCodeReverseGeocoder;
+import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
 import com.gurkensalat.osm.mosques.service.GeocodingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @EnableAutoConfiguration
@@ -21,10 +27,18 @@ public class GeocodingRestController
 
     private final static String REQUEST_ROOT = "/rest/osm/geocode";
 
+    private final static String REQUEST_INTERNAL_ROOT = "/rest/internal/osm/geocode";
+
     private final static String REQUEST_GEOCODE_REVERSE = REQUEST_ROOT + "/reverse";
 
     @Autowired
     private GeocodingService geocodingService;
+
+    @Autowired
+    private CountryCodeReverseGeocoder countryCodeReverseGeocoder;
+
+    @Autowired
+    private OsmMosquePlaceRepository osmMosquePlaceRepository;
 
     @RequestMapping(value = REQUEST_GEOCODE_REVERSE + "/{placeId}", method = {RequestMethod.GET, RequestMethod.POST}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -35,5 +49,21 @@ public class GeocodingRestController
         geocodingService.reverse(placeId);
 
         return new GenericResponse("Reverse geocoding attempt kicked off.");
+    }
+
+    @RequestMapping(value = REQUEST_INTERNAL_ROOT + "/enqueue", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GenericResponse enqueue()
+    {
+        LOGGER.debug("Request to update addr_country_from_geocoding arrived");
+
+        osmMosquePlaceRepository.emptyIfNullCountryCodeFromGeocoding();
+        List<OsmMosquePlace> reverseCountryGeocodingCandidates = osmMosquePlaceRepository.reverseCountryGeocodingCandidates(new PageRequest(0, 10));
+        for (OsmMosquePlace candidate : reverseCountryGeocodingCandidates)
+        {
+            countryCodeReverseGeocoder.enqueue(candidate.getKey());
+        }
+
+        return new GenericResponse("O.K. Massa");
     }
 }
