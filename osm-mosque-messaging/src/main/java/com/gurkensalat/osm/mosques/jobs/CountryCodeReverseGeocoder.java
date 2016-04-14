@@ -15,7 +15,7 @@ public class CountryCodeReverseGeocoder
     private String queueName;
 
     @Autowired
-    private SlackNotifierConfiguration slackNotifierConfiguration;
+    private CountryCodeReverseGeocoderConfiguration configuration;
 
     public void enqueue(String key)
     {
@@ -25,6 +25,6 @@ public class CountryCodeReverseGeocoder
 
         LOGGER.info("  sending message <{}>", taskMessage);
 
-        slackNotifierConfiguration.rabbitTemplate().convertAndSend(queueName, taskMessage);
+        configuration.rabbitTemplate().convertAndSend(queueName, taskMessage);
     }
 }
