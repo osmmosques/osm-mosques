@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Locale;
 
 import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 
@@ -87,7 +88,7 @@ public class GeocodingServiceImpl implements GeocodingService
                         }
                     }
 
-                    countryCode = trimToEmpty(countryCode);
+                    countryCode = trimToEmpty(countryCode).toUpperCase(Locale.ENGLISH);
 
                     place.setCountryFromGeocoding(countryCode);
 
