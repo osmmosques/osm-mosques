@@ -19,9 +19,9 @@ public interface OsmMosquePlaceRepository extends PagingAndSortingRepository<Osm
 
     @Query("SELECT p FROM OsmMosquePlace p WHERE :min_lon <= p.lon and p.lon < :max_lon and :min_lat <= p.lat and p.lat <= :max_lat")
     List<OsmMosquePlace> findByBbox(@Param("min_lon") double minLongitude,
-                                @Param("min_lat") double minLatitude,
-                                @Param("max_lon") double maxLongitude,
-                                @Param("max_lat") double maxLatitude);
+                                    @Param("min_lat") double minLatitude,
+                                    @Param("max_lon") double maxLongitude,
+                                    @Param("max_lat") double maxLatitude);
 
     @Modifying
     @Transactional
@@ -30,12 +30,12 @@ public interface OsmMosquePlaceRepository extends PagingAndSortingRepository<Osm
 
     @Modifying
     @Transactional
-    @Query("update OsmMosquePlace set valid = false where ADDR_COUNTRY_DATAFILE = :addr_country")
+    @Query("update OsmMosquePlace set valid = false where ADDR_COUNTRY = :addr_country")
     void invalidateByCountryCode(@Param("addr_country") String countryCode);
 
     @Modifying
     @Transactional
-    @Query("update OsmMosquePlace set valid = false where ADDR_COUNTRY = :addr_country")
+    @Query("update OsmMosquePlace set valid = false where ADDR_COUNTRY_DATAFILE = :addr_country")
     void invalidateByCountryCodeFromDatafile(@Param("addr_country") String countryCode);
 
     @Modifying
@@ -52,4 +52,9 @@ public interface OsmMosquePlaceRepository extends PagingAndSortingRepository<Osm
     @Transactional
     @Query("delete from OsmMosquePlace where valid = false")
     void deleteAllInvalid();
+
+    @Modifying
+    @Transactional
+    @Query("update OsmMosquePlace set ADDR_COUNTRY_GEOCODING = '' where ADDR_COUNTRY_GEOCODING is null")
+    void emptyIfNullCountryCodeFromGeocoding();
 }

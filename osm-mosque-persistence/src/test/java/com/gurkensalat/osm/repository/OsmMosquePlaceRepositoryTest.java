@@ -40,6 +40,22 @@ public class OsmMosquePlaceRepositoryTest
     }
 
     @Test
+    public void emptyIfNullCountryCodeFromGeocoding()
+    {
+        OsmMosquePlace place1 = createTestPlace("foo-1");
+        place1 = testable.save(place1);
+
+        testable.emptyIfNullCountryCodeFromGeocoding();
+
+        Iterable<OsmMosquePlace> places = testable.findAll();
+        assertNotNull(places);
+        OsmMosquePlace place2 = places.iterator().next();
+
+        // TODO Actually, we should verify that place2 has no NULL entry in ADDR_CODE_FROM_GEOCODING
+        // but transaction demarcation causes the update to not be written to database
+    }
+
+    @Test
     public void findOne()
     {
         OsmMosquePlace place1 = createTestPlace("foo-1");
