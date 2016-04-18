@@ -28,6 +28,8 @@ public class GeocodingRestController
 
     private final static String REQUEST_INTERNAL_ROOT = "/rest/internal/osm/geocode";
 
+    private final static String REQUEST_GEOCODE_REVERSE_ENQUEUE = REQUEST_INTERNAL_ROOT + "/enqueue";
+
     private final static String REQUEST_GEOCODE_REVERSE = REQUEST_INTERNAL_ROOT + "/reverse";
 
     @Autowired
@@ -47,14 +49,30 @@ public class GeocodingRestController
         return new GenericResponse("Reverse geocoding attempt kicked off.");
     }
 
-    @RequestMapping(value = REQUEST_INTERNAL_ROOT + "/enqueue", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = REQUEST_GEOCODE_REVERSE_ENQUEUE + "/byAge", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public GenericResponse enqueue()
+    public GenericResponse enqueueByAge()
     {
         LOGGER.debug("Request to update addr_country_from_geocoding arrived");
 
         osmMosquePlaceRepository.emptyIfNullCountryCodeFromGeocoding();
-        List<OsmMosquePlace> reverseCountryGeocodingCandidates = osmMosquePlaceRepository.reverseCountryGeocodingCandidates(new PageRequest(0, 10));
+        List<OsmMosquePlace> reverseCountryGeocodingCandidates = osmMosquePlaceRepository.reverseCountryGeocodingCandidatesByAge(new PageRequest(0, 20));
+        for (OsmMosquePlace candidate : reverseCountryGeocodingCandidates)
+        {
+            countryCodeReverseGeocoder.enqueue(candidate.getKey());
+        }
+
+        return new GenericResponse("Reverse geocoding attempt kicked off.");
+    }
+
+    @RequestMapping(value = REQUEST_GEOCODE_REVERSE_ENQUEUE + "/byLongitude", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GenericResponse enqueueByLongitude()
+    {
+        LOGGER.debug("Request to update addr_country_from_geocoding arrived");
+
+        osmMosquePlaceRepository.emptyIfNullCountryCodeFromGeocoding();
+        List<OsmMosquePlace> reverseCountryGeocodingCandidates = osmMosquePlaceRepository.reverseCountryGeocodingCandidatesByLongitude(new PageRequest(0, 20));
         for (OsmMosquePlace candidate : reverseCountryGeocodingCandidates)
         {
             countryCodeReverseGeocoder.enqueue(candidate.getKey());
