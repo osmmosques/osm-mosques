@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static org.apache.commons.lang3.StringUtils.stripToEmpty;
+
 @Configuration
 @Component
 public class CountryCodeReverseGeocoderHandler
@@ -46,28 +48,32 @@ public class CountryCodeReverseGeocoderHandler
             {
                 LOGGER.info("  have to handle: {}", place);
 
-                // Do some magic... Maybe the service should not write directly to the database...
-                GeocodeResponse response = geocodingService.reverse(key);
+                // TODO we might use the message kind to select whether to re-geocode known places
+                if ("".equals(stripToEmpty(place.getCountryFromGeocoding())))
+                {
+                    // Do some magic... Maybe the service should not write directly to the database...
+                    GeocodeResponse response = geocodingService.reverse(key);
 
-                // Reload the place, it might have been changed by the geocodingService
-                place = osmMosquePlaceRepository.findOne(place.getId());
+                    // Reload the place, it might have been changed by the geocodingService
+                    place = osmMosquePlaceRepository.findOne(place.getId());
 
-                // did what we had to, now mark this place as "touched"
-                place.setLastGeocodeAttempt(DateTime.now());
-                place = osmMosquePlaceRepository.save(place);
-            }
+                    // did what we had to, now mark this place as "touched"
+                    place.setLastGeocodeAttempt(DateTime.now());
+                    place = osmMosquePlaceRepository.save(place);
 
-            long sleeptime = (long) (minsleep + (Math.random() * (double) randomsleep));
+                    long sleeptime = (long) (minsleep + (Math.random() * (double) randomsleep));
 
-            LOGGER.info("Processing finished, sleeping a while ({} seconds)...", sleeptime);
+                    LOGGER.debug("Processing finished, sleeping a while ({} seconds)...", sleeptime);
 
-            try
-            {
-                Thread.sleep(sleeptime * 1000);
-            }
-            catch (InterruptedException ie)
-            {
-                // Not really important...
+                    try
+                    {
+                        Thread.sleep(sleeptime * 1000);
+                    }
+                    catch (InterruptedException ie)
+                    {
+                        // Not really important...
+                    }
+                }
             }
         }
 
