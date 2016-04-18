@@ -301,10 +301,13 @@ function init() {
         "Thunderforest": L.tileLayer.provider('Thunderforest.Landscape'),
         "Watercolor": L.tileLayer.provider('Stamen.Watercolor'),
         "Esri Streetmap": L.tileLayer.provider('Esri.WorldStreetMap'),
-        "Esri Imagery": L.tileLayer.provider('Esri.WorldImagery'),
-        "Google Satellite": new L.Google('SATELLITE'),
-        "Google Terrain": new L.Google('TERRAIN'),
-        "Google Hybrid": new L.Google('HYBRID')
+        "Esri Imagery": L.tileLayer.provider('Esri.WorldImagery')
+    };
+
+    if (!(typeof google === 'undefined')) {
+        baseLayers["Google Sattelite"] = new L.Google('SATELLITE');
+        baseLayers["Google Terrain"] = new L.Google('TERRAIN');
+        baseLayers["Google Hybrid"] = new L.Google('HYBRID');
     };
 
     map.addLayer(osmUnassignedPlaces);
