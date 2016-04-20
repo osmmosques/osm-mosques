@@ -5,6 +5,7 @@ import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
 import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
 import com.tandogan.geostuff.opencagedata.GeocodeRepository;
 import com.tandogan.geostuff.opencagedata.entity.GeocodeResponse;
+import com.tandogan.geostuff.opencagedata.entity.OpencageRate;
 import com.tandogan.geostuff.opencagedata.entity.OpencageResult;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -114,6 +115,17 @@ public class GeocodingServiceImpl implements GeocodingService
             }
 
             // TODO Kick off statistics run at some time?
+        }
+
+        if (response != null)
+        {
+            if (response.getRate() == null)
+            {
+                response.setRate(new OpencageRate());
+            }
+
+            response.getRate().setRemaining(geocodeRepository.getRemaining());
+            response.getRate().setLimit(geocodeRepository.getLimit());
         }
 
         return response;
