@@ -35,6 +35,9 @@ public class CountryCodeReverseGeocoderHandler
     @Autowired
     private OsmMosquePlaceRepository osmMosquePlaceRepository;
 
+    @Autowired
+    private SlackNotifier slackNotifier;
+
     @RabbitListener(queues = "${mq.queue.reverse-geocode-countrycode.name}")
     public void handleMessage(TaskMessage message)
     {
@@ -72,6 +75,23 @@ public class CountryCodeReverseGeocoderHandler
                     catch (InterruptedException ie)
                     {
                         // Not really important...
+                    }
+
+                    if (response.getRate() != null)
+                    {
+                        if (response.getRate().getRemaining() < 100)
+                        {
+                            slackNotifier.notify(SlackNotifier.CHANNEL_GEOCODING, "Too little attempts left (" + response.getRate().getRemaining() + " out of " + response.getRate().getLimit() + "), sleeping for half an hour");
+
+                            try
+                            {
+                                Thread.sleep(30 * 60 * 1000);
+                            }
+                            catch (InterruptedException ie)
+                            {
+                                // Not really important...
+                            }
+                        }
                     }
                 }
             }
