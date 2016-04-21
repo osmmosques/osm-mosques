@@ -201,11 +201,11 @@ public class MapController
 
         if (place.getType() == OsmEntityType.WAY)
         {
-            detailsOnOSMBuilder.path("way/" + osmId);
+            detailsOnOSMBuilder.path("way/" + osmId + "/history");
         }
         else
         {
-            detailsOnOSMBuilder.path("node/" + osmId);
+            detailsOnOSMBuilder.path("node/" + osmId + "/history");
         }
 
         model.addAttribute("detailsOnOSM", detailsOnOSMBuilder.toUriString());
