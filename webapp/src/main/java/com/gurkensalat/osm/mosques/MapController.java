@@ -33,6 +33,8 @@ public class MapController
 
     private final static String REQUEST_MAP_UNASSIGNED_COUNTRY_OSM_POPUP = "/osm-details-unassigned-country-for-popup";
 
+    private static final int EDITING_ZOOM_LEVEL = 18;
+
     @Value("${countryCodeToAdd}")
     private static String countryCodeToAdd;
 
@@ -194,6 +196,20 @@ public class MapController
                 .path(OsmRestController.getRequestReimportFromServer() + "/" + place.getKey());
 
         model.addAttribute("refreshFromServerUrl", refreshFromServerBuilder.toUriString());
+
+        // https://www.osmmosques.org/unassigned-country#zoom=6&lat=30.49&lon=-107.66&layer=Google%20Hybrid
+        UriComponentsBuilder zoomInOnPlaceBuilder = UriComponentsBuilder.newInstance();
+        zoomInOnPlaceBuilder.path("/");
+        zoomInOnPlaceBuilder.fragment("zoom=" + EDITING_ZOOM_LEVEL + "&lat=" + place.getLat() + "&lon=" + place.getLon());
+
+        model.addAttribute("zoomInOnPlace", zoomInOnPlaceBuilder.toUriString());
+
+        // https://www.osmmosques.org/unassigned-country#zoom=6&lat=30.49&lon=-107.66&layer=Google%20Hybrid
+        UriComponentsBuilder zoomInOnPlaceUnassignedCountryBuilder = UriComponentsBuilder.newInstance();
+        zoomInOnPlaceUnassignedCountryBuilder.path("/unassigned-country");
+        zoomInOnPlaceUnassignedCountryBuilder.fragment("zoom=" + EDITING_ZOOM_LEVEL + "&lat=" + place.getLat() + "&lon=" + place.getLon() + "&layer=Google%20Hybrid");
+
+        model.addAttribute("zoomInOnPlaceUnassignedCountry", zoomInOnPlaceUnassignedCountryBuilder.toUriString());
 
         UriComponentsBuilder detailsOnOSMBuilder = UriComponentsBuilder.newInstance()
                 .scheme("https")
