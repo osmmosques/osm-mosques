@@ -38,6 +38,8 @@ public class OsmMosquePlace extends OsmPlaceBase
     @Transient
     private String humanReadableLastGeocodeAttempt;
 
+    @Column(name = "QA_SCORE")
+    private double qaScore;
 
     protected OsmMosquePlace()
     {
@@ -123,6 +125,16 @@ public class OsmMosquePlace extends OsmPlaceBase
         this.humanReadableLastGeocodeAttempt = humanReadableLastGeocodeAttempt;
     }
 
+    public double getQaScore()
+    {
+        return qaScore;
+    }
+
+    public void setQaScore(double qaScore)
+    {
+        this.qaScore = qaScore;
+    }
+
     public void copyTo(OsmMosquePlace other)
     {
         other.setLon(getLon());
@@ -138,6 +150,8 @@ public class OsmMosquePlace extends OsmPlaceBase
 
         other.setLastGeocodeAttempt(getLastGeocodeAttempt());
         other.setHumanReadableLastGeocodeAttempt(getHumanReadableLastGeocodeAttempt());
+
+        other.setQaScore(getQaScore());
 
         if (getAddress() == null)
         {
