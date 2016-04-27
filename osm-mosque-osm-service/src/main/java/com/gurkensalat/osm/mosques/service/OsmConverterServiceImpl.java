@@ -424,8 +424,12 @@ public class OsmConverterServiceImpl implements OsmConverterService
                 LOGGER.debug("  reloaded: {} / {}", place.getId(), place.getVersion());
             }
 
+            // TODO maybe better to do a deep-copy of the old place?
             double oldLat = place.getLat();
             double oldLon = place.getLon();
+
+            String oldCountryFromDatafile = place.getCountryFromDatafile();
+            String oldCountryFromGeocoding = place.getCountryFromGeocoding();
 
             tempPlace.copyTo(place);
 
@@ -437,6 +441,16 @@ public class OsmConverterServiceImpl implements OsmConverterService
             if (place.getLon() == 0)
             {
                 place.setLon(oldLon);
+            }
+
+            if (isEmpty(place.getCountryFromDatafile()))
+            {
+                place.setCountryFromDatafile(oldCountryFromDatafile);
+            }
+
+            if (isEmpty(place.getCountryFromGeocoding()))
+            {
+                place.setCountryFromGeocoding(oldCountryFromGeocoding);
             }
 
             place.setValid(true);
