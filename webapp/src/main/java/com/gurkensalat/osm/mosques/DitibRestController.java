@@ -241,8 +241,10 @@ public class DitibRestController
                 List<DitibPlace> places = ditibPlaceRepository.findByKey(key);
                 if ((places == null) || (places.size() == 0))
                 {
-                    place.setCreationTime(DateTime.now());
                     // Place could not be found, insert it...
+                    tempPlace.setCreationTime(DateTime.now());
+                    tempPlace.setModificationTime(DateTime.now());
+                    tempPlace.setLastGeocodeAttemt(DateTime.now().withDate(2000, 1, 1));
                     place = ditibPlaceRepository.save(tempPlace);
                 }
                 else
