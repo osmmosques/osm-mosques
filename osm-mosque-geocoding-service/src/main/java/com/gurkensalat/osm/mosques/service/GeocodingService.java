@@ -5,4 +5,6 @@ import com.tandogan.geostuff.opencagedata.entity.GeocodeResponse;
 public interface GeocodingService
 {
     GeocodeResponse reverse(String key);
+
+    GeocodeResponse ditibForward(String ditibCode);
 }

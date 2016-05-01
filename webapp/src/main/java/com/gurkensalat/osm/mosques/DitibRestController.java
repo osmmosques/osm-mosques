@@ -1,7 +1,5 @@
 package com.gurkensalat.osm.mosques;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.gurkensalat.osm.entity.Address;
 import com.gurkensalat.osm.entity.Contact;
 import com.gurkensalat.osm.entity.DitibParsedPlace;
@@ -11,18 +9,14 @@ import com.gurkensalat.osm.entity.OsmNode;
 import com.gurkensalat.osm.entity.OsmNodeTag;
 import com.gurkensalat.osm.entity.OsmRoot;
 import com.gurkensalat.osm.mosques.jobs.DitibForwardGeocoder;
+import com.gurkensalat.osm.mosques.service.GeocodingService;
 import com.gurkensalat.osm.repository.DitibParserRepository;
 import com.gurkensalat.osm.repository.DitibPlaceRepository;
 import com.gurkensalat.osm.repository.OsmParserRepository;
 import com.tandogan.geostuff.opencagedata.GeocodeRepository;
-import com.tandogan.geostuff.opencagedata.GeocodeRepositoryImpl;
-import com.tandogan.geostuff.opencagedata.entity.GeocodeResponse;
-import com.tandogan.geostuff.opencagedata.entity.OpencageResult;
-import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.CharEncoding;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,17 +31,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.apache.commons.io.IOUtils.closeQuietly;
 
 @RestController
 @EnableAutoConfiguration
@@ -59,11 +48,9 @@ public class DitibRestController
 
     private final static String REQUEST_ROOT_INTERNAL = "/rest/internal/ditib";
 
-    private final static String REQUEST_GEOCODE = REQUEST_ROOT + "/geocode";
-
     private final static String REQUEST_GEOCODE_BY_CODE = REQUEST_ROOT + "/geocode/{code}";
 
-    private final static String REQUEST_GEOCODE_ENQUEUE = REQUEST_ROOT_INTERNAL + "/geocode" + "/enqueue";
+    private final static String REQUEST_GEOCODE_ENQUEUE = REQUEST_ROOT_INTERNAL + "/geocode/enqueue";
 
     private final static String REQUEST_IMPORT = REQUEST_ROOT_INTERNAL + "/import";
 
@@ -75,6 +62,9 @@ public class DitibRestController
 
     @Autowired
     private GeocodeRepository geocodeRepository;
+
+    @Autowired
+    private GeocodingService geocodingService;
 
     @Autowired
     private OsmParserRepository osmParserRepository;
@@ -298,67 +288,19 @@ public class DitibRestController
         ditibPlaceRepository.deleteAllInvalid();
     }
 
-    @RequestMapping(value = REQUEST_GEOCODE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<DitibPlace> geocode()
-    {
-        return geocode("first");
-    }
-
     @RequestMapping(value = REQUEST_GEOCODE_BY_CODE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<DitibPlace> geocode(@PathVariable String code)
     {
-        RestTemplate restTemplate = new RestTemplate();
+        geocodingService.ditibForward(code);
 
-        LOGGER.info("Using geocoder library {}", geocodeRepository);
-        LOGGER.info("    {}", ((GeocodeRepositoryImpl) geocodeRepository).getUrlBase());
-        LOGGER.info("    {}", ((GeocodeRepositoryImpl) geocodeRepository).getApiKey());
+        DitibPlace place = null;
 
-        ((GeocodeRepositoryImpl) geocodeRepository).setTemplate(restTemplate);
-
-        GeocodeResponse response = null;
-        DitibPlace place = findPlaceToEncode(code);
-        if (place != null)
+        // Now, reload the place from cache / database
+        List<DitibPlace> places = ditibPlaceRepository.findByKey(code);
+        if ((places != null) && (places.size() > 0))
         {
-            String query = "";
-            query = query + (place.getAddress().getStreet() == null ? "" : place.getAddress().getStreet());
-            query = query + " ";
-            query = query + (place.getAddress().getHousenumber() == null ? "" : place.getAddress().getHousenumber());
-            query = query + " ";
-            query = query + (place.getAddress().getPostcode() == null ? "" : place.getAddress().getPostcode());
-            query = query + " ";
-            query = query + (place.getAddress().getCity() == null ? "" : place.getAddress().getCity());
-
-            LOGGER.info("Query string is: '{}'", query);
-
-            response = geocodeRepository.query(query);
-
-            File workDir = new File(dataLocation, place.getKey());
-            workDir.mkdirs();
-
-            String when = DateTimeFormat.forPattern("YYYY-MM-dd-HH-mm-SS").print(DateTime.now());
-
-            serializeToJSON(workDir, when + "-response.json", response);
-            serializeToJSON(workDir, when + "-place-before.json", place);
-
-            if (HttpStatus.OK.toString().equals(response.getStatus().getCode()))
-            {
-                OpencageResult bestResult = getBestGeocodingResult(response);
-                if (bestResult != null)
-                {
-                    place.setLat(bestResult.getGeometry().getLatitude());
-                    place.setLon(bestResult.getGeometry().getLongitude());
-                    place.setGeocoded(true);
-
-                    place = ditibPlaceRepository.save(place);
-                    serializeToJSON(workDir, when + "-place-after.json", place);
-                }
-            }
-
-            place.setLastGeocodeAttempt(DateTime.now());
-            place.setModificationTime(DateTime.now());
-            place = ditibPlaceRepository.save(place);
+            place = places.get(0);
         }
 
         return new ResponseEntity<DitibPlace>(place, null, HttpStatus.OK);
@@ -380,103 +322,6 @@ public class DitibRestController
         }
 
         return new GenericResponse("DITIB geocoding attempt kicked off.");
-    }
-
-    private OpencageResult getBestGeocodingResult(GeocodeResponse response)
-    {
-        OpencageResult bestResult = null;
-        for (OpencageResult result : response.getResults())
-        {
-            if (result.getGeometry() != null)
-            {
-                if (bestResult == null)
-                {
-                    bestResult = result;
-                }
-
-                if (bestResult.getConfidence() < result.getConfidence())
-                {
-                    bestResult = result;
-                }
-            }
-        }
-
-        // Avoid NullPointerException when no good result can be found
-        if (bestResult == null)
-        {
-            return null;
-        }
-
-        // Cornercase to avoid
-        if (bestResult.getConfidence() == 0)
-        {
-            return null;
-        }
-
-        // Clamp down to area of Germany
-        if (bestResult.getGeometry().getLatitude() < 46)
-        {
-            return null;
-        }
-
-        if (bestResult.getGeometry().getLatitude() > 56)
-        {
-            return null;
-        }
-
-        if (bestResult.getGeometry().getLongitude() < 5)
-        {
-            return null;
-        }
-
-        if (bestResult.getGeometry().getLongitude() > 17)
-        {
-            return null;
-        }
-
-        return bestResult;
-    }
-
-    private void serializeToJSON(File workDir, String fileName, Object data)
-    {
-        try
-        {
-            ObjectMapper mapper = new ObjectMapper();
-
-            mapper.enable(SerializationFeature.INDENT_OUTPUT);
-
-            String json = mapper.writeValueAsString(data);
-            FileOutputStream fos = new FileOutputStream(new File(workDir, fileName));
-            fos.write(json.getBytes());
-            closeQuietly(fos);
-        }
-        catch (IOException ioe)
-        {
-            LOGGER.error("While serializing response", ioe);
-        }
-    }
-
-    private DitibPlace findPlaceToEncode(String code)
-    {
-        DitibPlace result = null;
-
-        List<DitibPlace> places;
-        if ("first".equalsIgnoreCase(code))
-        {
-            places = ditibPlaceRepository.findByBbox(-1, -1, 1, 1);
-        }
-        else
-        {
-            places = ditibPlaceRepository.findByKey(code);
-        }
-
-        places = ListUtils.emptyIfNull(places);
-
-        if (!(places.isEmpty()))
-        {
-            result = places.get(0);
-        }
-        return result;
     }
 
     @RequestMapping(value = REQUEST_MOVE_TO_LINKED_PLACE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
