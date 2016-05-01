@@ -10,7 +10,7 @@ function attemptGeocode(ditibKey)
     // http://localhost:8888/rest/ditib/geocode/84030-20-5
     var gcUrl = gcUrlBase + ditibKey;
     console.log(gcUrl);
-    $.getJSON(gcUrl, function (data)
+    $.post(gcUrl, '', function (data)
     {
         console.log(data);
         if (data["geocoded"] == true)
@@ -25,5 +25,6 @@ function attemptGeocode(ditibKey)
         {
             alert("Failed to geocode place");
         }
-    });
+    },
+    'json');
 }
