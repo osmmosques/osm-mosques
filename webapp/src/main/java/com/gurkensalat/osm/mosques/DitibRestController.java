@@ -55,7 +55,7 @@ public class DitibRestController
 
     private final static String REQUEST_ROOT = "/rest/ditib";
 
-    private final static String REQUEST_ROOT_INTERNAL = "/rest/internal/osm";
+    private final static String REQUEST_ROOT_INTERNAL = "/rest/internal/ditib";
 
     private final static String REQUEST_GEOCODE = REQUEST_ROOT + "/geocode";
 
