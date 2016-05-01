@@ -10,6 +10,7 @@ import com.gurkensalat.osm.entity.DitibPlace;
 import com.gurkensalat.osm.entity.OsmNode;
 import com.gurkensalat.osm.entity.OsmNodeTag;
 import com.gurkensalat.osm.entity.OsmRoot;
+import com.gurkensalat.osm.mosques.jobs.DitibForwardGeocoder;
 import com.gurkensalat.osm.repository.DitibParserRepository;
 import com.gurkensalat.osm.repository.DitibPlaceRepository;
 import com.gurkensalat.osm.repository.OsmParserRepository;
@@ -27,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -61,6 +63,8 @@ public class DitibRestController
 
     private final static String REQUEST_GEOCODE_BY_CODE = REQUEST_ROOT + "/geocode/{code}";
 
+    private final static String REQUEST_GEOCODE_ENQUEUE = REQUEST_ROOT_INTERNAL + "/geocode" + "/enqueue";
+
     private final static String REQUEST_IMPORT = REQUEST_ROOT_INTERNAL + "/import";
 
     private final static String REQUEST_IMPORT_DE = REQUEST_ROOT_INTERNAL + "/import-de";
@@ -80,6 +84,9 @@ public class DitibRestController
 
     @Autowired
     private DitibPlaceRepository ditibPlaceRepository;
+
+    @Autowired
+    private DitibForwardGeocoder ditibForwardGeocoder;
 
     @Value("${ditib.data.location}")
     private String dataLocation;
@@ -357,6 +364,24 @@ public class DitibRestController
         return new ResponseEntity<DitibPlace>(place, null, HttpStatus.OK);
     }
 
+    @RequestMapping(value = REQUEST_GEOCODE_ENQUEUE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GenericResponse enqueueByAge()
+    {
+        LOGGER.debug("Request to geocode DITIB places");
+
+        // All our DITIB places are already valid :)
+        // osmMosquePlaceRepository.emptyIfNullCountryCodeFromGeocoding();
+
+        List<DitibPlace> geocodingCandidates = ditibPlaceRepository.geocodingCandidates(new PageRequest(0, 20));
+        for (DitibPlace candidate : geocodingCandidates)
+        {
+            ditibForwardGeocoder.enqueue(candidate.getDitibCode());
+        }
+
+        return new GenericResponse("DITIB geocoding attempt kicked off.");
+    }
+
     private OpencageResult getBestGeocodingResult(GeocodeResponse response)
     {
         OpencageResult bestResult = null;
@@ -519,5 +544,4 @@ public class DitibRestController
 
         return new GenericResponse("O.K., Massa!");
     }
-
 }
