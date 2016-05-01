@@ -13,7 +13,6 @@ import com.gurkensalat.osm.entity.OsmRoot;
 import com.gurkensalat.osm.repository.DitibParserRepository;
 import com.gurkensalat.osm.repository.DitibPlaceRepository;
 import com.gurkensalat.osm.repository.OsmParserRepository;
-import com.gurkensalat.osm.repository.OsmRepository;
 import com.tandogan.geostuff.opencagedata.GeocodeRepository;
 import com.tandogan.geostuff.opencagedata.GeocodeRepositoryImpl;
 import com.tandogan.geostuff.opencagedata.entity.GeocodeResponse;
@@ -56,17 +55,19 @@ public class DitibRestController
 
     private final static String REQUEST_ROOT = "/rest/ditib";
 
+    private final static String REQUEST_ROOT_INTERNAL = "/rest/internal/osm";
+
     private final static String REQUEST_GEOCODE = REQUEST_ROOT + "/geocode";
 
     private final static String REQUEST_GEOCODE_BY_CODE = REQUEST_ROOT + "/geocode/{code}";
 
-    private final static String REQUEST_IMPORT = REQUEST_ROOT + "/import";
+    private final static String REQUEST_IMPORT = REQUEST_ROOT_INTERNAL + "/import";
 
-    private final static String REQUEST_IMPORT_DE = REQUEST_ROOT + "/import-de";
+    private final static String REQUEST_IMPORT_DE = REQUEST_ROOT_INTERNAL + "/import-de";
 
-    private final static String REQUEST_IMPORT_NL = REQUEST_ROOT + "/import-nl";
+    private final static String REQUEST_IMPORT_NL = REQUEST_ROOT_INTERNAL + "/import-nl";
 
-    private final static String REQUEST_MOVE_TO_LINKED_PLACE = REQUEST_ROOT + "/move-to-linked-place";
+    private final static String REQUEST_MOVE_TO_LINKED_PLACE = REQUEST_ROOT_INTERNAL + "/move-to-linked-place";
 
     @Autowired
     private GeocodeRepository geocodeRepository;
