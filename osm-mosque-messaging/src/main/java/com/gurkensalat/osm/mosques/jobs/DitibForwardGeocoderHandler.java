@@ -3,6 +3,8 @@ package com.gurkensalat.osm.mosques.jobs;
 import com.gurkensalat.osm.entity.DitibPlace;
 import com.gurkensalat.osm.mosques.service.GeocodingService;
 import com.gurkensalat.osm.repository.DitibPlaceRepository;
+import com.tandogan.geostuff.opencagedata.entity.GeocodeResponse;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -49,48 +51,51 @@ public class DitibForwardGeocoderHandler
             {
                 LOGGER.info("  have to handle: {}", place);
 
-//                if ("".equals(stripToEmpty(place.getCountryFromGeocoding())))
-//                {
-//                    // Do some magic... Maybe the service should not write directly to the database...
-//                    GeocodeResponse response = geocodingService.reverse(ditibCode);
-//
-//                    // Reload the place, it might have been changed by the geocodingService
-//                    place = osmMosquePlaceRepository.findOne(place.getId());
-//
-//                    // did what we had to, now mark this place as "touched"
-//                    place.setLastGeocodeAttempt(DateTime.now());
-//                    place = osmMosquePlaceRepository.save(place);
-//
-//                    long sleeptime = (long) (minsleep + (Math.random() * (double) randomsleep));
-//
-//                    LOGGER.debug("Processing finished, sleeping a while ({} seconds)...", sleeptime);
-//
-//                    try
-//                    {
-//                        Thread.sleep(sleeptime * 1000);
-//                    }
-//                    catch (InterruptedException ie)
-//                    {
-//                        // Not really important...
-//                    }
-//
-//                    if (response.getRate() != null)
-//                    {
-//                        if (response.getRate().getRemaining() < 100)
-//                        {
-//                            slackNotifier.notify(SlackNotifier.CHANNEL_GEOCODING, "Too little attempts left (" + response.getRate().getRemaining() + " out of " + response.getRate().getLimit() + "), sleeping for half an hour");
-//
-//                            try
-//                            {
-//                                Thread.sleep(30 * 60 * 1000);
-//                            }
-//                            catch (InterruptedException ie)
-//                            {
-//                                // Not really important...
-//                            }
-//                        }
-//                    }
-//                }
+                if (!(place.isGeocoded()))
+                {
+                    // Do some magic... Maybe the service should not write directly to the database...
+
+                    // GeocodeResponse response = geocodingService.reverse(ditibCode);
+                    GeocodeResponse response = new GeocodeResponse();
+
+                    // Reload the place, it might have been changed by the geocodingService
+                    place = ditibPlaceRepository.findOne(place.getId());
+
+                    // did what we had to, now mark this place as "touched"
+                    place.setLastGeocodeAttempt(DateTime.now());
+
+                    place = ditibPlaceRepository.save(place);
+
+                    long sleeptime = (long) (minsleep + (Math.random() * (double) randomsleep));
+
+                    LOGGER.debug("Processing finished, sleeping a while ({} seconds)...", sleeptime);
+
+                    try
+                    {
+                        Thread.sleep(sleeptime * 1000);
+                    }
+                    catch (InterruptedException ie)
+                    {
+                        // Not really important...
+                    }
+
+                    if (response.getRate() != null)
+                    {
+                        if (response.getRate().getRemaining() < 100)
+                        {
+                            slackNotifier.notify(SlackNotifier.CHANNEL_GEOCODING, "Too little attempts left (" + response.getRate().getRemaining() + " out of " + response.getRate().getLimit() + "), sleeping for half an hour");
+
+                            try
+                            {
+                                Thread.sleep(30 * 60 * 1000);
+                            }
+                            catch (InterruptedException ie)
+                            {
+                                // Not really important...
+                            }
+                        }
+                    }
+                }
             }
         }
 
