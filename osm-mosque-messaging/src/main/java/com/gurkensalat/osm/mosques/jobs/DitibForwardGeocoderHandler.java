@@ -54,9 +54,7 @@ public class DitibForwardGeocoderHandler
                 if (!(place.isGeocoded()))
                 {
                     // Do some magic... Maybe the service should not write directly to the database...
-
-                    // GeocodeResponse response = geocodingService.reverse(ditibCode);
-                    GeocodeResponse response = new GeocodeResponse();
+                    GeocodeResponse response = geocodingService.ditibForward(ditibCode);
 
                     // Reload the place, it might have been changed by the geocodingService
                     place = ditibPlaceRepository.findOne(place.getId());
