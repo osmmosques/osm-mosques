@@ -240,6 +240,7 @@ public class DitibRestController
                 List<DitibPlace> places = ditibPlaceRepository.findByKey(key);
                 if ((places == null) || (places.size() == 0))
                 {
+                    place.setCreationTime(DateTime.now());
                     // Place could not be found, insert it...
                     place = ditibPlaceRepository.save(tempPlace);
                 }
@@ -271,6 +272,7 @@ public class DitibRestController
                 place.getContact().setWebsite(StringUtils.substring(parsedPlace.getUrl(), 0, 79));
 
                 place.setValid(true);
+                place.setModificationTime(DateTime.now());
                 place = ditibPlaceRepository.save(place);
 
                 LOGGER.debug("Saved Place {}", place);
