@@ -244,7 +244,7 @@ public class DitibRestController
                     // Place could not be found, insert it...
                     tempPlace.setCreationTime(DateTime.now());
                     tempPlace.setModificationTime(DateTime.now());
-                    tempPlace.setLastGeocodeAttemt(DateTime.now().withDate(2000, 1, 1));
+                    tempPlace.setLastGeocodeAttempt(DateTime.now().withDate(2000, 1, 1));
                     place = ditibPlaceRepository.save(tempPlace);
                 }
                 else
@@ -349,7 +349,7 @@ public class DitibRestController
                 }
             }
 
-            place.setLastGeocodeAttemt(DateTime.now());
+            place.setLastGeocodeAttempt(DateTime.now());
             place.setModificationTime(DateTime.now());
             place = ditibPlaceRepository.save(place);
         }
