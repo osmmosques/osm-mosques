@@ -17,11 +17,11 @@ public class DitibForwardGeocoder
     @Autowired
     private DitibForwardGeocoderConfiguration configuration;
 
-    public void enqueue(String key)
+    public void enqueue(String ditibCode)
     {
         TaskMessage taskMessage = new TaskMessage();
         taskMessage.setChannel("nothing-at-all");
-        taskMessage.setMessage(key);
+        taskMessage.setMessage(ditibCode);
 
         LOGGER.info("  sending message <{}>", taskMessage);
 

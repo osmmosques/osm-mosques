@@ -1,6 +1,8 @@
 package com.gurkensalat.osm.mosques.jobs;
 
+import com.gurkensalat.osm.entity.DitibPlace;
 import com.gurkensalat.osm.mosques.service.GeocodingService;
+import com.gurkensalat.osm.repository.DitibPlaceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -8,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Configuration
 @Component
@@ -24,8 +28,8 @@ public class DitibForwardGeocoderHandler
     @Autowired
     private GeocodingService geocodingService;
 
-//    @Autowired
-//    private OsmMosquePlaceRepository osmMosquePlaceRepository;
+    @Autowired
+    private DitibPlaceRepository ditibPlaceRepository;
 
     @Autowired
     private SlackNotifier slackNotifier;
@@ -35,19 +39,20 @@ public class DitibForwardGeocoderHandler
     {
         LOGGER.info("  received <{}>", message);
 
-        String key = message.getMessage();
-//        List<OsmMosquePlace> places = osmMosquePlaceRepository.findByKey(key);
-//        if (places != null)
-//        {
-//            for (OsmMosquePlace place : places)
-//            {
-//                LOGGER.info("  have to handle: {}", place);
-//
-//                // TODO we might use the message kind to select whether to re-geocode known places
+        String ditibCode = message.getMessage();
+
+        List<DitibPlace> places = ditibPlaceRepository.findByKey(ditibCode);
+
+        if (places != null)
+        {
+            for (DitibPlace place : places)
+            {
+                LOGGER.info("  have to handle: {}", place);
+
 //                if ("".equals(stripToEmpty(place.getCountryFromGeocoding())))
 //                {
 //                    // Do some magic... Maybe the service should not write directly to the database...
-//                    GeocodeResponse response = geocodingService.reverse(key);
+//                    GeocodeResponse response = geocodingService.reverse(ditibCode);
 //
 //                    // Reload the place, it might have been changed by the geocodingService
 //                    place = osmMosquePlaceRepository.findOne(place.getId());
@@ -86,8 +91,8 @@ public class DitibForwardGeocoderHandler
 //                        }
 //                    }
 //                }
-//            }
-//        }
+            }
+        }
 
         LOGGER.info("  done with handleMessage <{}>", message);
     }
