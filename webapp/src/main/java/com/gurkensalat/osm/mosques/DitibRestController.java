@@ -343,6 +343,10 @@ public class DitibRestController
                     serializeToJSON(workDir, when + "-place-after.json", place);
                 }
             }
+
+            place.setLastGeocodeAttemt(DateTime.now());
+            place.setModificationTime(DateTime.now());
+            place = ditibPlaceRepository.save(place);
         }
 
         return new ResponseEntity<DitibPlace>(place, null, HttpStatus.OK);
@@ -486,7 +490,7 @@ public class DitibRestController
         for (OsmNode node : root.getNodes())
         {
             LOGGER.info("Checking to conflate {} - {}", node.getId(), node);
-            for (OsmNodeTag tag: node.getTags())
+            for (OsmNodeTag tag : node.getTags())
             {
                 if ("ditib:code".equals(tag.getKey()))
                 {
