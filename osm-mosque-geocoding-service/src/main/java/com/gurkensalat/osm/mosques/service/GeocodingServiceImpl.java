@@ -112,6 +112,12 @@ public class GeocodingServiceImpl implements GeocodingService
                         place.getAddress().getCountry()
                 });
 
+                LOGGER.info("https://www.osmmosques.org/unassigned-country/#zoom={}&lat={}&lon={}&layer={}", new Object[]{
+                        12,
+                        place.getLat(),
+                        place.getLon(),
+                        "Google%20Hybrid"});
+
                 // Save place
                 place = osmMosquePlaceRepository.save(place);
             }
