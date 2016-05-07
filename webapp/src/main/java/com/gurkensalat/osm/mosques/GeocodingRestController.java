@@ -80,4 +80,36 @@ public class GeocodingRestController
 
         return new GenericResponse("Reverse geocoding attempt kicked off.");
     }
+
+    @RequestMapping(value = REQUEST_GEOCODE_REVERSE_ENQUEUE + "/cyprus", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GenericResponse enqueueByCountryCyprus()
+    {
+        return enqueueByBbox(BBox.CYPRUS_MIN_LONGITUDE, BBox.CYPRUS_MIN_LATITUDE, BBox.CYPRUS_MAX_LONGITUDE, BBox.CYPRUS_MAX_LATITUDE, 100);
+    }
+
+    @RequestMapping(value = REQUEST_GEOCODE_REVERSE_ENQUEUE + "/turkey", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GenericResponse enqueueByCountryTurkey()
+    {
+        return enqueueByBbox(BBox.TURKEY_MIN_LONGITUDE, BBox.TURKEY_MIN_LATITUDE, BBox.TURKEY_MAX_LONGITUDE, BBox.TURKEY_MAX_LATITUDE, 1000);
+    }
+
+    private GenericResponse enqueueByBbox(double minLongitude, double minLatitude, double maxLongitude, double maxLatitude, int requestSize)
+    {
+        LOGGER.debug("Request to update addr_country_from_geocoding arrived");
+
+        osmMosquePlaceRepository.emptyIfNullCountryCodeFromGeocoding();
+        List<OsmMosquePlace> reverseCountryGeocodingCandidates = osmMosquePlaceRepository.reverseCountryGeocodingCandidates(
+                new PageRequest(0, requestSize),
+                minLongitude, minLatitude,
+                maxLongitude, maxLatitude);
+
+        for (OsmMosquePlace candidate : reverseCountryGeocodingCandidates)
+        {
+            countryCodeReverseGeocoder.enqueue(candidate.getKey());
+        }
+
+        return new GenericResponse("Reverse geocoding attempt kicked off.");
+    }
 }
