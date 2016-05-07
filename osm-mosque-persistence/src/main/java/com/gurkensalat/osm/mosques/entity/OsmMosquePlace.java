@@ -31,6 +31,15 @@ public class OsmMosquePlace extends OsmPlaceBase
     @Column(name = "ADDR_COUNTRY_GEOCODING", length = 80)
     private String countryFromGeocoding;
 
+    @Column(name = "ADDR_CITY_DATAFILE", length = 80)
+    private String cityFromDatafile;
+
+    @Column(name = "ADDR_CITY_OSM", length = 80)
+    private String cityFromOSM;
+
+    @Column(name = "ADDR_CITY_GEOCODING", length = 80)
+    private String cityFromGeocoding;
+
     @Column(name = "LAST_GEOCODE_ATTEMPT")
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     private DateTime lastGeocodeAttempt;
@@ -105,6 +114,36 @@ public class OsmMosquePlace extends OsmPlaceBase
         this.countryFromGeocoding = countryFromGeocoding;
     }
 
+    public String getCityFromDatafile()
+    {
+        return cityFromDatafile;
+    }
+
+    public void setCityFromDatafile(String cityFromDatafile)
+    {
+        this.cityFromDatafile = cityFromDatafile;
+    }
+
+    public String getCityFromOSM()
+    {
+        return cityFromOSM;
+    }
+
+    public void setCityFromOSM(String cityFromOSM)
+    {
+        this.cityFromOSM = cityFromOSM;
+    }
+
+    public String getCityFromGeocoding()
+    {
+        return cityFromGeocoding;
+    }
+
+    public void setCityFromGeocoding(String cityFromGeocoding)
+    {
+        this.cityFromGeocoding = cityFromGeocoding;
+    }
+
     public DateTime getLastGeocodeAttempt()
     {
         return lastGeocodeAttempt;
@@ -147,6 +186,10 @@ public class OsmMosquePlace extends OsmPlaceBase
         other.setCountryFromDatafile(getCountryFromDatafile());
         other.setCountryFromGeocoding(getCountryFromGeocoding());
         other.setCountryFromOSM(getCountryFromOSM());
+
+        other.setCityFromDatafile(getCityFromDatafile());
+        other.setCityFromGeocoding(getCityFromGeocoding());
+        other.setCityFromOSM(getCityFromOSM());
 
         other.setLastGeocodeAttempt(getLastGeocodeAttempt());
         other.setHumanReadableLastGeocodeAttempt(getHumanReadableLastGeocodeAttempt());
