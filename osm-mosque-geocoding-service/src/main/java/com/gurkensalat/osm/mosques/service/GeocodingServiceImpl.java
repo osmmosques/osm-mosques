@@ -71,6 +71,7 @@ public class GeocodingServiceImpl implements GeocodingService
                 response = geocodeRepository.reverse(place.getLat(), place.getLon());
                 int confidence = -1;
                 String countryCode = "";
+                String city = "";
 
                 if (place.getAddress() == null)
                 {
@@ -90,6 +91,7 @@ public class GeocodingServiceImpl implements GeocodingService
                             if (result.getComponents() != null)
                             {
                                 countryCode = result.getComponents().getCountryCode();
+                                city = result.getComponents().getCity();
                                 confidence = result.getConfidence();
                             }
                         }
@@ -104,12 +106,28 @@ public class GeocodingServiceImpl implements GeocodingService
                         place.getAddress().setCountry(countryCode);
                         LOGGER.info("  OBTAINED COUNTRY CODE {}", place.getAddress().getCountry());
                     }
+
+                    city = trimToEmpty(city);
+
+                    place.setCityFromGeocoding(city);
+
+                    if ("".equals(trimToEmpty(place.getCityFromOSM())))
+                    {
+                        place.getAddress().setCity(city);
+                        LOGGER.info("  OBTAINED CITY NAME {}", place.getAddress().getCity());
+                    }
                 }
 
                 LOGGER.info("  COUNTRY CODES OSM: '{}', OCD: '{}', place: '{}'", new Object[]{
                         place.getCountryFromOSM(),
                         place.getCountryFromGeocoding(),
                         place.getAddress().getCountry()
+                });
+
+                LOGGER.info("  CITY NAMES OSM: '{}', OCD: '{}', place: '{}'", new Object[]{
+                        place.getCityFromOSM(),
+                        place.getCityFromGeocoding(),
+                        place.getAddress().getCity()
                 });
 
                 LOGGER.info("https://www.osmmosques.org/unassigned-country/#zoom={}&lat={}&lon={}&layer={}", new Object[]{
