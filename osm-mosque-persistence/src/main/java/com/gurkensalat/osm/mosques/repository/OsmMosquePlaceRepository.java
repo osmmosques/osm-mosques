@@ -65,7 +65,7 @@ public interface OsmMosquePlaceRepository extends PagingAndSortingRepository<Osm
     @Query("SELECT p FROM OsmMosquePlace p WHERE ADDR_COUNTRY is null and p.countryFromGeocoding = '' order by p.lastGeocodeAttempt, p.lon")
     List<OsmMosquePlace> reverseCountryGeocodingCandidatesByLongitude(Pageable pageable);
 
-    @Query("SELECT p FROM OsmMosquePlace p WHERE :min_lon <= p.lon and p.lon < :max_lon and :min_lat <= p.lat and p.lat <= :max_lat and ADDR_COUNTRY is null and p.countryFromGeocoding = '' order by p.lastGeocodeAttempt, p.key")
+    @Query("SELECT p FROM OsmMosquePlace p WHERE :min_lon <= p.lon and p.lon < :max_lon and :min_lat <= p.lat and p.lat <= :max_lat and ADDR_COUNTRY is null and p.countryFromGeocoding = '' order by p.lastGeocodeAttempt, p.lon")
     List<OsmMosquePlace> reverseCountryGeocodingCandidates(Pageable pageable,
                                                            @Param("min_lon") double minLongitude,
                                                            @Param("min_lat") double minLatitude,
