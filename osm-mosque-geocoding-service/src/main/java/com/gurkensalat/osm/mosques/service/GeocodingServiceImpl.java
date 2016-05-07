@@ -72,6 +72,7 @@ public class GeocodingServiceImpl implements GeocodingService
                 int confidence = -1;
                 String countryCode = "";
                 String city = "";
+                String town = "";
 
                 if (place.getAddress() == null)
                 {
@@ -91,7 +92,8 @@ public class GeocodingServiceImpl implements GeocodingService
                             if (result.getComponents() != null)
                             {
                                 countryCode = result.getComponents().getCountryCode();
-                                city = result.getComponents().getCity();
+                                city = trimToEmpty(result.getComponents().getCity());
+                                town = trimToEmpty(result.getComponents().getTown());
                                 confidence = result.getConfidence();
                             }
                         }
@@ -107,7 +109,11 @@ public class GeocodingServiceImpl implements GeocodingService
                         LOGGER.info("  OBTAINED COUNTRY CODE {}", place.getAddress().getCountry());
                     }
 
-                    city = trimToEmpty(city);
+                    if (!("".equals(town)))
+                    {
+                        LOGGER.info("  MORE SPECIFIC TOWN INFO, USING THAT (C: '{}', T: '{}')", city, town);
+                        city = town;
+                    }
 
                     place.setCityFromGeocoding(city);
 
