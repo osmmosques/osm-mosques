@@ -25,17 +25,26 @@ public class OsmMosquePlace extends OsmPlaceBase
     @Column(name = "ADDR_COUNTRY_DATAFILE", length = 80)
     private String countryFromDatafile;
 
-    @Column(name = "ADDR_COUNTRY_OSM", length = 80)
-    private String countryFromOSM;
-
-    @Column(name = "ADDR_COUNTRY_GEOCODING", length = 80)
-    private String countryFromGeocoding;
+    @Column(name = "ADDR_POSTCODE_DATAFILE", length = 10)
+    private String postcodeFromDatafile;
 
     @Column(name = "ADDR_CITY_DATAFILE", length = 80)
     private String cityFromDatafile;
 
+    @Column(name = "ADDR_COUNTRY_OSM", length = 80)
+    private String countryFromOSM;
+
+    @Column(name = "ADDR_POSTCODE_OSM", length = 10)
+    private String postcodeFromOSM;
+
     @Column(name = "ADDR_CITY_OSM", length = 80)
     private String cityFromOSM;
+
+    @Column(name = "ADDR_COUNTRY_GEOCODING", length = 80)
+    private String countryFromGeocoding;
+
+    @Column(name = "ADDR_POSTCODE_GEOCODING", length = 10)
+    private String postcodeFromGeocoding;
 
     @Column(name = "ADDR_CITY_GEOCODING", length = 80)
     private String cityFromGeocoding;
@@ -94,24 +103,14 @@ public class OsmMosquePlace extends OsmPlaceBase
         this.countryFromDatafile = countryFromDatafile;
     }
 
-    public String getCountryFromOSM()
+    public String getPostcodeFromDatafile()
     {
-        return countryFromOSM;
+        return postcodeFromDatafile;
     }
 
-    public void setCountryFromOSM(String countryFromOSM)
+    public void setPostcodeFromDatafile(String postcodeFromDatafile)
     {
-        this.countryFromOSM = countryFromOSM;
-    }
-
-    public String getCountryFromGeocoding()
-    {
-        return countryFromGeocoding;
-    }
-
-    public void setCountryFromGeocoding(String countryFromGeocoding)
-    {
-        this.countryFromGeocoding = countryFromGeocoding;
+        this.postcodeFromDatafile = postcodeFromDatafile;
     }
 
     public String getCityFromDatafile()
@@ -124,6 +123,26 @@ public class OsmMosquePlace extends OsmPlaceBase
         this.cityFromDatafile = cityFromDatafile;
     }
 
+    public String getCountryFromOSM()
+    {
+        return countryFromOSM;
+    }
+
+    public void setCountryFromOSM(String countryFromOSM)
+    {
+        this.countryFromOSM = countryFromOSM;
+    }
+
+    public String getPostcodeFromOSM()
+    {
+        return postcodeFromOSM;
+    }
+
+    public void setPostcodeFromOSM(String postcodeFromOSM)
+    {
+        this.postcodeFromOSM = postcodeFromOSM;
+    }
+
     public String getCityFromOSM()
     {
         return cityFromOSM;
@@ -132,6 +151,26 @@ public class OsmMosquePlace extends OsmPlaceBase
     public void setCityFromOSM(String cityFromOSM)
     {
         this.cityFromOSM = cityFromOSM;
+    }
+
+    public String getCountryFromGeocoding()
+    {
+        return countryFromGeocoding;
+    }
+
+    public void setCountryFromGeocoding(String countryFromGeocoding)
+    {
+        this.countryFromGeocoding = countryFromGeocoding;
+    }
+
+    public String getPostcodeFromGeocoding()
+    {
+        return postcodeFromGeocoding;
+    }
+
+    public void setPostcodeFromGeocoding(String postcodeFromGeocoding)
+    {
+        this.postcodeFromGeocoding = postcodeFromGeocoding;
     }
 
     public String getCityFromGeocoding()
@@ -184,11 +223,15 @@ public class OsmMosquePlace extends OsmPlaceBase
         other.setValid(isValid());
 
         other.setCountryFromDatafile(getCountryFromDatafile());
-        other.setCountryFromGeocoding(getCountryFromGeocoding());
-        other.setCountryFromOSM(getCountryFromOSM());
-
+        other.setPostcodeFromDatafile(getPostcodeFromDatafile());
         other.setCityFromDatafile(getCityFromDatafile());
+
+        other.setCountryFromGeocoding(getCountryFromGeocoding());
+        other.setPostcodeFromGeocoding(getPostcodeFromGeocoding());
         other.setCityFromGeocoding(getCityFromGeocoding());
+
+        other.setCountryFromOSM(getCountryFromOSM());
+        other.setPostcodeFromOSM(getPostcodeFromOSM());
         other.setCityFromOSM(getCityFromOSM());
 
         other.setLastGeocodeAttempt(getLastGeocodeAttempt());
