@@ -73,6 +73,7 @@ public class GeocodingServiceImpl implements GeocodingService
                 String countryCode = "";
                 String city = "";
                 String town = "";
+                String postcode = "";
 
                 if (place.getAddress() == null)
                 {
@@ -94,6 +95,7 @@ public class GeocodingServiceImpl implements GeocodingService
                                 countryCode = result.getComponents().getCountryCode();
                                 city = trimToEmpty(result.getComponents().getCity());
                                 town = trimToEmpty(result.getComponents().getTown());
+                                postcode = trimToEmpty(result.getComponents().getPostcode());
                                 confidence = result.getConfidence();
                             }
                         }
@@ -122,6 +124,12 @@ public class GeocodingServiceImpl implements GeocodingService
                         place.getAddress().setCity(city);
                         LOGGER.info("  OBTAINED CITY NAME {}", place.getAddress().getCity());
                     }
+
+                    if ("".equals(trimToEmpty(place.getPostcodeFromOSM())))
+                    {
+                        place.getAddress().setPostcode(postcode);
+                        LOGGER.info("  OBTAINED POSTCODE {}", place.getAddress().getPostcode());
+                    }
                 }
 
                 LOGGER.info("  COUNTRY CODES OSM: '{}', OCD: '{}', place: '{}'", new Object[]{
@@ -134,6 +142,12 @@ public class GeocodingServiceImpl implements GeocodingService
                         place.getCityFromOSM(),
                         place.getCityFromGeocoding(),
                         place.getAddress().getCity()
+                });
+
+                LOGGER.info("  POSTCODES OSM: '{}', OCD: '{}', place: '{}'", new Object[]{
+                        place.getPostcodeFromOSM(),
+                        place.getPostcodeFromGeocoding(),
+                        place.getAddress().getPostcode()
                 });
 
                 LOGGER.info("https://www.osmmosques.org/unassigned-country/#zoom={}&lat={}&lon={}&layer={}", new Object[]{
