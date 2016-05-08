@@ -196,6 +196,20 @@ public class GeocodingServiceImpl implements GeocodingService
                 query = query + " ";
                 query = query + (trimToEmpty(place.getAddress().getCity()));
 
+                if ("DE".equals(trimToEmpty(place.getAddress().getCountry()).toUpperCase()))
+                {
+                    query = query + ",";
+                    query = query + " ";
+                    query = query + "Germany";
+                }
+
+                if ("NL".equals(trimToEmpty(place.getAddress().getCountry()).toUpperCase()))
+                {
+                    query = query + ",";
+                    query = query + " ";
+                    query = query + "Netherlands";
+                }
+
                 LOGGER.info("Query string is: '{}'", query);
 
                 response = geocodeRepository.query(query);
