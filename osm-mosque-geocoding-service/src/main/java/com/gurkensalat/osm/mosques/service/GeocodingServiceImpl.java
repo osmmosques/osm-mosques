@@ -187,13 +187,14 @@ public class GeocodingServiceImpl implements GeocodingService
             if (place != null)
             {
                 String query = "";
-                query = query + (place.getAddress().getStreet() == null ? "" : place.getAddress().getStreet());
+                query = query + (trimToEmpty(place.getAddress().getStreet()));
                 query = query + " ";
-                query = query + (place.getAddress().getHousenumber() == null ? "" : place.getAddress().getHousenumber());
+                query = query + (trimToEmpty(place.getAddress().getHousenumber()));
+                query = query + ", ";
                 query = query + " ";
-                query = query + (place.getAddress().getPostcode() == null ? "" : place.getAddress().getPostcode());
+                query = query + (trimToEmpty(place.getAddress().getPostcode()));
                 query = query + " ";
-                query = query + (place.getAddress().getCity() == null ? "" : place.getAddress().getCity());
+                query = query + (trimToEmpty(place.getAddress().getCity()));
 
                 LOGGER.info("Query string is: '{}'", query);
 
