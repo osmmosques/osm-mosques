@@ -45,6 +45,12 @@ public class StatisticsEntry extends AbstractPersistable<Long>
     @Column(name = "OSM_MOSQUE_WAYS")
     private Integer osmMosqueWays;
 
+    @Column(name = "OSM_MOSQUE_NODES_REVERSE_GECODED")
+    private Integer osmMosqueNodesReverseGeocoded;
+
+    @Column(name = "OSM_MOSQUE_WAYS_REVERSE_GECODED")
+    private Integer osmMosqueWaysReverseGeocoded;
+
     private transient Integer osmMosqueTotal;
 
     @Column(name = "DITIB_MOSQUE_NODES")
@@ -159,6 +165,26 @@ public class StatisticsEntry extends AbstractPersistable<Long>
         this.osmMosqueWays = osmMosqueWays;
     }
 
+    public Integer getOsmMosqueNodesReverseGeocoded()
+    {
+        return osmMosqueNodesReverseGeocoded;
+    }
+
+    public void setOsmMosqueNodesReverseGeocoded(Integer osmMosqueNodesReverseGeocoded)
+    {
+        this.osmMosqueNodesReverseGeocoded = osmMosqueNodesReverseGeocoded;
+    }
+
+    public Integer getOsmMosqueWaysReverseGeocoded()
+    {
+        return osmMosqueWaysReverseGeocoded;
+    }
+
+    public void setOsmMosqueWaysReverseGeocoded(Integer osmMosqueWaysReverseGeocoded)
+    {
+        this.osmMosqueWaysReverseGeocoded = osmMosqueWaysReverseGeocoded;
+    }
+
     public Integer getOsmMosqueTotal()
     {
         return osmMosqueTotal;
@@ -246,6 +272,8 @@ public class StatisticsEntry extends AbstractPersistable<Long>
                 .append("countryName", countryName)
                 .append("osmMosqueNodes", osmMosqueNodes)
                 .append("osmMosqueWays", osmMosqueWays)
+                .append("osmMosqueNodesReverseGeocoded", osmMosqueNodesReverseGeocoded)
+                .append("osmMosqueWaysReverseGeocoded", osmMosqueWaysReverseGeocoded)
                 .append("ditibMosqueNodes", ditibMosqueNodes)
                 .toString();
     }

@@ -55,7 +55,7 @@ public class StatisticsServiceImpl implements StatisticsService
             {
                 if (place.getAddress() == null)
                 {
-                    // Actually should never happen but you never knwo...
+                    // Actually should never happen but you never know...
                     place.setAddress(new Address());
                 }
 
@@ -81,6 +81,33 @@ public class StatisticsServiceImpl implements StatisticsService
                 }
                 else
                 {
+                    entry.setOsmMosqueNodes(entry.getOsmMosqueNodes() + 1);
+                }
+
+                // Now, consider the reverse geocoded country information too
+                countryCode = place.getCountryFromGeocoding();
+
+                if (isEmpty(countryCode))
+                {
+                    countryCode = "??";
+                }
+
+                if ("NULL".equals(countryCode))
+                {
+                    countryCode = "??";
+                }
+
+                entry = cache(entries, countryCode);
+
+                // We already have a valid entry in the Map
+                if (place.getKey().length() > 12)
+                {
+                    entry.setOsmMosqueWaysReverseGeocoded((entry.getOsmMosqueWaysReverseGeocoded() + 1));
+                    entry.setOsmMosqueWays(entry.getOsmMosqueWays() + 1);
+                }
+                else
+                {
+                    entry.setOsmMosqueNodesReverseGeocoded((entry.getOsmMosqueNodesReverseGeocoded() + 1));
                     entry.setOsmMosqueNodes(entry.getOsmMosqueNodes() + 1);
                 }
 
@@ -125,6 +152,9 @@ public class StatisticsServiceImpl implements StatisticsService
             entry.setOsmMosqueNodes(0);
             entry.setOsmMosqueWays(0);
 
+            entry.setOsmMosqueNodesReverseGeocoded(0);
+            entry.setOsmMosqueWaysReverseGeocoded(0);
+
             entry.setMinLat(1000);
             entry.setMaxLat(-1000);
 
@@ -162,6 +192,9 @@ public class StatisticsServiceImpl implements StatisticsService
                 // Initialize all Integer attributes
                 tempEntry.setOsmMosqueNodes(0);
                 tempEntry.setOsmMosqueWays(0);
+
+                tempEntry.setOsmMosqueNodesReverseGeocoded(0);
+                tempEntry.setOsmMosqueWaysReverseGeocoded(0);
 
                 tempEntry.setMinLat(1000);
                 tempEntry.setMaxLat(-1000);
