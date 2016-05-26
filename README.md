@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/osmmosques/osm-mosques.png?label=ready&title=Ready)](https://waffle.io/osmmosques/osm-mosques)
 osm-mosques
 ===========
 A Web application to display maps of muslim prayer sites
