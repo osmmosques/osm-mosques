@@ -130,6 +130,13 @@ public class GeocodingServiceImpl implements GeocodingService
                         place.getAddress().setPostcode(postcode);
                         LOGGER.info("  OBTAINED POSTCODE {}", place.getAddress().getPostcode());
                     }
+
+                    if (place.getAddress().getPostcode().length() > 9)
+                    {
+                        LOGGER.info("  POSTCODE TOO LONG, TRUNCATING: {} / {}", place.getAddress().getPostcode().length(), place.getAddress().getPostcode());
+
+                        place.getAddress().setPostcode(("*T* " + place.getAddress().getPostcode()).substring(0, 9));
+                    }
                 }
 
                 LOGGER.info("  COUNTRY CODES OSM: '{}', OCD: '{}', place: '{}'", new Object[]{
