@@ -140,6 +140,15 @@
       ]
     },
     {
+      "key": "image",
+      "value": "*",
+      "description": "Show images in popup and popover",
+      "object_types": [
+        "node",
+        "way"
+      ]
+    },
+    {
       "key": "tower:type",
       "value": "minaret",
       "description": "Used to determine wheter there are minarets next to the prayer place",
