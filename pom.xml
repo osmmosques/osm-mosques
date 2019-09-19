@@ -100,7 +100,7 @@
         <jta.version>1.2</jta.version>
         <hibernate.version>5.1.0.Final</hibernate.version>
         <hibernate-jpa.version>1.0.0.Final</hibernate-jpa.version>
-        <hikari-cp.version>2.4.4</hikari-cp.version>
+        <hikari-cp.version>3.4.1</hikari-cp.version>
         <javassist.version>3.20.0-GA</javassist.version>
 
         <metrics.version>3.1.2</metrics.version>
