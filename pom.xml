@@ -13,18 +13,18 @@
     <description></description>
 
     <modules>
-        <module>geocoding-cache-persistence</module>
-        <module>osm-mosque-common</module>
-        <module>osm-mosque-osm-service</module>
-        <module>osm-mosque-parser</module>
-        <module>osm-mosque-persistence</module>
-        <module>osm-mosque-geocoding-service</module>
-        <module>osm-mosque-qa-persistence</module>
-        <module>osm-mosque-statistics-persistence</module>
-        <module>osm-mosque-statistics-service</module>
-        <module>osm-mosque-messaging</module>
-        <module>webapp</module>
-        <module>webapp-for-versioneye</module>
+        <!-- <module>geocoding-cache-persistence</module> -->
+        <!-- <module>osm-mosque-common</module> -->
+        <!-- <module>osm-mosque-osm-service</module> -->
+        <!-- <module>osm-mosque-parser</module> -->
+        <!-- <module>osm-mosque-persistence</module> -->
+        <!-- <module>osm-mosque-geocoding-service</module> -->
+        <!-- <module>osm-mosque-qa-persistence</module> -->
+        <!-- <module>osm-mosque-statistics-persistence</module> -->
+        <!-- <module>osm-mosque-statistics-service</module> -->
+        <!-- <module>osm-mosque-messaging</module> -->
+        <!-- <module>webapp</module> -->
+        <!-- <module>webapp-for-versioneye</module> -->
     </modules>
 
     <properties>
