@@ -71,8 +71,6 @@
 
         <jackson.version>2.10.3</jackson.version>
 
-        <joda-time.version>2.9.2</joda-time.version>
-
         <jsoup.version>1.8.3</jsoup.version>
 
         <simpleslackapi.version>0.5.1</simpleslackapi.version>
@@ -109,8 +107,6 @@
         <metrics.version>3.1.2</metrics.version>
 
         <flyway.version>4.0</flyway.version>
-
-        <jadira-usertype.version>5.0.0.GA</jadira-usertype.version>
 
         <scannotation.version>1.0.2</scannotation.version>
 
@@ -585,18 +581,6 @@
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-core</artifactId>
                 <version>${flyway.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>joda-time</groupId>
-                <artifactId>joda-time</artifactId>
-                <version>${joda-time.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.jadira.usertype</groupId>
-                <artifactId>usertype.core</artifactId>
-                <version>${jadira-usertype.version}</version>
             </dependency>
 
             <dependency>

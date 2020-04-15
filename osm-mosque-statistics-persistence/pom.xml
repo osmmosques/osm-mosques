@@ -99,16 +99,6 @@
         </dependency>
 
         <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jadira.usertype</groupId>
-            <artifactId>usertype.core</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
         </dependency>
