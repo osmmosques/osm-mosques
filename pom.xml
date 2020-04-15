@@ -25,13 +25,15 @@
         <!-- <module>osm-mosque-messaging</module> -->
         <!-- <module>webapp</module> -->
         <!-- <module>webapp-for-versioneye</module> -->
+        <module>monolith</module>
     </modules>
 
     <properties>
-        <java.version>1.8</java.version>
-
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
 
         <maven-prerequisite.version>3.2.0</maven-prerequisite.version>
 
@@ -56,7 +58,7 @@
 
         <!-- Sundry library versions -->
         <spring.version>5.2.5.RELEASE</spring.version>
-        <spring-boot.version>1.3.5.RELEASE</spring-boot.version>
+        <spring-boot.version>2.1.8.RELEASE</spring-boot.version>
         <spring-data.version>2.1.8.RELEASE</spring-data.version>
         <spring-data-rest.version>2.5.1.RELEASE</spring-data-rest.version>
         <spring-session.version>1.1.1.RELEASE</spring-session.version>
@@ -99,8 +101,8 @@
 
         <!-- Database stuff -->
         <jta.version>1.2</jta.version>
-        <hibernate.version>5.1.0.Final</hibernate.version>
-        <hibernate-jpa.version>1.0.0.Final</hibernate-jpa.version>
+        <hibernate.version>5.3.6.Final</hibernate.version>
+        <!-- <hibernate-jpa.version>1.0.0.Final</hibernate-jpa.version> -->
         <hikari-cp.version>2.4.4</hikari-cp.version>
         <javassist.version>3.20.0-GA</javassist.version>
 
@@ -113,7 +115,7 @@
         <scannotation.version>1.0.2</scannotation.version>
 
         <h2-database.version>1.4.191</h2-database.version>
-        <mysqldb.version>5.1.38</mysqldb.version>
+        <mariadb.version>2.6.0</mariadb.version>
 
         <!-- Our own libraries -->
         <osm-tools.version>0.0.1-SNAPSHOT</osm-tools.version>
@@ -547,6 +549,7 @@
                 <version>${hibernate.version}</version>
             </dependency>
 
+            <!--
             <dependency>
                 <groupId>org.hibernate.javax.persistence</groupId>
                 <artifactId>hibernate-jpa-2.1-api</artifactId>
@@ -556,6 +559,13 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-core</artifactId>
+                <version>${hibernate.version}</version>
+            </dependency>
+            -->
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate.version}</version>
             </dependency>
 
@@ -602,9 +612,9 @@
             </dependency>
 
             <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysqldb.version}</version>
+                <groupId>org.mariadb.jdbc</groupId>
+                <artifactId>mariadb-java-client</artifactId>
+                <version>${mariadb.version}</version>
             </dependency>
 
             <dependency>
@@ -658,7 +668,7 @@
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
                 <version>${h2-database.version}</version>
-                <scope>test</scope>
+                <!-- <scope>test</scope> -->
             </dependency>
 
         </dependencies>
@@ -712,8 +722,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven-compiler-plugin.version}</version>
                     <configuration>
-                        <source>${java.version}</source>
-                        <target>${java.version}</target>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
                     </configuration>
                 </plugin>
 
@@ -851,14 +861,21 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring-boot.version}</version>
-                    <configuration>
-                        <classifier>executable</classifier>
-                    </configuration>
                     <executions>
                         <execution>
+                            <id>build-info</id>
+                            <goals>
+                                <goal>build-info</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>repackage</id>
                             <goals>
                                 <goal>repackage</goal>
                             </goals>
+                            <configuration>
+                                <classifier>executable</classifier>
+                            </configuration>
                         </execution>
                     </executions>
                 </plugin>
