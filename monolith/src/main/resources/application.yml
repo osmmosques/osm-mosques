@@ -1,8 +1,7 @@
-spring_:
-  datasource:
-    driver-class-name:
-    url: jdbc:h2:mem:testdb
-    data-username: sa
-    data-password:
-
 debug: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
