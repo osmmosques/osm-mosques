@@ -70,7 +70,7 @@
         <commons-lang.version>3.4</commons-lang.version>
 
         <jackson.version>2.10.3</jackson.version>
-        <jsoup.version>1.8.3</jsoup.version>
+        <jsoup.version>1.13.1</jsoup.version>
         <lombok.version>1.18.12</lombok.version>
         <simpleslackapi.version>0.5.1</simpleslackapi.version>
 
