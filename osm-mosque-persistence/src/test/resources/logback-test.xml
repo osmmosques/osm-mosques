@@ -3,7 +3,7 @@
 
     <property name="log.pattern" value="%d %5p %40.40c:%4L - %m%n"/>
 
-    <property name="log.dir" value="${env.CATALINA_HOME}/logs"/>
+    <property name="log.dir" value="target/logs"/>
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>

@@ -17,7 +17,7 @@
         <!-- <module>osm-mosque-common</module> -->
         <!-- <module>osm-mosque-osm-service</module> -->
         <!-- <module>osm-mosque-parser</module> -->
-        <!-- <module>osm-mosque-persistence</module> -->
+        <module>osm-mosque-persistence</module>
         <!-- <module>osm-mosque-geocoding-service</module> -->
         <!-- <module>osm-mosque-qa-persistence</module> -->
         <!-- <module>osm-mosque-statistics-persistence</module> -->
@@ -57,7 +57,7 @@
         <github.global.server>github</github.global.server>
 
         <!-- Sundry library versions -->
-        <spring.version>5.2.5.RELEASE</spring.version>
+        <spring.version>5.1.9.RELEASE</spring.version> <!-- Needs to stay on 5.1.9, 5.2.5 breaks the DataJpaTests... -->
         <spring-boot.version>2.1.8.RELEASE</spring-boot.version>
         <spring-data.version>2.1.8.RELEASE</spring-data.version>
         <spring-data-rest.version>2.5.1.RELEASE</spring-data-rest.version>
@@ -70,9 +70,8 @@
         <commons-lang.version>3.4</commons-lang.version>
 
         <jackson.version>2.10.3</jackson.version>
-
         <jsoup.version>1.8.3</jsoup.version>
-
+        <lombok.version>1.18.12</lombok.version>
         <simpleslackapi.version>0.5.1</simpleslackapi.version>
 
         <!-- Javascript libraries for frontend -->
@@ -95,7 +94,7 @@
         <thymeleaf-extras.version>1.0</thymeleaf-extras.version>
 
         <slf4j.version>1.7.19</slf4j.version>
-        <logback.version>1.1.6</logback.version>
+        <logback.version>1.2.3</logback.version>
 
         <!-- Database stuff -->
         <jta.version>1.2</jta.version>
@@ -398,6 +397,13 @@
             </dependency>
 
             <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <scope>provided</scope>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.connect-group</groupId>
                 <artifactId>thymeleaf-extras</artifactId>
                 <version>${thymeleaf-extras.version}</version>
@@ -649,6 +655,20 @@
             </dependency>
 
             <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring-boot.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-test-autoconfigure</artifactId>
+                <version>${spring-boot.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
                 <version>${h2-database.version}</version>
@@ -687,16 +707,26 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
                     <version>${maven-dependency-plugin.version}</version>
-                    <configuration>
-                        <outputFile>${project.build.directory}/dependencies.txt</outputFile>
-                    </configuration>
                     <executions>
+                        <execution>
+                            <id>dependency-list</id>
+                            <phase>initialize</phase>
+                            <goals>
+                                <goal>list</goal>
+                            </goals>
+                            <configuration>
+                                <outputFile>${project.build.directory}/dependencies-list.txt</outputFile>
+                            </configuration>
+                        </execution>
                         <execution>
                             <id>dependency-tree</id>
                             <phase>initialize</phase>
                             <goals>
                                 <goal>tree</goal>
                             </goals>
+                            <configuration>
+                                <outputFile>${project.build.directory}/dependencies-tree.txt</outputFile>
+                            </configuration>
                         </execution>
                     </executions>
                 </plugin>
