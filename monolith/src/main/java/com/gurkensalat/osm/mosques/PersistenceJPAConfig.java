@@ -45,6 +45,7 @@ public class PersistenceJPAConfig
     private Properties additionalProperties()
     {
         Properties properties = new Properties();
+        properties.setProperty("hibernate.jdbc.time_zone", "UTC");
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
 
         return properties;
