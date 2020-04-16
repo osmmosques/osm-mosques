@@ -79,6 +79,10 @@
         </dependency>
 
         <!-- Our own libraries -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>osm-mosque-persistence</artifactId>
+        </dependency>
 
     </dependencies>
 
