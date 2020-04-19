@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,6 +33,9 @@ public class OsmMosquePlaceRepositoryTest
             // .description("P1 desc")
             // .price(new BigDecimal("1"))
             .build();
+
+        product.setCreationTime(LocalDateTime.now());
+        product.setModificationTime(LocalDateTime.now());
 
         testEntityManager.persist(product);
     }
