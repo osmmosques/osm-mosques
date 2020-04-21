@@ -57,10 +57,10 @@
         <github.global.server>github</github.global.server>
 
         <!-- Sundry library versions -->
-        <spring.version>5.1.9.RELEASE</spring.version> <!-- Needs to stay on 5.1.9, 5.2.5 breaks the DataJpaTests... -->
-        <spring-boot.version>2.1.8.RELEASE</spring-boot.version>
-        <spring-data.version>2.1.8.RELEASE</spring-data.version>
-        <spring-data-rest.version>2.5.1.RELEASE</spring-data-rest.version>
+        <spring.version>5.2.2.RELEASE</spring.version>
+        <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
+        <spring-data.version>2.2.2.RELEASE</spring-data.version>
+        <spring-data-rest.version>3.2.3.RELEASE</spring-data-rest.version>
         <spring-session.version>1.1.1.RELEASE</spring-session.version>
 
         <commons-codec.version>1.6</commons-codec.version>
