@@ -6,7 +6,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.Optional;
 
-@RepositoryRestResource(collectionResourceRel = "people", path = "people")
+@RepositoryRestResource(collectionResourceRel = "mosqueplace", path = "mosqueplace")
 public interface OsmMosquePlaceRepository extends PagingAndSortingRepository<OsmMosquePlace, Long>
 {
     Optional<OsmMosquePlace> findByName(String name);
