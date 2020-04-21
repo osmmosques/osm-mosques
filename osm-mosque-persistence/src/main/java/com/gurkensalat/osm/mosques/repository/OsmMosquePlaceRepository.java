@@ -1,11 +1,13 @@
 package com.gurkensalat.osm.mosques.repository;
 
 import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.Optional;
 
-public interface OsmMosquePlaceRepository extends JpaRepository<OsmMosquePlace, Long>
+@RepositoryRestResource(collectionResourceRel = "people", path = "people")
+public interface OsmMosquePlaceRepository extends PagingAndSortingRepository<OsmMosquePlace, Long>
 {
     Optional<OsmMosquePlace> findByName(String name);
 

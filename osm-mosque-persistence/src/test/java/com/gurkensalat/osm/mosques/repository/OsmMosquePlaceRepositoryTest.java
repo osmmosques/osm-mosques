@@ -22,7 +22,7 @@ public class OsmMosquePlaceRepositoryTest
     private TestEntityManager testEntityManager;
 
     @Autowired
-    private OsmMosquePlaceRepository productRespository;
+    private OsmMosquePlaceRepository productRepository;
 
     @Before
     public void setUp()
@@ -44,7 +44,7 @@ public class OsmMosquePlaceRepositoryTest
     public void whenFindByName_thenReturnProduct()
     {
         // when
-        OsmMosquePlace product = productRespository.findByName("P1").get();
+        OsmMosquePlace product = productRepository.findByName("P1").get();
 
         // then
         // // assertThat(product.getDescription()).isEqualTo("P1 desc");
@@ -55,7 +55,7 @@ public class OsmMosquePlaceRepositoryTest
     public void whenFindAll_thenReturnProductList()
     {
         // when
-        List<OsmMosquePlace> products = productRespository.findAll();
+        List<OsmMosquePlace> products = (List) productRepository.findAll();
 
         // then
         assertThat(products).hasSize(1);
