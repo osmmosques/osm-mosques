@@ -1,5 +1,6 @@
 package com.gurkensalat.osm.mosques;
 
+import com.gurkensalat.osm.entity.Address;
 import com.gurkensalat.osm.entity.OsmEntityComponentScanMarker;
 import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
 import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
@@ -53,6 +54,12 @@ public class Monolith implements CommandLineRunner
         place.setName("Bermuda Triangle");
         place.setLat(25);
         place.setLon(-71);
+
+        if (place.getAddress() == null)
+        {
+            place.setAddress(new Address());
+        }
+        place.getAddress().setCountry("XXX");
 
         log.info("Place before saving: {}", place);
 
