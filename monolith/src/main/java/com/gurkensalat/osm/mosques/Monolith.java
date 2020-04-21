@@ -1,7 +1,6 @@
 package com.gurkensalat.osm.mosques;
 
 import com.gurkensalat.osm.entity.OsmEntityComponentScanMarker;
-import com.gurkensalat.osm.entity.OsmPlace;
 import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
 import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
 import com.gurkensalat.osm.mosques.repository.OsmMosqueRepositoryComponentScanMarker;
@@ -16,7 +15,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @SpringBootApplication
 @ComponentScan(basePackageClasses = {
@@ -24,7 +22,10 @@ import java.util.Optional;
     OsmEntityComponentScanMarker.class,
     OsmMosqueRepositoryComponentScanMarker.class
 })
-@EnableJpaRepositories(basePackageClasses = {OsmRepositoryComponentScanMarker.class, OsmMosqueRepositoryComponentScanMarker.class})
+@EnableJpaRepositories(basePackageClasses = {
+    OsmRepositoryComponentScanMarker.class,
+    OsmMosqueRepositoryComponentScanMarker.class
+})
 public class Monolith implements CommandLineRunner
 {
     private static final Logger log = LoggerFactory.getLogger(Monolith.class);
