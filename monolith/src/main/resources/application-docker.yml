@@ -1,0 +1,12 @@
+debug: true
+
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://mariadb:3306/osm_mosques
+    data-username: osm_mosques
+    data-password: osm_mosques
+
+osm:
+  data:
+    location: /home/osm_mosques/osmdata/by-quadtile/current
