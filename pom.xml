@@ -15,7 +15,7 @@
     <modules>
         <!-- <module>geocoding-cache-persistence</module> -->
         <!-- <module>osm-mosque-common</module> -->
-        <!-- <module>osm-mosque-osm-service</module> -->
+        <module>osm-mosque-osm-service</module>
         <!-- <module>osm-mosque-parser</module> -->
         <module>osm-mosque-persistence</module>
         <!-- <module>osm-mosque-geocoding-service</module> -->

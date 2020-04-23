@@ -1,0 +1,5 @@
+debug: true
+
+osm:
+  data:
+  location: src/test/resources
