@@ -63,6 +63,8 @@
         <spring-data-rest.version>3.2.3.RELEASE</spring-data-rest.version>
         <spring-session.version>1.1.1.RELEASE</spring-session.version>
 
+        <openapi.version>1.2.34</openapi.version>
+
         <commons-codec.version>1.6</commons-codec.version>
         <commons-collections.version>4.1</commons-collections.version>
         <commons-digester.version>3.2</commons-digester.version>
@@ -401,6 +403,12 @@
                 <artifactId>lombok</artifactId>
                 <scope>provided</scope>
                 <version>${lombok.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${openapi.version}</version>
             </dependency>
 
             <dependency>
