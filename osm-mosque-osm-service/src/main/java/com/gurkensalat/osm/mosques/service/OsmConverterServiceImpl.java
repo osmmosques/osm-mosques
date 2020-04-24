@@ -65,9 +65,16 @@ public class OsmConverterServiceImpl implements OsmConverterService
 
             for (OsmNode node : root.getNodes())
             {
-                if (persistOsmNode(node, null, null) != null)
+                try
                 {
-                    result.setPlaces(result.getPlaces() + 1);
+                    if (persistOsmNode(node, null, null) != null)
+                    {
+                        result.setPlaces(result.getPlaces() + 1);
+                    }
+                }
+                catch (Exception e)
+                {
+                    log.error("While persisting OSM node", e);
                 }
             }
         }
