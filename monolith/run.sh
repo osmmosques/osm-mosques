@@ -1,8 +1,8 @@
 #!/bin/sh -x
 
-export DOCKER_NAME=monolith
+export DOCKER_NAME=osm_mosques_monolith
 
-export DOCKER_IMAGE_NAME=${DOCKER_NAME}
+export DOCKER_IMAGE_NAME=monolith
 
 export TAG=latest
 
@@ -45,6 +45,8 @@ esac
                --rm \
                ${SHELL_MODE} \
                --name=${DOCKER_NAME} \
+               --network=osm_mosques_backend \
+               --link osm_mosques_mariadb:osm_mosques_mariadb \
                -p 8080:8080 \
                --add-host mariadb:${MARIADB_IP_ADDRESS} \
                --env JAVA_OPTS="${JAVA_OPTS_TO_INJECT}" \
