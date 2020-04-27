@@ -29,7 +29,7 @@ chown    ${USERNAME}:${USERNAME} ${OSM_MOSQUES_HOME}
 chown -R ${USERNAME}:${USERNAME} ${OSM_MOSQUES_HOME}/app
 chown    ${USERNAME}:${USERNAME} ${OSM_MOSQUES_DATA}
 
-MAIN_CLASS=$(grep Start-Class ${OSM_MOSQUES_HOME}/app/META_INF/MANIFEST.MF | sed -e 's|Start-Class: ||' | sed -e 's|\r||')
+MAIN_CLASS=$(grep Start-Class ${OSM_MOSQUES_HOME}/app/META-INF/MANIFEST.MF | sed -e 's|Start-Class: ||' | sed -e 's|\r||')
 
 env | sort
 

@@ -53,5 +53,5 @@ ENTRYPOINT ["/docker-entrypoint.sh"]
 # Finally, install our own software...
 #
 COPY target/dependencies/BOOT-INF/lib     ${OSM_MOSQUES_HOME}/app/lib
-COPY target/dependencies/META-INF         ${OSM_MOSQUES_HOME}/app/META_INF
+COPY target/dependencies/META-INF         ${OSM_MOSQUES_HOME}/app/META-INF
 COPY target/dependencies/BOOT-INF/classes ${OSM_MOSQUES_HOME}/app
