@@ -17,6 +17,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
     Monolith.class,
     OsmEntityComponentScanMarker.class,
     OsmMosqueRepositoryComponentScanMarker.class
+},
+basePackages = {
+    "freemarker"
 })
 @EnableJpaRepositories(basePackageClasses = {
     OsmRepositoryComponentScanMarker.class,
