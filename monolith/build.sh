@@ -1,8 +1,10 @@
 #!/bin/sh -ex
 
-DOCKER_IMAGE_NAME=$(mvn -o org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.artifactId -q -DforceStdout)
+# DOCKER_IMAGE_NAME=$(mvn -o org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.artifactId -q -DforceStdout)
+DOCKER_IMAGE_NAME=$(grep build.name target/classes/META-INF/build-info.properties | sed -e 's|build.name=||')
 
-VERSION=$(mvn -o org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout)
+# VERSION=$(mvn -o org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout)
+VERSION=$(grep build.version target/classes/META-INF/build-info.properties | sed -e 's|build.version=||')
 
 TAG_FROM_BRANCH=$(git symbolic-ref -q HEAD | sed -e 's|refs/heads/||')
 
