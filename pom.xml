@@ -13,6 +13,7 @@
     <description></description>
 
     <modules>
+        <module>mariadb</module>
         <!-- <module>geocoding-cache-persistence</module> -->
         <!-- <module>osm-mosque-common</module> -->
         <module>osm-mosque-osm-service</module>
