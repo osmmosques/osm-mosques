@@ -883,6 +883,7 @@
                             </goals>
                             <configuration>
                                 <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                                <skipPoms>false</skipPoms>
                             </configuration>
                         </execution>
                     </executions>
