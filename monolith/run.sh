@@ -2,7 +2,7 @@
 
 export DOCKER_NAME=osm_mosques_monolith
 
-export DOCKER_IMAGE_NAME=osm_mosques/monolith
+export DOCKER_IMAGE_NAME=osm-mosques/monolith
 
 export TAG=latest
 
