@@ -38,4 +38,4 @@ fi
 
 env | sort
 
-su ${USERNAME} -c "java ${JAVA_OPTS} -Dspring.profiles.active=${SPRING_PROFILES} -cp app:app/lib/* ${MAIN_CLASS}"
+su ${USERNAME} -c "JAVA_HOME="${JAVA_HOME}" java ${JAVA_OPTS} -Dspring.profiles.active=${SPRING_PROFILES} -cp app:app/lib/* ${MAIN_CLASS}"

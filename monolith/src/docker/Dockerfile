@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk:11
+FROM adoptopenjdk:11-jre-openj9
 
 #
 # Set arguments on build
