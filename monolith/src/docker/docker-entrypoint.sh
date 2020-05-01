@@ -22,14 +22,19 @@ groupadd \
 useradd \
     -u ${PUID} \
     -g ${GUID} \
-    -d ${OSM_MOSQUES_HOME} \
+    -d ${APP_HOME} \
     ${USERNAME}
 
-chown    ${USERNAME}:${USERNAME} ${OSM_MOSQUES_HOME}
-chown -R ${USERNAME}:${USERNAME} ${OSM_MOSQUES_HOME}/app
-chown    ${USERNAME}:${USERNAME} ${OSM_MOSQUES_DATA}
+chown    ${USERNAME}:${USERNAME} ${APP_HOME}
+chown -R ${USERNAME}:${USERNAME} ${APP_HOME}/app
+chown    ${USERNAME}:${USERNAME} ${APP_DATA}
 
-MAIN_CLASS=$(grep Start-Class ${OSM_MOSQUES_HOME}/app/META-INF/MANIFEST.MF | sed -e 's|Start-Class: ||' | sed -e 's|\r||')
+if [ -r ${APP_HOME}/app/META-INF/MANIFEST.MF ]
+then
+    MAIN_CLASS=$(grep Start-Class ${APP_HOME}/app/META-INF/MANIFEST.MF | sed -e 's|Start-Class: ||' | sed -e 's|\r||')
+else
+    MAIN_CLASS=com.gurkensalat.osm.mosques.Monolith
+fi
 
 env | sort
 

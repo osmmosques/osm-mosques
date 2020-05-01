@@ -51,6 +51,7 @@
         <maven-project-info-reports-plugin.version>2.9</maven-project-info-reports-plugin.version>
         <versions-maven-plugin.version>2.2</versions-maven-plugin.version>
         <jacoco-plugin.version>0.8.5</jacoco-plugin.version>
+        <dockerfile-maven-plugin.version>1.4.13</dockerfile-maven-plugin.version>
         <github-site-maven-plugin.version>0.12</github-site-maven-plugin.version>
         <git-commit-id-plugin.version>4.0.0</git-commit-id-plugin.version>
         <doxia-module-markdown.version>1.7</doxia-module-markdown.version>
@@ -909,6 +910,62 @@
                     </executions>
                 </plugin>
 
+                <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>dockerfile-maven-plugin</artifactId>
+                    <version>${dockerfile-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>build</id>
+                            <goals>
+                                <goal>build</goal>
+                            </goals>
+                            <configuration>
+                                <repository>${project.name}</repository>
+                                <tag>${project.version}</tag>
+                                <dockerfile>src/docker/Dockerfile</dockerfile>
+                                <buildArgs>
+                                    <JAR_FILE>${project.build.finalName}</JAR_FILE>
+                                    <BUILD_DATE>${git.build.time}</BUILD_DATE>
+                                    <VCS_REF>${git.commit.id}</VCS_REF>
+                                    <VCS_SOURCE>${git.remote.origin.url}</VCS_SOURCE>
+                                    <VCS_VERSION>${git.build.version}</VCS_VERSION>
+                                </buildArgs>
+                            </configuration>
+                        </execution>
+                        <!--
+                        Tagging with branch does not work, git.branch resolves on Jenkins to origin/<branchname> :(
+
+                        <execution>
+                            <id>tag-branch</id>
+                            <goals>
+                                <goal>tag</goal>
+                            </goals>
+                            <configuration>
+                                <repository>${docker.registry}/${docker.image.prefix}/${project.name}</repository>
+                                <tag>${git.branch}</tag>
+                            </configuration>
+                        </execution>
+                        -->
+                        <execution>
+                            <id>tag-latest</id>
+                            <goals>
+                                <goal>tag</goal>
+                            </goals>
+                            <configuration>
+                                <repository>${project.name}</repository>
+                                <tag>latest</tag>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>push</id>
+                            <goals>
+                                <goal>push</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
             </plugins>
         </pluginManagement>
 
@@ -1019,6 +1076,10 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+
+        <profile>
+            <id>with-docker</id>
         </profile>
     </profiles>
 </project>
