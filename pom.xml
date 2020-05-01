@@ -129,6 +129,7 @@
         <!-- stuff -->
         <spring-boot.start.class>none</spring-boot.start.class>
 
+        <docker.image.prefix>${project.parent.artifactId}</docker.image.prefix>
     </properties>
 
     <!-- variables in scm urls make gh-pages site uploads fail -->
@@ -921,7 +922,7 @@
                                 <goal>build</goal>
                             </goals>
                             <configuration>
-                                <repository>${project.name}</repository>
+                                <repository>${docker.image.prefix}/${project.name}</repository>
                                 <tag>${project.version}</tag>
                                 <dockerfile>src/docker/Dockerfile</dockerfile>
                                 <buildArgs>
@@ -953,7 +954,7 @@
                                 <goal>tag</goal>
                             </goals>
                             <configuration>
-                                <repository>${project.name}</repository>
+                                <repository>${docker.image.prefix}/${project.name}</repository>
                                 <tag>latest</tag>
                             </configuration>
                         </execution>
