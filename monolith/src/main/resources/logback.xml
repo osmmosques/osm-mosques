@@ -9,12 +9,15 @@
 
     <logger name="org.springframework" level="error" />
     <logger name="org.springframework.aop.interceptor" level="trace" />
+    <!-- <logger name="org.springframework.beans.factory" level="debug" /> -->
 
-    <logger name="org.hibernate" level="info"/>
-    <logger name="org.hibernate.SQL" level="debug"/>
-    <logger name="org.hibernate.tool.hbm2ddl" level="debug"/>
-    <logger name="org.hibernate.type" level="info"/> <!-- debug for mapping java 2 sql -->
-    <logger name="org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener" level="info"/>
+    <logger name="org.hibernate" additivity="false" level="info"/>
+    <logger name="org.hibernate.engine.jdbc.env.internal" additivity="false" level="debug" />
+    <logger name="org.hibernate.jpa.internal.util.LogHelper" additivity="false" level="debug" />
+    <logger name="org.hibernate.SQL" additivity="false" level="info"/>
+    <logger name="org.hibernate.tool.hbm2ddl" additivity="false" level="debug"/>
+    <logger name="org.hibernate.type" additivity="false" level="info"/> <!-- debug for mapping java 2 sql -->
+    <logger name="org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener" level="debug"/>
 
     <root level="debug">
         <appender-ref ref="console" />
