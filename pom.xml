@@ -80,23 +80,8 @@
         <simpleslackapi.version>0.5.1</simpleslackapi.version>
 
         <!-- Javascript libraries for frontend -->
-        <webjars-locator.version>0.30</webjars-locator.version>
-        <font-awesome.version>4.5.0</font-awesome.version>
-        <tablesorter.version>2.25.6</tablesorter.version>
-        <jquery.version>3.0.0-rc1</jquery.version>
-        <leaflet.version>0.7.7</leaflet.version>
-        <leaflet-contextmenu.version>1.0.0</leaflet-contextmenu.version>
-        <leaflet-locatecontrol.version>0.48.0</leaflet-locatecontrol.version>
-        <leaflet-easybutton.version>1.1.2</leaflet-easybutton.version>
-        <leaflet-extramarkers.version>1.0.5</leaflet-extramarkers.version>
-        <leaflet-makimarkers.version>1.0.1</leaflet-makimarkers.version>
-        <leaflet-markercluster.version>0.4.0-hotfix.1</leaflet-markercluster.version>
-        <leaflet-opencage-search.version>1.1.2</leaflet-opencage-search.version>
-        <leaflet-plugins.version>1.5.2</leaflet-plugins.version>
-        <leaflet-providers.version>1.1.7</leaflet-providers.version>
-        <leaflet-sidebar-v2.version>0.3.0</leaflet-sidebar-v2.version>
-
-        <thymeleaf-extras.version>1.0</thymeleaf-extras.version>
+        <webjars-locator.version>0.40</webjars-locator.version>
+        <leaflet.version>1.6.0</leaflet.version>
 
         <slf4j.version>1.7.19</slf4j.version>
         <logback.version>1.2.3</logback.version>
@@ -435,87 +420,9 @@
             </dependency>
 
             <dependency>
-                <groupId>org.webjars.bower</groupId>
-                <artifactId>font-awesome</artifactId>
-                <version>${font-awesome.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.webjars.npm</groupId>
-                <artifactId>jquery</artifactId>
-                <version>${jquery.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.webjars.npm</groupId>
-                <artifactId>tablesorter</artifactId>
-                <version>${tablesorter.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.webjars.bower</groupId>
+                <groupId>org.webjars.bowergithub.leaflet</groupId>
                 <artifactId>leaflet</artifactId>
                 <version>${leaflet.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.webjars.npm</groupId>
-                <artifactId>leaflet-contextmenu</artifactId>
-                <version>${leaflet-contextmenu.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.webjars.bower</groupId>
-                <artifactId>leaflet.locatecontrol</artifactId>
-                <version>${leaflet-locatecontrol.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.webjars.bower</groupId>
-                <artifactId>Leaflet.EasyButton</artifactId>
-                <version>${leaflet-easybutton.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.webjars.bower</groupId>
-                <artifactId>Leaflet.extra-markers</artifactId>
-                <version>${leaflet-extramarkers.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.webjars.bower</groupId>
-                <artifactId>Leaflet.MakiMarkers</artifactId>
-                <version>${leaflet-makimarkers.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.webjars.bower</groupId>
-                <artifactId>leaflet.markercluster</artifactId>
-                <version>${leaflet-markercluster.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.webjars.bower</groupId>
-                <artifactId>leaflet-plugins</artifactId>
-                <version>${leaflet-plugins.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.webjars.bower</groupId>
-                <artifactId>leaflet-providers</artifactId>
-                <version>${leaflet-providers.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.webjars.bower</groupId>
-                <artifactId>Leaflet.OpenCage.Search</artifactId>
-                <version>${leaflet-opencage-search.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.webjars.bower</groupId>
-                <artifactId>sidebar-v2</artifactId>
-                <version>${leaflet-sidebar-v2.version}</version>
             </dependency>
 
             <!-- Logging -->
