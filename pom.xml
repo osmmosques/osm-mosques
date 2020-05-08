@@ -90,7 +90,7 @@
         <jta.version>1.2</jta.version>
         <hibernate.version>5.4.14.Final</hibernate.version>
         <hibernate-validator.version>6.0.19.Final</hibernate-validator.version>
-        <hikari-cp.version>2.4.4</hikari-cp.version>
+        <hikari-cp.version>3.4.4</hikari-cp.version>
         <javassist.version>3.20.0-GA</javassist.version>
 
         <metrics.version>3.1.2</metrics.version>
