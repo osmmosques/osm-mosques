@@ -19,10 +19,10 @@ function init() {
     });
 
     const baseLayers = {
-        "OSM Mapnik": L.tileLayer.provider('OpenStreetMap.Mapnik'),
+        "OSM Mapnik": defaultLayer,
         // "Thunderforest": L.tileLayer.provider('Thunderforest.Landscape'),
         "Watercolor": L.tileLayer.provider('Stamen.Watercolor'),
-        // "Esri Streetmap": L.tileLayer.provider('Esri.WorldStreetMap'),
+        "Esri Streetmap": L.tileLayer.provider('Esri.WorldStreetMap'),
         "Esri Imagery": L.tileLayer.provider('Esri.WorldImagery')
     };
 
