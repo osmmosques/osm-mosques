@@ -83,7 +83,7 @@
         <webjars-locator.version>0.40</webjars-locator.version>
         <font-awesome.version>4.7.0</font-awesome.version>
         <leaflet.version>1.6.0</leaflet.version>
-        <leaflet-locatecontrol.version>0.65.1</leaflet-locatecontrol.version>
+        <leaflet-locatecontrol.version>0.71.1</leaflet-locatecontrol.version>
         <leaflet-providers.version>1.9.1</leaflet-providers.version>
 
         <slf4j.version>1.7.19</slf4j.version>
