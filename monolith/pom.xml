@@ -97,9 +97,8 @@
             <artifactId>leaflet-locatecontrol</artifactId>
         </dependency>
 
-        <!-- TODO replace with bowergithub version after sync -->
         <dependency>
-            <groupId>org.webjars.bower</groupId>
+            <groupId>org.webjars.bowergithub.leaflet-extras</groupId>
             <artifactId>leaflet-providers</artifactId>
         </dependency>
 

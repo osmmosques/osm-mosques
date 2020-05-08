@@ -26,8 +26,7 @@
 
 <script src="/webjars/leaflet.locatecontrol/dist/L.Control.Locate.min.js" crossorigin="anonymous"></script>
 
-<!-- TODO replace with bowergithub version after sync -->
-<script src="/webjars/leaflet-providers/1.1.15/leaflet-providers.js" crossorigin="anonymous"></script>
+<script src="/webjars/leaflet-providers/leaflet-providers.js" crossorigin="anonymous"></script>
 
 <script src="/js/osm-mosques-map.js" crossorigin="anonymous"></script>
 

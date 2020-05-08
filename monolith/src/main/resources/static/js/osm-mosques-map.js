@@ -8,21 +8,21 @@ init();
 function init() {
 
     <!-- Map providers -->
-    const osmMapnikMapProvider = L.tileLayer.provider('OpenStreetMap.Mapnik');
+    const defaultLayer = L.tileLayer.provider('Esri.WorldStreetMap');
 
     <!-- Now the map itself -->
     map = L.map('map', {
         center: [48.135, 11.389],
         zoom: 15,
         zoomControl: true,
-        layers: [osmMapnikMapProvider]
+        layers: [defaultLayer]
     });
 
     const baseLayers = {
-        "OSM Mapnik": osmMapnikMapProvider,
-        "Thunderforest": L.tileLayer.provider('Thunderforest.Landscape'),
+        "OSM Mapnik": L.tileLayer.provider('OpenStreetMap.Mapnik'),
+        // "Thunderforest": L.tileLayer.provider('Thunderforest.Landscape'),
         "Watercolor": L.tileLayer.provider('Stamen.Watercolor'),
-        "Esri Streetmap": L.tileLayer.provider('Esri.WorldStreetMap'),
+        // "Esri Streetmap": L.tileLayer.provider('Esri.WorldStreetMap'),
         "Esri Imagery": L.tileLayer.provider('Esri.WorldImagery')
     };
 
@@ -34,10 +34,6 @@ function init() {
 
 // if (1 === 1) {
 // TODO find a way to hide the accessToken ...
-// const borkenMapBoxMapProvider = L.tileLayer.provider('MapBox', {
-//     id: 'mapbox/streets-v11',
-//     accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
-// });
 // }
 
     L.circle([48.135, 11.389], 500, {
