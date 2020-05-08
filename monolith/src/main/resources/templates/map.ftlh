@@ -13,14 +13,18 @@
 
     <link rel="stylesheet" href="/webjars/leaflet/dist/leaflet.css" crossorigin="anonymous"/>
 
-    <link rel="stylesheet" href="/css/osm-mosques.css" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="/webjars/leaflet.locatecontrol/dist/L.Control.Locate.css" crossorigin="anonymous"/>
 
-    <script src="/webjars/leaflet/dist/leaflet.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/osm-mosques.css" crossorigin="anonymous"/>
 
 </head>
 <body>
 
 <div id="map"></div>
+
+<script src="/webjars/leaflet/dist/leaflet.js" crossorigin="anonymous"></script>
+
+<script src="/webjars/leaflet.locatecontrol/dist/L.Control.Locate.min.js" crossorigin="anonymous"></script>
 
 <script src="/js/osm-mosques-map.js" crossorigin="anonymous"></script>
 
