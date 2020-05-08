@@ -81,6 +81,7 @@
 
         <!-- Javascript libraries for frontend -->
         <webjars-locator.version>0.40</webjars-locator.version>
+        <font-awesome.version>4.7.0</font-awesome.version>
         <leaflet.version>1.6.0</leaflet.version>
 
         <slf4j.version>1.7.19</slf4j.version>
@@ -417,6 +418,12 @@
                 <groupId>org.webjars</groupId>
                 <artifactId>webjars-locator</artifactId>
                 <version>${webjars-locator.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.webjars.bowergithub.fortawesome</groupId>
+                <artifactId>font-awesome</artifactId>
+                <version>${font-awesome.version}</version>
             </dependency>
 
             <dependency>

@@ -83,6 +83,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.webjars.bowergithub.fortawesome</groupId>
+            <artifactId>font-awesome</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.webjars.bowergithub.leaflet</groupId>
             <artifactId>leaflet</artifactId>
         </dependency>

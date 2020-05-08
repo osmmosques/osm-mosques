@@ -9,6 +9,8 @@
 
     <link rel="icon" type="image/x-icon" href="/favicons/fa-mosque-solid.ico"/>
 
+    <link rel="stylesheet" href="/webjars/font-awesome/css/font-awesome.css" crossorigin="anonymous"/>
+
     <link rel="stylesheet" href="/webjars/leaflet/dist/leaflet.css" crossorigin="anonymous"/>
 
     <link rel="stylesheet" href="/css/osm-mosques.css" crossorigin="anonymous"/>
