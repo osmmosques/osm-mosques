@@ -98,6 +98,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.webjars.bowergithub.leaflet</groupId>
+            <artifactId>leaflet.markercluster</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.webjars.bowergithub.leaflet-extras</groupId>
             <artifactId>leaflet-providers</artifactId>
         </dependency>

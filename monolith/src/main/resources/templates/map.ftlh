@@ -15,6 +15,8 @@
 
     <link rel="stylesheet" href="/webjars/leaflet.locatecontrol/dist/L.Control.Locate.css" crossorigin="anonymous"/>
 
+    <link rel="stylesheet" href="/webjars/leaflet.markercluster/dist/MarkerCluster.css" crossorigin="anonymous"/>
+
     <link rel="stylesheet" href="/css/osm-mosques.css" crossorigin="anonymous"/>
 
 </head>
@@ -25,6 +27,8 @@
 <script src="/webjars/leaflet/dist/leaflet.js" crossorigin="anonymous"></script>
 
 <script src="/webjars/leaflet.locatecontrol/dist/L.Control.Locate.min.js" crossorigin="anonymous"></script>
+
+<script src="/webjars/leaflet.markercluster/dist/leaflet.markercluster-src.js" crossorigin="anonymous"></script>
 
 <script src="/webjars/leaflet-providers/leaflet-providers.js" crossorigin="anonymous"></script>
 

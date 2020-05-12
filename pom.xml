@@ -84,6 +84,7 @@
         <font-awesome.version>4.7.0</font-awesome.version>
         <leaflet.version>1.6.0</leaflet.version>
         <leaflet-locatecontrol.version>0.71.1</leaflet-locatecontrol.version>
+        <leaflet-markercluster.version>1.4.1</leaflet-markercluster.version>
         <leaflet-providers.version>1.9.1</leaflet-providers.version>
 
         <slf4j.version>1.7.19</slf4j.version>
@@ -438,6 +439,12 @@
                 <groupId>org.webjars.bowergithub.domoritz</groupId>
                 <artifactId>leaflet-locatecontrol</artifactId>
                 <version>${leaflet-locatecontrol.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.webjars.bowergithub.leaflet</groupId>
+                <artifactId>leaflet.markercluster</artifactId>
+                <version>${leaflet-markercluster.version}</version>
             </dependency>
 
             <dependency>

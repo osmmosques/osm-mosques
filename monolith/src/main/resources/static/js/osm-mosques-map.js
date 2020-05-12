@@ -49,6 +49,44 @@ function init() {
     <!-- Location control -->
     L.control.locate().addTo(map);
 
+    <!-- Markers... -->
+    const markers = L.markerClusterGroup();
+    // markers.addLayer(L.marker(getRandomLatLng(map)));
+
+    // var node = data[i];
+    // var key = node['key'];
+    // var title = "OSM / " + key + ' / ' + node['name'];
+    // var lat = node['lat'];
+    // var lon = node['lon'];
+    // var marker = L.marker(L.latLng(lat, lon), {
+    // customAttrPlaceKey: key,
+    // title: title,
+    // icon: osmMosqueIcon
+    // }
+    // );
+
+    for (let x = -2 ; x <= 2 ; x = x + 1)
+    {
+        for (let y = -2 ; y <= 2 ; y = y + 1)
+        {
+            const key = x + " - " + y;
+            const title = x + " - " + y;
+
+            const marker = L.marker(L.latLng( 48.135 + ( y / 200), 11.389 + ( x / 100)),
+                {
+                    customAttrPlaceKey: key,
+                    title: title
+                }
+            );
+
+            marker.bindPopup(title);
+
+            markers.addLayer(marker);
+        }
+    }
+
+    map.addLayer(markers);
+
     var popup = L.popup();
 
     function onMapClick(e) {
