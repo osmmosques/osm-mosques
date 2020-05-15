@@ -5,10 +5,20 @@
   "imageSize": 100,
   "commit": false,
   "contributors": [
+    {
+      "login": "hakan42",
+      "name": "Hakan Tandogan",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/352641?v=4",
+      "profile": "https://blog.gurkensalat.com/",
+      "contributions": [
+        "code"
+      ]
+    }
   ],
   "contributorsPerLine": 7,
   "projectName": "osm-mosques",
-  "projectOwner": "hakan42",
+  "projectOwner": "osmmosques",
   "repoType": "github",
-  "repoHost": "https://github.com"
+  "repoHost": "https://github.com",
+  "skipCi": true
 }
