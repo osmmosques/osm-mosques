@@ -17,10 +17,14 @@
 
     <link rel="stylesheet" href="/webjars/leaflet.markercluster/dist/MarkerCluster.css" crossorigin="anonymous"/>
 
+    <link rel="stylesheet" href="/css/navbar.css" crossorigin="anonymous"/>
+
     <link rel="stylesheet" href="/css/osm-mosques.css" crossorigin="anonymous"/>
 
 </head>
 <body>
+
+<#include "navbar.ftlh">
 
 <div id="map"></div>
 
