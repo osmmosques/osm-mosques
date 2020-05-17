@@ -1,11 +1,7 @@
 //
-// we don't have jquery around just yet
-//
-// $(document).ready(init);
-//
 let map;
 
-init();
+$(document).ready(init);
 
 function init() {
 

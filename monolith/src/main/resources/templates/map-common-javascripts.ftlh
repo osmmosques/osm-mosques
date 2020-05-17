@@ -1,3 +1,5 @@
+<script src="/webjars/jquery/jquery.js"></script>
+
 <script src="/webjars/leaflet/dist/leaflet.js" crossorigin="anonymous"></script>
 
 <script src="/webjars/leaflet.locatecontrol/dist/L.Control.Locate.min.js" crossorigin="anonymous"></script>
