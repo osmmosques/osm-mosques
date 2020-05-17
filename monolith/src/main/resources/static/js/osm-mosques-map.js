@@ -15,6 +15,9 @@ function init() {
         center: [48.135, 11.389],
         zoom: 15,
         zoomControl: true,
+        editInOSMControlOptions: {
+            zoomThreshold: 15,
+        },
         layers: [defaultLayer]
     });
 

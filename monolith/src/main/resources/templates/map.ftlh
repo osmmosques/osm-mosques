@@ -17,6 +17,8 @@
 
     <link rel="stylesheet" href="/webjars/leaflet.markercluster/dist/MarkerCluster.css" crossorigin="anonymous"/>
 
+    <link rel="stylesheet" href="/webjars/Leaflet.EditInOSM/Leaflet.EditInOSM.css" crossorigin="anonymous"/>
+
     <link rel="stylesheet" href="/css/navbar.css" crossorigin="anonymous"/>
 
     <link rel="stylesheet" href="/css/osm-mosques.css" crossorigin="anonymous"/>
@@ -35,6 +37,8 @@
 <script src="/webjars/leaflet.markercluster/dist/leaflet.markercluster-src.js" crossorigin="anonymous"></script>
 
 <script src="/webjars/leaflet-providers/leaflet-providers.js" crossorigin="anonymous"></script>
+
+<script src="/webjars/Leaflet.EditInOSM/Leaflet.EditInOSM.js" crossorigin="anonymous"></script>
 
 <script src="/js/osm-mosques-map.js" crossorigin="anonymous"></script>
 

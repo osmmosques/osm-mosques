@@ -112,6 +112,11 @@
             <artifactId>leaflet-providers</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.webjars.bowergithub.yohanboniface</groupId>
+            <artifactId>leaflet.editinosm</artifactId>
+        </dependency>
+
         <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
