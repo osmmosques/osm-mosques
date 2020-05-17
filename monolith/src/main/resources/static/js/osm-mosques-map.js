@@ -11,7 +11,7 @@ function init() {
     const defaultLayer = L.tileLayer.provider('Esri.WorldStreetMap');
 
     <!-- Now the map itself -->
-    map = L.map('map', {
+    let map = L.map('map', {
         center: [48.135, 11.389],
         zoom: 15,
         zoomControl: true,
