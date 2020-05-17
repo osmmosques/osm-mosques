@@ -28,27 +28,40 @@ public class OsmMosquePlaceRepositoryTest
     public void setUp()
     {
         // given
-        OsmMosquePlace product = OsmMosquePlace.builder()
-            .name("P1")
-            // .description("P1 desc")
-            // .price(new BigDecimal("1"))
+        OsmMosquePlace mosquePlaceGermering = OsmMosquePlace.builder()
+            .name("Türk Islam Kültür Cemiyeti")
             .build();
 
-        product.setCreationTime(LocalDateTime.now());
-        product.setModificationTime(LocalDateTime.now());
+        mosquePlaceGermering.setCreationTime(LocalDateTime.now());
+        mosquePlaceGermering.setModificationTime(LocalDateTime.now());
 
-        testEntityManager.persist(product);
+        mosquePlaceGermering.setLat(48.1364);
+        mosquePlaceGermering.setLon(11.3872928);
+
+        mosquePlaceGermering = testEntityManager.persist(mosquePlaceGermering);
+
+        // given
+        OsmMosquePlace mosquePlaceIstanbul = OsmMosquePlace.builder()
+            .name("Konyalı Hacı Tevfik Ağazade Camii")
+            .build();
+
+        mosquePlaceIstanbul.setCreationTime(LocalDateTime.now());
+        mosquePlaceIstanbul.setModificationTime(LocalDateTime.now());
+
+        mosquePlaceIstanbul.setLat(41.0680501);
+        mosquePlaceIstanbul.setLon(28.9998428);
+
+        mosquePlaceIstanbul = testEntityManager.persist(mosquePlaceIstanbul);
     }
 
     @Test
     public void whenFindByName_thenReturnProduct()
     {
         // when
-        OsmMosquePlace product = productRepository.findByName("P1").get();
+        OsmMosquePlace product = productRepository.findByName("Türk Islam Kültür Cemiyeti").get();
 
         // then
-        // // assertThat(product.getDescription()).isEqualTo("P1 desc");
-        // assertThat(4711).isEqualTo(42);
+        assertThat(product).isNotNull();
     }
 
     @Test
@@ -56,6 +69,16 @@ public class OsmMosquePlaceRepositoryTest
     {
         // when
         List<OsmMosquePlace> products = (List) productRepository.findAll();
+
+        // then
+        assertThat(products).hasSize(2);
+    }
+
+    @Test
+    public void whenFindByBBoxInGermering_thenReturnProductList()
+    {
+        // when
+        List<OsmMosquePlace> products = productRepository.findByBbox(11, 48, 12, 49);
 
         // then
         assertThat(products).hasSize(1);
