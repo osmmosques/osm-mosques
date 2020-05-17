@@ -3,6 +3,8 @@
 //
 // $(document).ready(init);
 //
+let map;
+
 init();
 
 function init() {
@@ -11,7 +13,7 @@ function init() {
     const defaultLayer = L.tileLayer.provider('Esri.WorldStreetMap');
 
     <!-- Now the map itself -->
-    let map = L.map('map', {
+    map = L.map('map', {
         center: [48.135, 11.389],
         zoom: 15,
         zoomControl: true,
@@ -90,7 +92,7 @@ function init() {
 
     map.addLayer(markers);
 
-    var popup = L.popup();
+    let popup = L.popup();
 
     function onMapClick(e) {
         popup
@@ -100,4 +102,29 @@ function init() {
     }
 
     map.on('click', onMapClick);
+
+    <!-- Map move methods -->
+    map.on('load', onMapLoaded);
+    map.on('moveend', onMapMoveEnd);
+
+    <!-- Finally, kick off the moveend event after the page finished loading -->
+    onMapMoveEnd();
+}
+
+<!-- Map move methods -->
+function onMapLoaded() {
+    console.log("onLoaded:");
+    console.log("    Center: " + map.getCenter());
+    console.log("    Zoom: " + map.getZoom());
+    console.log("    minll:  " + map.getBounds().getSouthWest());
+    console.log("    maxll:  " + map.getBounds().getNorthEast());
+}
+
+<!-- Map move methods -->
+function onMapMoveEnd() {
+    console.log("onMapMoveEnd:");
+    console.log("    Center: " + map.getCenter());
+    console.log("    Zoom: " + map.getZoom());
+    console.log("    minll:  " + map.getBounds().getSouthWest());
+    console.log("    maxll:  " + map.getBounds().getNorthEast());
 }
