@@ -14,7 +14,7 @@ function init() {
         zoom: 15,
         zoomControl: true,
         editInOSMControlOptions: {
-            zoomThreshold: 15,
+            zoomThreshold: 16,
         },
         layers: [defaultLayer]
     });
