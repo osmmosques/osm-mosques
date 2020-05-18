@@ -88,6 +88,7 @@
         <leaflet-editinosm.version>0.2.1</leaflet-editinosm.version>
         <leaflet-locatecontrol.version>0.71.1</leaflet-locatecontrol.version>
         <leaflet-markercluster.version>1.4.1</leaflet-markercluster.version>
+        <leaflet-plugins.version>3.3.1</leaflet-plugins.version>
         <leaflet-providers.version>1.9.1</leaflet-providers.version>
 
         <slf4j.version>1.7.19</slf4j.version>
@@ -467,6 +468,12 @@
                 <groupId>org.webjars.bowergithub.leaflet</groupId>
                 <artifactId>leaflet.markercluster</artifactId>
                 <version>${leaflet-markercluster.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.webjars.bowergithub.shramov</groupId>
+                <artifactId>leaflet-plugins</artifactId>
+                <version>${leaflet-plugins.version}</version>
             </dependency>
 
             <dependency>
