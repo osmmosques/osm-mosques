@@ -93,6 +93,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.webjars.bowergithub.axios</groupId>
+            <artifactId>axios</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.webjars.bowergithub.jquery</groupId>
             <artifactId>jquery</artifactId>
         </dependency>

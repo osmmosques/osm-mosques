@@ -81,6 +81,7 @@
 
         <!-- Javascript libraries for frontend -->
         <webjars-locator.version>0.40</webjars-locator.version>
+        <axios.version>0.18.0</axios.version>
         <font-awesome.version>4.7.0</font-awesome.version>
         <jquery.version>3.4.1</jquery.version>
         <leaflet.version>1.6.0</leaflet.version>
@@ -436,6 +437,12 @@
                 <groupId>org.webjars.bowergithub.fortawesome</groupId>
                 <artifactId>font-awesome</artifactId>
                 <version>${font-awesome.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.webjars.bowergithub.axios</groupId>
+                <artifactId>axios</artifactId>
+                <version>${axios.version}</version>
             </dependency>
 
             <dependency>

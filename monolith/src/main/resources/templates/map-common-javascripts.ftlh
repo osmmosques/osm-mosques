@@ -1,4 +1,6 @@
-<script src="/webjars/jquery/jquery.js"></script>
+<script src="/webjars/jQuery/dist/jquery.js"></script>
+
+<script src="/webjars/axios/dist/axios.js"></script>
 
 <script src="/webjars/leaflet/dist/leaflet.js" crossorigin="anonymous"></script>
 
