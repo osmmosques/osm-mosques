@@ -6,4 +6,6 @@
 
 <link rel="stylesheet" href="/webjars/leaflet.markercluster/dist/MarkerCluster.css" crossorigin="anonymous"/>
 
+<link rel="stylesheet" href="/webjars/Leaflet.EasyButton/src/easy-button.css" crossorigin="anonymous"/>
+
 <link rel="stylesheet" href="/webjars/Leaflet.EditInOSM/Leaflet.EditInOSM.css" crossorigin="anonymous"/>

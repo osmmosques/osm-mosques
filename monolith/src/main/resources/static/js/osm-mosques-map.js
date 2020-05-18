@@ -52,6 +52,11 @@ function init() {
     <!-- Location control -->
     L.control.locate().addTo(map);
 
+    <!-- Preferences control -->
+    L.easyButton('fa-user', function () {
+        alert('You just clicked on the user button');
+    }, 'someday this will be user preferences...').addTo(map);
+
     <!-- Markers... -->
     const markers = L.markerClusterGroup();
     // markers.addLayer(L.marker(getRandomLatLng(map)));

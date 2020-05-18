@@ -8,6 +8,8 @@
 
 <script src="/webjars/leaflet.markercluster/dist/leaflet.markercluster-src.js" crossorigin="anonymous"></script>
 
+<script src="/webjars/Leaflet.EasyButton/src/easy-button.js" crossorigin="anonymous"></script>
+
 <script src="/webjars/leaflet-plugins/control/Permalink.js" crossorigin="anonymous"></script>
 
 <script src="/webjars/leaflet-plugins/control/Permalink.Marker.js" crossorigin="anonymous"></script>
