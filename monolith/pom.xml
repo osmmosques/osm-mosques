@@ -93,7 +93,7 @@
         </dependency>
 
         <dependency>
-            <groupId>org.webjars</groupId>
+            <groupId>org.webjars.bowergithub.jquery</groupId>
             <artifactId>jquery</artifactId>
         </dependency>
 

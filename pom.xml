@@ -82,7 +82,7 @@
         <!-- Javascript libraries for frontend -->
         <webjars-locator.version>0.40</webjars-locator.version>
         <font-awesome.version>4.7.0</font-awesome.version>
-        <jquery.version>3.5.1</jquery.version>
+        <jquery.version>3.4.1</jquery.version>
         <leaflet.version>1.6.0</leaflet.version>
         <leaflet-editinosm.version>0.2.1</leaflet-editinosm.version>
         <leaflet-locatecontrol.version>0.71.1</leaflet-locatecontrol.version>
@@ -439,7 +439,7 @@
             </dependency>
 
             <dependency>
-                <groupId>org.webjars</groupId>
+                <groupId>org.webjars.bowergithub.jquery</groupId>
                 <artifactId>jquery</artifactId>
                 <version>${jquery.version}</version>
             </dependency>
