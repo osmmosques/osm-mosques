@@ -10,7 +10,7 @@
 
     <inceptionYear>2014</inceptionYear>
     <url>http://hakan42.github.com/osm-mosques/</url>
-    <description></description>
+    <description>A Web application to display maps of muslim prayer sites</description>
 
     <modules>
         <module>mariadb</module>
@@ -906,9 +906,13 @@
                                 <dockerfile>src/docker/Dockerfile</dockerfile>
                                 <buildArgs>
                                     <JAR_FILE>${project.build.finalName}</JAR_FILE>
+                                    <!--suppress UnresolvedMavenProperty -->
                                     <BUILD_DATE>${git.build.time}</BUILD_DATE>
+                                    <!--suppress UnresolvedMavenProperty -->
                                     <VCS_REF>${git.commit.id}</VCS_REF>
+                                    <!--suppress UnresolvedMavenProperty -->
                                     <VCS_SOURCE>${git.remote.origin.url}</VCS_SOURCE>
+                                    <!--suppress UnresolvedMavenProperty -->
                                     <VCS_VERSION>${git.build.version}</VCS_VERSION>
                                 </buildArgs>
                             </configuration>
