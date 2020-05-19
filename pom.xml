@@ -81,7 +81,7 @@
 
         <!-- Javascript libraries for frontend -->
         <webjars-locator.version>0.40</webjars-locator.version>
-        <axios.version>0.18.0</axios.version>
+        <axios.version>0.19.2</axios.version>
         <font-awesome.version>4.7.0</font-awesome.version>
         <jquery.version>3.5.1</jquery.version>
         <leaflet.version>1.6.0</leaflet.version>
