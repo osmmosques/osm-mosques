@@ -1,6 +1,8 @@
 //
 let map;
 
+const markers = L.markerClusterGroup();
+
 $(document).ready(init);
 
 function init() {
@@ -10,7 +12,7 @@ function init() {
 
     <!-- Now the map itself -->
     map = L.map('map', {
-        center: [48.135, 11.389],
+        center: [51.45, -0.13],
         zoom: 15,
         zoomControl: true,
         editInOSMControlOptions: {
@@ -58,40 +60,8 @@ function init() {
     }, 'someday this will be user preferences...').addTo(map);
 
     <!-- Markers... -->
-    const markers = L.markerClusterGroup();
+
     // markers.addLayer(L.marker(getRandomLatLng(map)));
-
-    // var node = data[i];
-    // var key = node['key'];
-    // var title = "OSM / " + key + ' / ' + node['name'];
-    // var lat = node['lat'];
-    // var lon = node['lon'];
-    // var marker = L.marker(L.latLng(lat, lon), {
-    // customAttrPlaceKey: key,
-    // title: title,
-    // icon: osmMosqueIcon
-    // }
-    // );
-
-    for (let x = -2 ; x <= 2 ; x = x + 1)
-    {
-        for (let y = -2 ; y <= 2 ; y = y + 1)
-        {
-            const key = x + " - " + y;
-            const title = x + " - " + y;
-
-            const marker = L.marker(L.latLng( 48.135 + ( y / 200), 11.389 + ( x / 100)),
-                {
-                    customAttrPlaceKey: key,
-                    title: title
-                }
-            );
-
-            marker.bindPopup(title);
-
-            markers.addLayer(marker);
-        }
-    }
 
     map.addLayer(markers);
 
@@ -125,9 +95,63 @@ function onMapLoaded() {
 
 <!-- Map move methods -->
 function onMapMoveEnd() {
-    console.log("onMapMoveEnd:");
-    console.log("    Center: " + map.getCenter());
-    console.log("    Zoom: " + map.getZoom());
-    console.log("    minll:  " + map.getBounds().getSouthWest());
-    console.log("    maxll:  " + map.getBounds().getNorthEast());
+
+    const sw = map.getBounds().getSouthWest();
+    const ne = map.getBounds().getNorthEast();
+
+    let osmDataUrl;
+
+    if (map.getZoom() < 6) {
+        osmDataUrl = '/rest/map/placemarkers/osm';
+        // osmDataUrl = '/rest/map/statisticmarkers/osm'; //as-json';
+        // osmMarkersArrivedFunction = osmStatisticsmarkerListArrived;
+    } else {
+        osmDataUrl = '/rest/map/placemarkers/osm'; //as-json';
+        // osmMarkersArrivedFunction = osmPlacemarkerListArrived;
+
+        axios.get(osmDataUrl, {
+            params: {
+                'minlat': sw.lat,
+                'minlon': sw.lng,
+                'maxlat': ne.lat,
+                'maxlon': ne.lng,
+                'zoom': map.getZoom()
+            }
+        })
+        .then((response) => {
+            osmMarkersArrivedFunction(response.data);
+        }, (error) => {
+            console.log("ERROR: ", error);
+        });
+    }
+}
+
+function osmMarkersArrivedFunction(data) {
+    markers.clearLayers();
+
+    // var node = data[i];
+    // var key = node['key'];
+    // var title = "OSM / " + key + ' / ' + node['name'];
+    // var lat = node['lat'];
+    // var lon = node['lon'];
+    // var marker = L.marker(L.latLng(lat, lon), {
+    // customAttrPlaceKey: key,
+    // title: title,
+    // icon: osmMosqueIcon
+    // }
+    // );
+
+    data.forEach((item) => {
+        console.log(item);
+
+        let marker = L.marker(L.latLng(item.lat, item.lon),
+            {
+                customAttrPlaceKey: item.key,
+                title: item.name
+            }
+        );
+
+        marker.bindPopup(item.name);
+        markers.addLayer(marker);
+    });
 }
