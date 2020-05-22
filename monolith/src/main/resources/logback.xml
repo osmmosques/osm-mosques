@@ -18,6 +18,7 @@
     <logger name="org.hibernate.tool.hbm2ddl" additivity="false" level="debug"/>
     <logger name="org.hibernate.type" additivity="false" level="info"/> <!-- debug for mapping java 2 sql -->
     <logger name="org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener" level="info"/> <!-- debug for autoconfiguration -->
+    <logger name="org.springframework.web.servlet.DispatcherServlet" level="info"/>
     <logger name="com.zaxxer.hikari.pool" additivity="false" level="info"/>
 
     <root level="debug">
