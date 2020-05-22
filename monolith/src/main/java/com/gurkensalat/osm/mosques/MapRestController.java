@@ -26,6 +26,7 @@ public class MapRestController
     private OsmMosquePlaceRepository osmMosquePlaceRepository;
 
     @GetMapping(value = "/rest/map/placemarkers/osm", produces = MediaType.APPLICATION_JSON_VALUE)
+    @SuppressWarnings("java:S2293") // We can't use diamond operators on the return value...
     public ResponseEntity<List<MapDataEntry>> osmPlaceMarkers(
         @RequestParam(value = "minlat", defaultValue = "-90") String minlat,
         @RequestParam(value = "minlon", defaultValue = "-180") String minlon,
