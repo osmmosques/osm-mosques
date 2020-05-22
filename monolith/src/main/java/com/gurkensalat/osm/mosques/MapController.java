@@ -2,17 +2,17 @@ package com.gurkensalat.osm.mosques;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 @Slf4j
 /* package protected */
 class MapController
 {
-    private final static String REQUEST_MAP = "/";
+    private static final String REQUEST_MAP = "/";
 
-    @RequestMapping(REQUEST_MAP)
-    String map()
+    @GetMapping(REQUEST_MAP)
+    public String map()
     {
         return "map";
     }
