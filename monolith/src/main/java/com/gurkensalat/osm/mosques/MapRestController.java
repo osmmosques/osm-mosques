@@ -1,0 +1,81 @@
+package com.gurkensalat.osm.mosques;
+
+import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
+import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.springframework.util.CollectionUtils.isEmpty;
+
+@RestController
+@EnableAutoConfiguration
+@Slf4j
+public class MapRestController
+{
+    @Autowired
+    private OsmMosquePlaceRepository osmMosquePlaceRepository;
+
+    @RequestMapping(value = "/rest/map/placemarkers/osm", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<List<MapDataEntry>> osmPlaceMarkers(
+        @RequestParam(value = "minlat", defaultValue = "-90") String minlat,
+        @RequestParam(value = "minlon", defaultValue = "-180") String minlon,
+        @RequestParam(value = "maxlat", defaultValue = "90") String maxlat,
+        @RequestParam(value = "maxlon", defaultValue = "180") String maxlon,
+        @RequestParam(value = "zoom", defaultValue = "16", required = false) String zoomlevel
+    )
+    {
+        List<MapDataEntry> result = new ArrayList<MapDataEntry>();
+
+        try
+        {
+            double minLat = Double.parseDouble(minlat);
+            double maxLat = Double.parseDouble(maxlat);
+            double minLon = Double.parseDouble(minlon);
+            double maxLon = Double.parseDouble(maxlon);
+
+            log.debug("  querying the repo for places between {} / {} / {} / {}", minLon, minLat, maxLon, maxLat);
+
+            List<OsmMosquePlace> mosquePlaces = osmMosquePlaceRepository.findByBbox(minLon, minLat, maxLon, maxLat);
+            if (!(isEmpty(mosquePlaces)))
+            {
+                for (OsmMosquePlace mosquePlace : mosquePlaces)
+                {
+                    log.debug("  about to convert {}", mosquePlace);
+                    MapDataEntry mapDataEntry = new MapDataEntry(mosquePlace);
+                    log.debug("    converted to {}", mapDataEntry);
+                    result.add(mapDataEntry);
+                }
+            }
+        }
+        catch (NumberFormatException e)
+        {
+            log.error("while asking for map data", e);
+        }
+
+        return new ResponseEntity<List<MapDataEntry>>(result, null, HttpStatus.OK);
+    }
+
+    private MapDataEntry createSyntheticMapPlace(double centerLat, double centerLon, double offsetLat, double offsetLon, int index)
+    {
+        MapDataEntry mapDataEntry = new MapDataEntry();
+        String key = "key_" + offsetLon + "_" + offsetLat + "_" + index;
+        String name = "OSM Place " + offsetLon + " - " + offsetLat + " - " + index;
+
+        mapDataEntry.setKey(key);
+        mapDataEntry.setName(name);
+        mapDataEntry.setLat(centerLat + (offsetLat / 200));
+        mapDataEntry.setLon(centerLon + (offsetLon / 100));
+
+        return mapDataEntry;
+    }
+}
