@@ -34,7 +34,7 @@ public class MapRestController
         @RequestParam(value = "zoom", defaultValue = "16", required = false) String zoomlevel
     )
     {
-        List<MapDataEntry> result = new ArrayList<MapDataEntry>();
+        List<MapDataEntry> result = new ArrayList<>();
 
         try
         {
@@ -63,19 +63,5 @@ public class MapRestController
         }
 
         return new ResponseEntity<List<MapDataEntry>>(result, null, HttpStatus.OK);
-    }
-
-    private MapDataEntry createSyntheticMapPlace(double centerLat, double centerLon, double offsetLat, double offsetLon, int index)
-    {
-        MapDataEntry mapDataEntry = new MapDataEntry();
-        String key = "key_" + offsetLon + "_" + offsetLat + "_" + index;
-        String name = "OSM Place " + offsetLon + " - " + offsetLat + " - " + index;
-
-        mapDataEntry.setKey(key);
-        mapDataEntry.setName(name);
-        mapDataEntry.setLat(centerLat + (offsetLat / 200));
-        mapDataEntry.setLon(centerLon + (offsetLon / 100));
-
-        return mapDataEntry;
     }
 }
