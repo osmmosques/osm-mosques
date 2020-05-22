@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,8 +25,8 @@ public class MapRestController
     @Autowired
     private OsmMosquePlaceRepository osmMosquePlaceRepository;
 
-    @RequestMapping(value = "/rest/map/placemarkers/osm", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<MapDataEntry>> osmPlaceMarkers(
+    @GetMapping(value = "/rest/map/placemarkers/osm", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<MapDataEntry>> osmPlaceMarkers(
         @RequestParam(value = "minlat", defaultValue = "-90") String minlat,
         @RequestParam(value = "minlon", defaultValue = "-180") String minlon,
         @RequestParam(value = "maxlat", defaultValue = "90") String maxlat,
