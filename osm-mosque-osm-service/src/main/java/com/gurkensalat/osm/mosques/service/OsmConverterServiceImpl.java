@@ -3,14 +3,13 @@ package com.gurkensalat.osm.mosques.service;
 import com.gurkensalat.osm.entity.OsmEntityType;
 import com.gurkensalat.osm.entity.OsmNode;
 import com.gurkensalat.osm.entity.OsmRoot;
+import com.gurkensalat.osm.entity.OsmWay;
 import com.gurkensalat.osm.entity.PlaceType;
 import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
 import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
 import com.gurkensalat.osm.repository.OsmParserRepository;
 import com.gurkensalat.osm.repository.OsmParserRepositoryImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.CharEncoding;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -18,8 +17,8 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.substring;
@@ -109,13 +108,13 @@ public class OsmConverterServiceImpl implements OsmConverterService
             result.setNodes(root.getNodes().size());
             result.setWays(root.getWays().size());
 
-//        for (OsmWay way : root.getWays())
-//        {
-//            if (persistOsmWay(way, null, null) != null)
-//            {
-//                result.setPlaces(result.getPlaces() + 1);
-//            }
-//        }
+            for (OsmWay way : root.getWays())
+            {
+                if (persistOsmWay(way, null, null) != null)
+                {
+                    result.setPlaces(result.getPlaces() + 1);
+                }
+            }
         }
         catch (UnsupportedEncodingException e)
         {
@@ -135,7 +134,7 @@ public class OsmConverterServiceImpl implements OsmConverterService
         // Actually, sanitize this input parameter first...
         if (!(isEmpty(path)))
         {
-            path = URLDecoder.decode(path, CharEncoding.UTF_8);
+            path = URLDecoder.decode(path, StandardCharsets.UTF_8.toString());
             // TODO remove ".." and such from path...
             path = path.replaceAll("/", "");
             dataFile = new File(dataFile, path);
@@ -346,46 +345,36 @@ public class OsmConverterServiceImpl implements OsmConverterService
 //            osmMosquePlaceRepository.delete(place.getId());
 //        }
 //    }
-//
-//    private OsmMosquePlace persistOsmWay(OsmWay way)
-//    {
-//        return persistOsmWay(way, null, null);
-//    }
-//
-//    private OsmMosquePlace persistOsmWay(OsmWay way, String countryCode, String state)
-//    {
-//
-//        log.debug("Read way: {}, {}, {}", way, way.getLat(), way.getLon());
-//
-//        String key = Long.toString(way.getId() + OsmMosquePlace.getWayOffset());
-//
-//        // re-create a place from OSM data
-//        OsmMosquePlace tempPlace = new OsmMosquePlace(way);
-//        tempPlace.setKey(key);
-//        tempPlace.setType(OsmEntityType.WAY);
-//        tempPlace.setPlaceType(PlaceType.OSM_PLACE_OF_WORSHIP);
-//        tempPlace.setCountryFromOSM(tempPlace.getAddress().getCountry());
-//
-//        OsmMosquePlace place = persistOsmMosquePlace(tempPlace, key, countryCode, state);
-//        if (place != null)
-//        {
-//            if (place.isValid())
-//            {
-//                List<OsmNodeTag> tags = new ArrayList<>();
-//                for (OsmWayTag wayTag : way.getTags())
-//                {
-//                    OsmNodeTag tag = new OsmNodeTag();
-//                    tag.setKey(wayTag.getKey());
-//                    tag.setValue(wayTag.getValue());
-//                    tags.add(tag);
-//                }
-//
-//                persistTags(place.getId(), tags);
-//            }
-//        }
-//
-//        return place;
-//    }
+
+    private OsmMosquePlace persistOsmWay(OsmWay way)
+    {
+        return persistOsmWay(way, null, null);
+    }
+
+    private OsmMosquePlace persistOsmWay(OsmWay way, String countryCode, String state)
+    {
+        log.debug("Read way: {}, {}, {}", way, way.getLat(), way.getLon());
+
+        String key = Long.toString(way.getId() + OsmMosquePlace.getWayOffset());
+
+        // re-create a place from OSM data
+        OsmMosquePlace tempPlace = new OsmMosquePlace(way);
+        tempPlace.setKey(key);
+        tempPlace.setType(OsmEntityType.WAY);
+        tempPlace.setPlaceType(PlaceType.OSM_PLACE_OF_WORSHIP);
+        tempPlace.setCountryFromOSM(tempPlace.getAddress().getCountry());
+
+        OsmMosquePlace place = persistOsmMosquePlace(tempPlace, key, countryCode, state);
+        if (place != null)
+        {
+            if (place.isValid())
+            {
+//                persistTags(place.getId(), way.getTags());
+            }
+        }
+
+        return place;
+    }
 
     private OsmMosquePlace persistOsmMosquePlace(OsmMosquePlace tempPlace, String key, String state, String countryCode)
     {
@@ -485,6 +474,22 @@ public class OsmConverterServiceImpl implements OsmConverterService
 
         return place;
     }
+
+//    private void persistTags(long parentId, List<OsmWayTag> tags)
+//    {
+//        TODO analog to persistTags(OsmNodeTag)
+//
+//                List<OsmNodeTag> tags = new ArrayList<>();
+//                for (OsmWayTag wayTag : way.getTags())
+//                {
+//                    OsmNodeTag tag = new OsmNodeTag();
+//                    tag.setKey(wayTag.getKey());
+//                    tag.setValue(wayTag.getValue());
+//                    tags.add(tag);
+//                }
+//
+//                persistTags(place.getId(), tags);
+//    }
 
 //    private void persistTags(long parentId, List<OsmNodeTag> tags)
 //    {
