@@ -18,11 +18,20 @@ class ImportOSMDataController
     @Autowired
     private OsmConverterService osmConverterService;
 
-    @GetMapping("/nodes/{tile}")
-    public OsmConverterResult nodes(@PathVariable String tile)
+    @GetMapping("/quadtile/nodes/{tile}")
+    public OsmConverterResult nodesInQuadtile(@PathVariable String tile)
     {
         log.info("About to load some nodes from tile {}", tile);
         OsmConverterResult result = osmConverterService.importNodes("world-religion-muslim-node-by-quadtile-" + tile + ".osm");
+        log.info("Loaded {}", result);
+        return result;
+    }
+
+    @GetMapping("/quadtile/ways/{tile}")
+    public OsmConverterResult waysInQuadtile(@PathVariable String tile)
+    {
+        log.info("About to load some nodes from tile {}", tile);
+        OsmConverterResult result = osmConverterService.importWays("world-religion-muslim-way-by-quadtile-" + tile + ".osm");
         log.info("Loaded {}", result);
         return result;
     }
