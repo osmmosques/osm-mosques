@@ -8,6 +8,9 @@
 
 <script src="/webjars/leaflet.markercluster/dist/leaflet.markercluster-src.js" crossorigin="anonymous"></script>
 
+<!-- TODO replace this with webjar reference when available -->
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js" crossorigin="anonymous"></script>
+
 <script src="/webjars/Leaflet.EasyButton/src/easy-button.js" crossorigin="anonymous"></script>
 
 <script src="/webjars/leaflet-plugins/control/Permalink.js" crossorigin="anonymous"></script>

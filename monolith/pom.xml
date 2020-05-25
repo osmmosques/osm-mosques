@@ -113,6 +113,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.webjars.bowergithub.perliedman</groupId>
+            <artifactId>leaflet-control-geocoder</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.webjars.bowergithub.domoritz</groupId>
             <artifactId>leaflet-locatecontrol</artifactId>
         </dependency>

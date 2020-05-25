@@ -8,6 +8,8 @@
 
 <link rel="stylesheet" href="/webjars/leaflet.markercluster/dist/MarkerCluster.Default.css" crossorigin="anonymous"/>
 
+<link rel="stylesheet" href="/webjars/leaflet-control-geocoder/Control.Geocoder.css" crossorigin="anonymous"/>
+
 <link rel="stylesheet" href="/webjars/Leaflet.EasyButton/src/easy-button.css" crossorigin="anonymous"/>
 
 <link rel="stylesheet" href="/webjars/Leaflet.EditInOSM/Leaflet.EditInOSM.css" crossorigin="anonymous"/>

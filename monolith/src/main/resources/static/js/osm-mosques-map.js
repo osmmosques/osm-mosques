@@ -66,6 +66,9 @@ function init() {
     <!-- Location control -->
     L.control.locate().addTo(map);
 
+    <!-- And location search -->
+    L.Control.geocoder().addTo(map);
+
     <!-- Preferences control -->
     L.easyButton('fa-user', function () {
         alert('You just clicked on the user button');
