@@ -43,7 +43,19 @@ function init() {
         color: 'red',
         fillColor: '#f03',
         fillOpacity: 0.1
-    }).addTo(map).bindPopup("I am a circle.");
+    }).addTo(map);
+
+    L.polyline([[-90, -180], [-90, 180]], { color: 'red' }).addTo(map);
+    L.polyline([[-45, -180], [-45, 180]], { color: 'red' }).addTo(map);
+    L.polyline([[  0, -180], [  0, 180]], { color: 'red' }).addTo(map);
+    L.polyline([[ 45, -180], [ 45, 180]], { color: 'red' }).addTo(map);
+    L.polyline([[ 90, -180], [ 90, 180]], { color: 'red' }).addTo(map);
+
+    L.polyline([[-90, -180], [ 90,-180]], { color: 'red' }).addTo(map);
+    L.polyline([[-90,  -90], [ 90, -90]], { color: 'red' }).addTo(map);
+    L.polyline([[-90,    0], [ 90,   0]], { color: 'red' }).addTo(map);
+    L.polyline([[-90,   90], [ 90,  90]], { color: 'red' }).addTo(map);
+    L.polyline([[-90,  180], [ 90, 180]], { color: 'red' }).addTo(map);
 
     <!-- Now add the layer switcher to the map -->
     var layers = new L.Control.Layers(baseLayers);
@@ -105,6 +117,7 @@ function onMapMoveEnd() {
         osmDataUrl = '/rest/map/placemarkers/osm';
         // osmDataUrl = '/rest/map/statisticmarkers/osm'; //as-json';
         // osmMarkersArrivedFunction = osmStatisticsmarkerListArrived;
+        markers.clearLayers();
     } else {
         osmDataUrl = '/rest/map/placemarkers/osm'; //as-json';
         // osmMarkersArrivedFunction = osmPlacemarkerListArrived;
@@ -129,18 +142,6 @@ function onMapMoveEnd() {
 function osmMarkersArrivedFunction(data) {
     markers.clearLayers();
 
-    // var node = data[i];
-    // var key = node['key'];
-    // var title = "OSM / " + key + ' / ' + node['name'];
-    // var lat = node['lat'];
-    // var lon = node['lon'];
-    // var marker = L.marker(L.latLng(lat, lon), {
-    // customAttrPlaceKey: key,
-    // title: title,
-    // icon: osmMosqueIcon
-    // }
-    // );
-
     data.forEach((item) => {
         console.log(item);
 
@@ -148,6 +149,7 @@ function osmMarkersArrivedFunction(data) {
             {
                 customAttrPlaceKey: item.key,
                 title: item.name
+                // icon: osmMosqueIcon
             }
         );
 
