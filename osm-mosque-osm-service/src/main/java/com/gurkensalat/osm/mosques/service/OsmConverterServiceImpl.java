@@ -69,6 +69,7 @@ public class OsmConverterServiceImpl implements OsmConverterService
                     if (persistOsmNode(node, null, null) != null)
                     {
                         result.setPlaces(result.getPlaces() + 1);
+                        log.debug("Persisted {} of {} places", result.getPlaces(), result.getNodes());
                     }
                 }
                 catch (Exception e)
@@ -113,6 +114,7 @@ public class OsmConverterServiceImpl implements OsmConverterService
                 if (persistOsmWay(way, null, null) != null)
                 {
                     result.setPlaces(result.getPlaces() + 1);
+                    log.debug("Persisted {} of {} places", result.getPlaces(), result.getWays());
                 }
             }
         }
