@@ -66,7 +66,7 @@
         <spring-data-rest.version>3.2.3.RELEASE</spring-data-rest.version>
         <spring-session.version>1.1.1.RELEASE</spring-session.version>
 
-        <openapi.version>1.2.34</openapi.version>
+        <openapi.version>1.3.9</openapi.version>
 
         <commons-codec.version>1.6</commons-codec.version>
         <commons-collections.version>4.4</commons-collections.version>
