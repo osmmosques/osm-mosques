@@ -19,3 +19,13 @@ spring:
   h2:
     console:
       enabled: false
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: '/api-docs'
+  show-actuator: true
+  swagger-ui:
+    path: '/swagger-ui'
+    config-url: '/api-docs/swagger-config'
+    url: '/api-docs'
