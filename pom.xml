@@ -697,6 +697,7 @@
                             </goals>
                             <configuration>
                                 <outputFile>${project.build.directory}/dependencies-list.txt</outputFile>
+                                <sort>true</sort>
                             </configuration>
                         </execution>
                         <execution>
