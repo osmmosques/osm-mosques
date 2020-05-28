@@ -104,7 +104,7 @@
 
         <metrics.version>3.1.2</metrics.version>
 
-        <flyway.version>4.0</flyway.version>
+        <flyway.version>6.4.3</flyway.version>
 
         <scannotation.version>1.0.2</scannotation.version>
 
