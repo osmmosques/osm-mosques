@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.util.CollectionUtils.isEmpty;
+import static org.springframework.util.StringUtils.isEmpty;
 
 @RestController
 @EnableAutoConfiguration
@@ -51,9 +52,12 @@ public class MapRestController
             {
                 for (OsmMosquePlace mosquePlace : mosquePlaces)
                 {
-                    log.debug("  about to convert {}", mosquePlace);
                     MapDataEntry mapDataEntry = new MapDataEntry(mosquePlace);
-                    log.debug("    converted to {}", mapDataEntry);
+                    if (isEmpty(mapDataEntry.getName()))
+                    {
+                        mapDataEntry.setName("OSM " + mosquePlace.getType() + " " + mosquePlace.getKey());
+                    }
+
                     result.add(mapDataEntry);
                 }
             }
