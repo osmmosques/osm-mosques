@@ -104,8 +104,6 @@
 
         <metrics.version>3.1.2</metrics.version>
 
-        <flyway.version>4.0</flyway.version>
-
         <scannotation.version>1.0.2</scannotation.version>
 
         <h2-database.version>1.4.200</h2-database.version>
@@ -562,12 +560,6 @@
                 <groupId>com.zaxxer</groupId>
                 <artifactId>HikariCP</artifactId>
                 <version>${hikari-cp.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-core</artifactId>
-                <version>${flyway.version}</version>
             </dependency>
 
             <dependency>
