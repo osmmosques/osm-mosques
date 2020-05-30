@@ -6,14 +6,17 @@ import com.gurkensalat.osm.entity.OsmRoot;
 import com.gurkensalat.osm.entity.OsmWay;
 import com.gurkensalat.osm.entity.PlaceType;
 import com.gurkensalat.osm.mosques.entity.OsmMosquePlace;
+import com.gurkensalat.osm.mosques.messaging.OsmServiceMessaging;
 import com.gurkensalat.osm.mosques.repository.OsmMosquePlaceRepository;
 import com.gurkensalat.osm.repository.OsmParserRepository;
 import com.gurkensalat.osm.repository.OsmParserRepositoryImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Priority;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -25,6 +28,8 @@ import static org.apache.commons.lang3.StringUtils.substring;
 import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 
 @Component
+@Qualifier(OsmServiceMessaging.KIND_SYNC)
+@Priority(2)
 @Slf4j
 public class OsmConverterServiceImpl implements OsmConverterService
 {

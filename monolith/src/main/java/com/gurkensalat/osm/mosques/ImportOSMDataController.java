@@ -1,9 +1,11 @@
 package com.gurkensalat.osm.mosques;
 
+import com.gurkensalat.osm.mosques.messaging.OsmServiceMessaging;
 import com.gurkensalat.osm.mosques.service.OsmConverterResult;
 import com.gurkensalat.osm.mosques.service.OsmConverterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 class ImportOSMDataController
 {
     @Autowired
+    @Qualifier(OsmServiceMessaging.KIND_ASYNC)
     private OsmConverterService osmConverterService;
 
     @GetMapping("/quadtile/nodes/{tile}")
