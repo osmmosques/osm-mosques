@@ -66,7 +66,7 @@ public class OsmConverterServiceImpl implements OsmConverterService
             {
                 try
                 {
-                    if (persistOsmNode(node, null, null) != null)
+                    if (persistOsmNode(node) != null)
                     {
                         result.setPlaces(result.getPlaces() + 1);
                         log.debug("Persisted {} of {} places", result.getPlaces(), result.getNodes());
@@ -111,7 +111,7 @@ public class OsmConverterServiceImpl implements OsmConverterService
 
             for (OsmWay way : root.getWays())
             {
-                if (persistOsmWay(way, null, null) != null)
+                if (persistOsmWay(way) != null)
                 {
                     result.setPlaces(result.getPlaces() + 1);
                     log.debug("Persisted {} of {} places", result.getPlaces(), result.getWays());
@@ -378,7 +378,7 @@ public class OsmConverterServiceImpl implements OsmConverterService
         return place;
     }
 
-    private OsmMosquePlace persistOsmMosquePlace(OsmMosquePlace tempPlace, String key, String state, String countryCode)
+    private OsmMosquePlace persistOsmMosquePlace(OsmMosquePlace tempPlace, String key, String countryCode, String state)
     {
         OsmMosquePlace place = null;
 
