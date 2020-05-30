@@ -9,6 +9,7 @@ import org.springframework.util.FileCopyUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,10 +34,11 @@ public class DockerSecretsProcessor implements EnvironmentPostProcessor
                 File[] secretFiles = secretsDirectory.listFiles();
                 for (File secretFile: secretFiles)
                 {
-                    byte[] content = FileCopyUtils.copyToByteArray(secretFile);
                     String key = secretFile.getName();
                     key = key.toLowerCase().replaceAll("\\.", "_");
-                    dockerSecrets.put(key, content.toString());
+
+                    byte[] content = FileCopyUtils.copyToByteArray(secretFile);
+                    dockerSecrets.put(key, Arrays.toString(content));
                 }
             }
             catch (IOException ioe)
