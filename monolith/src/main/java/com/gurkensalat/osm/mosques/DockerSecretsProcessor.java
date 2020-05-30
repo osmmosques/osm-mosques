@@ -35,7 +35,10 @@ public class DockerSecretsProcessor implements EnvironmentPostProcessor
                 for (File secretFile: secretFiles)
                 {
                     String key = secretFile.getName();
-                    key = key.toLowerCase().replaceAll("\\.", "_");
+                    if (!(key.startsWith("spring.")))
+                    {
+                        key = key.toLowerCase().replaceAll("\\.", "_");
+                    }
 
                     byte[] content = FileCopyUtils.copyToByteArray(secretFile);
                     dockerSecrets.put(key, Arrays.toString(content));
