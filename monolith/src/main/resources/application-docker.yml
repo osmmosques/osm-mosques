@@ -7,6 +7,8 @@ spring:
       username: osm_mosques
       password: osm_mosques
       jdbc-url: jdbc:mariadb://mariadb:3306/osm_mosques
+  rabbitmq:
+    host: mq
 
 osm:
   data:

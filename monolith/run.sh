@@ -27,6 +27,7 @@ esac
     JAVA_OPTS_TO_INJECT="${JAVA_OPTS_TO_INJECT} -Dfoo=bar"
 
     MARIADB_IP_ADDRESS=10.0.2.15
+    RABBITMQ_IP_ADDRESS=10.0.2.15
 
     OSMDATA_VOLUME="-v /home/hakan/src/osm/osmdata:/home/osm_mosques/osmdata"
 
@@ -49,6 +50,7 @@ esac
                --link osm_mosques_mariadb:osm_mosques_mariadb \
                -p 8080:8080 \
                --add-host mariadb:${MARIADB_IP_ADDRESS} \
+               --add-host mq:${RABBITMQ_IP_ADDRESS} \
                --env JAVA_OPTS="${JAVA_OPTS_TO_INJECT}" \
                --env PUID=$(id -u) \
                --env PGID=$(id -g) \
