@@ -161,6 +161,11 @@
         <!-- Our own libraries -->
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>osm-mosque-messaging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>osm-mosque-persistence</artifactId>
         </dependency>
 

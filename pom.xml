@@ -23,7 +23,7 @@
         <!-- <module>osm-mosque-qa-persistence</module> -->
         <!-- <module>osm-mosque-statistics-persistence</module> -->
         <!-- <module>osm-mosque-statistics-service</module> -->
-        <!-- <module>osm-mosque-messaging</module> -->
+        <module>osm-mosque-messaging</module>
         <!-- <module>webapp</module> -->
         <!-- <module>webapp-for-versioneye</module> -->
         <module>monolith</module>

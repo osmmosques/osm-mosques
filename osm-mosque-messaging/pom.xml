@@ -14,14 +14,15 @@
 
     <name>${project.artifactId}</name>
 
-    <properties>
-    </properties>
+    <build>
+        <plugins>
+        </plugins>
+    </build>
 
     <dependencies>
-        <!-- Our own libraries -->
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>osm-mosque-statistics-service</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
 
         <dependency>
@@ -30,27 +31,9 @@
         </dependency>
 
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>osm-mosque-geocoding-service</artifactId>
-        </dependency>
-
-        <!-- Spring goes here -->
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
-
-        <!-- And other dependencies... -->
-        <dependency>
-            <groupId>com.ullink.slack</groupId>
-            <artifactId>simpleslackapi</artifactId>
-        </dependency>
-
     </dependencies>
-
-    <build>
-        <plugins>
-        </plugins>
-    </build>
 
 </project>
