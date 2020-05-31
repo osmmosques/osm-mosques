@@ -14,5 +14,9 @@ public class ImportDataMessage implements Serializable
 {
     OsmEntityType kind;
 
+    String source;
+
     String path;
+
+    String id;
 }

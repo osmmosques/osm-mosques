@@ -38,4 +38,24 @@ class ImportOSMDataController
         log.info("Loaded {}", result);
         return result;
     }
+
+    // TODO we need a public endpoint for this too
+    @GetMapping("/online/node/{id}")
+    public OsmConverterResult nodeWithIdFromAPI(@PathVariable String id)
+    {
+        log.info("About to load a node with id {}", id);
+        OsmConverterResult result = osmConverterService.fetchAndImportNode(id);
+        log.info("Loaded {}", result);
+        return result;
+    }
+
+    // TODO we need a public endpoint for this too
+    @GetMapping("/online/way/{id}")
+    public OsmConverterResult wayWithIdFromAPI(@PathVariable String id)
+    {
+        log.info("About to load a way with id {}", id);
+        OsmConverterResult result = osmConverterService.fetchAndImportWay(id);
+        log.info("Loaded {}", result);
+        return result;
+    }
 }

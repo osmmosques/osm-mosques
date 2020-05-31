@@ -26,7 +26,7 @@ public class AsyncOsmConverterServiceImpl implements OsmConverterService
     {
         if (rabbitTemplate != null)
         {
-            ImportDataMessage message = new ImportDataMessage(OsmEntityType.NODE, path);
+            ImportDataMessage message = new ImportDataMessage(OsmEntityType.NODE, OsmServiceMessaging.SOURCE_FILE, path, null);
             rabbitTemplate.convertAndSend(OsmServiceMessaging.QUEUE_NAME_IMPORT_OSM_DATA, message);
         }
         return createAsyncResult(path);
@@ -37,7 +37,7 @@ public class AsyncOsmConverterServiceImpl implements OsmConverterService
     {
         if (rabbitTemplate != null)
         {
-            ImportDataMessage message = new ImportDataMessage(OsmEntityType.WAY, path);
+            ImportDataMessage message = new ImportDataMessage(OsmEntityType.WAY, OsmServiceMessaging.SOURCE_FILE, path, null);
             rabbitTemplate.convertAndSend(OsmServiceMessaging.QUEUE_NAME_IMPORT_OSM_DATA, message);
         }
         return createAsyncResult(path);
@@ -46,14 +46,22 @@ public class AsyncOsmConverterServiceImpl implements OsmConverterService
     @Override
     public OsmConverterResult fetchAndImportNode(String id)
     {
-        log.info("fetchAndImportNode {}", id);
+        if (rabbitTemplate != null)
+        {
+            ImportDataMessage message = new ImportDataMessage(OsmEntityType.NODE, OsmServiceMessaging.SOURCE_API, null, id);
+            rabbitTemplate.convertAndSend(OsmServiceMessaging.QUEUE_NAME_IMPORT_OSM_DATA, message);
+        }
         return createAsyncResult(id);
     }
 
     @Override
     public OsmConverterResult fetchAndImportWay(String id)
     {
-        log.info("fetchAndImportWay {}", id);
+        if (rabbitTemplate != null)
+        {
+            ImportDataMessage message = new ImportDataMessage(OsmEntityType.WAY, OsmServiceMessaging.SOURCE_API, null, id);
+            rabbitTemplate.convertAndSend(OsmServiceMessaging.QUEUE_NAME_IMPORT_OSM_DATA, message);
+        }
         return createAsyncResult(id);
     }
 

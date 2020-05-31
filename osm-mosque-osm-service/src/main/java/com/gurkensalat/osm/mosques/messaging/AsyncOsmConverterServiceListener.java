@@ -30,19 +30,34 @@ public class AsyncOsmConverterServiceListener
     {
         log.info("Message read from {} : {}", OsmServiceMessaging.QUEUE_NAME_IMPORT_OSM_DATA, in);
 
+        OsmConverterResult result = new OsmConverterResult();
         if (OsmEntityType.NODE.equals(in.getKind()))
         {
-            OsmConverterResult result = innerOsmConverterService.importNodes(in.getPath());
-            log.info("async call result {}", result);
+            if (OsmServiceMessaging.SOURCE_FILE.equals(in.getSource()))
+            {
+                result = innerOsmConverterService.importNodes(in.getPath());
+            }
+            else if (OsmServiceMessaging.SOURCE_API.equals(in.getSource()))
+            {
+                result = innerOsmConverterService.fetchAndImportNode(in.getId());
+            }
         }
         else if (OsmEntityType.WAY.equals(in.getKind()))
         {
-            OsmConverterResult result = innerOsmConverterService.importWays(in.getPath());
-            log.info("async call result {}", result);
+            if (OsmServiceMessaging.SOURCE_FILE.equals(in.getSource()))
+            {
+                result = innerOsmConverterService.importWays(in.getPath());
+            }
+            else if (OsmServiceMessaging.SOURCE_API.equals(in.getSource()))
+            {
+                result = innerOsmConverterService.fetchAndImportWay(in.getId());
+            }
         }
         else
         {
             log.error("unknown message type");
         }
+
+        log.info("async call result {}", result);
     }
 }

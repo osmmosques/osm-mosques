@@ -37,7 +37,7 @@ public class OsmConverterServiceImpl implements OsmConverterService
 //    private OsmTagRepository osmTagRepository;
 
     // @Autowired
-    // TODO fix autowiring...
+    // TODO fix autowiring of osmParserRepository...
     private OsmParserRepository osmParserRepository;
 
     @Autowired
@@ -50,7 +50,7 @@ public class OsmConverterServiceImpl implements OsmConverterService
     {
         log.info("Request to import nodes from {} arrived.", path);
 
-        // Hackity Hack
+        // TODO Hackity Hack - fix autowiring of osmParserRepository...
         osmParserRepository = new OsmParserRepositoryImpl();
 
         OsmConverterResult result = new OsmConverterResult();
@@ -97,7 +97,7 @@ public class OsmConverterServiceImpl implements OsmConverterService
     {
         log.info("Request to import ways from {} arrived.", path);
 
-        // Hackity Hack
+        // TODO Hackity Hack - fix autowiring of osmParserRepository...
         osmParserRepository = new OsmParserRepositoryImpl();
 
         OsmConverterResult result = new OsmConverterResult();
@@ -157,32 +157,36 @@ public class OsmConverterServiceImpl implements OsmConverterService
     {
         log.info("Request to re-import node {} arrived.", id);
 
+        // TODO Hackity Hack - fix autowiring of osmParserRepository...
+        osmParserRepository = new OsmParserRepositoryImpl();
+
         OsmConverterResult result = new OsmConverterResult();
         result.setWhat("nodes from server");
         result.setPath(id);
         result.setStart(LocalDateTime.now());
 
-//        long parsedId = Long.parseLong(id);
-//        OsmRoot root = osmParserRepository.loadNodeFromServer(parsedId);
-//
-//        log.info("Read {} nodes and {} ways from server.", root.getNodes().size(), root.getWays().size());
-//        result.setNodes(root.getNodes().size());
-//        result.setWays(root.getWays().size());
-//
+        long parsedId = Long.parseLong(id);
+        OsmRoot root = osmParserRepository.loadNodeFromServer(parsedId);
+
+        log.info("Read {} nodes and {} ways from server.", root.getNodes().size(), root.getWays().size());
+        result.setNodes(root.getNodes().size());
+        result.setWays(root.getWays().size());
+
 //        if (root.isGone())
 //        {
 //            deleteOsmNode(parsedId);
 //        }
 //        else
 //        {
-//            for (OsmNode node : root.getNodes())
-//            {
-//                if (persistOsmNode(node, null, null) != null)
-//                {
-//                    result.setPlaces(result.getPlaces() + 1);
-//                }
-//            }
 //        }
+
+        for (OsmNode node : root.getNodes())
+        {
+            if (persistOsmNode(node, null, null) != null)
+            {
+                result.setPlaces(result.getPlaces() + 1);
+            }
+        }
 
         result.setEnd(LocalDateTime.now());
 
@@ -194,32 +198,36 @@ public class OsmConverterServiceImpl implements OsmConverterService
     {
         log.info("Request to re-import way {} arrived.", id);
 
+        // TODO Hackity Hack - fix autowiring of osmParserRepository...
+        osmParserRepository = new OsmParserRepositoryImpl();
+
         OsmConverterResult result = new OsmConverterResult();
         result.setWhat("ways from server");
         result.setPath(id);
         result.setStart(LocalDateTime.now());
 
-//        long parsedId = Long.parseLong(id);
-//        OsmRoot root = osmParserRepository.loadWayFromServer(parsedId);
-//
-//        log.info("Read {} nodes and {} ways from server.", root.getNodes().size(), root.getWays().size());
-//        result.setNodes(root.getNodes().size());
-//        result.setWays(root.getWays().size());
-//
+        long parsedId = Long.parseLong(id);
+        OsmRoot root = osmParserRepository.loadWayFromServer(parsedId);
+
+        log.info("Read {} nodes and {} ways from server.", root.getNodes().size(), root.getWays().size());
+        result.setNodes(root.getNodes().size());
+        result.setWays(root.getWays().size());
+
 //        if (root.isGone())
 //        {
 //            deleteOsmWay(parsedId);
 //        }
 //        else
 //        {
-//            for (OsmWay way : root.getWays())
-//            {
-//                if (persistOsmWay(way, null, null) != null)
-//                {
-//                    result.setPlaces(result.getPlaces() + 1);
-//                }
-//            }
 //        }
+
+        for (OsmWay way : root.getWays())
+        {
+            if (persistOsmWay(way) != null)
+            {
+                result.setPlaces(result.getPlaces() + 1);
+            }
+        }
 
         result.setEnd(LocalDateTime.now());
 

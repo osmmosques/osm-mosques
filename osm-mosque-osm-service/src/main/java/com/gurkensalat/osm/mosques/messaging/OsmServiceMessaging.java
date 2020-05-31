@@ -11,5 +11,9 @@ public class OsmServiceMessaging
 
     public final static String KIND_ASYNC = "async";
 
+    public final static String SOURCE_API = "api";
+
+    public final static String SOURCE_FILE = "file";
+
     public final static String QUEUE_NAME_IMPORT_OSM_DATA = "import-osm-data";
 }
