@@ -88,7 +88,7 @@
         </dependency>
 
         <dependency>
-            <groupId>org.webjars.bowergithub.fortawesome</groupId>
+            <groupId>org.webjars</groupId>
             <artifactId>font-awesome</artifactId>
         </dependency>
 
