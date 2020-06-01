@@ -92,7 +92,7 @@
         <leaflet-plugins.version>3.3.1</leaflet-plugins.version>
         <leaflet-providers.version>1.9.1</leaflet-providers.version>
 
-        <slf4j.version>1.7.19</slf4j.version>
+        <slf4j.version>1.7.30</slf4j.version>
         <logback.version>1.2.3</logback.version>
 
         <!-- Database stuff -->
