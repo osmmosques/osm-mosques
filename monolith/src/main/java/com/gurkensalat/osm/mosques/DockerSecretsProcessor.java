@@ -41,7 +41,8 @@ public class DockerSecretsProcessor implements EnvironmentPostProcessor
                     }
 
                     byte[] content = FileCopyUtils.copyToByteArray(secretFile);
-                    dockerSecrets.put(key, Arrays.toString(content));
+                    String value = new String(content).trim();
+                    dockerSecrets.put(key, value);
                 }
             }
             catch (IOException ioe)
