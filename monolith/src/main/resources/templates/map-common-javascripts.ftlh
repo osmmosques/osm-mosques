@@ -1,3 +1,11 @@
+
+<script>
+    let globalKeys =
+            {
+                MAPBOX_TOKEN: '${MAPBOX_TOKEN}'
+            };
+</script>
+
 <script src="/webjars/jQuery/dist/jquery.js"></script>
 
 <script src="/webjars/axios/dist/axios.js"></script>
