@@ -3,6 +3,13 @@ let map;
 
 const markers = L.markerClusterGroup();
 
+const osmMosqueIcon = L.ExtraMarkers.icon({
+    icon: 'fa-moon-o',
+    markerColor: 'green',
+    shape: 'round',
+    prefix: 'fa'
+})
+
 $(document).ready(init);
 
 function init() {
@@ -153,8 +160,8 @@ function osmMarkersArrivedFunction(data) {
         let marker = L.marker(L.latLng(item.lat, item.lon),
             {
                 customAttrPlaceKey: item.key,
-                title: item.name
-                // icon: osmMosqueIcon
+                title: item.name,
+                icon: osmMosqueIcon
             }
         );
 
