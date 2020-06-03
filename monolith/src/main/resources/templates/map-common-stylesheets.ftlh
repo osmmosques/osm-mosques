@@ -4,6 +4,7 @@
 
 <link rel="stylesheet" href="/webjars/leaflet.locatecontrol/dist/L.Control.Locate.css" crossorigin="anonymous"/>
 
+<link rel="stylesheet" href="/webjars/Leaflet.extra-markers/dist/css/leaflet.extra-markers.min.css" crossorigin="anonymous"/>
 <link rel="stylesheet" href="/webjars/leaflet.markercluster/dist/MarkerCluster.css" crossorigin="anonymous"/>
 
 <link rel="stylesheet" href="/webjars/leaflet.markercluster/dist/MarkerCluster.Default.css" crossorigin="anonymous"/>

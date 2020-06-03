@@ -14,6 +14,8 @@
 
 <script src="/webjars/leaflet.locatecontrol/dist/L.Control.Locate.min.js" crossorigin="anonymous"></script>
 
+<script src="/webjars/Leaflet.extra-markers/dist/js/leaflet.extra-markers.min.js" crossorigin="anonymous"></script>
+
 <script src="/webjars/leaflet.markercluster/dist/leaflet.markercluster-src.js" crossorigin="anonymous"></script>
 
 <!-- TODO replace this with webjar reference when available -->

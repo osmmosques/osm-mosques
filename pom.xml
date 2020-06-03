@@ -87,6 +87,7 @@
         <leaflet-control-geocoder.version>1.13.0</leaflet-control-geocoder.version>
         <leaflet-easybutton.version>2.4.0</leaflet-easybutton.version>
         <leaflet-editinosm.version>0.2.1</leaflet-editinosm.version>
+        <leaflet-extramarkers.version>1.2.1</leaflet-extramarkers.version>
         <leaflet-locatecontrol.version>0.71.1</leaflet-locatecontrol.version>
         <leaflet-markercluster.version>1.4.1</leaflet-markercluster.version>
         <leaflet-plugins.version>3.3.1</leaflet-plugins.version>
@@ -449,6 +450,12 @@
                 <groupId>org.webjars.bowergithub.cliffcloud</groupId>
                 <artifactId>leaflet.easybutton</artifactId>
                 <version>${leaflet-easybutton.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.webjars.bowergithub.coryasilva</groupId>
+                <artifactId>leaflet.extramarkers</artifactId>
+                <version>${leaflet-extramarkers.version}</version>
             </dependency>
 
             <dependency>

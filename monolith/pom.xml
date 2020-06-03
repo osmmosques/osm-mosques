@@ -103,6 +103,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.webjars.bowergithub.coryasilva</groupId>
+            <artifactId>leaflet.extramarkers</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.webjars.bowergithub.jquery</groupId>
             <artifactId>jquery</artifactId>
         </dependency>
