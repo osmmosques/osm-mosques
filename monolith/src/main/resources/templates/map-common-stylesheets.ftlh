@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="/webjars/font-awesome/css/fontawesome.min.css" crossorigin="anonymous"/>
+<link rel="stylesheet" href="/webjars/font-awesome/css/font-awesome.css" crossorigin="anonymous"/>
 
 <link rel="stylesheet" href="/webjars/leaflet/dist/leaflet.css" crossorigin="anonymous"/>
 
