@@ -5,8 +5,9 @@ const markers = L.markerClusterGroup();
 
 const osmMosqueIcon = L.ExtraMarkers.icon({
     icon: 'fa-moon-o',
+    // '#009000' is 'Islamic green' according to colorhexa.com
     markerColor: 'green',
-    shape: 'round',
+    shape: 'circle',
     prefix: 'fa'
 })
 
