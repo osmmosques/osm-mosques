@@ -64,7 +64,9 @@ function init() {
     map.addControl(new L.Control.Permalink({text: 'Permalink', layers: layers}));
 
     <!-- Location control -->
-    L.control.locate().addTo(map);
+    L.control.locate({
+        icon: 'fa fa-location-arrow'
+    }).addTo(map);
 
     <!-- And location search -->
     L.Control.geocoder().addTo(map);
