@@ -1,7 +1,7 @@
 //
 let map;
 
-const markers = L.markerClusterGroup();
+const osmMarkers = L.markerClusterGroup();
 
 const osmMosqueIcon = L.ExtraMarkers.icon({
     icon: 'fa-moon-o',
@@ -18,6 +18,11 @@ function init() {
     <!-- Map providers -->
     const defaultLayer = L.tileLayer.provider('Esri.WorldStreetMap');
 
+    <!-- Layers -->
+    const markerLayers = {
+        "OSM Places": osmMarkers
+    }
+
     <!-- Now the map itself -->
     map = L.map('map', {
         center: [51.45, -0.13],
@@ -26,7 +31,7 @@ function init() {
         editInOSMControlOptions: {
             zoomThreshold: 16,
         },
-        layers: [defaultLayer]
+        layers: [defaultLayer, osmMarkers]
     });
 
     const baseLayers = {
@@ -66,7 +71,7 @@ function init() {
     L.polyline([[-90,  180], [ 90, 180]], { color: 'red' }).addTo(map);
 
     <!-- Now add the layer switcher to the map -->
-    var layers = new L.Control.Layers(baseLayers);
+    var layers = new L.Control.Layers(baseLayers, markerLayers);
     map.addControl(layers);
 
     map.addControl(new L.Control.Permalink({text: 'Permalink', layers: layers}));
@@ -86,9 +91,9 @@ function init() {
 
     <!-- Markers... -->
 
-    // markers.addLayer(L.marker(getRandomLatLng(map)));
+    // osmMarkers.addLayer(L.marker(getRandomLatLng(map)));
 
-    map.addLayer(markers);
+    map.addLayer(osmMarkers);
 
     let popup = L.popup();
 
@@ -130,7 +135,7 @@ function onMapMoveEnd() {
         osmDataUrl = '/rest/map/placemarkers/osm';
         // osmDataUrl = '/rest/map/statisticmarkers/osm'; //as-json';
         // osmMarkersArrivedFunction = osmStatisticsmarkerListArrived;
-        markers.clearLayers();
+        osmMarkers.clearLayers();
     } else {
         osmDataUrl = '/rest/map/placemarkers/osm'; //as-json';
         // osmMarkersArrivedFunction = osmPlacemarkerListArrived;
@@ -153,7 +158,7 @@ function onMapMoveEnd() {
 }
 
 function osmMarkersArrivedFunction(data) {
-    markers.clearLayers();
+    osmMarkers.clearLayers();
 
     data.forEach((item) => {
         console.log(item);
@@ -167,6 +172,6 @@ function osmMarkersArrivedFunction(data) {
         );
 
         marker.bindPopup(item.name);
-        markers.addLayer(marker);
+        osmMarkers.addLayer(marker);
     });
 }
