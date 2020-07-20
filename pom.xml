@@ -103,7 +103,7 @@
         <hikari-cp.version>3.4.4</hikari-cp.version>
         <javassist.version>3.20.0-GA</javassist.version>
 
-        <metrics.version>3.1.2</metrics.version>
+        <metrics.version>4.1.11</metrics.version>
 
         <scannotation.version>1.0.2</scannotation.version>
 
