@@ -99,7 +99,7 @@
         <!-- Database stuff -->
         <jta.version>1.2</jta.version>
         <hibernate.version>5.4.17.Final</hibernate.version>
-        <hibernate-validator.version>6.1.0.Final</hibernate-validator.version>
+        <hibernate-validator.version>6.1.6.Final</hibernate-validator.version>
         <hikari-cp.version>3.4.4</hikari-cp.version>
         <javassist.version>3.20.0-GA</javassist.version>
 
