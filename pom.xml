@@ -117,7 +117,7 @@
 
         <!-- Testing -->
         <junit.version>4.13</junit.version>
-        <mockito.version>1.10.19</mockito.version>
+        <mockito.version>3.5.15</mockito.version>
         <springockito.version>1.0.9</springockito.version>
 
         <!-- stuff -->
