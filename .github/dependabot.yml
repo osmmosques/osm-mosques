@@ -1,0 +1,36 @@
+version: 2
+updates:
+- package-ecosystem: maven
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: io.dropwizard.metrics:metrics-core
+    versions:
+    - 4.1.17
+    - 4.1.18
+    - 4.1.19
+  - dependency-name: org.mockito:mockito-core
+    versions:
+    - 3.7.7
+    - 3.8.0
+  - dependency-name: com.zaxxer:HikariCP
+    versions:
+    - 4.0.1
+    - 4.0.2
+  - dependency-name: org.hibernate.validator:hibernate-validator
+    versions:
+    - 7.0.0.Final
+  - dependency-name: com.ullink.slack:simpleslackapi
+    versions:
+    - 1.2.0
+  - dependency-name: com.fasterxml.jackson.core:jackson-databind
+    versions:
+    - 2.11.0
+  - dependency-name: com.fasterxml.jackson.core:jackson-core
+    versions:
+    - 2.11.0
+  - dependency-name: com.fasterxml.jackson.core:jackson-annotations
+    versions:
+    - 2.11.0
