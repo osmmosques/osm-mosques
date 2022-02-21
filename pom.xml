@@ -62,7 +62,7 @@
         <!-- Sundry library versions -->
         <spring.version>5.2.6.RELEASE</spring.version>
         <spring-boot.version>2.3.0.RELEASE</spring-boot.version>
-        <spring-data.version>2.3.0.RELEASE</spring-data.version>
+        <spring-data.version>2.6.2</spring-data.version>
         <spring-data-rest.version>3.3.1.RELEASE</spring-data-rest.version>
         <spring-session.version>1.1.1.RELEASE</spring-session.version>
         <springdoc.version>3.1.2</springdoc.version>
