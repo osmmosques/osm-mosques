@@ -75,7 +75,7 @@
 
         <jackson.version>2.10.3</jackson.version>
         <jsoup.version>1.8.3</jsoup.version>
-        <lombok.version>1.18.12</lombok.version>
+        <lombok.version>1.18.24</lombok.version>
         <simpleslackapi.version>0.5.1</simpleslackapi.version>
 
         <!-- Javascript libraries for frontend -->
