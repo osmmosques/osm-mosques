@@ -50,7 +50,7 @@
         <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
         <maven-site-plugin.version>3.9.0</maven-site-plugin.version>
         <maven-project-info-reports-plugin.version>3.1.0</maven-project-info-reports-plugin.version>
-        <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
+        <versions-maven-plugin.version>2.13.0</versions-maven-plugin.version>
         <jacoco-plugin.version>0.8.5</jacoco-plugin.version>
         <dockerfile-maven-plugin.version>1.4.13</dockerfile-maven-plugin.version>
         <github-site-maven-plugin.version>0.12</github-site-maven-plugin.version>
